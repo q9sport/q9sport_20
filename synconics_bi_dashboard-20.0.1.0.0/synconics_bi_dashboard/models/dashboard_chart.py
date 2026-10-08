@@ -13,7 +13,8 @@ from dateutil.relativedelta import relativedelta
 from odoo import models, fields, api, _
 from odoo.tools import groupby, format_amount
 from odoo.tools.safe_eval import safe_eval
-from odoo.tools import expression
+from odoo.fields import Domain
+# from odoo.tools import expression
 # from odoo.osv import expression
 from odoo.exceptions import ValidationError
 
@@ -520,7 +521,8 @@ class DashboardChart(models.Model):
         context = dict(self.env.context)
         if context.get("is_automated"):
             domain = [("chart_type", "in", ["kpi", "tile", "list", "to_do"])]
-            args = expression.AND([domain, args])
+            args = list(Domain(domain) & Domain(args))
+         #   args = expression.AND([domain, args])
         return super(DashboardChart, self).name_search(
             name=name, args=args, operator=operator, limit=limit
         )
@@ -541,7 +543,8 @@ class DashboardChart(models.Model):
         context = dict(self.env.context)
         if context.get("is_automated"):
             args = [("chart_type", "in", ["kpi", "tile", "list", "to_do"])]
-            domain = expression.AND([args, domain])
+            domain = list(Domain(args) & Domain(domain))
+            #domain = expression.AND([args, domain])
         return super(DashboardChart, self).search_fetch(
             domain=domain,
             field_names=field_names,
