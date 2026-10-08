@@ -1,8 +1,8 @@
 # Part of Odoo. See COPYRIGHT & LICENSE files for full copyright and licensing details.
 
 from odoo import api, models, fields
-from odoo.osv import expression
-
+# from odoo.osv import expression
+from odoo import expression
 
 class Users(models.Model):
     _inherit = "res.users"
