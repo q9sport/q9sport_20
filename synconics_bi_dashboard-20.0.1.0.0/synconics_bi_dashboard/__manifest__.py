@@ -92,7 +92,7 @@ Transform your data into compelling dashboard visualizations
     ],
     "data": [
         "security/dashboard_security.xml",
-        "security/ir.model.access.csv",
+        # "security/ir.model.access.csv",
         "data/mail_template.xml",
         "views/ir_ui_menu_views.xml",
         "wizard/dashboard_access_view.xml",
