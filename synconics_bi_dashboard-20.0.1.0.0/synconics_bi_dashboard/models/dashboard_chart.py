@@ -4,22 +4,20 @@ import base64
 import xlsxwriter
 import imgkit
 import logging
-
 from math import gcd
 from markupsafe import Markup
 from types import SimpleNamespace
 from collections import defaultdict
 from datetime import datetime, timedelta, date, time
 from dateutil.relativedelta import relativedelta
-
 from odoo import models, fields, api, _
 from odoo.tools import groupby, format_amount
 from odoo.tools.safe_eval import safe_eval
-from odoo.osv import expression
+from odoo.tools import expression
+# from odoo.osv import expression
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
-
 
 class UTCDatetime:
     def __init__(self, dt):
