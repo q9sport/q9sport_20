@@ -86,7 +86,7 @@
     <field name="arch" type="xml">
         <search string="Dashboard">
             <field name="name"/>
-            <field name="access_by"/>
+            <!-- <field name="access_by"/>
             <field name="user_ids"/>
 
             <group expand="0" string="Group By">
@@ -98,7 +98,7 @@
                         name="group_by_company"
                         context="{'group_by': 'company_id'}"
                         groups="base.group_multi_company"/>
-            </group>
+            </group> -->
         </search>
     </field>
 </record>
