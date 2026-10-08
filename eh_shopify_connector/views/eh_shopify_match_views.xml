@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_match_report_list" model="ir.ui.view">
+        <field name="name">eh.shopify.match.report.list</field>
+        <field name="model">eh.shopify.match.report</field>
+        <field name="arch" type="xml">
+            <list string="Catalogue checks" create="false">
+                <field name="create_date" string="Started"/>
+                <field name="store_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'ready'"
+                       decoration-danger="state == 'failed'" decoration-info="state == 'running'"/>
+                <field name="variant_count"/>
+                <field name="linked_count" optional="show"/>
+                <field name="link_count"/>
+                <field name="create_count"/>
+                <field name="ambiguous_count"/>
+                <field name="unmatched_count"/>
+                <field name="odoo_only_count"/>
+                <field name="duplicate_count" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_match_report_form" model="ir.ui.view">
+        <field name="name">eh.shopify.match.report.form</field>
+        <field name="model">eh.shopify.match.report</field>
+        <field name="arch" type="xml">
+            <form string="Catalogue check" create="false" edit="false">
+                <header>
+                    <button name="action_link_now" type="object" string="Link and create now" class="btn-primary"
+                            invisible="state != 'ready'" groups="eh_shopify_connector.group_shopify_manager"
+                            confirm="Import the whole catalogue now? Variants are linked, and missing products are created when that option is on, as this check shows."/>
+                    <button name="action_check_again" type="object" string="Check again"
+                            invisible="state == 'running'" groups="eh_shopify_connector.group_shopify_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_lines" type="object" class="oe_stat_button" icon="check"
+                                context="{'match_kind': 'linked'}">
+                            <field name="linked_count" widget="statinfo" string="Already linked"/>
+                        </button>
+                        <button name="action_open_lines" type="object" class="oe_stat_button" icon="link"
+                                context="{'match_kind': 'link'}">
+                            <field name="link_count" widget="statinfo" string="Will link"/>
+                        </button>
+                        <button name="action_open_lines" type="object" class="oe_stat_button" icon="add"
+                                context="{'match_kind': 'create'}">
+                            <field name="create_count" widget="statinfo" string="Will be created"/>
+                        </button>
+                        <button name="action_open_lines" type="object" class="oe_stat_button" icon="help"
+                                context="{'match_kind': 'ambiguous'}">
+                            <field name="ambiguous_count" widget="statinfo" string="Needs a decision"/>
+                        </button>
+                        <button name="action_open_lines" type="object" class="oe_stat_button" icon="shopping_bag"
+                                context="{'match_kind': 'unmatched'}">
+                            <field name="unmatched_count" widget="statinfo" string="Only in Shopify"/>
+                        </button>
+                        <button name="action_open_lines" type="object" class="oe_stat_button" icon="package_2"
+                                context="{'match_kind': 'odoo_only'}">
+                            <field name="odoo_only_count" widget="statinfo" string="Only in Odoo"/>
+                        </button>
+                        <button name="action_open_lines" type="object" class="oe_stat_button" icon="content_copy"
+                                context="{'match_kind': 'duplicate'}">
+                            <field name="duplicate_count" widget="statinfo" string="Used twice"/>
+                        </button>
+                    </div>
+                    <div class="alert alert-info" role="alert" invisible="not note">
+                        <field name="note"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="store_id"/>
+                            <field name="product_count"/>
+                            <field name="variant_count"/>
+                            <field name="unchecked_count" invisible="unchecked_count == 0"/>
+                        </group>
+                        <group>
+                            <field name="create_date" string="Started"/>
+                            <field name="finished_at"/>
+                            <field name="bulk_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_match_line_list" model="ir.ui.view">
+        <field name="name">eh.shopify.match.line.list</field>
+        <field name="model">eh.shopify.match.line</field>
+        <field name="arch" type="xml">
+            <list string="Catalogue check details" create="false" delete="false">
+                <field name="kind"/>
+                <field name="shopify_product"/>
+                <field name="shopify_variant"/>
+                <field name="sku"/>
+                <field name="barcode" optional="show"/>
+                <field name="product_id"/>
+                <field name="detail"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_match_line_search" model="ir.ui.view">
+        <field name="name">eh.shopify.match.line.search</field>
+        <field name="model">eh.shopify.match.line</field>
+        <field name="arch" type="xml">
+            <search string="Catalogue check details">
+                <field name="sku"/>
+                <field name="shopify_product"/>
+                <field name="product_id"/>
+                <filter name="group_kind" string="Result" context="{'group_by': 'kind'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_match_report" model="ir.actions.act_window">
+        <field name="name">Catalogue Checks</field>
+        <field name="res_model">eh.shopify.match.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No catalogue checks yet</p>
+            <p>Use Check catalogue match on a store to see what linking would do before anything changes.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_inventory_level_list" model="ir.ui.view">
+        <field name="name">eh.shopify.inventory.level.list</field>
+        <field name="model">eh.shopify.inventory.level</field>
+        <field name="arch" type="xml">
+            <list string="Stock Levels" create="false" edit="false" delete="false"
+                  decoration-danger="state == 'error'" decoration-warning="state == 'drift'"
+                  decoration-muted="state == 'untracked'">
+                <field name="store_id" optional="hide"/>
+                <field name="product_id"/>
+                <field name="location_binding_id"/>
+                <field name="odoo_free" string="Free" digits="[16, 0]" optional="show"/>
+                <field name="odoo_reserved_for_store" string="Reserved" digits="[16, 0]" optional="show"/>
+                <field name="shopify_committed" string="Committed" optional="show"/>
+                <field name="shopify_reserved" optional="hide"/>
+                <field name="target_quantity" string="To offer"/>
+                <field name="shopify_available" string="In Shopify"/>
+                <field name="state" widget="badge" decoration-success="state == 'synced'"
+                       decoration-danger="state == 'error'" decoration-warning="state == 'drift'"/>
+                <field name="note" optional="show"/>
+                <field name="last_checked_at" optional="show"/>
+                <field name="last_pushed_at" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_inventory_level_form" model="ir.ui.view">
+        <field name="name">eh.shopify.inventory.level.form</field>
+        <field name="model">eh.shopify.inventory.level</field>
+        <field name="arch" type="xml">
+            <form string="Stock level" create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="alert alert-warning" role="alert" invisible="not note">
+                        <field name="note" readonly="1" nolabel="1"/>
+                    </div>
+                    <group>
+                        <group string="Where">
+                            <field name="store_id"/>
+                            <field name="product_id"/>
+                            <field name="location_binding_id"/>
+                            <field name="state" widget="badge" decoration-success="state == 'synced'"
+                                   decoration-danger="state == 'error'" decoration-warning="state == 'drift'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="How much">
+                            <field name="odoo_free"/>
+                            <field name="odoo_reserved_for_store"/>
+                            <field name="target_quantity"/>
+                            <field name="shopify_available"/>
+                            <field name="shopify_committed"/>
+                            <field name="shopify_reserved"/>
+                            <field name="last_checked_at"/>
+                            <field name="last_pushed_at"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_inventory_level_search" model="ir.ui.view">
+        <field name="name">eh.shopify.inventory.level.search</field>
+        <field name="model">eh.shopify.inventory.level</field>
+        <field name="arch" type="xml">
+            <search string="Stock Levels">
+                <field name="product_id"/>
+                <field name="location_binding_id"/>
+                <field name="store_id"/>
+                <filter name="attention" string="Needs attention" domain="[('state', 'in', ('error', 'drift'))]"/>
+                <filter name="untracked" string="Not tracked in Shopify" domain="[('state', '=', 'untracked')]"/>
+                <separator/>
+                <filter name="group_location" string="Shopify location" context="{'group_by': 'location_binding_id'}"/>
+                <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_inventory_level" model="ir.actions.act_window">
+        <field name="name">Stock Levels</field>
+        <field name="res_model">eh.shopify.inventory.level</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_eh_shopify_inventory_level_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No stock sent yet</p>
+            <p>Each row compares what Odoo can sell with what Shopify has promised to orders and what Shopify offers
+                at that location.</p>
+        </field>
+    </record>
+</odoo>

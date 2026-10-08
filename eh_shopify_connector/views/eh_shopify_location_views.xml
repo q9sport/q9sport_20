@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_location_list" model="ir.ui.view">
+        <field name="name">eh.shopify.location.list</field>
+        <field name="model">eh.shopify.location</field>
+        <field name="arch" type="xml">
+            <list string="Shopify locations" create="false" editable="bottom" decoration-muted="removed_in_shopify">
+                <field name="store_id" readonly="1"/>
+                <field name="name" readonly="1"/>
+                <field name="active_in_shopify" readonly="1" optional="show"/>
+                <field name="is_fulfillment_service" readonly="1" optional="hide"/>
+                <field name="delivery_mode"/>
+                <field name="warehouse_id"/>
+                <field name="location_ids" widget="many2many_tags"/>
+                <field name="sync_stock"/>
+                <field name="removed_in_shopify" readonly="1" optional="hide"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_location_form" model="ir.ui.view">
+        <field name="name">eh.shopify.location.form</field>
+        <field name="model">eh.shopify.location</field>
+        <field name="arch" type="xml">
+            <form string="Shopify location" create="false">
+                <header>
+                    <button name="action_compare_stock" type="object" string="Compare stock with Shopify"
+                            invisible="delivery_mode != 'shopify' or not location_ids"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="not removed_in_shopify">
+                        This location no longer exists in Shopify.
+                    </div>
+                    <group>
+                        <group string="In Shopify">
+                            <field name="store_id" readonly="1"/>
+                            <field name="shopify_gid"/>
+                            <field name="active_in_shopify"/>
+                            <field name="fulfills_online_orders"/>
+                            <field name="is_fulfillment_service"/>
+                            <field name="fulfillment_service_name" invisible="not is_fulfillment_service"/>
+                            <field name="address"/>
+                            <field name="removed_in_shopify" invisible="1"/>
+                        </group>
+                        <group string="In Odoo">
+                            <field name="company_id" invisible="1"/>
+                            <field name="delivery_mode"/>
+                            <field name="warehouse_id"/>
+                            <field name="location_ids" widget="many2many_tags"/>
+                            <field name="sync_stock"/>
+                            <field name="pickup_ready_when_reserved"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_location" model="ir.actions.act_window">
+        <field name="name">Locations</field>
+        <field name="res_model">eh.shopify.location</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No Shopify locations yet</p>
+            <p>Locations are read from Shopify when a store is connected. Map each one to a warehouse here.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_payout_list" model="ir.ui.view">
+        <field name="name">eh.shopify.payout.list</field>
+        <field name="model">eh.shopify.payout</field>
+        <field name="arch" type="xml">
+            <list string="Shopify payouts" create="false" delete="false"
+                  decoration-warning="state in ('unmatched', 'waiting')" decoration-danger="state in ('error', 'reversed')"
+                  decoration-muted="state == 'deposited'">
+                <field name="issued_at"/>
+                <field name="name"/>
+                <field name="store_id" optional="hide"/>
+                <field name="status_label"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="amount_net" widget="monetary"/>
+                <field name="fees_total" widget="monetary" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state in ('posted', 'deposited')"
+                       decoration-warning="state in ('unmatched', 'waiting')" decoration-danger="state in ('error', 'reversed')"/>
+                <field name="move_id" optional="show" groups="account.group_account_invoice"/>
+                <field name="reason" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_payout_form" model="ir.ui.view">
+        <field name="name">eh.shopify.payout.form</field>
+        <field name="model">eh.shopify.payout</field>
+        <field name="arch" type="xml">
+            <form string="Shopify payout" create="false" edit="false" delete="false">
+                <header>
+                    <button name="action_post_now" type="object" string="Post now" class="btn-primary"
+                            invisible="state not in ('unmatched', 'error')" groups="eh_shopify_connector.group_shopify_manager"
+                            confirm="Post this payout now? Payments not found in Odoo are posted on the suspense account."/>
+                    <button name="action_check_again" type="object" string="Check again"
+                            invisible="state not in ('waiting', 'unmatched', 'error', 'posted')"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <field name="state" widget="statusbar" statusbar_visible="waiting,posted,deposited"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-warning" role="alert" invisible="not reason">
+                        <field name="reason"/>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="store_id"/>
+                            <field name="status_label"/>
+                            <field name="issued_at"/>
+                            <field name="transaction_type_label"/>
+                            <field name="external_trace_id"/>
+                        </group>
+                        <group>
+                            <field name="currency_id"/>
+                            <field name="charges_gross" widget="monetary"/>
+                            <field name="refunds_gross" widget="monetary"/>
+                            <field name="adjustments_gross" widget="monetary"/>
+                            <field name="fees_total" widget="monetary"/>
+                            <field name="amount_net" widget="monetary"/>
+                        </group>
+                        <group groups="account.group_account_invoice">
+                            <field name="move_id"/>
+                            <field name="reversal_move_id" invisible="not reversal_move_id"/>
+                            <field name="deposit_line_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Transactions" name="lines">
+                            <field name="line_ids">
+                                <list create="false" delete="false">
+                                    <field name="transaction_date"/>
+                                    <field name="transaction_type_label"/>
+                                    <field name="order_name"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="fee" widget="monetary"/>
+                                    <field name="net" widget="monetary"/>
+                                    <field name="match_state"/>
+                                    <field name="payment_id" groups="account.group_account_invoice"/>
+                                    <field name="move_line_id" optional="hide" groups="account.group_account_invoice"/>
+                                    <field name="adjustment_reason" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_payout" model="ir.actions.act_window">
+        <field name="name">Payouts</field>
+        <field name="res_model">eh.shopify.payout</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No Shopify payouts yet</p>
+            <p>Switch on payout reconciliation on a store. Each paid payout becomes one journal entry that settles its payments, books the fees and waits for the bank deposit.</p>
+        </field>
+    </record>
+</odoo>

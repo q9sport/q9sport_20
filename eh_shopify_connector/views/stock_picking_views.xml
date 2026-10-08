@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_eh_shopify" model="ir.ui.view">
+        <field name="name">stock.picking.form.eh.shopify</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="eh_shopify_is_pickup" invisible="1"/>
+                <field name="eh_shopify_pickup_ready_at" invisible="1"/>
+                <button name="action_eh_shopify_ready_for_pickup" type="object" string="Ready for pickup"
+                        invisible="not eh_shopify_is_pickup or eh_shopify_pickup_ready_at or state in ('draft', 'done', 'cancel')"
+                        groups="stock.group_stock_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

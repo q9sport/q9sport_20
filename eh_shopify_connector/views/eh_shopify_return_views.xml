@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_return_list" model="ir.ui.view">
+        <field name="name">eh.shopify.return.list</field>
+        <field name="model">eh.shopify.return</field>
+        <field name="arch" type="xml">
+            <list string="Shopify returns" create="false" delete="false"
+                  decoration-warning="state == 'waiting'" decoration-danger="state == 'error'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="store_id" optional="hide"/>
+                <field name="name"/>
+                <field name="order_binding_id"/>
+                <field name="sale_order_id" optional="show" groups="sales_team.group_sale_salesman"/>
+                <field name="status"/>
+                <field name="picking_ids" widget="many2many_tags" groups="stock.group_stock_user"/>
+                <field name="state" widget="badge" decoration-success="state == 'received'"
+                       decoration-warning="state == 'waiting'" decoration-danger="state == 'error'"/>
+                <field name="reason" optional="show"/>
+                <field name="exchange_note" optional="show"/>
+                <field name="exchange_order_id" optional="show" groups="sales_team.group_sale_salesman"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_return_form" model="ir.ui.view">
+        <field name="name">eh.shopify.return.form</field>
+        <field name="model">eh.shopify.return</field>
+        <field name="arch" type="xml">
+            <form string="Shopify return" create="false" edit="false" delete="false">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="store_id"/>
+                            <field name="order_binding_id"/>
+                            <field name="sale_order_id" groups="sales_team.group_sale_salesman"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="reason"/>
+                            <field name="exchange_note"/>
+                            <field name="exchange_order_id" groups="sales_team.group_sale_salesman"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Return transfers" groups="stock.group_stock_user">
+                        <field name="picking_ids" widget="many2many_tags" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_return" model="ir.actions.act_window">
+        <field name="name">Returns</field>
+        <field name="res_model">eh.shopify.return</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No Shopify returns yet</p>
+            <p>Returns requested in Shopify become return transfers here. Only units put back in stock are received.</p>
+        </field>
+    </record>
+</odoo>

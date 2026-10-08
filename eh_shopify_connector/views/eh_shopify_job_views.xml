@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_job_list" model="ir.ui.view">
+        <field name="name">eh.shopify.job.list</field>
+        <field name="model">eh.shopify.job</field>
+        <field name="arch" type="xml">
+            <list string="Sync jobs" create="false" decoration-danger="state in ('failed', 'dead')"
+                  decoration-muted="state in ('done', 'cancelled')" decoration-info="state == 'running'">
+                <field name="create_date" string="Created"/>
+                <field name="store_id"/>
+                <field name="name"/>
+                <field name="job_type" optional="hide"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"
+                       decoration-danger="state in ('failed', 'dead')" decoration-warning="state == 'pending'"/>
+                <field name="attempts" optional="show"/>
+                <field name="next_run_at" optional="show"/>
+                <field name="reason"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <button name="action_retry" type="object" string="Retry" icon="repeat"
+                        invisible="state not in ('failed', 'dead', 'cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_job_form" model="ir.ui.view">
+        <field name="name">eh.shopify.job.form</field>
+        <field name="model">eh.shopify.job</field>
+        <field name="arch" type="xml">
+            <form string="Sync job" create="false">
+                <header>
+                    <button name="action_retry" type="object" string="Retry" class="btn-primary"
+                            invisible="state not in ('failed', 'dead', 'cancelled')"/>
+                    <button name="action_run_now" type="object" string="Run now"
+                            invisible="state not in ('pending', 'failed', 'dead')"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state not in ('pending', 'failed', 'dead')"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_open_record" type="object" string="Open record" invisible="res_id == 0"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,running,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="not reason">
+                        <field name="reason"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="store_id" readonly="1"/>
+                            <field name="job_type" readonly="1" groups="base.group_no_one"/>
+                            <field name="attempts" readonly="1"/>
+                            <field name="max_attempts" readonly="1"/>
+                            <field name="next_run_at" readonly="1" invisible="state != 'pending'"/>
+                            <field name="res_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="started_at" readonly="1"/>
+                            <field name="finished_at" readonly="1"/>
+                            <field name="duration_ms" readonly="1"/>
+                            <field name="correlation_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="What happened" name="error" invisible="not last_error">
+                            <label for="last_error" string="Message"/>
+                            <field name="last_error" readonly="1"/>
+                            <label for="details_text"/>
+                            <field name="details_text" readonly="1"/>
+                        </page>
+                        <page string="Result" name="result" invisible="not result_text">
+                            <field name="result_text" readonly="1"/>
+                        </page>
+                        <page string="Payload" name="payload">
+                            <field name="payload_text" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_job_search" model="ir.ui.view">
+        <field name="name">eh.shopify.job.search</field>
+        <field name="model">eh.shopify.job</field>
+        <field name="arch" type="xml">
+            <search string="Sync jobs">
+                <field name="name"/>
+                <field name="store_id"/>
+                <field name="job_type"/>
+                <filter name="attention" string="Needs attention" domain="[('state', 'in', ('failed', 'dead'))]"/>
+                <filter name="waiting" string="Waiting" domain="[('state', '=', 'pending')]"/>
+                <filter name="running" string="Running" domain="[('state', '=', 'running')]"/>
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                <group>
+                    <filter name="group_store" string="Store" context="{'group_by': 'store_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'job_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_job" model="ir.actions.act_window">
+        <field name="name">Sync Jobs</field>
+        <field name="res_model">eh.shopify.job</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_eh_shopify_job_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No sync jobs yet</p>
+            <p>Every change between Shopify and Odoo runs as a job, with automatic retries.</p>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_exceptions" model="ir.actions.act_window">
+        <field name="name">Exceptions</field>
+        <field name="res_model">eh.shopify.job</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', 'in', ('failed', 'dead'))]</field>
+        <field name="search_view_id" ref="view_eh_shopify_job_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Nothing needs your attention</p>
+            <p>Anything Shopify refuses, or that keeps failing, shows up here with the reason and a Retry button.</p>
+        </field>
+    </record>
+</odoo>

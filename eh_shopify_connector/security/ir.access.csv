@@ -1,0 +1,87 @@
+id,name,model_id,group_id/id,operation,domain
+access_eh_shopify_store_user,eh.shopify.store user,eh.shopify.store,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_store_manager,eh.shopify.store manager,eh.shopify.store,eh_shopify_connector.group_shopify_manager,crud,
+rule_eh_shopify_store_company,Shopify stores: allowed companies,eh.shopify.store,,crud,"[('company_id', 'in', company_ids)]"
+access_eh_shopify_location_user,eh.shopify.location user,eh.shopify.location,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_location_manager,eh.shopify.location manager,eh.shopify.location,eh_shopify_connector.group_shopify_manager,crud,
+rule_eh_shopify_location_company,Shopify locations: allowed companies,eh.shopify.location,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_webhook_user,eh.shopify.webhook user,eh.shopify.webhook,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_webhook_manager,eh.shopify.webhook manager,eh.shopify.webhook,eh_shopify_connector.group_shopify_manager,crud,
+rule_eh_shopify_webhook_company,Shopify webhook subscriptions: allowed companies,eh.shopify.webhook,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_job_user,eh.shopify.job user,eh.shopify.job,eh_shopify_connector.group_shopify_user,r,
+rule_eh_shopify_job_company,Shopify sync jobs: allowed companies,eh.shopify.job,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_event_user,eh.shopify.event user,eh.shopify.event,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_event_manager,eh.shopify.event manager,eh.shopify.event,eh_shopify_connector.group_shopify_manager,rd,
+rule_eh_shopify_event_company,Shopify webhook deliveries: allowed companies,eh.shopify.event,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_setup_wizard_manager,eh.shopify.setup.wizard manager,eh.shopify.setup.wizard,eh_shopify_connector.group_shopify_manager,cru,
+rule_eh_shopify_setup_wizard_owner,Shopify setup wizard: own records,eh.shopify.setup.wizard,,crud,"[('create_uid', '=', user.id)]"
+access_eh_shopify_customer_user,eh.shopify.customer user,eh.shopify.customer,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_customer_manager,eh.shopify.customer manager,eh.shopify.customer,eh_shopify_connector.group_shopify_manager,crud,
+rule_eh_shopify_customer_company,Shopify customers: allowed companies,eh.shopify.customer,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_variant_user,eh.shopify.variant user,eh.shopify.variant,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_variant_manager,eh.shopify.variant manager,eh.shopify.variant,eh_shopify_connector.group_shopify_manager,crud,
+rule_eh_shopify_variant_company,Shopify product links: allowed companies,eh.shopify.variant,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_gateway_user,eh.shopify.gateway user,eh.shopify.gateway,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_gateway_manager,eh.shopify.gateway manager,eh.shopify.gateway,eh_shopify_connector.group_shopify_manager,crud,
+rule_eh_shopify_gateway_company,Shopify payment method mappings: allowed companies,eh.shopify.gateway,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_carrier_user,eh.shopify.carrier user,eh.shopify.carrier,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_carrier_manager,eh.shopify.carrier manager,eh.shopify.carrier,eh_shopify_connector.group_shopify_manager,crud,
+rule_eh_shopify_carrier_company,Shopify shipping method mappings: allowed companies,eh.shopify.carrier,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_order_user,eh.shopify.order user,eh.shopify.order,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_order_manager,eh.shopify.order manager,eh.shopify.order,eh_shopify_connector.group_shopify_manager,cru,
+rule_eh_shopify_order_company,Shopify orders: allowed companies,eh.shopify.order,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_order_line_user,eh.shopify.order.line user,eh.shopify.order.line,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_order_line_manager,eh.shopify.order.line manager,eh.shopify.order.line,eh_shopify_connector.group_shopify_manager,cru,
+rule_eh_shopify_order_line_company,Shopify order lines: allowed companies,eh.shopify.order.line,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_transaction_user,eh.shopify.transaction user,eh.shopify.transaction,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_transaction_manager,eh.shopify.transaction manager,eh.shopify.transaction,eh_shopify_connector.group_shopify_manager,crud,
+rule_eh_shopify_transaction_company,Shopify transactions: allowed companies,eh.shopify.transaction,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_fulfillment_user,eh.shopify.fulfillment user,eh.shopify.fulfillment,eh_shopify_connector.group_shopify_user,r,
+rule_eh_shopify_fulfillment_company,Shopify fulfillments: allowed companies,eh.shopify.fulfillment,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_inventory_level_user,eh.shopify.inventory.level user,eh.shopify.inventory.level,eh_shopify_connector.group_shopify_user,r,
+rule_eh_shopify_inventory_level_company,Shopify stock levels: allowed companies,eh.shopify.inventory.level,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_inventory_dirty_manager,eh.shopify.inventory.dirty manager,eh.shopify.inventory.dirty,eh_shopify_connector.group_shopify_manager,r,
+access_eh_shopify_cancel_wizard_salesman,eh.shopify.cancel.wizard salesman,eh.shopify.cancel.wizard,sales_team.group_sale_salesman,cru,
+rule_eh_shopify_cancel_wizard_owner,Shopify cancel dialog: own dialogs,eh.shopify.cancel.wizard,,crud,"[('create_uid', '=', user.id)]"
+access_eh_shopify_stock_compare_wizard_manager,eh.shopify.stock.compare.wizard manager,eh.shopify.stock.compare.wizard,eh_shopify_connector.group_shopify_manager,cru,
+rule_eh_shopify_stock_compare_wizard_owner,Shopify stock comparison: own dialogs,eh.shopify.stock.compare.wizard,,crud,"[('create_uid', '=', user.id)]"
+access_eh_shopify_stock_compare_line_manager,eh.shopify.stock.compare.line manager,eh.shopify.stock.compare.line,eh_shopify_connector.group_shopify_manager,crud,
+access_eh_shopify_product_user,eh.shopify.product user,eh.shopify.product,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_product_manager,eh.shopify.product manager,eh.shopify.product,eh_shopify_connector.group_shopify_manager,ru,
+rule_eh_shopify_product_company,Shopify products: allowed companies,eh.shopify.product,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_bulk_user,eh.shopify.bulk user,eh.shopify.bulk,eh_shopify_connector.group_shopify_user,r,
+rule_eh_shopify_bulk_company,Shopify exports: allowed companies,eh.shopify.bulk,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_publish_wizard_manager,eh.shopify.publish.wizard manager,eh.shopify.publish.wizard,eh_shopify_connector.group_shopify_manager,cru,
+rule_eh_shopify_publish_wizard_owner,Shopify publish dialog: own dialogs,eh.shopify.publish.wizard,,crud,"[('create_uid', '=', user.id)]"
+access_eh_shopify_refund_user,eh.shopify.refund user,eh.shopify.refund,eh_shopify_connector.group_shopify_user,r,
+rule_eh_shopify_refund_company,Shopify refunds: allowed companies,eh.shopify.refund,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_refund_wizard_manager,eh.shopify.refund.wizard manager,eh.shopify.refund.wizard,eh_shopify_connector.group_shopify_manager,cru,
+rule_eh_shopify_refund_wizard_owner,Shopify refund dialog: own dialogs,eh.shopify.refund.wizard,,crud,"[('create_uid', '=', user.id)]"
+access_eh_shopify_refund_wizard_line_manager,eh.shopify.refund.wizard.line manager,eh.shopify.refund.wizard.line,eh_shopify_connector.group_shopify_manager,crud,
+access_eh_shopify_return_user,eh.shopify.return user,eh.shopify.return,eh_shopify_connector.group_shopify_user,r,
+rule_eh_shopify_return_company,Shopify returns: allowed companies,eh.shopify.return,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_match_report_user,eh.shopify.match.report user,eh.shopify.match.report,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_match_report_manager,eh.shopify.match.report manager,eh.shopify.match.report,eh_shopify_connector.group_shopify_manager,rd,
+rule_eh_shopify_match_report_company,Shopify catalogue checks: allowed companies,eh.shopify.match.report,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_match_line_user,eh.shopify.match.line user,eh.shopify.match.line,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_match_line_manager,eh.shopify.match.line manager,eh.shopify.match.line,eh_shopify_connector.group_shopify_manager,rd,
+rule_eh_shopify_match_line_company,Shopify catalogue check lines: allowed companies,eh.shopify.match.line,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_payout_user,eh.shopify.payout user,eh.shopify.payout,eh_shopify_connector.group_shopify_user,r,
+rule_eh_shopify_payout_company,Shopify payouts: allowed companies,eh.shopify.payout,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_payout_line_user,eh.shopify.payout.line user,eh.shopify.payout.line,eh_shopify_connector.group_shopify_user,r,
+rule_eh_shopify_payout_line_company,Shopify payout transactions: allowed companies,eh.shopify.payout.line,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_dispute_user,eh.shopify.dispute user,eh.shopify.dispute,eh_shopify_connector.group_shopify_user,r,
+rule_eh_shopify_dispute_company,Shopify disputes: allowed companies,eh.shopify.dispute,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_metafield_map_user,eh.shopify.metafield.map user,eh.shopify.metafield.map,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_metafield_map_manager,eh.shopify.metafield.map manager,eh.shopify.metafield.map,eh_shopify_connector.group_shopify_manager,crud,
+rule_eh_shopify_metafield_map_company,Shopify metafield mappings: allowed companies,eh.shopify.metafield.map,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_price_list_user,eh.shopify.price.list user,eh.shopify.price.list,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_price_list_manager,eh.shopify.price.list manager,eh.shopify.price.list,eh_shopify_connector.group_shopify_manager,ru,
+rule_eh_shopify_price_list_company,Shopify price lists: allowed companies,eh.shopify.price.list,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_gift_card_user,eh.shopify.gift.card user,eh.shopify.gift.card,eh_shopify_connector.group_shopify_user,r,
+access_eh_shopify_gift_card_manager,eh.shopify.gift.card manager,eh.shopify.gift.card,eh_shopify_connector.group_shopify_manager,ru,
+rule_eh_shopify_gift_card_company,Shopify gift cards: allowed companies,eh.shopify.gift.card,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_eh_shopify_order_edit_wizard_salesman,eh.shopify.order.edit.wizard salesman,eh.shopify.order.edit.wizard,sales_team.group_sale_salesman,cru,
+rule_eh_shopify_order_edit_wizard_owner,Shopify cancel dialog: own dialogs,eh.shopify.order.edit.wizard,,crud,"[('create_uid', '=', user.id)]"
+access_eh_shopify_order_edit_wizard_line_salesman,eh.shopify.order.edit.wizard.line salesman,eh.shopify.order.edit.wizard.line,sales_team.group_sale_salesman,cru,
+rule_eh_shopify_order_edit_wizard_line_owner,Shopify cancel dialog: own dialogs,eh.shopify.order.edit.wizard.line,,crud,"[('wizard_id.create_uid', '=', user.id)]"

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_order_list" model="ir.ui.view">
+        <field name="name">eh.shopify.order.list</field>
+        <field name="model">eh.shopify.order</field>
+        <field name="arch" type="xml">
+            <list string="Shopify orders" create="false" delete="false" decoration-danger="state == 'error'"
+                  decoration-warning="state == 'held'" decoration-muted="state in ('skipped', 'cancelled')">
+                <field name="processed_at"/>
+                <field name="store_id" optional="show"/>
+                <field name="name" width="120px"/>
+                <field name="sale_order_id" width="110px"/>
+                <field name="state" widget="badge" width="130px" decoration-success="state == 'imported'"
+                       decoration-warning="state == 'held'" decoration-danger="state == 'error'"/>
+                <field name="financial_status_label" width="150px" optional="show"/>
+                <field name="fulfillment_status_label" width="110px" optional="show"/>
+                <field name="parity_state" width="150px" optional="show"/>
+                <field name="target_total" digits="[16, 2]" optional="hide"/>
+                <field name="currency_code" optional="hide"/>
+                <field name="reason" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <button name="action_import_again" type="object" string="Import again" icon="refresh"
+                        groups="eh_shopify_connector.group_shopify_manager"
+                        invisible="state not in ('held', 'skipped', 'error')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_order_form" model="ir.ui.view">
+        <field name="name">eh.shopify.order.form</field>
+        <field name="model">eh.shopify.order</field>
+        <field name="arch" type="xml">
+            <form string="Shopify order" create="false" edit="false">
+                <header>
+                    <button name="action_open_sale_order" type="object" string="Open sales order"
+                            class="btn-primary" invisible="not sale_order_id"/>
+                    <button name="action_import_again" type="object" string="Import again"
+                            class="btn-secondary" groups="eh_shopify_connector.group_shopify_manager"
+                            invisible="state not in ('held', 'skipped', 'error')"
+                            confirm="Ask Shopify for this order again and import it now?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="imported"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="not reason">
+                        <field name="reason"/>
+                    </div>
+                    <group>
+                        <group string="Shopify">
+                            <field name="store_id"/>
+                            <field name="processed_at"/>
+                            <field name="financial_status_label"/>
+                            <field name="fulfillment_status_label"/>
+                            <field name="return_status_label"/>
+                            <field name="source_label"/>
+                            <field name="is_pos"/>
+                            <field name="is_test"/>
+                            <field name="risk_level_label"/>
+                            <field name="risk_recommendation_label"/>
+                        </group>
+                        <group string="Odoo">
+                            <field name="sale_order_id"/>
+                            <field name="customer_binding_id"/>
+                            <field name="currency_code"/>
+                            <field name="currency_mode"/>
+                            <field name="target_total" digits="[16, 2]"/>
+                            <field name="odoo_total" digits="[16, 2]"/>
+                            <field name="residual" digits="[16, 2]"/>
+                            <field name="parity_state"/>
+                            <field name="utm_source"/>
+                            <field name="utm_medium"/>
+                            <field name="utm_campaign"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines">
+                            <field name="line_ids">
+                                <list>
+                                    <field name="kind"/>
+                                    <field name="sku"/>
+                                    <field name="quantity"/>
+                                    <field name="fulfilled_quantity"/>
+                                    <field name="sale_line_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Shipments" name="fulfillments">
+                            <field name="fulfillment_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="picking_id"/>
+                                    <field name="origin"/>
+                                    <field name="status"/>
+                                    <field name="tracking_company"/>
+                                    <field name="tracking_numbers"/>
+                                    <field name="notified_customer"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Refunds" name="refunds">
+                            <field name="refund_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="processed_at"/>
+                                    <field name="total_refunded"/>
+                                    <field name="state"/>
+                                    <field name="reason"/>
+                                    <field name="credit_note_ids" widget="many2many_tags"
+                                           groups="account.group_account_invoice"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Payments" name="payments">
+                            <field name="transaction_ids">
+                                <list>
+                                    <field name="processed_at"/>
+                                    <field name="kind"/>
+                                    <field name="status"/>
+                                    <field name="gateway"/>
+                                    <field name="amount"/>
+                                    <field name="currency_code"/>
+                                    <field name="state"/>
+                                    <field name="payment_id"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_order_search" model="ir.ui.view">
+        <field name="name">eh.shopify.order.search</field>
+        <field name="model">eh.shopify.order</field>
+        <field name="arch" type="xml">
+            <search string="Shopify orders">
+                <field name="name"/>
+                <field name="sale_order_id" groups="sales_team.group_sale_salesman"/>
+                <field name="store_id"/>
+                <filter name="imported" string="Imported" domain="[('state', '=', 'imported')]"/>
+                <filter name="attention" string="Needs attention" domain="[('state', 'in', ('error', 'held'))]"/>
+                <filter name="mismatch" string="Total differs" domain="[('parity_state', '=', 'mismatch')]"/>
+                <filter name="skipped" string="Not imported" domain="[('state', '=', 'skipped')]"/>
+                <group>
+                    <filter name="group_store" string="Store" context="{'group_by': 'store_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_order" model="ir.actions.act_window">
+        <field name="name">Orders</field>
+        <field name="res_model">eh.shopify.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_eh_shopify_order_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No Shopify orders yet</p>
+            <p>Orders arrive here as soon as they are placed in Shopify, each linked to its Odoo sales order.</p>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_customer_list" model="ir.ui.view">
+        <field name="name">eh.shopify.customer.list</field>
+        <field name="model">eh.shopify.customer</field>
+        <field name="arch" type="xml">
+            <list string="Shopify customers" create="false" edit="false">
+                <field name="store_id"/>
+                <field name="display_name_shopify"/>
+                <field name="partner_id"/>
+                <field name="kind"/>
+                <field name="email"/>
+                <field name="match_method"/>
+                <field name="email_marketing_state" optional="show"/>
+                <field name="tax_exempt" optional="hide"/>
+                <field name="tag_ids" widget="many2many_tags" optional="hide"/>
+                <field name="removed_in_shopify" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_customer_form" model="ir.ui.view">
+        <field name="name">eh.shopify.customer.form</field>
+        <field name="model">eh.shopify.customer</field>
+        <field name="arch" type="xml">
+            <form string="Shopify customer" create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="display_name_shopify"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="store_id"/>
+                            <field name="kind"/>
+                            <field name="partner_id"/>
+                            <field name="match_method"/>
+                            <field name="created_by_connector"/>
+                            <field name="removed_in_shopify"/>
+                        </group>
+                        <group>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="email_marketing_state"/>
+                            <field name="sms_marketing_state"/>
+                            <field name="tax_exempt"/>
+                            <field name="locale"/>
+                            <field name="shopify_updated_at"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Tags">
+                        <field name="tag_ids" widget="many2many_tags" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_customer" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">eh.shopify.customer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_eh_shopify_variant_list" model="ir.ui.view">
+        <field name="name">eh.shopify.variant.list</field>
+        <field name="model">eh.shopify.variant</field>
+        <field name="arch" type="xml">
+            <list string="Product links" create="false" editable="bottom">
+                <field name="store_id" readonly="1"/>
+                <field name="title" readonly="1"/>
+                <field name="sku" readonly="1"/>
+                <field name="barcode" readonly="1" optional="show"/>
+                <field name="product_id"/>
+                <field name="match_method" readonly="1"/>
+                <field name="stock_policy" optional="show"/>
+                <field name="stock_share" optional="show" readonly="stock_policy != 'computed'"/>
+                <field name="stock_max" optional="show" readonly="stock_policy != 'computed'"/>
+                <field name="stock_fixed" optional="hide" readonly="stock_policy != 'fixed'"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_variant" model="ir.actions.act_window">
+        <field name="name">Product Links</field>
+        <field name="res_model">eh.shopify.variant</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_eh_shopify_gateway_list" model="ir.ui.view">
+        <field name="name">eh.shopify.gateway.list</field>
+        <field name="model">eh.shopify.gateway</field>
+        <field name="arch" type="xml">
+            <list string="Payment methods" create="false" editable="bottom">
+                <field name="store_id" readonly="1"/>
+                <field name="name" readonly="1"/>
+                <field name="tender_type"/>
+                <field name="journal_id" groups="account.group_account_invoice"/>
+                <field name="payment_method_line_id" groups="account.group_account_invoice"/>
+                <field name="register_payments"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_gateway" model="ir.actions.act_window">
+        <field name="name">Payment Methods</field>
+        <field name="res_model">eh.shopify.gateway</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Payment methods appear with the first orders</p>
+            <p>Choose the journal each Shopify payment method is recorded in.</p>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_carrier_list" model="ir.ui.view">
+        <field name="name">eh.shopify.carrier.list</field>
+        <field name="model">eh.shopify.carrier</field>
+        <field name="arch" type="xml">
+            <list string="Shipping methods" create="false" editable="bottom">
+                <field name="store_id" readonly="1"/>
+                <field name="title" readonly="1"/>
+                <field name="code" readonly="1" optional="show"/>
+                <field name="carrier_id" groups="sales_team.group_sale_salesman"/>
+                <field name="tracking_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_carrier" model="ir.actions.act_window">
+        <field name="name">Shipping Methods</field>
+        <field name="res_model">eh.shopify.carrier</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

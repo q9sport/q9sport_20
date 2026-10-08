@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_eh_shopify_root" name="Shopify" sequence="45"
+              web_icon="eh_shopify_connector,static/description/icon.png"
+              groups="eh_shopify_connector.group_shopify_user"/>
+
+    <menuitem id="menu_eh_shopify_overview" name="Overview" parent="menu_eh_shopify_root"
+              action="action_eh_shopify_overview" sequence="1"/>
+
+    <menuitem id="menu_eh_shopify_orders" name="Orders" parent="menu_eh_shopify_root"
+              action="action_eh_shopify_order" sequence="5"/>
+    <menuitem id="menu_eh_shopify_refunds" name="Refunds" parent="menu_eh_shopify_root"
+              action="action_eh_shopify_refund" sequence="5"/>
+    <menuitem id="menu_eh_shopify_returns" name="Returns" parent="menu_eh_shopify_root"
+              action="action_eh_shopify_return" sequence="5"/>
+    <menuitem id="menu_eh_shopify_payouts" name="Payouts" parent="menu_eh_shopify_root"
+              action="action_eh_shopify_payout" sequence="5"/>
+    <menuitem id="menu_eh_shopify_disputes" name="Disputes" parent="menu_eh_shopify_root"
+              action="action_eh_shopify_dispute" sequence="5"/>
+    <menuitem id="menu_eh_shopify_customers" name="Customers" parent="menu_eh_shopify_root"
+              action="action_eh_shopify_customer" sequence="6"/>
+
+    <menuitem id="menu_eh_shopify_products" name="Products" parent="menu_eh_shopify_root"
+              action="action_eh_shopify_product" sequence="6"/>
+    <menuitem id="menu_eh_shopify_inventory_levels" name="Stock Levels" parent="menu_eh_shopify_root"
+              action="action_eh_shopify_inventory_level" sequence="7"/>
+
+    <menuitem id="menu_eh_shopify_exceptions" name="Exceptions" parent="menu_eh_shopify_root"
+              action="action_eh_shopify_exceptions" sequence="10"/>
+
+    <menuitem id="menu_eh_shopify_activity" name="Activity" parent="menu_eh_shopify_root" sequence="20"/>
+    <menuitem id="menu_eh_shopify_jobs" name="Sync Jobs" parent="menu_eh_shopify_activity"
+              action="action_eh_shopify_job" sequence="1"/>
+    <menuitem id="menu_eh_shopify_bulk" name="Shopify Exports" parent="menu_eh_shopify_activity"
+              action="action_eh_shopify_bulk" sequence="3"/>
+    <menuitem id="menu_eh_shopify_match" name="Catalogue Checks" parent="menu_eh_shopify_activity"
+              action="action_eh_shopify_match_report" sequence="4"/>
+    <menuitem id="menu_eh_shopify_events" name="Webhook Deliveries" parent="menu_eh_shopify_activity"
+              action="action_eh_shopify_event" sequence="2"/>
+
+    <menuitem id="menu_eh_shopify_config" name="Configuration" parent="menu_eh_shopify_root" sequence="90"
+              groups="eh_shopify_connector.group_shopify_manager"/>
+    <menuitem id="menu_eh_shopify_connect" name="Connect a Store" parent="menu_eh_shopify_config"
+              action="action_eh_shopify_setup_wizard" sequence="1"/>
+    <menuitem id="menu_eh_shopify_stores" name="Stores" parent="menu_eh_shopify_config"
+              action="action_eh_shopify_store" sequence="2"/>
+    <menuitem id="menu_eh_shopify_locations" name="Locations" parent="menu_eh_shopify_config"
+              action="action_eh_shopify_location" sequence="3"/>
+    <menuitem id="menu_eh_shopify_webhooks" name="Webhook Subscriptions" parent="menu_eh_shopify_config"
+              action="action_eh_shopify_webhook" sequence="4"/>
+    <menuitem id="menu_eh_shopify_gateways" name="Payment Methods" parent="menu_eh_shopify_config"
+              action="action_eh_shopify_gateway" sequence="5"/>
+    <menuitem id="menu_eh_shopify_carriers" name="Shipping Methods" parent="menu_eh_shopify_config"
+              action="action_eh_shopify_carrier" sequence="6"/>
+    <menuitem id="menu_eh_shopify_variants" name="Product Links" parent="menu_eh_shopify_config"
+              action="action_eh_shopify_variant" sequence="7"/>
+</odoo>
