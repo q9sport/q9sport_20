@@ -257,8 +257,163 @@
             </form>
         </field>
     </record>
+<record id="view_dashboard_chart_filter" model="ir.ui.view">
+    <field name="name">dashboard.chart.search</field>
+    <field name="model">dashboard.chart</field>
+    <field name="arch" type="xml">
+        <search string="Chart">
 
-    <record id="view_dashboard_chart_filter" model="ir.ui.view">
+            <field name="name"/>
+            <field name="dashboard_id"/>
+            <field name="chart_type"/>
+
+            <filter string="KPI"
+                    name="kpi"
+                    domain="[('chart_type', '=', 'kpi')]"/>
+
+            <filter string="Tile View"
+                    name="tile"
+                    domain="[('chart_type', '=', 'tile')]"/>
+
+            <filter string="Bar Chart"
+                    name="bar_chart"
+                    domain="[('chart_type', '=', 'bar_chart')]"/>
+
+            <filter string="Column Chart"
+                    name="column_chart"
+                    domain="[('chart_type', '=', 'column_chart')]"/>
+
+            <filter string="Doughnut Chart"
+                    name="doughnut_chart"
+                    domain="[('chart_type', '=', 'doughnut_chart')]"/>
+
+            <filter string="Area Chart"
+                    name="area_chart"
+                    domain="[('chart_type', '=', 'area_chart')]"/>
+
+            <filter string="Funnel Chart"
+                    name="funnel_chart"
+                    domain="[('chart_type', '=', 'funnel_chart')]"/>
+
+            <filter string="Pyramid Chart"
+                    name="pyramid_chart"
+                    domain="[('chart_type', '=', 'pyramid_chart')]"/>
+
+            <filter string="Line Chart"
+                    name="line_chart"
+                    domain="[('chart_type', '=', 'line_chart')]"/>
+
+            <filter string="Pie Chart"
+                    name="pie_chart"
+                    domain="[('chart_type', '=', 'pie_chart')]"/>
+
+            <filter string="Radial Chart"
+                    name="radar_chart"
+                    domain="[('chart_type', '=', 'radar_chart')]"/>
+
+            <filter string="Scatter Chart"
+                    name="scatter_chart"
+                    domain="[('chart_type', '=', 'scatter_chart')]"/>
+
+            <filter string="StackedColumn Chart"
+                    name="stackedcolumn_chart"
+                    domain="[('chart_type', '=', 'stackedcolumn_chart')]"/>
+
+            <filter string="Meter Chart"
+                    name="meter_chart"
+                    domain="[('chart_type', '=', 'meter_chart')]"/>
+
+            <filter string="Map Chart"
+                    name="map_chart"
+                    domain="[('chart_type', '=', 'map_chart')]"/>
+
+            <filter string="To Do"
+                    name="to_do"
+                    domain="[('chart_type', '=', 'to_do')]"/>
+
+            <filter string="List View"
+                    name="list"
+                    domain="[('chart_type', '=', 'list')]"/>
+
+            <separator/>
+
+            <filter string="Apply Multiplier"
+                    name="is_apply_multiplier"
+                    domain="[('is_apply_multiplier', '=', True)]"/>
+
+            <separator/>
+
+            <filter string="Active"
+                    name="active"
+                    domain="[('active', '=', True)]"/>
+
+            <filter string="Archive"
+                    name="archive"
+                    domain="[('active', '=', False)]"/>
+
+            <group expand="0" string="Group By">
+
+                <filter string="Dashboard"
+                        name="dashboard_group_id"
+                        domain="[]"
+                        context="{'group_by': 'dashboard_id'}"/>
+
+                <filter string="Type"
+                        name="chart_type_group"
+                        domain="[]"
+                        context="{'group_by': 'chart_type'}"/>
+
+                <filter string="Model"
+                        name="model_id_group"
+                        domain="[]"
+                        context="{'group_by': 'model_id'}"/>
+
+                <filter string="List Type"
+                        name="list_type_group"
+                        domain="[]"
+                        context="{'group_by': 'list_type'}"/>
+
+                <filter string="To Do Layout"
+                        name="todo_layout_group"
+                        domain="[]"
+                        context="{'group_by': 'todo_layout'}"/>
+
+                <filter string="Group By"
+                        name="group_by_id_group"
+                        domain="[]"
+                        context="{'group_by': 'group_by_id'}"/>
+
+                <filter string="Measure Field"
+                        name="measurement_field_id_group"
+                        domain="[]"
+                        context="{'group_by': 'measurement_field_id'}"/>
+
+                <filter string="Sort Order"
+                        name="sort_order_group"
+                        domain="[]"
+                        context="{'group_by': 'sort_order'}"/>
+
+                <filter string="Data Type"
+                        name="data_type_group"
+                        domain="[]"
+                        context="{'group_by': 'data_type'}"/>
+
+                <filter string="Date Filter Options"
+                        name="date_filter_option_group"
+                        domain="[]"
+                        context="{'group_by': 'date_filter_option'}"/>
+
+                <filter string="Company"
+                        name="company_group"
+                        domain="[]"
+                        context="{'group_by': 'company_id'}"/>
+
+            </group>
+
+        </search>
+    </field>
+</record>
+    <!-- <record id="view_dashboard_chart_filter" model="ir.ui.view">
         <field name="name">dashboard.chart</field>
         <field name="model">dashboard.chart</field>
         <field name="arch" type="xml">
@@ -299,16 +454,12 @@
                     <filter string="Sort Order" name="sort_order" domain="[]" context="{'group_by': 'sort_order'}"/>
                     <filter string="Data Type" name="data_type" domain="[]" context="{'group_by': 'data_type'}"/>
                     <filter string="Date Filter Options" name="date_filter_option" domain="[]" context="{'group_by': 'date_filter_option'}"/>
-                    <filter string="Company"
-        name="group_by_company"
-        domain="[]"
-        context="{'group_by': 'company_id'}"
-        groups="base.group_multi_company"/>
+                    <filter string="Company" name="group_by_company" domain="[]" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
                     <!-- <filter string="Company" name="company_id" domain="[]" context="{'group_by': 'company_id'}" groups="!base.group_multi_company"/> -->
-                </group>
+                <!-- </group>
             </search>
         </field>
-    </record>
+    </record>  -->
 
     <record id="dashboard_chart_action" model="ir.actions.act_window">
         <field name="name">Charts</field>
