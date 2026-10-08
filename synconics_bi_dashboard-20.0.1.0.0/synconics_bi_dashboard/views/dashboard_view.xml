@@ -81,6 +81,29 @@
     </record>
 
     <record id="view_dashboard_filter" model="ir.ui.view">
+    <field name="name">dashboard.dashboard.search</field>
+    <field name="model">dashboard.dashboard</field>
+    <field name="arch" type="xml">
+        <search string="Dashboard">
+            <field name="name"/>
+            <field name="access_by"/>
+            <field name="user_ids"/>
+
+            <group expand="0" string="Group By">
+                <filter string="Access By"
+                        name="group_by_access_by"
+                        context="{'group_by': 'access_by'}"/>
+
+                <filter string="Company"
+                        name="group_by_company"
+                        context="{'group_by': 'company_id'}"
+                        groups="base.group_multi_company"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+    <!-- <record id="view_dashboard_filter" model="ir.ui.view">
         <field name="name">dashboard.dashboard</field>
         <field name="model">dashboard.dashboard</field>
         <field name="arch" type="xml">
@@ -94,7 +117,7 @@
                 </group>
             </search>
         </field>
-    </record>
+    </record> -->
 
     <record id="dashboard_dashboard_action" model="ir.actions.act_window">
         <field name="name">Dashboards</field>
