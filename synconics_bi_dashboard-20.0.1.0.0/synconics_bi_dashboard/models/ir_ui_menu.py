@@ -13,7 +13,7 @@ class IrUiMenu(models.Model):
         "res.users", "menu_user_rel", "menu_id", "user_id", string="Users"
     )
 
-    @api.returns("self")
+    #@api.returns("self")
     def _filter_visible_menus(self):
         """
         Filter menu base on user access
