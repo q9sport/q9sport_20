@@ -4,7 +4,8 @@
         <field name="name">dashboard.dashboard.tree.view</field>
         <field name="model">dashboard.dashboard</field>
         <field name="arch" type="xml">
-            <list duplicate="0">
+            <!-- <list duplicate="0"> -->
+            <list >
                 <field name="menu_sequence" widget="handle"/>
                 <field name="name" />
                 <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
@@ -17,7 +18,8 @@
         <field name="name">dashboard.dashboard.form.view</field>
         <field name="model">dashboard.dashboard</field>
         <field name="arch" type="xml">
-            <form duplicate="0">
+            <!-- <form duplicate="0"> -->
+            <form >    
                 <header>
                     <button name="create_update_menu" type="object" string='Create/Update Menu' invisible="created_menu_id" />
                     <button name="action_delete_menu" type="object" string='Delete Menu' invisible="not created_menu_id"/>
