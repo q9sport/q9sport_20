@@ -15,49 +15,6 @@ class Users(models.Model):
         readonly=False,
     )
 
-    @api.depends("groups_id")
-    def _compute_model_access(self):
-        """
-        Calculate model access base on user
-        """
-        for record in self:
-            access_ids = (
-                self.env["ir.model.access"]
-                .sudo()
-                .search([("group_id", "=", False)])
-            )
-
-            record.model_access = [(5,)]
-
-            if access_ids:
-                record.model_access = [
-                    (4, access_id)
-                    for access_id in access_ids.ids
-                ]
-
-    model_access = fields.Many2many(
-        "ir.model.access",
-        "user_model_access_rel",
-        "user_id",
-        "model_access_id",
-        string="Access Controls",
-        compute="_compute_model_access",
-        copy=True,
-        store=True,
-    )
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        """
-        User creation time set model access
-        """
-        records = super(Users, self).create(vals_list)
-
-        if records:
-            records._compute_model_access()
-
-        return records
-
     @api.model
     def name_search(
         self,
@@ -67,7 +24,7 @@ class Users(models.Model):
         limit=100
     ):
         """
-        Search user base on the dashboard access
+        Search user based on the dashboard access
         """
         args = list(args or [])
         context = dict(self.env.context)
