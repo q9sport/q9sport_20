@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_refund_list" model="ir.ui.view">
+        <field name="name">eh.shopify.refund.list</field>
+        <field name="model">eh.shopify.refund</field>
+        <field name="arch" type="xml">
+            <list string="Shopify refunds" create="false" delete="false"
+                  decoration-warning="state in ('draft', 'pending_invoice')" decoration-danger="state == 'error'">
+                <field name="store_id" optional="hide"/>
+                <field name="name"/>
+                <field name="order_binding_id"/>
+                <field name="sale_order_id" optional="show" groups="sales_team.group_sale_salesman"/>
+                <field name="processed_at"/>
+                <field name="total_refunded"/>
+                <field name="currency_code" optional="hide"/>
+                <field name="credit_note_ids" widget="many2many_tags" optional="show" groups="account.group_account_invoice"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"
+                       decoration-warning="state in ('draft', 'pending_invoice')" decoration-danger="state == 'error'"/>
+                <field name="reason" optional="show"/>
+                <field name="restock_note" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_refund_form" model="ir.ui.view">
+        <field name="name">eh.shopify.refund.form</field>
+        <field name="model">eh.shopify.refund</field>
+        <field name="arch" type="xml">
+            <form string="Shopify refund" create="false" edit="false" delete="false">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="store_id"/>
+                            <field name="order_binding_id"/>
+                            <field name="sale_order_id" groups="sales_team.group_sale_salesman"/>
+                            <field name="processed_at"/>
+                        </group>
+                        <group>
+                            <field name="total_refunded"/>
+                            <field name="currency_code"/>
+                            <field name="reason"/>
+                            <field name="restock_note"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Credit notes" groups="account.group_account_invoice">
+                        <field name="credit_note_ids" widget="many2many_tags" nolabel="1" colspan="2"/>
+                    </group>
+                    <group string="Note in Shopify" invisible="not note">
+                        <field name="note" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_refund" model="ir.actions.act_window">
+        <field name="name">Refunds</field>
+        <field name="res_model">eh.shopify.refund</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No Shopify refunds yet</p>
+            <p>Every refund made in Shopify becomes credit notes and refund payments here, matched to the invoices of
+                its order.</p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_webhook_list" model="ir.ui.view">
+        <field name="name">eh.shopify.webhook.list</field>
+        <field name="model">eh.shopify.webhook</field>
+        <field name="arch" type="xml">
+            <list string="Webhook subscriptions" create="false" edit="false" decoration-muted="state == 'removed'">
+                <field name="store_id"/>
+                <field name="topic"/>
+                <field name="state" widget="badge" decoration-success="state == 'active'"/>
+                <field name="api_version"/>
+                <field name="last_verified_at"/>
+                <field name="uri" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_webhook_form" model="ir.ui.view">
+        <field name="name">eh.shopify.webhook.form</field>
+        <field name="model">eh.shopify.webhook</field>
+        <field name="arch" type="xml">
+            <form string="Webhook subscription" create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="topic"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="store_id"/>
+                            <field name="state" widget="badge" decoration-success="state == 'active'"/>
+                            <field name="api_version"/>
+                            <field name="last_verified_at"/>
+                        </group>
+                        <group>
+                            <field name="uri"/>
+                            <field name="subscription_gid"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_webhook" model="ir.actions.act_window">
+        <field name="name">Webhook Subscriptions</field>
+        <field name="res_model">eh.shopify.webhook</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

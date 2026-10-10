@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_setup_wizard_form" model="ir.ui.view">
+        <field name="name">eh.shopify.setup.wizard.form</field>
+        <field name="model">eh.shopify.setup.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Connect a Shopify store">
+                <field name="step" invisible="1"/>
+                <field name="store_id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <div invisible="step != 'connect'">
+                    <group>
+                        <group>
+                            <field name="shop_domain" placeholder="yourstore.myshopify.com"/>
+                            <field name="auth_mode" widget="radio"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="warehouse_id"/>
+                        </group>
+                        <group>
+                            <field name="client_id" invisible="auth_mode == 'legacy_token'"/>
+                            <field name="client_secret" password="True" invisible="auth_mode == 'legacy_token'"/>
+                            <field name="access_token" password="True" invisible="auth_mode != 'legacy_token'"/>
+                            <field name="webhook_secret" password="True" invisible="auth_mode != 'legacy_token'"/>
+                            <field name="api_version"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info" role="alert" invisible="auth_mode != 'client_credentials'">
+                        In Shopify, open the Dev Dashboard, create an app, give it the permissions below, release it
+                        and install it on this store. Then paste the client ID and client secret here. This works
+                        when the app and the store belong to the same Shopify organisation, and no public address
+                        is needed.
+                    </div>
+                    <div class="alert alert-info" role="alert" invisible="auth_mode != 'authorization_code'">
+                        Use this when the app belongs to a different Shopify organisation, for example an agency
+                        app. Add this Odoo address followed by /eh_shopify/oauth/callback as an allowed redirect
+                        in the app, paste the client ID and client secret, then approve the app in Shopify.
+                    </div>
+                    <div class="alert alert-info" role="alert" invisible="auth_mode != 'legacy_token'">
+                        Stores that created an admin custom app before 1 January 2026 can keep using its access
+                        token. Add the API secret key too, so real time updates can be verified.
+                    </div>
+                    <p class="text-muted">
+                        Permissions to grant: <field name="required_scope_list" nolabel="1" class="d-inline"/>
+                    </p>
+                    <p class="text-muted">
+                        Grant these too, or the features that need them stay off:
+                        <field name="optional_scope_list" nolabel="1" class="d-inline"/>
+                    </p>
+                </div>
+                <div invisible="step != 'review'">
+                    <group>
+                        <group string="Store">
+                            <field name="shop_name"/>
+                            <field name="currency_code"/>
+                            <field name="plan_name"/>
+                            <field name="taxes_included"/>
+                        </group>
+                        <group string="Next">
+                            <field name="location_count"/>
+                            <field name="result_note"/>
+                            <field name="register_webhooks"/>
+                            <field name="webhook_url" invisible="not register_webhooks"/>
+                        </group>
+                    </group>
+                    <group string="Orders">
+                        <group>
+                            <field name="import_orders"/>
+                            <field name="order_import_from" invisible="not import_orders"/>
+                        </group>
+                        <group>
+                            <field name="order_confirm" invisible="not import_orders"/>
+                            <field name="invoice_policy" invisible="not import_orders"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info" role="alert" invisible="not import_orders">
+                        Orders placed from that moment on become sales orders in this company, confirmed and
+                        invoiced as chosen above. Older orders stay in Shopify until you run the historical import.
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="not missing_required_scopes">
+                        Missing permissions: <field name="missing_required_scopes"/>
+                    </div>
+                </div>
+                <footer>
+                    <button name="action_connect" string="Connect" type="object" class="btn-primary"
+                            invisible="step != 'connect'"/>
+                    <button name="action_finish" string="Finish" type="object" class="btn-primary"
+                            invisible="step != 'review'"/>
+                    <button name="action_back" string="Back" type="object" invisible="step != 'review'"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_setup_wizard" model="ir.actions.act_window">
+        <field name="name">Connect a Shopify Store</field>
+        <field name="res_model">eh.shopify.setup.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

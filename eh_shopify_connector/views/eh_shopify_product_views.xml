@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_product_list" model="ir.ui.view">
+        <field name="name">eh.shopify.product.list</field>
+        <field name="model">eh.shopify.product</field>
+        <field name="arch" type="xml">
+            <list string="Shopify products" create="false" delete="false"
+                  decoration-warning="state in ('unmatched', 'ambiguous')" decoration-muted="state == 'removed'">
+                <field name="store_id" optional="hide"/>
+                <field name="title"/>
+                <field name="vendor" optional="show"/>
+                <field name="product_type" optional="hide"/>
+                <field name="status" optional="show"/>
+                <field name="variant_count"/>
+                <field name="product_tmpl_id" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state == 'linked'"
+                       decoration-warning="state in ('unmatched', 'ambiguous')"/>
+                <field name="reason" optional="show"/>
+                <field name="shopify_updated_at" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_product_form" model="ir.ui.view">
+        <field name="name">eh.shopify.product.form</field>
+        <field name="model">eh.shopify.product</field>
+        <field name="arch" type="xml">
+            <form string="Shopify product" create="false" delete="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="title"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="not reason">
+                        <field name="reason" nolabel="1"/>
+                    </div>
+                    <group>
+                        <group string="In Shopify">
+                            <field name="store_id"/>
+                            <field name="shopify_gid"/>
+                            <field name="handle"/>
+                            <field name="status"/>
+                            <field name="vendor"/>
+                            <field name="product_type"/>
+                            <field name="category_name"/>
+                            <field name="tags"/>
+                        </group>
+                        <group string="In Odoo">
+                            <field name="company_id" invisible="1"/>
+                            <field name="product_tmpl_id"/>
+                            <field name="state"/>
+                            <field name="shopify_updated_at"/>
+                            <field name="removed_at" invisible="not removed_at"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Variants" name="variants">
+                            <field name="variant_ids">
+                                <list>
+                                    <field name="title"/>
+                                    <field name="option_values"/>
+                                    <field name="sku"/>
+                                    <field name="barcode"/>
+                                    <field name="price"/>
+                                    <field name="product_id"/>
+                                    <field name="match_method"/>
+                                    <field name="sync_note"/>
+                                    <field name="active_in_shopify"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description_html"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_product_search" model="ir.ui.view">
+        <field name="name">eh.shopify.product.search</field>
+        <field name="model">eh.shopify.product</field>
+        <field name="arch" type="xml">
+            <search string="Shopify products">
+                <field name="title"/>
+                <field name="vendor"/>
+                <field name="store_id"/>
+                <filter name="attention" string="Not linked" domain="[('state', 'in', ('unmatched', 'ambiguous'))]"/>
+                <filter name="removed" string="Removed in Shopify" domain="[('state', '=', 'removed')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_product" model="ir.actions.act_window">
+        <field name="name">Products</field>
+        <field name="res_model">eh.shopify.product</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_eh_shopify_product_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No Shopify products yet</p>
+            <p>Switch on Sync products on the store. Each Shopify variant is linked to the Odoo product with the same
+                internal reference or barcode, and anything that cannot be linked safely is listed here.</p>
+        </field>
+    </record>
+</odoo>

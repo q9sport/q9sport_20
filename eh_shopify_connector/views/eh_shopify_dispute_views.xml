@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_dispute_list" model="ir.ui.view">
+        <field name="name">eh.shopify.dispute.list</field>
+        <field name="model">eh.shopify.dispute</field>
+        <field name="arch" type="xml">
+            <list string="Shopify disputes" create="false" delete="false" decoration-danger="state == 'open'"
+                  decoration-muted="state in ('won', 'accepted', 'closed')">
+                <field name="initiated_at"/>
+                <field name="name"/>
+                <field name="store_id" optional="hide"/>
+                <field name="order_binding_id"/>
+                <field name="sale_order_id" optional="show" groups="sales_team.group_sale_salesman"/>
+                <field name="reason"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="amount" widget="monetary"/>
+                <field name="evidence_due_by"/>
+                <field name="state" widget="badge" decoration-danger="state == 'open'" decoration-warning="state == 'review'"
+                       decoration-success="state == 'won'"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_dispute_form" model="ir.ui.view">
+        <field name="name">eh.shopify.dispute.form</field>
+        <field name="model">eh.shopify.dispute</field>
+        <field name="arch" type="xml">
+            <form string="Shopify dispute" create="false" edit="false" delete="false">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="open,review,won,lost"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-danger" role="alert" invisible="state != 'open'">
+                        Submit evidence in Shopify before the answer date. The money moves through the payout transactions.
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="store_id"/>
+                            <field name="order_binding_id"/>
+                            <field name="sale_order_id" groups="sales_team.group_sale_salesman"/>
+                            <field name="dispute_type"/>
+                            <field name="reason"/>
+                            <field name="network_reason_code"/>
+                        </group>
+                        <group>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="amount" widget="monetary"/>
+                            <field name="status"/>
+                            <field name="initiated_at"/>
+                            <field name="evidence_due_by"/>
+                            <field name="evidence_sent_on"/>
+                            <field name="finalized_on"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_dispute" model="ir.actions.act_window">
+        <field name="name">Disputes</field>
+        <field name="res_model">eh.shopify.dispute</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No Shopify disputes</p>
+            <p>Chargebacks and inquiries from Shopify Payments appear here, with a to-do on the sales order while an answer is due.</p>
+        </field>
+    </record>
+</odoo>

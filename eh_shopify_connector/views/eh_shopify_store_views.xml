@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_store_kanban" model="ir.ui.view">
+        <field name="name">eh.shopify.store.kanban</field>
+        <field name="model">eh.shopify.store</field>
+        <field name="arch" type="xml">
+            <kanban create="false">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="shop_domain"/>
+                <field name="health"/>
+                <field name="state"/>
+                <field name="job_pending_count"/>
+                <field name="job_attention_count"/>
+                <field name="event_count_24h"/>
+                <field name="location_count"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong class="fs-5"><field name="name"/></strong>
+                                <div class="text-muted small"><field name="shop_domain"/></div>
+                            </div>
+                            <span t-if="record.health.raw_value == 'ok'" class="badge rounded-pill bg-success">Healthy</span>
+                            <span t-if="record.health.raw_value == 'warning'" class="badge rounded-pill bg-warning">Warning</span>
+                            <span t-if="record.health.raw_value == 'error'" class="badge rounded-pill bg-danger">Needs attention</span>
+                            <span t-if="record.health.raw_value == 'off'" class="badge rounded-pill bg-secondary">Not connected</span>
+                        </div>
+                        <div class="row mt-2 small">
+                            <div class="col-6">Waiting jobs: <field name="job_pending_count"/></div>
+                            <div class="col-6">Exceptions: <field name="job_attention_count"/></div>
+                            <div class="col-6">Webhooks today: <field name="event_count_24h"/></div>
+                            <div class="col-6">Locations: <field name="location_count"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_store_list" model="ir.ui.view">
+        <field name="name">eh.shopify.store.list</field>
+        <field name="model">eh.shopify.store</field>
+        <field name="arch" type="xml">
+            <list string="Shopify stores">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="shop_domain"/>
+                <field name="state" widget="badge" decoration-success="state == 'connected'"
+                       decoration-warning="state == 'attention'" decoration-muted="state in ('draft', 'disconnected')"/>
+                <field name="api_version" optional="show"/>
+                <field name="last_check_at" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_store_form" model="ir.ui.view">
+        <field name="name">eh.shopify.store.form</field>
+        <field name="model">eh.shopify.store</field>
+        <field name="arch" type="xml">
+            <form string="Shopify store">
+                <header>
+                    <button name="action_open_setup" type="object" string="Connect" class="btn-primary"
+                            invisible="state not in ('draft', 'disconnected')"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_start_oauth" type="object" string="Approve in Shopify"
+                            invisible="auth_mode != 'authorization_code' or state == 'connected'"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_check_connection" type="object" string="Check connection"
+                            invisible="state == 'draft'" groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_sync_locations" type="object" string="Sync locations"
+                            invisible="state not in ('connected', 'attention')"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_import_all_products" type="object" string="Import all products"
+                            invisible="state not in ('connected', 'attention') or not products_enabled"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_check_catalogue_match" type="object" string="Check catalogue match"
+                            invisible="state not in ('connected', 'attention')"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_sync_payouts" type="object" string="Check payouts"
+                            invisible="state not in ('connected', 'attention') or not payouts_enabled"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_push_inventory" type="object" string="Send stock now"
+                            invisible="state not in ('connected', 'attention') or not inventory_enabled"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_register_webhooks" type="object" string="Turn on real time updates"
+                            invisible="state not in ('connected', 'attention')"
+                            groups="eh_shopify_connector.group_shopify_manager"/>
+                    <button name="action_disconnect" type="object" string="Disconnect"
+                            invisible="state in ('draft', 'disconnected')"
+                            groups="eh_shopify_connector.group_shopify_manager"
+                            confirm="Disconnect this store? Its credentials are erased and waiting jobs are cancelled."/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,connected,attention"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_orders" type="object" class="oe_stat_button" icon="shopping_cart">
+                            <field name="order_count" widget="statinfo" string="Orders"/>
+                        </button>
+                        <button name="action_open_locations" type="object" class="oe_stat_button" icon="location_on">
+                            <field name="location_count" widget="statinfo" string="Locations"/>
+                        </button>
+                        <button name="action_open_products" type="object" class="oe_stat_button" icon="sell">
+                            <field name="product_binding_count" widget="statinfo" string="Products"/>
+                        </button>
+                        <button name="action_open_inventory_levels" type="object" class="oe_stat_button"
+                                icon="inventory_2">
+                            <field name="inventory_attention_count" widget="statinfo" string="Stock issues"/>
+                        </button>
+                        <button name="action_open_jobs" type="object" class="oe_stat_button" icon="checklist">
+                            <field name="job_pending_count" widget="statinfo" string="Waiting jobs"/>
+                        </button>
+                        <button name="action_open_attention" type="object" class="oe_stat_button"
+                                icon="warning">
+                            <field name="job_attention_count" widget="statinfo" string="Exceptions"/>
+                        </button>
+                        <button name="action_open_events" type="object" class="oe_stat_button" icon="flash_on">
+                            <field name="event_count_24h" widget="statinfo" string="Webhooks today"/>
+                        </button>
+                    </div>
+                    <field name="active" invisible="1"/>
+                    <field name="health" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Store name"/></h1>
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="health != 'error'">
+                        <field name="health_notes"/>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="health != 'warning'">
+                        <field name="health_notes"/>
+                    </div>
+                    <group>
+                        <group string="Connection">
+                            <field name="shop_domain" placeholder="yourstore.myshopify.com"/>
+                            <field name="auth_mode"/>
+                            <field name="client_id" invisible="auth_mode == 'legacy_token'"/>
+                            <field name="client_secret_input" password="True"
+                                   invisible="auth_mode == 'legacy_token'" placeholder="Stored encrypted, type to replace"/>
+                            <field name="has_client_secret" string="Client secret stored"
+                                   invisible="auth_mode == 'legacy_token'"/>
+                            <field name="access_token_input" password="True"
+                                   invisible="auth_mode != 'legacy_token'" placeholder="Stored encrypted, type to replace"/>
+                            <field name="has_access_token" string="Token stored" invisible="auth_mode != 'legacy_token'"/>
+                            <field name="webhook_secret_input" password="True"
+                                   invisible="auth_mode != 'legacy_token'" placeholder="Stored encrypted, type to replace"/>
+                            <field name="api_version"/>
+                            <field name="api_version_state"/>
+                            <field name="token_expires_at" invisible="auth_mode == 'legacy_token'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Store">
+                            <field name="shop_name"/>
+                            <field name="shop_email"/>
+                            <field name="currency_code"/>
+                            <field name="taxes_included"/>
+                            <field name="tax_shipping"/>
+                            <field name="iana_timezone"/>
+                            <field name="plan_name"/>
+                            <field name="is_plus"/>
+                            <field name="is_development"/>
+                            <field name="last_check_at"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Orders" name="orders">
+                            <group>
+                                <group string="Import">
+                                    <field name="orders_enabled"/>
+                                    <field name="order_import_from"/>
+                                    <field name="import_financial_statuses"/>
+                                    <field name="order_currency_mode"/>
+                                    <field name="hold_risky_orders"/>
+                                    <field name="unmatched_product"/>
+                                    <field name="customers_sync_all"/>
+                                    <field name="mirror_consent"/>
+                                </group>
+                                <group string="In Odoo">
+                                    <field name="warehouse_id"/>
+                                    <field name="order_confirm"/>
+                                    <field name="invoice_policy"/>
+                                    <field name="auto_create_payment_terms"/>
+                                    <field name="order_team_id"/>
+                                    <field name="order_user_id"/>
+                                    <field name="notify_customer_on_fulfillment"/>
+                                    <field name="auto_create_carriers"/>
+                                    <field name="move_fulfillment_orders"/>
+                                    <field name="refund_auto_post"/>
+                                    <field name="return_auto_validate"/>
+                                    <field name="return_unsellable_location_id" invisible="not return_auto_validate"
+                                           groups="stock.group_stock_multi_locations"/>
+                                    <field name="exchange_order_mode"/>
+                                </group>
+                                <group string="Catalogue">
+                                    <field name="products_enabled"/>
+                                    <field name="products_polled_until" invisible="not products_enabled"/>
+                                    <field name="products_swept_at" invisible="not products_enabled"/>
+                                    <field name="master_content" invisible="not products_enabled"/>
+                                    <field name="master_price" invisible="not products_enabled"/>
+                                    <field name="product_create_missing" invisible="not products_enabled"/>
+                                    <field name="product_pricelist_id" invisible="not products_enabled or not product_create_missing"/>
+                                </group>
+                                <group string="Stock">
+                                    <field name="inventory_enabled"/>
+                                    <field name="inventory_safety_stock" invisible="not inventory_enabled"/>
+                                    <field name="inventory_reconciled_at" invisible="not inventory_enabled"/>
+                                </group>
+                                <group string="History">
+                                    <field name="history_orders_from"/>
+                                    <div colspan="2" class="d-flex flex-wrap gap-2" groups="eh_shopify_connector.group_shopify_manager">
+                                        <button name="action_import_order_history" type="object" string="Import order history"
+                                                class="btn-secondary" invisible="state not in ('connected', 'attention')"/>
+                                        <button name="action_import_customers" type="object" string="Import all customers"
+                                                class="btn-secondary" invisible="state not in ('connected', 'attention')"/>
+                                    </div>
+                                </group>
+                                <group string="Gift cards and store credit">
+                                    <field name="gift_card_liability"/>
+                                    <field name="gift_card_account_id" invisible="not gift_card_liability"
+                                           groups="account.group_account_invoice" placeholder="Created when first needed"/>
+                                    <field name="store_credit_account_id" invisible="not gift_card_liability"
+                                           groups="account.group_account_invoice" placeholder="Created when first needed"/>
+                                    <field name="gift_card_opening_account_id" invisible="not gift_card_liability"
+                                           groups="account.group_account_invoice" placeholder="Current year earnings"/>
+                                    <field name="gift_card_opening_note" invisible="not gift_card_opening_note"/>
+                                    <div colspan="2" invisible="not gift_card_liability" groups="eh_shopify_connector.group_shopify_manager">
+                                        <button name="action_book_gift_card_opening" type="object" string="Book opening gift card balances"
+                                                class="btn-secondary" invisible="state not in ('connected', 'attention')"/>
+                                    </div>
+                                </group>
+                                <group string="Taxes">
+                                    <field name="auto_create_taxes"/>
+                                    <field name="tax_exempt_fiscal_position_id"/>
+                                </group>
+                                <group string="Products used for extra lines">
+                                    <field name="shipping_product_id"/>
+                                    <field name="tip_product_id"/>
+                                    <field name="fee_product_id"/>
+                                    <field name="duty_product_id"/>
+                                    <field name="gift_card_product_id"/>
+                                    <field name="rounding_product_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Payouts" name="payouts">
+                            <group>
+                                <group string="Reconciliation">
+                                    <field name="payouts_enabled"/>
+                                    <field name="payouts_start_date" invisible="not payouts_enabled"/>
+                                    <field name="payout_wait_days" invisible="not payouts_enabled"/>
+                                    <field name="payouts_polled_at" invisible="not payouts_enabled"/>
+                                    <field name="payout_note" invisible="not payout_note"/>
+                                </group>
+                                <group string="Accounting" invisible="not payouts_enabled" groups="account.group_account_invoice">
+                                    <field name="payout_journal_id" placeholder="Created on the first payout"/>
+                                    <field name="payout_transit_account_id" placeholder="Created on the first payout"/>
+                                    <field name="payout_fee_account_id" placeholder="Created on the first payout"/>
+                                    <field name="payout_adjustment_account_id" placeholder="Created on the first payout"/>
+                                    <field name="payout_suspense_account_id" placeholder="Company suspense account"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Price lists" name="price_lists" groups="eh_shopify_connector.group_shopify_manager">
+                            <p class="text-muted">
+                                Map each Shopify market or B2B price list to an Odoo pricelist in the same currency.
+                                Only prices that differ are sent, when rules change, once a day and on request.
+                            </p>
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <button name="action_sync_price_lists" type="object" string="Read Shopify price lists"
+                                        class="btn-secondary" invisible="state not in ('connected', 'attention')"/>
+                                <button name="action_send_price_lists" type="object" string="Send prices now"
+                                        class="btn-secondary" invisible="state not in ('connected', 'attention')"/>
+                            </div>
+                            <field name="price_lists_synced_at"/>
+                            <field name="price_list_ids">
+                                <list editable="bottom" create="false" delete="false" decoration-muted="removed_in_shopify">
+                                    <field name="name"/>
+                                    <field name="catalog_title" optional="show"/>
+                                    <field name="catalog_status" optional="hide"/>
+                                    <field name="currency_code"/>
+                                    <field name="pricelist_id" options="{'no_create': True}"
+                                           domain="[('currency_id.name', '=', currency_code)]"/>
+                                    <field name="taxes_included"/>
+                                    <field name="compare_at_source"/>
+                                    <field name="compare_at_pricelist_id" options="{'no_create': True}"
+                                           domain="[('currency_id.name', '=', currency_code)]"
+                                           invisible="compare_at_source != 'pricelist'"/>
+                                    <field name="send_quantity_breaks"/>
+                                    <field name="active" widget="boolean_toggle"/>
+                                    <field name="sent_at" optional="show"/>
+                                    <field name="removed_in_shopify" optional="hide"/>
+                                    <field name="note" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Metafields" name="metafields" groups="eh_shopify_connector.group_shopify_manager">
+                            <p class="text-muted">
+                                Map a Shopify product, variant, customer or order metafield to an Odoo field. Imports fill the field;
+                                product and variant edits in Odoo are sent back when the direction allows it, and customer and
+                                order metafields are imported only. Empty Odoo values never clear Shopify.
+                            </p>
+                            <field name="metafield_map_ids">
+                                <list editable="bottom">
+                                    <field name="owner_type"/>
+                                    <field name="namespace"/>
+                                    <field name="key"/>
+                                    <field name="metafield_type"/>
+                                    <field name="model_name" column_invisible="True"/>
+                                    <field name="field_id" domain="[('model', '=', model_name), ('store', '=', True)]"
+                                           options="{'no_create': True}"/>
+                                    <field name="direction"/>
+                                    <field name="active" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Real time updates" name="webhooks">
+                            <p class="text-muted">
+                                Shopify sends its privacy requests, for a copy of customer data, for erasing a customer
+                                and for erasing this shop, to the address set in the app itself rather than to the
+                                subscriptions below. Put the same address there and Odoo answers them: a request for a
+                                copy becomes a to-do, an erasure clears what the connector stored.
+                            </p>
+                            <group>
+                                <group>
+                                    <field name="webhooks_enabled"/>
+                                    <field name="webhook_base_url" placeholder="https://erp.example.com"/>
+                                    <field name="webhook_url"/>
+                                    <field name="last_webhook_at"/>
+                                    <field name="last_selfheal_at"/>
+                                </group>
+                                <group>
+                                    <field name="webhook_note"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Permissions" name="scopes">
+                            <group>
+                                <field name="request_protected_scopes"/>
+                            </group>
+                            <label for="missing_required_scopes" string="Missing and required"/>
+                            <field name="missing_required_scopes"/>
+                            <label for="missing_optional_scopes" string="Missing and recommended"/>
+                            <field name="missing_optional_scopes"/>
+                            <label for="granted_scopes" string="Granted"/>
+                            <field name="granted_scopes"/>
+                        </page>
+                        <page string="Health" name="health">
+                            <group>
+                                <group>
+                                    <field name="served_api_version"/>
+                                    <field name="vault_key_source"/>
+                                </group>
+                            </group>
+                            <label for="last_error" string="Last error"/>
+                            <field name="last_error"/>
+                            <label for="api_deprecations" string="Deprecation notices from Shopify"/>
+                            <field name="api_deprecations"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_eh_shopify_store_search" model="ir.ui.view">
+        <field name="name">eh.shopify.store.search</field>
+        <field name="model">eh.shopify.store</field>
+        <field name="arch" type="xml">
+            <search string="Shopify stores">
+                <field name="name"/>
+                <field name="shop_domain"/>
+                <filter name="connected" string="Connected" domain="[('state', '=', 'connected')]"/>
+                <filter name="attention" string="Needs attention" domain="[('state', '=', 'attention')]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_overview" model="ir.actions.act_window">
+        <field name="name">Overview</field>
+        <field name="res_model">eh.shopify.store</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_eh_shopify_store_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Connect your first Shopify store</p>
+            <p>Open Configuration, then Connect a Store. It takes a few minutes.</p>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_store" model="ir.actions.act_window">
+        <field name="name">Stores</field>
+        <field name="res_model">eh.shopify.store</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_eh_shopify_store_search"/>
+    </record>
+</odoo>

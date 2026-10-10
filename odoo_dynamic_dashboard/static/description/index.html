@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Odoo AI Dynamic Dashboard</title>
+</head>
+<body style="margin:0;background:#ffffff;color:#2b2b33;font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.6;">
+<div style="max-width:1080px;margin:0 auto;padding:0 20px;">
+
+    <!-- Header -->
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:20px 0;border-bottom:1px solid #ece8ef;font-size:14px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <img src="./icon.png" alt="" width="32" height="32" style="border-radius:7px;"/>
+            <strong style="font-size:15px;">Odoo AI Dynamic Dashboard</strong>
+            <span style="color:#8a8590;">for Odoo 20</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;color:#55525c;">
+            <span style="padding:3px 10px;border:1px solid #ece8ef;border-radius:20px;">Community &amp; Enterprise</span>
+            <span style="padding:3px 10px;border:1px solid #d6eedd;border-radius:20px;color:#2e7d32;">&#10003; On-premise</span>
+            <span style="padding:3px 10px;border:1px solid #d6eedd;border-radius:20px;color:#2e7d32;">&#10003; Odoo.sh</span>
+            <span style="padding:3px 10px;border:1px solid #f3d9d9;border-radius:20px;color:#b3261e;">&#10007; Odoo Online</span>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <div style="text-align:center;padding:56px 0 28px;">
+        <div style="display:inline-block;padding:4px 14px;border-radius:20px;background:#f4eef3;color:#714b67;font-size:13px;font-weight:600;margin-bottom:18px;">
+            Drag and drop &middot; 17 building blocks &middot; AI &middot; Slides &amp; PDF
+        </div>
+        <h1 style="font-size:42px;line-height:1.15;margin:0 0 14px;font-weight:700;letter-spacing:-0.02em;">
+            Build live dashboards on <span style="color:#714b67;">any data</span> in Odoo
+        </h1>
+        <p style="font-size:19px;color:#55525c;max-width:720px;margin:0 auto;">
+            Drag key figures, charts and tables onto a dashboard, choose their data, and put the dashboard
+            in any menu. Or simply describe what you want to follow, and let AI design it for you.
+            No code, no reports to configure.
+        </p>
+    </div>
+    <img src="./assets/screenshots/dashboard.png" alt="A sales dashboard built with Dynamic Dashboard Studio"
+         style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:10px;box-shadow:0 12px 40px rgba(43,43,51,.08);"/>
+
+    <!-- At a glance -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:16px;margin:40px 0 8px;">
+        <div style="padding:18px;border:1px solid #ece8ef;border-radius:10px;">
+            <div style="font-weight:700;margin-bottom:4px;">Drag and drop builder</div>
+            <div style="color:#55525c;font-size:15px;">Pick blocks, choose their data, see them live while you build.</div>
+        </div>
+        <div style="padding:18px;border:1px solid #ece8ef;border-radius:10px;">
+            <div style="font-weight:700;margin-bottom:4px;">Any model, real-time</div>
+            <div style="color:#55525c;font-size:15px;">Sales, CRM, invoices, stock or your own models, always up to date.</div>
+        </div>
+        <div style="padding:18px;border:1px solid #ece8ef;border-radius:10px;">
+            <div style="font-weight:700;margin-bottom:4px;">AI built in</div>
+            <div style="color:#55525c;font-size:15px;">Generate a dashboard from a sentence, get an analysis of any block.</div>
+        </div>
+        <div style="padding:18px;border:1px solid #ece8ef;border-radius:10px;">
+            <div style="font-weight:700;margin-bottom:4px;">Share it your way</div>
+            <div style="color:#55525c;font-size:15px;">A menu item per dashboard, slides for meetings, PDF for reports.</div>
+        </div>
+    </div>
+
+    <!-- How it works -->
+    <h2 style="font-size:28px;margin:64px 0 8px;letter-spacing:-0.01em;">How it works</h2>
+    <p style="color:#55525c;margin:0 0 24px;">From an empty page to a dashboard in its own menu, in four steps.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:16px;margin-bottom:28px;">
+        <div><div style="width:30px;height:30px;border-radius:50%;background:#714b67;color:#fff;text-align:center;line-height:30px;font-weight:700;margin-bottom:8px;">1</div>
+            <strong>Create a dashboard</strong><br/><span style="color:#55525c;font-size:15px;">Open <em>Dynamic Dashboard Studio &rsaquo; Create Dashboard</em> and give it a name.</span></div>
+        <div><div style="width:30px;height:30px;border-radius:50%;background:#714b67;color:#fff;text-align:center;line-height:30px;font-weight:700;margin-bottom:8px;">2</div>
+            <strong>Drag blocks, choose their data</strong><br/><span style="color:#55525c;font-size:15px;">Drop a block, then pick the model, the measure and the grouping in the side panel.</span></div>
+        <div><div style="width:30px;height:30px;border-radius:50%;background:#714b67;color:#fff;text-align:center;line-height:30px;font-weight:700;margin-bottom:8px;">3</div>
+            <strong>Arrange</strong><br/><span style="color:#55525c;font-size:15px;">Drag blocks to reorder them, resize them, or click <em>Auto Arrange</em> for tidy rows.</span></div>
+        <div><div style="width:30px;height:30px;border-radius:50%;background:#714b67;color:#fff;text-align:center;line-height:30px;font-weight:700;margin-bottom:8px;">4</div>
+            <strong>Save and add to a menu</strong><br/><span style="color:#55525c;font-size:15px;">Choose the menu item and its parent menu: the dashboard opens from there, for everyone allowed.</span></div>
+    </div>
+    <img src="./assets/screenshots/builder.png" alt="The dashboard builder"
+         style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:10px;"/>
+    <p style="color:#8a8590;font-size:14px;text-align:center;margin:10px 0 0;">The builder: building blocks on the left, the dashboard in the middle, the selected block's settings on the right.</p>
+
+    <!-- Builder -->
+    <h2 style="font-size:28px;margin:64px 0 8px;">The builder</h2>
+    <p style="color:#55525c;margin:0 0 24px;">Everything happens on one screen, and every change is previewed with your real data.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:28px;">
+        <div>
+            <img src="./assets/screenshots/new_dashboard.png" alt="A new dashboard" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <h3 style="font-size:18px;margin:14px 0 4px;">Start from an empty page</h3>
+            <p style="color:#55525c;margin:0;font-size:15px;">Drag your first block, or let the AI generate the whole dashboard.</p>
+        </div>
+        <div>
+            <img src="./assets/screenshots/drag_and_drop.png" alt="Dragging a block" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <h3 style="font-size:18px;margin:14px 0 4px;">Drag and drop</h3>
+            <p style="color:#55525c;margin:0;font-size:15px;">A placeholder shows where the block lands. Click a block in the palette to add it at the end.</p>
+        </div>
+        <div>
+            <img src="./assets/screenshots/configure_block.png" alt="Configuring a block" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <h3 style="font-size:18px;margin:14px 0 4px;">Choose the data</h3>
+            <p style="color:#55525c;margin:0;font-size:15px;">Search a model (<em>Sales Order</em>, <em>Contact</em>&hellip;), then the measure, how to group it, a second split, a filter. Sensible options are preselected and the title is suggested.</p>
+        </div>
+        <div>
+            <img src="./assets/screenshots/menu_popup.png" alt="Adding the dashboard to a menu" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <h3 style="font-size:18px;margin:14px 0 4px;">A menu for each dashboard</h3>
+            <p style="color:#55525c;margin:0;font-size:15px;">After saving, name the menu item and choose its parent menu, for example <em>Sales / Reporting</em>, or make it a new app.</p>
+        </div>
+    </div>
+    <div style="margin-top:24px;">
+        <img src="./assets/screenshots/dashboard_in_menu.png" alt="The dashboard in the Sales menu" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:10px;"/>
+        <p style="color:#8a8590;font-size:14px;text-align:center;margin:10px 0 0;">The dashboard now opens from <em>Sales &rsaquo; Reporting &rsaquo; Sales Overview</em>. Click <em>Edit</em> to change it at any time.</p>
+    </div>
+
+    <!-- Building blocks -->
+    <h2 style="font-size:28px;margin:64px 0 8px;">17 building blocks</h2>
+    <p style="color:#55525c;margin:0 0 8px;">Each block shows one view of your data. Click any figure, bar or row to open the records behind it.</p>
+
+    <h3 style="font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#714b67;margin:28px 0 12px;">Key figures</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:20px;">
+        <div><img src="./assets/blocks/tile.png" alt="KPI tile" style="display:block;width:100%;border-radius:6px;"/><strong>KPI Tile</strong><br/><span style="color:#55525c;font-size:14px;">One key figure: a count, a total, an average, a minimum or a maximum, with an icon.</span></div>
+        <div><img src="./assets/blocks/progress.png" alt="Progress bar" style="display:block;width:100%;border-radius:6px;"/><strong>Progress Bar</strong><br/><span style="color:#55525c;font-size:14px;">A figure against its target, with the percentage reached.</span></div>
+        <div><img src="./assets/blocks/gauge.png" alt="Gauge" style="display:block;width:100%;border-radius:6px;"/><strong>Gauge</strong><br/><span style="color:#55525c;font-size:14px;">The same, as a speedometer towards the target.</span></div>
+    </div>
+
+    <h3 style="font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#714b67;margin:32px 0 12px;">Charts</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:20px;">
+        <div><img src="./assets/blocks/bar.png" alt="Bar chart" style="display:block;width:100%;border-radius:6px;"/><strong>Bar Chart</strong><br/><span style="color:#55525c;font-size:14px;">Compare categories. Optionally split into several series.</span></div>
+        <div><img src="./assets/blocks/hbar.png" alt="Horizontal bars" style="display:block;width:100%;border-radius:6px;"/><strong>Horizontal Bars</strong><br/><span style="color:#55525c;font-size:14px;">Rankings, even with long labels: top customers, products&hellip;</span></div>
+        <div><img src="./assets/blocks/stacked_bar.png" alt="Stacked bars" style="display:block;width:100%;border-radius:6px;"/><strong>Stacked Bars</strong><br/><span style="color:#55525c;font-size:14px;">Totals split by a second field, like orders per quarter by status.</span></div>
+        <div><img src="./assets/blocks/line.png" alt="Line chart" style="display:block;width:100%;border-radius:6px;"/><strong>Line Chart</strong><br/><span style="color:#55525c;font-size:14px;">Follow a trend by day, week, month, quarter or year.</span></div>
+        <div><img src="./assets/blocks/area.png" alt="Area chart" style="display:block;width:100%;border-radius:6px;"/><strong>Area Chart</strong><br/><span style="color:#55525c;font-size:14px;">A trend with its volume.</span></div>
+        <div><img src="./assets/blocks/pie.png" alt="Pie chart" style="display:block;width:100%;border-radius:6px;"/><strong>Pie Chart</strong><br/><span style="color:#55525c;font-size:14px;">Share of a total, for a few values.</span></div>
+        <div><img src="./assets/blocks/doughnut.png" alt="Doughnut chart" style="display:block;width:100%;border-radius:6px;"/><strong>Doughnut Chart</strong><br/><span style="color:#55525c;font-size:14px;">Share of a total, lighter look.</span></div>
+        <div><img src="./assets/blocks/polar.png" alt="Polar area chart" style="display:block;width:100%;border-radius:6px;"/><strong>Polar Area</strong><br/><span style="color:#55525c;font-size:14px;">Compare a few categories by size.</span></div>
+        <div><img src="./assets/blocks/radar.png" alt="Radar chart" style="display:block;width:100%;border-radius:6px;"/><strong>Radar Chart</strong><br/><span style="color:#55525c;font-size:14px;">Compare profiles across several values.</span></div>
+    </div>
+
+    <h3 style="font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#714b67;margin:32px 0 12px;">Tables &amp; views</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:20px;">
+        <div><img src="./assets/blocks/table.png" alt="Ranking table" style="display:block;width:100%;border-radius:6px;"/><strong>Ranking Table</strong><br/><span style="color:#55525c;font-size:14px;">Top values as a numbered ranking.</span></div>
+        <div><img src="./assets/blocks/pivot.png" alt="Pivot table" style="display:block;width:100%;border-radius:6px;"/><strong>Pivot Table</strong><br/><span style="color:#55525c;font-size:14px;">Cross two fields, with totals.</span></div>
+        <div><img src="./assets/blocks/record_list.png" alt="Record list" style="display:block;width:100%;border-radius:6px;"/><strong>Record List</strong><br/><span style="color:#55525c;font-size:14px;">The latest or top records, with the columns and sort order you choose.</span></div>
+        <div><img src="./assets/blocks/view.png" alt="Odoo view" style="display:block;width:100%;border-radius:6px;"/><strong>Odoo View</strong><br/><span style="color:#55525c;font-size:14px;">Embed a standard list, kanban, graph or pivot view of any model.</span></div>
+    </div>
+
+    <h3 style="font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:#714b67;margin:32px 0 12px;">Layout</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:20px;">
+        <div><img src="./assets/blocks/text.png" alt="Text block" style="display:block;width:100%;border-radius:6px;border:1px dashed #e4dfe8;"/><strong>Text</strong><br/><span style="color:#55525c;font-size:14px;">A section title or a note, to structure long dashboards.</span></div>
+        <div style="padding:16px;border:1px solid #ece8ef;border-radius:8px;align-self:start;">
+            <strong>Every block can be</strong>
+            <ul style="margin:8px 0 0;padding-left:18px;color:#55525c;font-size:14px;">
+                <li>filtered with a domain, on any model</li>
+                <li>sized from a quarter to the full width</li>
+                <li>colored, titled and, for tiles, given an icon</li>
+                <li>duplicated, moved, or switched to another type</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- AI -->
+    <h2 style="font-size:28px;margin:64px 0 8px;">AI built in</h2>
+    <p style="color:#55525c;margin:0 0 24px;">
+        Uses Odoo's own AI service (the same one as the AI of Odoo's editor): no account or API key to set up.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:24px;">
+        <div>
+            <img src="./assets/screenshots/ai_generate.png" alt="Describing a dashboard to the AI" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <h3 style="font-size:18px;margin:14px 0 4px;">1. Describe the dashboard</h3>
+            <p style="color:#55525c;margin:0;font-size:15px;">Write what you want to follow, or start from an example, and choose how many blocks you want, or let the AI decide.</p>
+        </div>
+        <div>
+            <img src="./assets/screenshots/ai_result.png" alt="A dashboard designed by the AI" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <h3 style="font-size:18px;margin:14px 0 4px;">2. Review what the AI designed</h3>
+            <p style="color:#55525c;margin:0;font-size:15px;">It picks the right data and the right blocks. Every block is checked, then shown live in the builder: adjust anything before saving.</p>
+        </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:24px;align-items:center;margin-top:28px;">
+        <img src="./assets/screenshots/ai_analysis.png" alt="AI analysis of a block" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+        <div>
+            <h3 style="font-size:18px;margin:0 0 6px;">Analyze any block</h3>
+            <p style="color:#55525c;margin:0 0 10px;font-size:15px;">
+                Click the <strong>AI</strong> button on a block for a short analysis of what it shows: key facts with their
+                numbers, trends, outliers, and one recommendation. In the language of the user, on the data they see,
+                filters included.
+            </p>
+            <p style="color:#8a8590;margin:0;font-size:13px;">
+                Only the figures displayed by the block are sent to the AI service, when the user asks for it.
+            </p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <h2 style="font-size:28px;margin:64px 0 8px;">Filters on every block</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:24px;align-items:center;">
+        <div>
+            <p style="color:#55525c;margin:0 0 12px;">Each viewer narrows any block for themselves, with options taken from the data of that block:</p>
+            <ul style="color:#55525c;margin:0;padding-left:18px;">
+                <li style="margin-bottom:6px;"><strong>Period</strong> on a date of the model: today, this week, month, quarter or year, the last 7 or 30 days, the last 12 months, or a custom range.</li>
+                <li style="margin-bottom:6px;"><strong>Show only</strong> some of the values the block is grouped by.</li>
+                <li style="margin-bottom:6px;"><strong>Conditions</strong> on other fields: a status, a salesperson, a customer, yes / no, a text&hellip;</li>
+            </ul>
+            <p style="color:#55525c;margin:12px 0 0;">The block shows a summary of its filters. Filters are personal: they never change what others see, and are kept for the next visit.</p>
+        </div>
+        <img src="./assets/screenshots/filters.png" alt="Filtering a block" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:24px;align-items:center;margin-top:28px;">
+        <img src="./assets/screenshots/drill_down.png" alt="Records behind a chart" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+        <div>
+            <h3 style="font-size:18px;margin:0 0 6px;">From a figure to the records</h3>
+            <p style="color:#55525c;margin:0;font-size:15px;">Click a tile, a bar, a slice or a table row: the matching records open in a list, filters included.</p>
+        </div>
+    </div>
+
+    <!-- Present & export -->
+    <h2 style="font-size:28px;margin:64px 0 8px;">Present it, export it</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:24px;">
+        <div>
+            <img src="./assets/screenshots/slides_kpis.png" alt="Key figures slide" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;margin-bottom:12px;"/>
+            <img src="./assets/screenshots/slides_chart.png" alt="Chart slide" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <h3 style="font-size:18px;margin:14px 0 4px;">Slides</h3>
+            <p style="color:#55525c;margin:0;font-size:15px;">
+                <em>Present</em> turns the dashboard into full screen slides: a title, the key figures together, then one
+                slide per chart or table. Arrow keys to move, <em>F</em> for full screen, and an automatic mode for wall screens.
+            </p>
+        </div>
+        <div>
+            <img src="./assets/screenshots/pdf_export.png" alt="PDF export" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <h3 style="font-size:18px;margin:14px 0 4px;">PDF</h3>
+            <p style="color:#55525c;margin:0;font-size:15px;">
+                <em>Export PDF</em> lays the dashboard out on A4 landscape pages, with its name, the company and the date,
+                and opens the print dialog: choose <em>Save as PDF</em>. Charts are kept exactly as displayed, in any language.
+            </p>
+        </div>
+    </div>
+
+    <!-- Languages -->
+    <h2 style="font-size:28px;margin:64px 0 8px;">Multi-language</h2>
+    <p style="color:#55525c;margin:0 0 24px;">
+        Fully translatable, with <strong>Spanish</strong> and <strong>Arabic</strong> included. Right-to-left languages are
+        supported: the whole builder and the dashboards are mirrored. AI answers are written in the language of the user.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:24px;">
+        <div><img src="./assets/screenshots/arabic.png" alt="Dashboard in Arabic" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <p style="color:#8a8590;font-size:14px;text-align:center;margin:8px 0 0;">Arabic, right to left</p></div>
+        <div><img src="./assets/screenshots/spanish.png" alt="Builder in Spanish" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <p style="color:#8a8590;font-size:14px;text-align:center;margin:8px 0 0;">The builder in Spanish</p></div>
+    </div>
+
+    <!-- Access -->
+    <h2 style="font-size:28px;margin:64px 0 8px;">Who can do what</h2>
+    <p style="color:#55525c;margin:0 0 20px;">Two groups under <em>Settings &rsaquo; Users</em>. Blocks always show what the viewer is allowed to see: the same shared dashboard shows each user their own figures.</p>
+    <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:15px;min-width:560px;">
+            <tr style="text-align:left;border-bottom:2px solid #ece8ef;">
+                <th style="padding:10px 12px;">Role</th><th style="padding:10px 12px;">Dashboards</th><th style="padding:10px 12px;">Menus</th><th style="padding:10px 12px;">AI</th>
+            </tr>
+            <tr style="border-bottom:1px solid #ece8ef;">
+                <td style="padding:10px 12px;font-weight:600;">Administrator</td>
+                <td style="padding:10px 12px;color:#55525c;">All dashboards</td>
+                <td style="padding:10px 12px;color:#55525c;">Adds dashboards to menus</td>
+                <td style="padding:10px 12px;color:#55525c;">Generate &amp; analyze</td>
+            </tr>
+            <tr style="border-bottom:1px solid #ece8ef;">
+                <td style="padding:10px 12px;font-weight:600;">User</td>
+                <td style="padding:10px 12px;color:#55525c;">Builds their own, views the shared ones</td>
+                <td style="padding:10px 12px;color:#55525c;">&ndash;</td>
+                <td style="padding:10px 12px;color:#55525c;">Generate &amp; analyze</td>
+            </tr>
+            <tr>
+                <td style="padding:10px 12px;font-weight:600;">Any employee</td>
+                <td style="padding:10px 12px;color:#55525c;">Views the dashboards of their menus</td>
+                <td style="padding:10px 12px;color:#55525c;">Sees the menus given to their groups</td>
+                <td style="padding:10px 12px;color:#55525c;">Analyze</td>
+            </tr>
+        </table>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:24px;margin-top:24px;">
+        <div><img src="./assets/screenshots/access_rights.png" alt="Access rights of a user" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <p style="color:#8a8590;font-size:14px;text-align:center;margin:8px 0 0;">Giving a user access</p></div>
+        <div><img src="./assets/screenshots/configuration.png" alt="Dashboard settings" style="display:block;width:100%;border:1px solid #e4dfe8;border-radius:8px;"/>
+            <p style="color:#8a8590;font-size:14px;text-align:center;margin:8px 0 0;">All dashboards, their owner, sharing and menu</p></div>
+    </div>
+
+    <!-- Getting started -->
+    <h2 style="font-size:28px;margin:64px 0 16px;">Getting started</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px;">
+        <div style="padding:18px;border:1px solid #ece8ef;border-radius:10px;">
+            <strong>Install</strong>
+            <ol style="color:#55525c;margin:8px 0 0;padding-left:18px;font-size:15px;">
+                <li>Copy the module to your addons path.</li>
+                <li>Update the apps list and install <em>Dynamic Dashboard</em>.</li>
+                <li>Give your users the <em>User</em> or <em>Administrator</em> access.</li>
+                <li>Open <em>Dynamic Dashboard Studio &rsaquo; Create Dashboard</em>.</li>
+            </ol>
+        </div>
+        <div style="padding:18px;border:1px solid #ece8ef;border-radius:10px;">
+            <strong>Good to know</strong>
+            <ul style="color:#55525c;margin:8px 0 0;padding-left:18px;font-size:15px;">
+                <li>Depends only on <em>web</em> and <em>iap</em>, installed with every Odoo.</li>
+                <li>The AI features use Odoo's AI service, within its request limits.</li>
+                <li>No PDF engine to install on the server: PDFs are made by the browser.</li>
+                <li>Covered by automated tests, roles and permissions included.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align:center;padding:48px 0 40px;margin-top:56px;border-top:1px solid #ece8ef;">
+        <p style="margin:0 0 6px;font-weight:600;">Questions, customization or support?</p>
+        <a href="mailto:odoo@cybrosys.com" style="display:inline-block;padding:10px 24px;border-radius:24px;background:#714b67;color:#ffffff;text-decoration:none;font-weight:600;">odoo@cybrosys.com</a>
+        <p style="margin:18px 0 0;color:#8a8590;font-size:13px;">Cybrosys Techno Solutions &middot; LGPL-3</p>
+    </div>
+
+</div>
+</body>
+</html>

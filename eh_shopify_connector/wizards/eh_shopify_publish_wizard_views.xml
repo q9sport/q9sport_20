@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eh_shopify_publish_wizard_form" model="ir.ui.view">
+        <field name="name">eh.shopify.publish.wizard.form</field>
+        <field name="model">eh.shopify.publish.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Publish to Shopify">
+                <p class="text-muted">
+                    Each product is created in Shopify with its variants, prices, internal references, barcodes and
+                    weights, then linked here. A product Shopify already has with the same internal reference is linked
+                    instead of being created again.
+                </p>
+                <group>
+                    <field name="store_id" options="{'no_create': True}"/>
+                    <field name="status" widget="radio"/>
+                    <field name="product_tmpl_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="action_publish" type="object" string="Publish" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_eh_shopify_publish_wizard" model="ir.actions.act_window">
+        <field name="name">Publish to Shopify</field>
+        <field name="res_model">eh.shopify.publish.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+    </record>
+</odoo>
