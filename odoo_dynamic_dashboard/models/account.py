@@ -20,7 +20,12 @@ class ChartsOfAccounts (models.Model):
     choose_partner = fields.Selection ( [
         ('venor' , 'Vendor') ,
         ('customer' , 'Customer') ] , string="Choose Partner Type" , store=True , tracking=True ,searchable=True )
-
+    
+### editing contact ##
+class AccountMove ( models.Model ) :
+    _inherit = 'res.partner'
+    customer = fields.Boolean(String="Customer_Type" ,default=False,readonly=False, tracking=True)
+    vendor = fields.Boolean(String="Vendor_Type" ,default=False,readonly=False, tracking=True)
 
 
 
