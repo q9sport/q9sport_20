@@ -6,7 +6,7 @@ class AccountMove ( models.Model ) :
     _inherit = 'account.move.line'
 
 
-    date=fields.Date(string="Date" ,default=lambda self: self.env.context.get('default_move_id') and self.env['account.move'].browse(self.env.context['default_move_id']).date, readonly=False , tracking=True , ondelete="restrict" ,store=True )# edit line date to be edited
+    date=fields.Date(string="Date" , readonly=False , tracking=True , ondelete="restrict" ,store=True )# edit line date to be edited
 
 
 
