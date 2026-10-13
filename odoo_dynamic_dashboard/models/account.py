@@ -25,8 +25,9 @@ class ChartsOfAccounts (models.Model):
 ### editing contact ##
 class AccountMove ( models.Model ) :
     _inherit = 'res.partner'
-    customer = fields.Boolean(string="Customer_Type" ,default=False,readonly=False, tracking=True)
-    vendor = fields.Boolean(String="Vendor_Type" ,default=False,readonly=False, tracking=True)
+    
+    customer = fields.Boolean(string="Customer Type" ,default=False,readonly=False, tracking=True)
+    vendor = fields.Boolean(string="Vendor Type" ,default=False ,readonly=False, tracking=True)
 
 
 
