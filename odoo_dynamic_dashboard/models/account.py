@@ -5,7 +5,7 @@ from odoo.exceptions import AccessError
 class AccountMove ( models.Model ) :
     _inherit = 'account.move.line'
     
-    account_analytic_enabled = fields.Boolean(related='account_id.choose_analytic_distribution',readonly=True,)
+    account_analytic_enabled = fields.Boolean(related='account_id.analytic_distribution',readonly=True,)
     partner_type =fields.Char(related='account_id.choose_partner',string="Partner Type" ,readonly=True,)
 
 
