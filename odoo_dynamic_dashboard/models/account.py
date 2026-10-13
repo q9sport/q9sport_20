@@ -6,7 +6,7 @@ class AccountMove ( models.Model ) :
     _inherit = 'account.move.line'
     
     account_analytic_enabled = fields.Boolean(related='account_id.choose_analytic_distribution',readonly=True,)
-    partner_type =field.Char(related='account_id.choose_partner',string="Partner Type" ,readonly=True,)
+    partner_type =fields.Char(related='account_id.choose_partner',string="Partner Type" ,readonly=True,)
 
 
     #journal_items_date=fields.Date(string="Item Date" ,  default=lambda self: self.env.context.get('default_move_id') andself.env['account.move'].browse( self.env.context['default_move_id']readonly=False , tracking=True , ondelete="restrict" ,store=True )# edit line date to be edited
