@@ -5,7 +5,7 @@ from odoo.exceptions import AccessError
 class AccountMove ( models.Model ) :
     _inherit = 'account.move.line'
     
-    account_analytic_enabled = fields.Jason(related='account_id.analytic_distribution',readonly=True,)
+    account_analytic_enabled = fields.Boolean(related='account_id.analytic_distribution_field',readonly=True,)
     partner_type =fields.Selection(related='account_id.choose_partner',string="Partner Type" ,store=True ,readonly=True,)
 
 
@@ -17,6 +17,7 @@ class ChartsOfAccounts (models.Model):
     _inherit = 'account.account'
     
     analytic_distribution = fields.Boolean(string="Choose Analytic Distribution" ,default=False,readonly=False, tracking=True)
+    analytic_distribution_field = fields.Boolean(string="Choose Analytic Distribution" ,default=False,readonly=False, tracking=True)
     choose_partner = fields.Selection ( [
         ('venor' , 'Vendor') ,
         ('customer' , 'Customer') ] , string="Choose Partner Type" , store=True , tracking=True ,searchable=True )
