@@ -249,7 +249,7 @@ class AccountMove ( models.Model ) :
     _inherit = 'account.move.line'
 
 
-    journal_items_date=fields.Date(string="Item Date" ,  default=lambda self: self.env.context.get('default_move_id') andself.env['account.move'].browse( self.env.context['default_move_id']readonly=False , tracking=True , ondelete="restrict" ,store=True )# edit line date to be edited
+    date=fields.Date(string="Date" , default=lambda self: (self.env['account.move'].browse(self.env.context['default_move_id']).date if self.env.context.get('default_move_id') else fields.Date.context_today(self)), readonly=False , tracking=True , ondelete="restrict" ,store=True )# edit line date to be edited
 
 
 
