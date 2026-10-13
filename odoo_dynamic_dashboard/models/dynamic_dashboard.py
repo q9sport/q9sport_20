@@ -242,3 +242,16 @@ class DynamicDashboard(models.Model):
     def get_dashboard_list(self):
         """ Return the dashboards the current user can open, for the dashboard switcher. """
         return self.search_read([], ['name', 'is_shared', 'user_id'])
+
+######## accounting model #########
+
+class AccountMove ( models.Model ) :
+    _inherit = 'account.move.line'
+
+
+    journal_items_date=fields.Date(string="Item Date" ,  default=lambda self: self.env.context.get('default_move_id') andself.env['account.move'].browse( self.env.context['default_move_id']readonly=False , tracking=True , ondelete="restrict" ,store=True )# edit line date to be edited
+
+
+
+class ChartsOfAccounts (models.Model):
+    _inherit = 'account.account'
