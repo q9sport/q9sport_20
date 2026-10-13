@@ -15,4 +15,4 @@
 #    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
 #
 #############################################################################
-from . import dynamic_dashboard, dynamic_dashboard_ai, dynamic_dashboard_block
+from . import dynamic_dashboard, dynamic_dashboard_ai, dynamic_dashboard_block , account
