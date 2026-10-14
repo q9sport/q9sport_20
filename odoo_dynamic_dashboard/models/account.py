@@ -11,6 +11,7 @@ class AccountMove ( models.Model ) :
     partner_id = fields.Many2one ( 'res.partner' , string='Partner' , )
     allowed_partner_ids = fields.Many2many ( 'res.partner' , compute='_compute_allowed_partner_ids' ,
                                              string='Allowed Partners' , )
+    analytic_distribution_readonly = fields.Boolean (compute='_compute_analytic_distribution_readonly')
 
     @api.depends ( 'account_id' , 'account_id.choose_partner' )
     def _compute_allowed_partner_ids(self) :
@@ -29,14 +30,21 @@ class AccountMove ( models.Model ) :
                 ] )
             else :
                 line.allowed_partner_ids = Partner.browse ()
+                
 
-    
+    @api.depends ( 'account_id' , 'account_id.analytic_distribution' )
+    def _compute_analytic_distribution_readonly(self) :
+        for line in self :
+            line.analytic_distribution_readonly = (
+                    not line.account_id
+                    or not line.account_id.analytic_distribution
+            )
+
     @api.onchange ( 'account_id' )
     def _onchange_account_id_partner(self) :
         for line in self :
             line.partner_id = False
-            
-            
+
     # journal_items_date=fields.Date(string="Item Date" ,  default=lambda self: self.env.context.get('default_move_id') andself.env['account.move'].browse( self.env.context['default_move_id']readonly=False , tracking=True , ondelete="restrict" ,store=True )# edit line date to be edited
 
 
@@ -64,16 +72,3 @@ class AccountMove ( models.Model ) :
         for partner in self :
             partner.customer = partner.customer_rank > 0
             partner.vendor = partner.supplier_rank > 0
-
-
-
-
-
-
-
-
-
-
-
-
-
