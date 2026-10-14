@@ -29,6 +29,18 @@ class AccountMove ( models.Model ) :
     customer = fields.Boolean(string="Customer Type" ,default=False,readonly=False, tracking=True)
     vendor = fields.Boolean(string="Vendor Type" ,default=False ,readonly=False, tracking=True)
 
+    
+    @api.onchange('supplier_rank','customer_rank')
+    def identify_contact_type (self):
+        for partner in self :
+            partner.customer = partner.customer_rank > 0
+            partner.vendor = partner.csupplier_rank > 0
+            
+            
+            
+
+    
+
 
 
 
