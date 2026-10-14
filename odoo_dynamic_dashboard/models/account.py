@@ -30,6 +30,7 @@ class AccountMove ( models.Model ) :
             else :
                 line.allowed_partner_ids = Partner.browse ()
 
+    
     @api.onchange ( 'account_id' )
     def _onchange_account_id_partner(self) :
         for line in self :
@@ -47,7 +48,7 @@ class ChartsOfAccounts ( models.Model ) :
     analytic_distribution_field = fields.Boolean ( string="Choose Analytic Distribution" , default=False ,
                                                    readonly=False , tracking=True )
     choose_partner = fields.Selection ( [
-        ('venor' , 'Vendor') ,
+        ('vendor' , 'Vendor') ,
         ('customer' , 'Customer')] , string="Choose Partner Type" , store=True , tracking=True , searchable=True )
 
 
