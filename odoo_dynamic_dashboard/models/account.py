@@ -34,7 +34,7 @@ class AccountMove ( models.Model ) :
     def identify_contact_type (self):
         for partner in self :
             partner.customer = partner.customer_rank > 0
-            partner.vendor = partner.csupplier_rank > 0
+            partner.vendor = partner.supplier_rank > 0
             
             
             
