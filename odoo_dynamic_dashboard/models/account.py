@@ -8,7 +8,7 @@ class AccountMove ( models.Model ) :
     account_analytic_enabled = fields.Boolean ( related='account_id.analytic_distribution_field' , readonly=True , )
     partner_type = fields.Selection ( related='account_id.choose_partner' , string="Partner Type" , store=True ,
                                       readonly=True , )
-    partner_id = fields.Many2one ( 'res.partner' , string='Partner' , domain="[('id', 'in', allowed_partner_ids)]" , )
+   # partner_id = fields.Many2one ( 'res.partner' , string='Partner' , domain="[('id', 'in', allowed_partner_ids)]" , )
     allowed_partner_ids = fields.Many2many ( 'res.partner' , compute='_compute_allowed_partner_ids' ,
                                              string='Allowed Partners' , )
 
@@ -25,6 +25,35 @@ class AccountMove ( models.Model ) :
                 ] )
             else :
                 line.allowed_partner_ids = self.env['res.partner'].browse ( [] )
+           
+           
+    ### identifying vendor or customer when choosing account            
+    def _onchange_account_id_partner(self):
+        for line in self:
+            line.partner_id = False
+
+            if line.account_id.choose_partner == 'vendor':
+                return {
+                    'domain': {
+                        'partner_id': [('vendor', '=', True)],
+                    }
+                }
+
+            elif line.account_id.choose_partner == 'customer':
+                return {
+                    'domain': {
+                        'partner_id': [('customer', '=', True)],
+                    }
+                }
+
+            else:
+                return {
+                    'domain': {
+                        'partner_id': [('id', '=', False)],
+                    }
+                }
+                
+
 
 
     # journal_items_date=fields.Date(string="Item Date" ,  default=lambda self: self.env.context.get('default_move_id') andself.env['account.move'].browse( self.env.context['default_move_id']readonly=False , tracking=True , ondelete="restrict" ,store=True )# edit line date to be edited
@@ -54,6 +83,8 @@ class AccountMove ( models.Model ) :
         for partner in self :
             partner.customer = partner.customer_rank > 0
             partner.vendor = partner.supplier_rank > 0
+
+
 
 
 
