@@ -7,7 +7,7 @@ class AccountMove ( models.Model ) :
 
     account_analytic_enabled = fields.Boolean ( related='account_id.analytic_distribution_field' , readonly=True , )
     partner_type = fields.Selection ( related='account_id.choose_partner' , string="Partner Type" , store=True , readonly=True , )
-    journal_item_modified_date= fields.Date(string="Modified Date JI",readonly=False, tracking="True",)
+    journal_item_modified_date= fields.Date(string="Modified Date JI",readonly=False, )
     partner_id = fields.Many2one ( 'res.partner' , string='Partner' , )
     allowed_partner_ids = fields.Many2many ( 'res.partner' , compute='_compute_allowed_partner_ids' ,
                                              string='Allowed Partners' , )
