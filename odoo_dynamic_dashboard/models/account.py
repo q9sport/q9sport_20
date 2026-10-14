@@ -27,7 +27,8 @@ class AccountMove ( models.Model ) :
                 line.allowed_partner_ids = self.env['res.partner'].browse ( [] )
            
            
-    ### identifying vendor or customer when choosing account            
+    ### identifying vendor or customer when choosing account  
+    @api.onchange('account_id')
     def _onchange_account_id_partner(self):
         for line in self:
             line.partner_id = False
