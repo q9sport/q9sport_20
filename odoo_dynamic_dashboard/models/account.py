@@ -55,6 +55,12 @@ class ChartsOfAccounts ( models.Model ) :
                                              tracking=True )
     analytic_distribution_field = fields.Boolean ( string="Choose Analytic Distribution" , default=False ,
                                                    readonly=False , tracking=True )
+    
+    analytic_plan_ids = fields.Many2many(comodel_name='account.analytic.plan', string='Analytic Plans',)
+
+    analytic_account_ids = fields.Many2many(comodel_name='account.analytic.account', string='Analytic Accounts',)
+        
+  
     choose_partner = fields.Selection ( [
          ('none' , 'None') ,
         ('vendor' , 'Vendor') ,
