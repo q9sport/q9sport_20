@@ -56,6 +56,7 @@ class ChartsOfAccounts ( models.Model ) :
     analytic_distribution_field = fields.Boolean ( string="Choose Analytic Distribution" , default=False ,
                                                    readonly=False , tracking=True )
     choose_partner = fields.Selection ( [
+         ('none' , 'None') ,
         ('vendor' , 'Vendor') ,
         ('customer' , 'Customer')] , string="Choose Partner Type" , store=True , tracking=True , searchable=True )
 
