@@ -67,6 +67,15 @@ class ChartsOfAccounts ( models.Model ) :
         ('customer' , 'Customer')] , string="Choose Partner Type" , store=True , tracking=True , searchable=True )
 
 
+## editing product 
+class ProductTemplate(model.Model):
+    _inherit ='product.template'
+    
+    arabic_name= fields.Char(string="Arabic Name",tracking=True,store=True)
+
+
+
+
 ### editing contact ##
 class AccountMove ( models.Model ) :
     _inherit = 'res.partner'
