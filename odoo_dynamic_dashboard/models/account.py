@@ -72,6 +72,7 @@ class ProductTemplate(models.Model):
     _inherit ='product.template'
     
     arabic_name= fields.Char(string="Arabic Name",tracking=True,store=True)
+    attribute_id = fields.Many2one('product.attribute',string='Product Attribute',related='attribute_line_ids.attribute_id',store=True,)
 
 
 
