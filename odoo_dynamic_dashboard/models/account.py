@@ -68,7 +68,7 @@ class ChartsOfAccounts ( models.Model ) :
 
 
 ## editing product 
-class ProductTemplate(model.Model):
+class ProductTemplate(models.Model):
     _inherit ='product.template'
     
     arabic_name= fields.Char(string="Arabic Name",tracking=True,store=True)
