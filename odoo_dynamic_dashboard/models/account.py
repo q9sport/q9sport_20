@@ -45,19 +45,33 @@ class AccountMove ( models.Model ) :
 
     #### copy the journal item ####
     def copy_journal_line(self):
-        self.ensure_one ()
+        self.ensure_one()
 
-        move = self.move_id
-
-        if move.state != 'draft' :
+        if self.move_id.state != 'draft':
             return False
 
-        self.copy ( {
-            'move_id' : move.id ,
-            'sequence' : self.sequence + 1 ,
-        } )
+        self.copy({
+            'move_id': self.move_id.id,
+            'sequence': self.sequence + 1,
+            'debit': 0.0,
+            'credit': 0.0,
+            'amount_currency': 0.0,
+        })
 
         return True
+        # self.ensure_one ()
+        # 
+        # move = self.move_id
+        # 
+        # if move.state != 'draft' :
+        #     return False
+        # 
+        # self.copy ( {
+        #     'move_id' : move.id ,
+        #     'sequence' : self.sequence + 1 ,
+        # } )
+        # 
+        # return True
 
     @api.onchange ( 'account_id' )
     def _onchange_account_id_partner(self) :
