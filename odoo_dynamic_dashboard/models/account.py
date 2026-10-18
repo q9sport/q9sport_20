@@ -45,10 +45,14 @@ class AccountMove ( models.Model ) :
 
     #### copy the journal item ####
     def copy_journal_line(self):
-        for line in self:
-            line.copy({
-                'move_id': line.move_id.id,
-            })
+        self.ensure_one()
+
+        self.copy({
+            'move_id': self.move_id.id,
+            'sequence': self.sequence + 1,
+        })
+
+        return True
 
 
     @api.onchange ( 'account_id' )
