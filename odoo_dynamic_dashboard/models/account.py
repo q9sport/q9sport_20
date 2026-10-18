@@ -6,12 +6,15 @@ class AccountMove ( models.Model ) :
     _inherit = 'account.move.line'
 
     account_analytic_enabled = fields.Boolean ( related='account_id.analytic_distribution_field' , readonly=True , )
-    partner_type = fields.Selection ( related='account_id.choose_partner' , string="Partner Type" , store=True , readonly=True , )
-    journal_item_modified_date= fields.Date(string="Modified Date JI",readonly=False, )
+    partner_type = fields.Selection ( related='account_id.choose_partner' , string="Partner Type" , store=True ,
+                                      readonly=True , )
+    journal_item_modified_date = fields.Date ( string="Modified Date JI" , readonly=False , )
     partner_id = fields.Many2one ( 'res.partner' , string='Partner' , )
     allowed_partner_ids = fields.Many2many ( 'res.partner' , compute='_compute_allowed_partner_ids' ,
                                              string='Allowed Partners' , )
-    analytic_distribution_readonly = fields.Boolean (compute='_compute_analytic_distribution_readonly')
+    analytic_distribution_readonly = fields.Boolean ( compute='_compute_analytic_distribution_readonly' )
+
+
 
     @api.depends ( 'account_id' , 'account_id.choose_partner' )
     def _compute_allowed_partner_ids(self) :
@@ -30,7 +33,6 @@ class AccountMove ( models.Model ) :
                 ] )
             else :
                 line.allowed_partner_ids = Partner.browse ()
-                
 
     @api.depends ( 'account_id' , 'account_id.analytic_distribution' )
     def _compute_analytic_distribution_readonly(self) :
@@ -39,6 +41,15 @@ class AccountMove ( models.Model ) :
                     not line.account_id
                     or not line.account_id.analytic_distribution
             )
+
+
+    #### copy the journal item ####
+    def copy_journal_line(self):
+        for line in self:
+            line.copy({
+                'move_id': line.move_id.id,
+            })
+
 
     @api.onchange ( 'account_id' )
     def _onchange_account_id_partner(self) :
@@ -55,26 +66,24 @@ class ChartsOfAccounts ( models.Model ) :
                                              tracking=True )
     analytic_distribution_field = fields.Boolean ( string="Choose Analytic Distribution" , default=False ,
                                                    readonly=False , tracking=True )
-    
-    analytic_plan_ids = fields.Many2many(comodel_name='account.analytic.plan', string='Analytic Plans',)
 
-    analytic_account_ids = fields.Many2many(comodel_name='account.analytic.account', string='Analytic Accounts',)
-        
-  
+    analytic_plan_ids = fields.Many2many ( comodel_name='account.analytic.plan' , string='Analytic Plans' , )
+
+    analytic_account_ids = fields.Many2many ( comodel_name='account.analytic.account' , string='Analytic Accounts' , )
+
     choose_partner = fields.Selection ( [
-         ('none' , 'None') ,
+        ('none' , 'None') ,
         ('vendor' , 'Vendor') ,
         ('customer' , 'Customer')] , string="Choose Partner Type" , store=True , tracking=True , searchable=True )
 
 
-## editing product 
-class ProductTemplate(models.Model):
-    _inherit ='product.template'
-    
-    arabic_name= fields.Char(string="Arabic Name",tracking=True,store=True)
-    attribute_id = fields.Many2one('product.attribute',string='Product Attribute',related='attribute_line_ids.attribute_id',store=True,)
+## editing product
+class ProductTemplate ( models.Model ) :
+    _inherit = 'product.template'
 
-
+    arabic_name = fields.Char ( string="Arabic Name" , tracking=True , store=True )
+    attribute_id = fields.Many2one ( 'product.attribute' , string='Product Attribute' ,
+                                     related='attribute_line_ids.attribute_id' , store=True , )
 
 
 ### editing contact ##
