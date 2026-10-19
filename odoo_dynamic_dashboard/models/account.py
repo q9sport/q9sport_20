@@ -141,6 +141,25 @@ class AccountAnalyticLine(models.Model):
         compute='_compute_debit_credit_display',
     )
 
+    journal_item_modified_date = fields.Date (
+        string="Modified Date JI" ,
+        compute='_compute_journal_item_modified_date' ,
+    )
+
+    def _compute_journal_item_modified_date(self) :
+        MoveLine = self.env['account.move.line']
+
+        for line in self :
+            move_line = MoveLine.search ( [
+                ('analytic_line_ids' , 'in' , line.id) ,
+            ] , limit=1 )
+
+            line.journal_item_modified_date = (
+                move_line.journal_item_modified_date
+                if move_line else False
+            )
+            
+
     @api.depends('amount')
     def _compute_debit_credit_display(self):
         for line in self:
@@ -148,3 +167,6 @@ class AccountAnalyticLine(models.Model):
                 'debit' if line.amount < 0 else 'credit'
             )
             line.debit_credit_amount = abs(line.amount)
+
+    
+            
