@@ -60,17 +60,17 @@ class AccountMove ( models.Model ) :
 
         return True
         # self.ensure_one ()
-        # 
+        #
         # move = self.move_id
-        # 
+        #
         # if move.state != 'draft' :
         #     return False
-        # 
+        #
         # self.copy ( {
         #     'move_id' : move.id ,
         #     'sequence' : self.sequence + 1 ,
         # } )
-        # 
+        #
         # return True
 
     @api.onchange ( 'account_id' )
@@ -120,3 +120,31 @@ class AccountMove ( models.Model ) :
         for partner in self :
             partner.customer = partner.customer_rank > 0
             partner.vendor = partner.supplier_rank > 0
+
+
+
+class AccountAnalyticLine(models.Model):
+    _inherit = 'account.analytic.line'
+
+    debit_credit_type = fields.Selection(
+        [
+            ('debit', 'Debit'),
+            ('credit', 'Credit'),
+        ],
+        string='Type',
+        compute='_compute_debit_credit_display',
+    )
+
+    debit_credit_amount = fields.Monetary(
+        string='Amount_',
+        currency_field='currency_id',
+        compute='_compute_debit_credit_display',
+    )
+
+    @api.depends('amount')
+    def _compute_debit_credit_display(self):
+        for line in self:
+            line.debit_credit_type = (
+                'debit' if line.amount < 0 else 'credit'
+            )
+            line.debit_credit_amount = abs(line.amount)
