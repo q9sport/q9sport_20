@@ -107,6 +107,13 @@ class ProductTemplate ( models.Model ) :
     arabic_name = fields.Char ( string="Arabic Name" , tracking=True , store=True )
     attribute_id = fields.Many2one ( 'product.attribute' , string='Product Attribute' ,
                                      related='attribute_line_ids.attribute_id' , store=True , )
+    product_tags_id = fields.Many2many(
+        comodel_name='product.tag',
+        string='Season',
+        relation='product_template_product_tag_rel',
+        column1='product_template_id',
+        column2='product_tag_id',
+    )
 
 
 ### editing contact ##
