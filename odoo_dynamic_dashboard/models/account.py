@@ -12,7 +12,7 @@ class AccountMove ( models.Model ) :
     partner_id = fields.Many2one ( 'res.partner' , string='Partner' , )
     allowed_partner_ids = fields.Many2many ( 'res.partner' , compute='_compute_allowed_partner_ids' ,
                                              string='Allowed Partners' , )
-    date = fields.Date(string='Date', required=True, default=fields.Date.context_today, index=True, copy=True, related=False, compute=False,readonly=False,)
+    # date = fields.Date(string='Date', required=True, default=fields.Date.context_today, index=True, copy=True, related=False, compute=False,readonly=False,)
     analytic_distribution_readonly = fields.Boolean ( compute='_compute_analytic_distribution_readonly' )
 
 
