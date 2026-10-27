@@ -39,7 +39,7 @@ Build dashboards without code, right in Odoo:
     'company': 'Cybrosys Techno Solutions',
     'maintainer': 'Cybrosys Techno Solutions',
     'website': "https://www.cybrosys.com",
-    'depends': ['web', 'iap','account'],
+    'depends': ['web', 'iap','account' ,'account_reports'],
     'data': [
         'security/odoo_dynamic_dashboard_security.xml',
         'security/ir.access.csv',
