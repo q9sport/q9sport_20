@@ -46,12 +46,17 @@ Build dashboards without code, right in Odoo:
         'views/dynamic_dashboard_block_views.xml',
         'views/dynamic_dashboard_views.xml',
         'views/odoo_dynamic_dashboard_menus.xml',
+        # 'views/general_ledger_description.xml',
+      
     ],
     'assets': {
         'web.assets_backend': [
             'odoo_dynamic_dashboard/static/src/**/*.scss',
             'odoo_dynamic_dashboard/static/src/**/*.js',
             'odoo_dynamic_dashboard/static/src/**/*.xml',
+            'odoo_dynamic_dashboard/static/src/components/account_report/filters/account_selection.xml',
+            'odoo_dynamic_dashboard/static/src/components/account_report/filters/account_selection_hook.xml',
+            # 'odoo_dynamic_dashboard/views/copy_journal_line.xml',
         ],
         'web.assets_unit_tests': [
             'odoo_dynamic_dashboard/static/tests/**/*.test.js',

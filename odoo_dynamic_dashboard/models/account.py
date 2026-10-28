@@ -12,9 +12,46 @@ class AccountMove ( models.Model ) :
     partner_id = fields.Many2one ( 'res.partner' , string='Partner' , )
     allowed_partner_ids = fields.Many2many ( 'res.partner' , compute='_compute_allowed_partner_ids' ,
                                              string='Allowed Partners' , )
+    # date = fields.Date(string='Date', required=True, default=fields.Date.context_today, index=True, copy=True, related=False, compute=False,readonly=False,)
     analytic_distribution_readonly = fields.Boolean ( compute='_compute_analytic_distribution_readonly' )
+    #copy_line_button = fields.Boolean ( string="Copy" , compute="_compute_copy_line_button" , )
 
+    def action_copy_reverse_line(self) :
+        self.ensure_one ()
 
+        move = self.move_id
+
+        if not move :
+            raise UserError ( "سطر القيد غير مرتبط بقيد محاسبي." )
+
+        if move.state != 'draft' :
+            raise UserError ( "يمكن نسخ وعكس السطر في القيود المسودة فقط." )
+
+        if self.display_type != 'product' and self.display_type != 'payment_term' and self.display_type != 'tax' and self.display_type != 'rounding' and self.display_type != 'epd' and self.display_type != 'cogs' and self.display_type != 'asset_receivable' and self.display_type != 'line_section' and self.display_type != 'line_note' :
+            # السماح فقط بسطر محاسبي فعلي
+            pass
+
+        if self.display_type in ('line_section' , 'line_note') :
+            raise UserError ( "لا يمكن عكس سطر عنوان أو ملاحظة." )
+
+        vals = self.copy_data ()[0]
+
+        # عكس المدين والدائن
+        vals['debit'] = self.credit
+        vals['credit'] = self.debit
+
+        # الحفاظ على نفس القيد
+        vals['move_id'] = move.id
+
+        # إنشاء السطر الجديد
+        new_line = self.create ( vals )
+
+        return {
+            'type' : 'ir.actions.client' ,
+            'tag' : 'reload' ,
+        }
+
+    ##############
 
     @api.depends ( 'account_id' , 'account_id.choose_partner' )
     def _compute_allowed_partner_ids(self) :
@@ -42,23 +79,33 @@ class AccountMove ( models.Model ) :
                     or not line.account_id.analytic_distribution
             )
 
-
     #### copy the journal item ####
-    def copy_journal_line(self):
-        self.ensure_one()
+    def copy_journal_line(self) :
+        self.ensure_one ()
 
-        if self.move_id.state != 'draft':
+        move = self.move_id
+
+        if move.state != 'draft' :
             return False
 
-        self.copy({
-            'move_id': self.move_id.id,
-            'sequence': self.sequence + 1,
-            'debit': 0.0,
-            'credit': 0.0,
-            'amount_currency': 0.0,
-        })
+        vals = self.copy_data ()[0]
 
-        return True
+        vals.update ( {
+            'move_id' : move.id ,
+            'sequence' : self.sequence + 1 ,
+            'debit' : self.credit ,
+            'credit' : self.debit ,
+            'amount_currency' : -self.amount_currency ,
+        } )
+
+        self.env['account.move.line'].with_context (
+            check_move_validity=False
+        ).create ( vals )
+
+        return {
+            'type' : 'ir.actions.client' ,
+            'tag' : 'reload' ,
+        }
         # self.ensure_one ()
         #
         # move = self.move_id
@@ -96,7 +143,8 @@ class ChartsOfAccounts ( models.Model ) :
     choose_partner = fields.Selection ( [
         ('none' , 'None') ,
         ('vendor' , 'Vendor') ,
-        ('customer' , 'Customer')] , string="Choose Partner Type" , store=True , tracking=True , searchable=True )
+        ('customer' , 'Customer') ,
+        ('all' , 'All')] , string="Choose Partner Type" , store=True , tracking=True , searchable=True )
 
 
 ## editing product
@@ -106,6 +154,13 @@ class ProductTemplate ( models.Model ) :
     arabic_name = fields.Char ( string="Arabic Name" , tracking=True , store=True )
     attribute_id = fields.Many2one ( 'product.attribute' , string='Product Attribute' ,
                                      related='attribute_line_ids.attribute_id' , store=True , )
+    product_tags_id = fields.Many2many (
+        comodel_name='product.tag' ,
+        string='Season' ,
+        relation='product_template_product_tag_rel' ,
+        column1='product_template_id' ,
+        column2='product_tag_id' ,
+    )
 
 
 ### editing contact ##
@@ -122,23 +177,22 @@ class AccountMove ( models.Model ) :
             partner.vendor = partner.supplier_rank > 0
 
 
-
-class AccountAnalyticLine(models.Model):
+class AccountAnalyticLine ( models.Model ) :
     _inherit = 'account.analytic.line'
 
-    debit_credit_type = fields.Selection(
+    debit_credit_type = fields.Selection (
         [
-            ('debit', 'Debit'),
-            ('credit', 'Credit'),
-        ],
-        string='Type',
-        compute='_compute_debit_credit_display',
+            ('debit' , 'Debit') ,
+            ('credit' , 'Credit') ,
+        ] ,
+        string='Type' ,
+        compute='_compute_debit_credit_display' ,
     )
 
-    debit_credit_amount = fields.Monetary(
-        string='Amount_',
-        currency_field='currency_id',
-        compute='_compute_debit_credit_display',
+    debit_credit_amount = fields.Monetary (
+        string='Amount_' ,
+        currency_field='currency_id' ,
+        compute='_compute_debit_credit_display' ,
     )
 
     journal_item_modified_date = fields.Date (
@@ -158,15 +212,40 @@ class AccountAnalyticLine(models.Model):
                 move_line.journal_item_modified_date
                 if move_line else False
             )
-            
 
-    @api.depends('amount')
-    def _compute_debit_credit_display(self):
-        for line in self:
+    @api.depends ( 'amount' )
+    def _compute_debit_credit_display(self) :
+        for line in self :
             line.debit_credit_type = (
                 'debit' if line.amount < 0 else 'credit'
             )
-            line.debit_credit_amount = abs(line.amount)
 
-    
-            
+
+# ### class for editing the general ledger
+# class AccountReport(models.Model):
+#     _inherit = 'account.report'
+
+#     def _report_engine_journal_item_description(
+#         self, aml_id, options=None, date_scope=None,
+#         formulas_dict=None, groupby=None, warnings=None,
+#     ):
+#         aml = self.env['account.move.line'].browse(aml_id).exists()
+class AccountReport ( models.Model ) :
+    _inherit = 'account.report'
+
+    def _report_engine_general_ledger(
+            self , expressions , options , date_scope ,
+            current_groupby , next_groupby ,
+            offset=0 , limit=None , warnings=None
+    ) :
+        result = super ()._report_engine_general_ledger (
+            expressions ,
+            options ,
+            date_scope ,
+            current_groupby ,
+            next_groupby ,
+            offset=offset ,
+            limit=limit ,
+            warnings=warnings ,
+        )
+        return result
