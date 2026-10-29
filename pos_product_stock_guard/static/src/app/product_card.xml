@@ -4,11 +4,13 @@
         <xpath expr="//article" position="inside">
             <t t-set="guardQty" t-value="this.stockGuardQty"/>
             
+
 <span t-if="guardQty !== null"
-      class="o_stock_guard_badge position-absolute fw-bold"
+      class="o_stock_guard_badge position-absolute top-0 end-0 m-1 fw-bold"
       t-att-class="guardQty > 0 ? 'o_stock_guard_in' : 'o_stock_guard_out'"
-      t-att-style="'top: 2px; right: 2px; width: 48px; font-size: 9px; line-height: 15px; text-align: center; transform: rotate(45deg); transform-origin: top right; z-index: 5; border-radius: 0; padding: 0; background-color: ' + (guardQty > 0 ? '#a8e6b0' : '#f5b7b1') + '; color: ' + (guardQty > 0 ? '#185c2b' : '#842029') + '; box-shadow: none;'"
+      t-att-style="'width: 48px; height: 16px; line-height: 16px; padding: 0; font-size: 9px; text-align: center; transform: rotate(45deg); transform-origin: center; border-radius: 0; z-index: 5; background-color: ' + (guardQty > 0 ? '#b7e4c7' : '#f5c2c7') + '; color: ' + (guardQty > 0 ? '#245c38' : '#842029') + ';'"
       t-out="this.stockGuardQtyText"/>
+
 
             <!-- <span t-if="guardQty !== null"
                   class="o_stock_guard_badge position-absolute top-0 start-0 m-1 px-2 rounded-pill fw-bold"
