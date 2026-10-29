@@ -1,0 +1,301 @@
+<!-- POS Stock Display &amp; Block by Awins -->
+<link rel="stylesheet" type="text/css" href="https://apps.odoo.com/web/assets/1/4b2cae2/web.assets_frontend.min.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<!--
+  Tokens (inline, no <style> allowed on the store):
+  ink #14212b &#183; slate #51606e &#183; rule #dde3e9 &#183; panel #f2f4f7 &#183; paper #ffffff &#183; accent #1d4ed8 &#183; accent tint #dbe6ff
+  display: 'Bricolage Grotesque' &#183; body: 'Source Sans 3' &#183; mono: 'IBM Plex Mono' (each with a system fallback)
+-->
+
+<div class="container x_wd" style="max-width: 1120px; padding-top: 2.5rem; padding-bottom: 3rem; color: #14212b; font-family: 'Source Sans 3', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 17px; line-height: 1.6;">
+
+    <!-- 1. MASTHEAD: breadcrumb, name, one sentence, statusbar, framed screen + facts sheet -->
+    <div style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; color: #51606e; margin-bottom: 1.25rem;">
+        Apps <span style="color: #b3bdc7;">/</span> Awins <span style="color: #b3bdc7;">/</span> <span style="color: #14212b;">pos_product_stock_guard</span>
+    </div>
+
+    <div class="row g-4 align-items-end" style="margin-bottom: 1.75rem;">
+        <div class="col-lg-8" style="min-width: 0;">
+            <h1 style="font-family: 'Bricolage Grotesque', 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 800; font-size: 3rem; line-height: 1.05; letter-spacing: -0.03em; margin: 0 0 0.9rem 0; color: #14212b;">
+                POS Stock Display &amp; Block</h1>
+            <p style="font-size: 1.2rem; line-height: 1.55; color: #2c3a46; margin: 0; max-width: 40rem;">
+                Shows the stock left on every POS product card, and warns or blocks the cashier before an order asks for more than you have.</p>
+        </div>
+        <div class="col-lg-4">
+            <!-- statusbar: the three stages explained under "Getting started" -->
+            <div style="font-size: 0.82rem; font-weight: 600; line-height: 2.2;">
+                <span style="display: inline-block; background-color: #f2f4f7; color: #51606e; padding: 0.35rem 0.9rem; border-radius: 999px;">Install</span><span style="color: #8a97a4; margin: 0 0.35rem;">&#8250;</span><!-- BAR:CONFIGURE --><span style="display: inline-block; background-color: #f2f4f7; color: #51606e; padding: 0.35rem 0.9rem; border-radius: 999px;">Configure</span><span style="color: #8a97a4; margin: 0 0.35rem;">&#8250;</span><!-- /BAR:CONFIGURE --><span style="display: inline-block; background-color: #1d4ed8; color: #ffffff; padding: 0.35rem 0.9rem; border-radius: 999px;">Use</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4" style="margin-bottom: 4rem;">
+        <div class="col-12" style="min-width: 0;">
+            <div style="border: 1px solid #dde3e9; border-radius: 8px; background-color: #ffffff;">
+                <div style="background-color: #f2f4f7; border-bottom: 1px solid #dde3e9; border-radius: 8px 8px 0 0; padding: 0.45rem 0.9rem; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.74rem; color: #51606e;">
+                    /pos/ui/1 &#183; signed in as Mitchell Admin</div>
+                <img src="images/masthead.png" alt="POS Stock Display &amp; Block in the Odoo backend" class="img-fluid d-block w-100"
+                    onerror="this.src='https://placehold.co/1280x720/f2f4f7/8a97a4?text=Screenshot';" />
+            </div>
+        </div>
+        <div class="col-12">
+            <!-- facts sheet: full width under the screenshot -->
+            <div style="background-color: #f2f4f7; border-radius: 8px; padding: 1.25rem 1.35rem; font-size: 0.92rem;">
+                <img src="icon.png" alt="" style="width: 48px; height: 48px; border-radius: 10px; margin-bottom: 1rem;" onerror="this.style.display='none';" />
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr><td style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #51606e; padding: 0.3rem 0.75rem 0.3rem 0; vertical-align: top; width: 7.2rem;">Odoo</td><td style="font-weight: 600; padding: 0.3rem 0; vertical-align: top;">17.0, 18.0, 19.0, 20.0</td></tr>
+                    <tr><td style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #51606e; padding: 0.3rem 0.75rem 0.3rem 0; vertical-align: top; width: 7.2rem;">Editions</td><td style="font-weight: 600; padding: 0.3rem 0; vertical-align: top;">Community, Enterprise</td></tr>
+                    <tr><td style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #51606e; padding: 0.3rem 0.75rem 0.3rem 0; vertical-align: top; width: 7.2rem;">Works with</td><td style="font-weight: 600; padding: 0.3rem 0; vertical-align: top;">Point of Sale, PoS - Stock</td></tr>
+                    <tr><td style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #51606e; padding: 0.3rem 0.75rem 0.3rem 0; vertical-align: top; width: 7.2rem;">Licence</td><td style="font-weight: 600; padding: 0.3rem 0; vertical-align: top;">LGPL-3, free</td></tr>
+                    <tr><td style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #51606e; padding: 0.3rem 0.75rem 0.3rem 0; vertical-align: top; width: 7.2rem;">Tests</td><td style="font-weight: 600; padding: 0.3rem 0; vertical-align: top;">10 automated, run on every version</td></tr>
+                    <tr><td style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #51606e; padding: 0.3rem 0.75rem 0.3rem 0; vertical-align: top; width: 7.2rem;">Module</td><td style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.82rem; padding: 0.3rem 0; vertical-align: top;">pos_<wbr>product_<wbr>stock_<wbr>guard</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. THE SITUATION -->
+    <div class="row g-4" style="margin-bottom: 4rem;">
+        <div class="col-lg-3">
+            <h2 style="font-family: 'Bricolage Grotesque', 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 600; font-size: 1.05rem; color: #1d4ed8; margin: 0.35rem 0 0 0;">The situation</h2>
+        </div>
+        <div class="col-lg-8" style="min-width: 0;">
+            <p style="font-size: 1.12rem; margin: 0 0 1rem 0; max-width: 40rem;">The register shows a name, a picture and a price, but not how many units are on the shelf. A cashier sells 3 Monitor Stands when WH/Stock holds 1, the delivery goes negative, and someone has to call the customer back. To check, the cashier opens the product info popup for every item or asks the back office.</p>
+            <p style="font-size: 1.12rem; margin: 0; max-width: 40rem;">The module puts the available quantity in a corner of each storable product card, green when there is stock and red at zero or below. Each point of sale chooses which quantity to show, which location to read, and whether an order that asks for more is allowed, confirmed or refused.</p>
+        </div>
+    </div>
+
+    <!-- 3. WHAT IT ADDS: one row per real addition; tag = the real field / menu / report name -->
+    <div class="row g-4" style="margin-bottom: 4rem;">
+        <div class="col-lg-3">
+            <h2 style="font-family: 'Bricolage Grotesque', 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 600; font-size: 1.05rem; color: #1d4ed8; margin: 0.35rem 0 0 0;">What it adds</h2>
+        </div>
+        <div class="col-lg-9" style="min-width: 0;">
+            
+            <div class="row g-2" style="padding: 1.1rem 0; border-top: 1px solid #dde3e9;">
+                <div class="col-md-4">
+                    <span style="display: inline-block; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; background-color: #dbe6ff; color: #14212b; padding: 0.2rem 0.55rem; border-radius: 4px;">Stock on Product Cards</span>
+                </div>
+                <div class="col-md-8" style="min-width: 0;">
+                    <div style="font-weight: 600; margin-bottom: 0.2rem;">Stock badge on the card</div>
+                    <div style="color: #2c3a46;">A small badge in the top-left corner of the card shows what is left. It drops as lines are added to any open order on the register and turns red at 0.</div>
+                    <div style="color: #51606e; font-size: 0.9rem; margin-top: 0.35rem;"><span style="font-weight: 600;">Without it:</span> Standard Odoo shows stock only inside the product info popup.</div>
+                </div>
+            </div>
+            
+            <div class="row g-2" style="padding: 1.1rem 0; border-top: 1px solid #dde3e9;">
+                <div class="col-md-4">
+                    <span style="display: inline-block; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; background-color: #dbe6ff; color: #14212b; padding: 0.2rem 0.55rem; border-radius: 4px;">Quantity Shown</span>
+                </div>
+                <div class="col-md-8" style="min-width: 0;">
+                    <div style="font-weight: 600; margin-bottom: 0.2rem;">On Hand, Free to Use or Forecasted</div>
+                    <div style="color: #2c3a46;">On Hand is what is in the location now. Free to Use takes off what is already reserved for other transfers. Forecasted adds incoming and removes outgoing transfers.</div>
+                </div>
+            </div>
+            
+            <div class="row g-2" style="padding: 1.1rem 0; border-top: 1px solid #dde3e9;">
+                <div class="col-md-4">
+                    <span style="display: inline-block; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; background-color: #dbe6ff; color: #14212b; padding: 0.2rem 0.55rem; border-radius: 4px;">Stock Location</span>
+                </div>
+                <div class="col-md-8" style="min-width: 0;">
+                    <div style="font-weight: 600; margin-bottom: 0.2rem;">Location per point of sale</div>
+                    <div style="color: #2c3a46;">Leave it empty to read the source location of the Operation Type, sub-locations included. Pick another internal location for a shop that sells from its own room.</div>
+                </div>
+            </div>
+            
+            <div class="row g-2" style="padding: 1.1rem 0; border-top: 1px solid #dde3e9;">
+                <div class="col-md-4">
+                    <span style="display: inline-block; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; background-color: #dbe6ff; color: #14212b; padding: 0.2rem 0.55rem; border-radius: 4px;">Out-of-Stock Products</span>
+                </div>
+                <div class="col-md-8" style="min-width: 0;">
+                    <div style="font-weight: 600; margin-bottom: 0.2rem;">Allow, Warn or Block</div>
+                    <div style="color: #2c3a46;">Warn opens a 'Not enough stock' dialog with Add anyway and Cancel. Block shows 'Out of stock' and the product is not added.</div>
+                    <div style="color: #51606e; font-size: 0.9rem; margin-top: 0.35rem;"><span style="font-weight: 600;">Without it:</span> Standard Odoo adds the line and lets the stock go negative.</div>
+                </div>
+            </div>
+            
+            <div class="row g-2" style="padding: 1.1rem 0; border-top: 1px solid #dde3e9;">
+                <div class="col-md-4">
+                    <span style="display: inline-block; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; background-color: #dbe6ff; color: #14212b; padding: 0.2rem 0.55rem; border-radius: 4px;">Numpad quantity</span>
+                </div>
+                <div class="col-md-8" style="min-width: 0;">
+                    <div style="font-weight: 600; margin-bottom: 0.2rem;">Raising a line is checked too</div>
+                    <div style="color: #2c3a46;">In Block mode, typing 5 on a line of 2 when only 2 are in stock is refused. In Warn mode a notification tells the cashier how many are left.</div>
+                </div>
+            </div>
+            
+            <div class="row g-2" style="padding: 1.1rem 0; border-top: 1px solid #dde3e9;">
+                <div class="col-md-4">
+                    <span style="display: inline-block; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; background-color: #dbe6ff; color: #14212b; padding: 0.2rem 0.55rem; border-radius: 4px;">Can Sell Out of Stock</span>
+                </div>
+                <div class="col-md-8" style="min-width: 0;">
+                    <div style="font-weight: 600; margin-bottom: 0.2rem;">Manager override</div>
+                    <div style="color: #2c3a46;">Users of the chosen group get the confirmation instead of the block. It starts as Point of Sale / Administrator; leave it empty so nobody can override.</div>
+                </div>
+            </div>
+            
+            <div class="row g-2" style="padding: 1.1rem 0; border-top: 1px solid #dde3e9;">
+                <div class="col-md-4">
+                    <span style="display: inline-block; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; background-color: #dbe6ff; color: #14212b; padding: 0.2rem 0.55rem; border-radius: 4px;">Services and consumables</span>
+                </div>
+                <div class="col-md-8" style="min-width: 0;">
+                    <div style="font-weight: 600; margin-bottom: 0.2rem;">Only storable products count</div>
+                    <div style="color: #2c3a46;">Services, consumables and combo headers get no badge and are never blocked, so a delivery fee or a gift card always goes through.</div>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid #dde3e9;"></div>
+        </div>
+    </div>
+
+    <!-- 4. GETTING STARTED: the three statusbar stages, in order -->
+    <div style="margin-bottom: 4rem;">
+        <h2 style="font-family: 'Bricolage Grotesque', 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 800; font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 2rem 0;">Getting started</h2>
+
+        <div class="row g-4" style="margin-bottom: 2.5rem;">
+            <div class="col-lg-3">
+                <span style="display: inline-block; background-color: #f2f4f7; color: #51606e; font-size: 0.82rem; font-weight: 600; padding: 0.35rem 0.9rem; border-radius: 999px;">Install</span>
+            </div>
+            <div class="col-lg-8" style="min-width: 0;">
+                <p style="margin: 0 0 0.5rem 0;">Open Apps, clear the Apps filter, search for POS Stock Display & Block and click Activate. On Odoo 20 it needs PoS - Stock, the link between Point of Sale and Inventory. Close and reopen the POS session afterwards so the register reloads its files.</p>
+                <code style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.8rem; color: #14212b; background-color: #f2f4f7; padding: 0.15rem 0.45rem; border-radius: 4px;">Apps &#8250; pos_product_stock_guard &#8250; Activate</code>
+            </div>
+        </div>
+
+        <!-- STAGE:CONFIGURE -->
+        <div class="row g-4" style="margin-bottom: 2.5rem;">
+            <div class="col-12">
+                <span style="display: inline-block; background-color: #f2f4f7; color: #51606e; font-size: 0.82rem; font-weight: 600; padding: 0.35rem 0.9rem; border-radius: 999px;">Configure</span>
+            </div>
+            <div class="col-12" style="min-width: 0;">
+                <p style="margin: 0 0 0.5rem 0; max-width: 40rem;">Open the settings of a point of sale and go to the Inventory block. Tick Stock on Product Cards, pick the Quantity Shown and, if needed, a Stock Location. Then choose what happens with Out-of-Stock Products and, for Block, who Can Sell Out of Stock. Every setting is per point of sale.</p>
+                <code style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.8rem; color: #14212b; background-color: #f2f4f7; padding: 0.15rem 0.45rem; border-radius: 4px;">Point of Sale &#8250; Configuration &#8250; Settings &#8250; Inventory</code>
+                <img src="images/configure.png" alt="Settings for POS Stock Display &amp; Block" class="img-fluid d-block w-100"
+                    style="margin-top: 1.25rem; border: 1px solid #dde3e9; border-radius: 8px;"
+                    onerror="this.src='https://placehold.co/1280x720/f2f4f7/8a97a4?text=Settings';" />
+            </div>
+        </div>
+
+        <!-- /STAGE:CONFIGURE -->
+        <div class="row g-4">
+            <div class="col-12">
+                <span style="display: inline-block; background-color: #1d4ed8; color: #ffffff; font-size: 0.82rem; font-weight: 600; padding: 0.35rem 0.9rem; border-radius: 999px;">Use</span>
+            </div>
+            <div class="col-12" style="min-width: 0;">
+                <p style="margin: 0 0 1.25rem 0; max-width: 40rem;">Open the register as usual. The quantities are read once when the register loads, and the register subtracts what it rings up from then on. Click a product with nothing left and the cashier sees the dialog of the mode you chose.</p>
+                <div class="row g-3">
+                    <div class="col-12" style="margin-bottom: 1.5rem;">
+                        <img src="images/use_1.png" alt="Block mode: Monitor Stand has 1 unit and it is already on the order, so a second one is refused." class="img-fluid d-block w-100" style="border: 1px solid #dde3e9; border-radius: 8px;"
+                            onerror="this.src='https://placehold.co/1280x720/f2f4f7/8a97a4?text=Screen';" />
+                        <div style="font-size: 0.85rem; color: #51606e; margin-top: 0.5rem;">Block mode: Monitor Stand has 1 unit and it is already on the order, so a second one is refused.</div>
+                    </div>
+                    <div class="col-12" style="margin-bottom: 1.5rem;">
+                        <img src="images/use_2.png" alt="Warn mode, or Block for a POS Administrator: the cashier can still add Office Lamp after confirming." class="img-fluid d-block w-100" style="border: 1px solid #dde3e9; border-radius: 8px;"
+                            onerror="this.src='https://placehold.co/1280x720/f2f4f7/8a97a4?text=Screen';" />
+                        <div style="font-size: 0.85rem; color: #51606e; margin-top: 0.5rem;">Warn mode, or Block for a POS Administrator: the cashier can still add Office Lamp after confirming.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. FINE PRINT: questions this module really raises -->
+    <div style="background-color: #f2f4f7; border-radius: 12px; padding: 2.25rem 1.75rem; margin-bottom: 4rem;">
+        <h2 style="font-family: 'Bricolage Grotesque', 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 800; font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 1.75rem 0;">Fine print</h2>
+        <div class="row g-4">
+            
+            <div class="col-md-6">
+                <div style="font-weight: 600; margin-bottom: 0.3rem;">When are the quantities refreshed?</div>
+                <div style="color: #2c3a46; font-size: 0.97rem;">When the register loads. After that the register lowers them itself for every line it rings up, paid or not. Reload the POS to read the stock again, for example after a delivery came in.</div>
+            </div>
+            
+            <div class="col-md-6">
+                <div style="font-weight: 600; margin-bottom: 0.3rem;">Do two registers see each other's sales?</div>
+                <div style="color: #2c3a46; font-size: 0.97rem;">Only after a reload. Each register reads the stock when it starts and then counts its own orders, so two tills selling the last unit at the same minute can both sell it.</div>
+            </div>
+            
+            <div class="col-md-6">
+                <div style="font-weight: 600; margin-bottom: 0.3rem;">What happens offline?</div>
+                <div style="color: #2c3a46; font-size: 0.97rem;">If the register can't reach the server to read a quantity, that product has no badge and is never blocked. Selling never stops because a figure is missing.</div>
+            </div>
+            
+            <div class="col-md-6">
+                <div style="font-weight: 600; margin-bottom: 0.3rem;">Where can I run it?</div>
+                <div style="color: #2c3a46; font-size: 0.97rem;">On Odoo.sh and on your own server, Community or Enterprise, versions 17.0 to 20.0. Odoo Online doesn't accept third-party modules.</div>
+            </div>
+            <div class="col-md-6">
+                <div style="font-weight: 600; margin-bottom: 0.3rem;">What doesn't it do?</div>
+                <div style="color: #2c3a46; font-size: 0.97rem;">It does not reserve stock or change any stock move. Quantities are read when the register loads, not live. The items picked inside a combo are not checked. Configurable and weighed products are checked once the variant or the weight is known. With the 'at session closing' inventory setting, orders already paid in the open session are not in the server figure after a reload. The override uses a user group, not the POS employee login.</div>
+            </div>
+            <div class="col-md-6">
+                <div style="font-weight: 600; margin-bottom: 0.3rem;">Can you adapt it for us?</div>
+                <div style="color: #2c3a46; font-size: 0.97rem;">Yes. Email <span style="font-weight: 600;">odoo.expert.111@gmail.com</span> with your Odoo version and what you'd like changed.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. LOG (release notes as a chatter thread, newest first) -->
+    <div class="row g-4" style="margin-bottom: 4rem;">
+        <div class="col-lg-3">
+            <h2 style="font-family: 'Bricolage Grotesque', 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 600; font-size: 1.05rem; color: #1d4ed8; margin: 0.35rem 0 0 0;">Log</h2>
+        </div>
+        <div class="col-lg-8" style="min-width: 0;">
+            <div style="border-left: 3px solid #1d4ed8; padding-left: 1rem;">
+                <div style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.8rem; color: #51606e;">20.0.1.0.0 &#183; Oct 2026</div>
+                <div style="color: #2c3a46;">First release, published for Odoo 17.0 to 20.0.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. CONTACT -->
+    <div class="row g-4 align-items-center" style="border: 2px solid #14212b; border-radius: 12px; padding: 1.75rem 1.25rem; margin: 0 0 4rem 0;">
+        <div class="col-md-8" style="min-width: 0;">
+            <h2 style="font-family: 'Bricolage Grotesque', 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 800; font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 0.5rem 0;">Need the block on another rule?</h2>
+            <p style="color: #2c3a46; margin: 0 0 1rem 0;">Tell us which rule your shop needs, for example a minimum stock to keep, and we will look at it.</p>
+            <a href="mailto:odoo.expert.111@gmail.com?subject=POS%20Stock%20Display%20%26%20Block%20on%20Odoo%2020.0&body=Hi%20Awins%2C%0A%0AI%20run%20POS%20Stock%20Display%20%26%20Block%20on%20Odoo%2020.0%20%28Community%20%2F%20Enterprise%2C%20on-premise%20%2F%20Odoo.sh%29.%0A%0AWhat%20I%20need%20help%20with%3A%0A%0A%0AThanks%2C%0A"
+                style="display: inline-block; background-color: #14212b; color: #ffffff; text-decoration: none; font-weight: 600; padding: 0.55rem 1.1rem; border-radius: 6px; font-size: 0.95rem;">Email odoo.expert.111@gmail.com</a>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <img src="images/email_qr.png" alt="QR code: email Awins about this module" style="width: 168px; height: 168px;" onerror="this.style.display='none';" />
+        </div>
+    </div>
+
+    <!-- RECOMMENDATIONS:START (filled by awins-app/scripts/recommend.py; removed when < 3 other Awins apps) -->
+    <div style="margin-bottom: 4rem;">
+        <h2 style="font-family: 'Bricolage Grotesque', 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 800; font-size: 2rem; letter-spacing: -0.02em; margin: 0 0 1.5rem 0;">Also by Awins</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <a href="https://apps.odoo.com/apps/modules/20.0/website_product_badges" target="_blank" style="display: block; text-decoration: none; color: #14212b;">
+                    <img src="images/rec_website_product_badges.png" alt="Website Product Badges" class="img-fluid d-block w-100" style="border-radius: 8px; margin-bottom: 0.6rem;"
+                        onerror="this.style.display='none';" />
+                    <span style="font-weight: 600;">Website Product Badges</span>
+                    <span style="display: block; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; color: #51606e;">website_product_badges</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="https://apps.odoo.com/apps/modules/20.0/contact_first_last_name" target="_blank" style="display: block; text-decoration: none; color: #14212b;">
+                    <img src="images/rec_contact_first_last_name.png" alt="Contact First Last Name" class="img-fluid d-block w-100" style="border-radius: 8px; margin-bottom: 0.6rem;"
+                        onerror="this.style.display='none';" />
+                    <span style="font-weight: 600;">Contact First Last Name</span>
+                    <span style="display: block; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; color: #51606e;">contact_first_last_name</span>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="https://apps.odoo.com/apps/modules/20.0/website_product_questions" target="_blank" style="display: block; text-decoration: none; color: #14212b;">
+                    <img src="images/rec_website_product_questions.png" alt="Product Questions & FAQ" class="img-fluid d-block w-100" style="border-radius: 8px; margin-bottom: 0.6rem;"
+                        onerror="this.style.display='none';" />
+                    <span style="font-weight: 600;">Product Questions & FAQ</span>
+                    <span style="display: block; font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; color: #51606e;">website_product_questions</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- RECOMMENDATIONS:END -->
+
+    <!-- 8. COLOPHON -->
+    <div class="d-flex flex-wrap justify-content-between" style="border-top: 1px solid #dde3e9; padding-top: 1.25rem; font-size: 0.82rem; color: #51606e;">
+        <span><span style="font-family: 'Bricolage Grotesque', 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 800; color: #14212b;">Awins</span> builds small Odoo modules that do one job.</span>
+        <span style="font-family: 'IBM Plex Mono', SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.75rem;">pos_product_stock_guard &#183; 20.0.1.0.0</span>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_product_stock_guard.ProductCard" t-inherit="point_of_sale.ProductCard" t-inherit-mode="extension">
+        <xpath expr="//article" position="inside">
+            <t t-set="guardQty" t-value="this.stockGuardQty"/>
+            <span t-if="guardQty !== null"
+                  class="o_stock_guard_badge position-absolute top-0 start-0 m-1 px-2 rounded-pill fw-bold"
+                  t-att-class="guardQty > 0 ? 'o_stock_guard_in' : 'o_stock_guard_out'"
+                  t-out="this.stockGuardQtyText"/>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,16 @@
+.o_stock_guard_badge {
+    z-index: 1;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    pointer-events: none;
+
+    &.o_stock_guard_in {
+        background-color: #047857;
+        color: #fff;
+    }
+
+    &.o_stock_guard_out {
+        background-color: #be123c;
+        color: #fff;
+    }
+}

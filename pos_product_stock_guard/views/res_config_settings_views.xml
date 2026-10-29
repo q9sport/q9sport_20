@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_stock_guard" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.pos_product_stock_guard</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="pos_stock.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pos_inventory_section']" position="inside">
+                <setting id="pos_stock_guard_display_setting" string="Stock on Product Cards"
+                         help="Show the available quantity on every storable product in the register.">
+                    <field name="pos_stock_guard_show"/>
+                    <div class="content-group mt16">
+                        <div class="row" invisible="not pos_stock_guard_show">
+                            <label for="pos_stock_guard_qty_type" class="col-lg-4 o_light_label"/>
+                            <field name="pos_stock_guard_qty_type" required="pos_config_id"/>
+                        </div>
+                        <div class="row">
+                            <label for="pos_stock_guard_location_id" class="col-lg-4 o_light_label"/>
+                            <field name="pos_stock_guard_location_id" placeholder="Operation Type source"
+                                   options="{'no_create': True}"/>
+                        </div>
+                    </div>
+                </setting>
+                <setting id="pos_stock_guard_mode_setting" string="Out-of-Stock Products"
+                         help="What happens when a cashier sells more than is available.">
+                    <field name="pos_stock_guard_mode" widget="radio" required="pos_config_id"/>
+                    <div class="content-group mt16" invisible="pos_stock_guard_mode != 'block'">
+                        <div class="row">
+                            <label for="pos_stock_guard_override_group_id" class="col-lg-4 o_light_label"/>
+                            <field name="pos_stock_guard_override_group_id" options="{'no_create': True}"/>
+                        </div>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
