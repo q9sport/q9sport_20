@@ -3,10 +3,17 @@
     <t t-name="pos_product_stock_guard.ProductCard" t-inherit="point_of_sale.ProductCard" t-inherit-mode="extension">
         <xpath expr="//article" position="inside">
             <t t-set="guardQty" t-value="this.stockGuardQty"/>
-            <span t-if="guardQty !== null"
+            
+             <span t-if="guardQty !== null"
+                class="o_stock_guard_badge position-absolute fw-bold"
+                t-att-class="guardQty > 0 ? 'o_stock_guard_in' : 'o_stock_guard_out'"
+                t-att-style="'top: 12px; right: -20px; width: 90px; text-align: center; transform: rotate(45deg); z-index: 5; border-radius: 0; padding: 2px 0;'"
+                 t-out="this.stockGuardQtyText"/>
+
+            <!-- <span t-if="guardQty !== null"
                   class="o_stock_guard_badge position-absolute top-0 start-0 m-1 px-2 rounded-pill fw-bold"
                   t-att-class="guardQty > 0 ? 'o_stock_guard_in' : 'o_stock_guard_out'"
-                  t-out="this.stockGuardQtyText"/>
+                  t-out="this.stockGuardQtyText"/> -->
         </xpath>
     </t>
 </templates>
