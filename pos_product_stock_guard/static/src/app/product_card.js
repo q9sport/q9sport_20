@@ -14,4 +14,8 @@ patch(ProductCard.prototype, {
     get stockGuardQtyText() {
         return this.env.services.pos.formatProductQty(this.stockGuardQty ?? 0, false);
     },
+    // Product Barcode
+    get stockGuardBarcode() {
+        return this.props.product?.barcode || "";
+    },
 });
