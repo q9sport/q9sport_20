@@ -136,15 +136,22 @@ class ChartsOfAccounts ( models.Model ) :
     analytic_distribution_field = fields.Boolean ( string="Choose Analytic Distribution" , default=False ,
                                                    readonly=False , tracking=True )
 
-    analytic_plan_ids = fields.Many2many ( comodel_name='account.analytic.plan' , string='Analytic Plans' , )
+    analytic_plan_ids = fields.Many2many ( comodel_name='account.analytic.plan' , string='Analytic Plans' ,default=lambda self: self.env['account.analytic.plan'].browse(2) )
 
-    analytic_account_ids = fields.Many2many ( comodel_name='account.analytic.account' , string='Analytic Accounts' , )
+    analytic_account_ids = fields.Many2many ( comodel_name='account.analytic.account' , string='Analytic Accounts' , compute='_compute_analytic_account_ids',)
 
     choose_partner = fields.Selection ( [
         ('none' , 'None') ,
         ('vendor' , 'Vendor') ,
         ('customer' , 'Customer') ,
         ('all' , 'All')] , string="Choose Partner Type" , store=True , tracking=True , searchable=True )
+    
+    ### analytic account be the accounts from analytic plan ####
+    @api.depends('analytic_plan_ids')
+    def _compute_analytic_account_ids(self):
+        for rec in self:
+            rec.analytic_account_ids = self.env['account.analytic.account'].search([('plan_id', 'in', rec.analytic_plan_ids.ids)])
+        
 
 
 ## editing product
