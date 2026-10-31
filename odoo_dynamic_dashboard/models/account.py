@@ -138,7 +138,7 @@ class ChartsOfAccounts ( models.Model ) :
 
     analytic_plan_ids = fields.Many2many ( comodel_name='account.analytic.plan' , string='Analytic Plans' ,default=lambda self: self.env['account.analytic.plan'].browse(2),tracking=True )
 
-    analytic_account_ids = fields.Many2many ( comodel_name='account.analytic.account' , string='Analytic Accounts' , compute='_compute_analytic_account_ids',readonly=False,tracking=True)
+    analytic_account_ids = fields.Many2many ( comodel_name='account.analytic.account' , string='Analytic Accounts' ,readonly=False ,tracking=True)
 
     choose_partner = fields.Selection ( [
         ('none' , 'None') ,
