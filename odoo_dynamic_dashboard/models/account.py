@@ -144,7 +144,7 @@ class ChartsOfAccounts ( models.Model ) :
         ('none' , 'None') ,
         ('vendor' , 'Vendor') ,
         ('customer' , 'Customer') ,
-        ('all' , 'All')] , string="Choose Partner Type" , store=True , tracking=True , searchable=True )
+        ('all' , 'All')] , string="Choose Partner Type" , store=True , tracking=True , )
     
     ### analytic account be the accounts from analytic plan ####
     @api.onchange('analytic_plan_ids')
