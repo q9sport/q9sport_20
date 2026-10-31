@@ -16,6 +16,7 @@ patch(ProductCard.prototype, {
     },
     // Product Barcode
     get stockGuardBarcode() {
-        return this.props.product?.barcode || "";
+        return this.props?.product?.barcode || "";
     },
+   
 });
