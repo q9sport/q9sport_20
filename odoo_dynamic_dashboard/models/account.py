@@ -147,7 +147,7 @@ class ChartsOfAccounts ( models.Model ) :
         ('all' , 'All')] , string="Choose Partner Type" , store=True , tracking=True , searchable=True )
     
     ### analytic account be the accounts from analytic plan ####
-    @api.depends('analytic_plan_ids')
+    @api.onchange('analytic_plan_ids')
     def _compute_analytic_account_ids(self):
         for rec in self:
             rec.analytic_account_ids = self.env['account.analytic.account'].search([('plan_id', 'in', rec.analytic_plan_ids.ids)])
