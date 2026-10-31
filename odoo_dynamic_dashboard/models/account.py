@@ -151,7 +151,7 @@ class ChartsOfAccounts ( models.Model ) :
     def _compute_analytic_account_ids(self):
         for rec in self:
             rec.analytic_account_ids = self.env['account.analytic.account'].search([('plan_id', 'in', rec.analytic_plan_ids.ids)])
-        
+            rec.analytic_distribution = True     
 
 
 ## editing product
