@@ -35,8 +35,10 @@ Features
     'support': 'odoo.expert.111@gmail.com',
     'depends': [
         'pos_stock',
+        'hr',
     ],
     'data': [
+        'security/ir.access.csv',
         'views/res_config_settings_views.xml',
     ],
     'assets': {

@@ -6,31 +6,96 @@
         <field name="inherit_id" ref="pos_stock.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//block[@id='pos_inventory_section']" position="inside">
-                <setting id="pos_stock_guard_display_setting" string="Stock on Product Cards"
-                         help="Show the available quantity on every storable product in the register.">
+
+                <setting
+                    id="pos_stock_guard_display_setting"
+                    string="Stock on Product Cards"
+                    help="Show the available quantity on every storable product in the register."
+                >
                     <field name="pos_stock_guard_show"/>
+
                     <div class="content-group mt16">
                         <div class="row" invisible="not pos_stock_guard_show">
-                            <label for="pos_stock_guard_qty_type" class="col-lg-4 o_light_label"/>
-                            <field name="pos_stock_guard_qty_type" required="pos_config_id"/>
+                            <label
+                                for="pos_stock_guard_qty_type"
+                                class="col-lg-4 o_light_label"
+                            />
+                            <field
+                                name="pos_stock_guard_qty_type"
+                                required="pos_config_id"
+                            />
                         </div>
+
                         <div class="row">
-                            <label for="pos_stock_guard_location_id" class="col-lg-4 o_light_label"/>
-                            <field name="pos_stock_guard_location_id" placeholder="Operation Type source"
-                                   options="{'no_create': True}"/>
+                            <label
+                                for="pos_stock_guard_location_id"
+                                class="col-lg-4 o_light_label"
+                            />
+                            <field
+                                name="pos_stock_guard_location_id"
+                                placeholder="Operation Type source"
+                                options="{'no_create': True}"
+                            />
                         </div>
                     </div>
                 </setting>
-                <setting id="pos_stock_guard_mode_setting" string="Out-of-Stock Products"
-                         help="What happens when a cashier sells more than is available.">
-                    <field name="pos_stock_guard_mode" widget="radio" required="pos_config_id"/>
-                    <div class="content-group mt16" invisible="pos_stock_guard_mode != 'block'">
+
+                <setting
+                    id="pos_stock_guard_mode_setting"
+                    string="Out-of-Stock Products"
+                    help="What happens when a cashier sells more than is available."
+                >
+                    <field
+                        name="pos_stock_guard_mode"
+                        widget="radio"
+                        required="pos_config_id"
+                    />
+
+                    <div
+                        class="content-group mt16"
+                        invisible="pos_stock_guard_mode != 'block'"
+                    >
                         <div class="row">
-                            <label for="pos_stock_guard_override_group_id" class="col-lg-4 o_light_label"/>
-                            <field name="pos_stock_guard_override_group_id" options="{'no_create': True}"/>
+                            <label
+                                for="pos_stock_guard_override_group_id"
+                                class="col-lg-4 o_light_label"
+                            />
+                            <field
+                                name="pos_stock_guard_override_group_id"
+                                options="{'no_create': True}"
+                            />
                         </div>
                     </div>
                 </setting>
+
+                <setting
+                    id="pos_stock_guard_cashier_password_setting"
+                    string="Cashier Stock Passwords"
+                    help="Add a separate stock password for each cashier. You can add, edit, and remove passwords here."
+                >
+                    <div class="content-group mt16">
+                        <field
+                            name="pos_stock_guard_password_ids"
+                            nolabel="1"
+                            readonly="0"
+                        >
+                            <list editable="bottom">
+                                <field
+                                    name="employee_id"
+                                    string="Cashier"
+                                    options="{'no_create': True, 'no_open': True}"
+                                    readonly="0"
+                                />
+                                <field
+                                    name="stock_password"
+                                    string="Password"
+                                    readonly="0"
+                                />
+                            </list>
+                        </field>
+                    </div>
+                </setting>
+
             </xpath>
         </field>
     </record>

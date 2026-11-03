@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_pos_stock_guard_password_pos_manager,POS stock guard password manager,pos.stock.guard.password,point_of_sale.group_pos_manager,crud,
+access_pos_stock_guard_password_system,POS stock guard password system,pos.stock.guard.password,base.group_system,crud,
