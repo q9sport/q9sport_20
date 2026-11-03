@@ -16,6 +16,8 @@
 #
 #############################################################################
 from odoo.exceptions import UserError
+from odoo import api, fields, models, _
+
 
 
 class ProductLabelLayout(models.TransientModel):
