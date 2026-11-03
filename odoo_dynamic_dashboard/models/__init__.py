@@ -15,4 +15,13 @@
 #    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
 #
 #############################################################################
-from . import dynamic_dashboard, dynamic_dashboard_ai, dynamic_dashboard_block, account , general_ledger , account_report
+from . import dynamic_dashboard
+from . import dynamic_dashboard_ai
+from . import dynamic_dashboard_block
+from . import account
+from . import general_ledger
+from . import account_report
+from . import purchase_order
+from . import barcode_wizard
+from . import purchase_order_barcode_wizard
+

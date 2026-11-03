@@ -15,4 +15,5 @@
 #    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
 #
 #############################################################################
-from . import models
+from . import models 
+from . import controllers

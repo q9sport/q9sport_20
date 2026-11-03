@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="arabic_report_font"
+              inherit_id="web.report_assets_common">
+        <xpath expr="." position="inside">
+            <style type="text/css">
+                @font-face {
+                    font-family: 'DejaVuSansCustom';
+                    src: url('/odoo_dynamic_dashboard/static/src/fonts/DejaVuSans.ttf') format('truetype');
+                }
+
+                .arabic-name {
+                    font-family: 'DejaVuSansCustom' !important;
+                    direction: rtl !important;
+                    unicode-bidi: embed;
+                    text-align: center;
+                }
+            </style>
+        </xpath>
+    </template>
+</odoo>
