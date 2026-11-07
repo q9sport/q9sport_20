@@ -184,12 +184,13 @@ class PosCategory(models.Model):
     )
 
     @api.onchange('add_to_all_pos')
-    def _check_employee_company(self):
+    def _onchange_add_to_all_pos(self):
         for record in self:
             if record.add_to_all_pos:
-                record.pos_config_ids = self.env['pos.config'].search([])
+                pos_configs = self.env['pos.config'].search([])
+                record.pos_config_ids = [Command.set(pos_configs.ids)]
             else:
-                record.pos_config_ids = [(5, 0, 0)]
+                record.pos_config_ids = [Command.clear()]
                 
 
 class PosStockGuardPassword ( models.Model ) :
