@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import base64
 
 from odoo import fields, models, _
@@ -51,6 +52,18 @@ class PurchaseOrderBarcodeWizard(models.TransientModel):
         string='Products',
     )
 
+    # =====================================================
+    # PRINT SELECTED
+    # =====================================================
+
+    def action_print_selected(self):
+        self.ensure_one()
+        return self.action_print_barcodes()
+
+    # =====================================================
+    # PRINT BARCODES
+    # =====================================================
+
     def action_print_barcodes(self):
         self.ensure_one()
 
@@ -99,6 +112,10 @@ class PurchaseOrderBarcodeWizard(models.TransientModel):
         return report.report_action(self)
 
 
+# =========================================================
+# WIZARD LINES
+# =========================================================
+
 class PurchaseOrderBarcodeWizardLine(models.TransientModel):
     _name = 'purchase.order.barcode.wizard.line'
     _description = 'Purchase Order Barcode Wizard Line'
@@ -145,11 +162,24 @@ class PurchaseOrderBarcodeWizardLine(models.TransientModel):
     )
 
 
+# =========================================================
+# BARCODE REPORT
+# =========================================================
+
 class PurchaseOrderBarcodeReport(models.AbstractModel):
     _name = 'report.odoo_dynamic_dashboard.purchase_order_barcode_template'
     _description = 'Purchase Order Barcode Report'
 
-    def _generate_barcode_image(self, barcode, barcode_type, product):
+    # =====================================================
+    # GENERATE BARCODE IMAGE
+    # =====================================================
+
+    def _generate_barcode_image(
+        self,
+        barcode,
+        barcode_type,
+        product,
+    ):
         """Generate barcode image directly as Base64."""
 
         try:
@@ -179,21 +209,21 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
                 'Cannot generate barcode for product: %s\nError: %s'
             ) % (product.display_name, str(error)))
 
+    # =====================================================
+    # PRODUCT NAMES
+    # =====================================================
+
     def _get_product_names(self, product):
         """Get Arabic and English product names."""
 
         template = product.product_tmpl_id
 
-        # Arabic: custom arabic_name field first,
-        # then the translated product name.
         arabic_name = (
             getattr(template, 'arabic_name', False)
             or template.with_context(lang='ar_001').name
             or ''
         )
 
-        # English: English translation first,
-        # then the original product name.
         english_name = (
             template.with_context(lang='en_US').name
             or template.name
@@ -203,6 +233,10 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
 
         return arabic_name, english_name
 
+    # =====================================================
+    # PRICE AND CURRENCY
+    # =====================================================
+
     def _get_line_price_currency(self, line, wizard):
         """Get purchase line price and currency."""
 
@@ -210,6 +244,7 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
 
         if purchase_line:
             price = purchase_line.price_unit
+
             currency = (
                 purchase_line.currency_id
                 or wizard.purchase_order_id.currency_id
@@ -219,6 +254,10 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
             currency = wizard.purchase_order_id.currency_id
 
         return price or 0.0, currency
+
+    # =====================================================
+    # REPORT VALUES
+    # =====================================================
 
     def _get_report_values(self, docids, data=None):
 
@@ -300,7 +339,7 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
                     wizard,
                 )
 
-                # Number of printed labels
+                # Total labels
                 total_copies = line.quantity * wizard.copies
 
                 for copy_index in range(total_copies):
@@ -334,6 +373,7 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
                     len(page_labels),
                     columns,
                 ):
+
                     rows.append(
                         page_labels[
                             row_start:row_start + columns
