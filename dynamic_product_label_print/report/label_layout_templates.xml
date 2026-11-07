@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- ================================================= -->
     <!-- MAIN REPORT -->
+    <!-- ================================================= -->
     <template id="report_dynamic">
         <t t-call="web.html_container">
             <t t-call="web.basic_layout">
@@ -10,7 +12,10 @@
         </t>
     </template>
 
+
+    <!-- ================================================= -->
     <!-- LABEL DESIGN: 50mm x 25mm -->
+    <!-- ================================================= -->
     <template id="report_dynamic_label">
 
         <t t-set="bcode"
@@ -22,9 +27,9 @@
         <t t-set="english_name"
            t-value="item_data.get('product_name') or product.name or ''"/>
 
-        <!-- QR LINK -->
-        <t t-set="qr_data"
-           t-value="product.website_url if hasattr(product, 'website_url') and product.website_url else bcode"/>
+        <!-- QR: KEEP ORIGINAL BARCODE CONTENT -->
+        <t t-set="qr_data" t-value="bcode"/>
+
 
         <!-- OUTER LABEL -->
         <div style="
@@ -58,6 +63,7 @@
                 <t t-out="product.arabic_name or ''"/>
             </div>
 
+
             <!-- ENGLISH NAME -->
             <div style="
                 width:100%;
@@ -74,6 +80,7 @@
                 <t t-out="english_name"/>
             </div>
 
+
             <!-- SEPARATOR -->
             <div style="
                 width:100%;
@@ -81,6 +88,7 @@
                 background:#111111;
                 margin:0.2mm 0;
             "></div>
+
 
             <!-- BARCODE / QR / PRICE -->
             <table style="
@@ -125,6 +133,7 @@
 
                         </td>
 
+
                         <!-- QR CODE -->
                         <td style="
                             width:26%;
@@ -144,6 +153,7 @@
                                  }"/>
 
                         </td>
+
 
                         <!-- PRICE -->
                         <td style="
@@ -182,7 +192,11 @@
 
     </template>
 
+
+    <!-- ================================================= -->
     <!-- LABEL COLLECTION -->
+    <!-- ONE LABEL = ONE PAGE -->
+    <!-- ================================================= -->
     <template id="report_productlabel_dynamic">
 
         <t t-set="labels" t-value="[]"/>
@@ -206,6 +220,7 @@
             </t>
 
         </t>
+
 
         <!-- EACH LABEL IN SEPARATE PAGE -->
         <t t-foreach="labels" t-as="label">
@@ -237,33 +252,49 @@
 
     </template>
 
-    <!-- THERMAL PAPER FORMAT -->
+
+    <!-- ================================================= -->
+    <!-- THERMAL PAPER FORMAT: 50 x 25 MM -->
+    <!-- ================================================= -->
     <record id="paperformat_dynamic_a4_80x65"
             model="report.paperformat">
 
         <field name="name">Thermal Label 50x25 mm</field>
+
         <field name="default" eval="False"/>
+
         <field name="format">custom</field>
+
         <field name="page_width">50</field>
         <field name="page_height">25</field>
+
         <field name="orientation">Portrait</field>
+
         <field name="margin_top">0</field>
         <field name="margin_bottom">0</field>
         <field name="margin_left">0</field>
         <field name="margin_right">0</field>
+
         <field name="header_line" eval="False"/>
         <field name="header_spacing">0</field>
+
         <field name="dpi">90</field>
 
     </record>
 
+
+    <!-- ================================================= -->
     <!-- REPORT ACTION -->
+    <!-- ================================================= -->
     <record id="product_label_layout_form_dynamic"
             model="ir.actions.report">
 
         <field name="name">Product Label 50x25 Thermal</field>
+
         <field name="model">product.template</field>
+
         <field name="report_type">qweb-pdf</field>
+
         <field name="report_name">dynamic_product_label_print.report_dynamic</field>
 
         <field name="paperformat_id"
