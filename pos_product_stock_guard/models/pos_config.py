@@ -183,21 +183,16 @@ class PosCategory(models.Model):
         default=False,
     )
 
-    @api.onchange ( 'add_to_all_pos' )
-    def _onchange_add_to_all_pos(self) :
-        for record in self :
-            if record.add_to_all_pos :
-                configs = self.env['pos.config'].sudo ().with_context (
-                    active_test=False
-                ).search ( [] )
+    @api.onchange('add_to_all_pos')
+    def _onchange_add_to_all_pos(self):
+        for rec in self:
+            if rec.add_to_all_pos:
+                all_pos = self.env['pos.config'].sudo().search([])
 
-                record.update ( {
-                    'pos_config_ids' : [(6 , 0 , configs.ids)]
-                } )
-            else :
-                record.update ( {
-                    'pos_config_ids' : [(5 , 0 , 0)]
-                } )
+                rec.pos_config_ids = [(6, 0, all_pos.ids)]
+            else:
+                rec.pos_config_ids = [(5, 0, 0)]
+
 
 
 class PosStockGuardPassword ( models.Model ) :
