@@ -175,6 +175,29 @@ class PosConfig(models.Model):
         )
 
 
+### ADD variables for adding categories of products in All pos  ###
+class PosConfig(models.Model):
+    _inherit = 'pos.category'
+    add_to_all_pos =fields.Boolean ("Add to All POSs", default=True ,Tracking=True)
+    
+    @api.onchange('add_to_all_pos')
+     def _check_employee_company(self):
+        for record in self:
+            if record.add_to_all_pos:
+                record.pos_config_ids = self.env['pos.config'].search([])
+            else:
+                record.pos_config_ids = [(5, 0, 0)]
+    
+    
+    
+  
+           
+                
+
+
+
+
+
 class PosStockGuardPassword(models.Model):
     _name = 'pos.stock.guard.password'
     _description = 'POS Cashier Stock Password'
