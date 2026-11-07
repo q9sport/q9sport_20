@@ -27,7 +27,7 @@
         <t t-set="english_name"
            t-value="item_data.get('product_name') or product.name or ''"/>
 
-
+        <!-- OUTER LABEL -->
         <!-- OUTER LABEL -->
         <div style="
             width:50mm;
@@ -41,6 +41,7 @@
             font-family:'DejaVu Sans',sans-serif;
             text-align:center;
         ">
+
 
             <!-- ARABIC NAME -->
             <div style="
@@ -56,9 +57,8 @@
                 white-space:nowrap;
                 margin:0;
             ">
-                <t t-out="item_data.get('arabic_name') or ''"/>
+                <t t-out="product.arabic_name or ''"/>
             </div>
-
 
             <!-- ENGLISH NAME -->
             <div style="
@@ -76,7 +76,6 @@
                 <t t-out="english_name"/>
             </div>
 
-
             <!-- SEPARATOR -->
             <div style="
                 width:100%;
@@ -84,7 +83,6 @@
                 background:#111111;
                 margin:0.2mm 0;
             "></div>
-
 
             <!-- BARCODE / QR / PRICE -->
             <table style="
@@ -130,7 +128,7 @@
                         </td>
 
 
-                        <!-- REAL QR CODE IMAGE -->
+                        <!-- QR CODE -->
                         <td style="
                             width:26%;
                             padding:0.2mm;
@@ -138,16 +136,15 @@
                             text-align:center;
                         ">
 
-                            <img t-if="item_data.get('qr_url')"
-                                 t-att-src="item_data.get('qr_url')"
-                                 alt="Product QR Code"
-                                 style="
-                                    display:block;
-                                    width:12mm;
-                                    height:12mm;
-                                    margin:0 auto;
-                                    object-fit:contain;
-                                 "/>
+                            <div t-if="bcode"
+                                 t-out="bcode"
+                                 style="margin:0 auto;"
+                                 t-options="{
+                                    'widget':'barcode',
+                                    'symbology':'QR',
+                                    'quiet':1,
+                                    'img_style':'width:12mm;height:12mm;'
+                                 }"/>
 
                         </td>
 
@@ -173,10 +170,8 @@
                                 font-weight:bold;
                                 line-height:14px;
                                 overflow:hidden;
-                                white-space:nowrap;
                             ">
                                 <t t-out="'%.2f' % float(price_value or 0.0)"/>
-                                <span style="font-size:8px;"> ر.ق</span>
                             </div>
 
                         </td>
@@ -198,8 +193,7 @@
 
         <t t-set="labels" t-value="[]"/>
 
-        <t t-foreach="quantity.items()"
-           t-as="barcode_and_qty_by_product">
+        <t t-foreach="quantity.items()" t-as="barcode_and_qty_by_product">
 
             <t t-set="product"
                t-value="barcode_and_qty_by_product[0]"/>
