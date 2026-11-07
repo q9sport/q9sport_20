@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import base64
 
 from odoo import fields, models, _
@@ -10,11 +9,19 @@ class PurchaseOrderBarcodeWizard(models.TransientModel):
     _name = 'purchase.order.barcode.wizard'
     _description = 'Purchase Order Barcode Wizard'
 
+    # =====================================================
+    # PURCHASE ORDER
+    # =====================================================
+
     purchase_order_id = fields.Many2one(
         'purchase.order',
         string='Purchase Order',
         readonly=True,
     )
+
+    # =====================================================
+    # PRINT SETTINGS
+    # =====================================================
 
     barcode_type = fields.Selection(
         [
@@ -46,6 +53,10 @@ class PurchaseOrderBarcodeWizard(models.TransientModel):
         required=True,
     )
 
+    # =====================================================
+    # PRODUCT LINES
+    # =====================================================
+
     line_ids = fields.One2many(
         'purchase.order.barcode.wizard.line',
         'wizard_id',
@@ -53,7 +64,7 @@ class PurchaseOrderBarcodeWizard(models.TransientModel):
     )
 
     # =====================================================
-    # PRINT SELECTED
+    # PRINT SELECTED BUTTON
     # =====================================================
 
     def action_print_selected(self):
@@ -106,15 +117,23 @@ class PurchaseOrderBarcodeWizard(models.TransientModel):
             ))
 
         report = self.env.ref(
-            'odoo_dynamic_dashboard.action_purchase_order_barcodes'
+            'odoo_dynamic_dashboard.action_purchase_order_barcodes',
+            raise_if_not_found=False,
         )
+
+        if not report:
+            raise UserError(_(
+                'Barcode PDF report was not found. '
+                'Please check action_purchase_order_barcodes '
+                'in the report XML file.'
+            ))
 
         return report.report_action(self)
 
+    # =====================================================
+    # OPEN REPORT
+    # =====================================================
 
-# =========================================================
-# WIZARD LINES
-# =========================================================
 
 class PurchaseOrderBarcodeWizardLine(models.TransientModel):
     _name = 'purchase.order.barcode.wizard.line'
@@ -180,8 +199,6 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
         barcode_type,
         product,
     ):
-        """Generate barcode image directly as Base64."""
-
         try:
             if barcode_type == 'qr':
                 image = self.env['ir.actions.report'].barcode(
@@ -214,7 +231,6 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
     # =====================================================
 
     def _get_product_names(self, product):
-        """Get Arabic and English product names."""
 
         template = product.product_tmpl_id
 
@@ -238,7 +254,6 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
     # =====================================================
 
     def _get_line_price_currency(self, line, wizard):
-        """Get purchase line price and currency."""
 
         purchase_line = line.purchase_line_id
 
@@ -321,25 +336,21 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
                         'Product %s does not have a barcode.'
                     ) % product.display_name)
 
-                # Product names
                 arabic_name, english_name = (
                     self._get_product_names(product)
                 )
 
-                # Barcode image
                 barcode_base64 = self._generate_barcode_image(
                     barcode,
                     wizard.barcode_type,
                     product,
                 )
 
-                # Purchase price and currency
                 price, currency = self._get_line_price_currency(
                     line,
                     wizard,
                 )
 
-                # Total labels
                 total_copies = line.quantity * wizard.copies
 
                 for copy_index in range(total_copies):
@@ -357,7 +368,10 @@ class PurchaseOrderBarcodeReport(models.AbstractModel):
                         'currency': currency,
                     })
 
-            # Split labels into pages and rows
+            # ---------------------------------------------
+            # SPLIT LABELS INTO PAGES
+            # ---------------------------------------------
+
             pages = []
 
             for page_start in range(0, len(labels), capacity):
