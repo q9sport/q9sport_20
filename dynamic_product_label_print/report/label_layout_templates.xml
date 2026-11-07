@@ -27,13 +27,18 @@
         <t t-set="english_name"
            t-value="item_data.get('product_name') or product.name or ''"/>
 
+        <!-- QR CONTENT: PRODUCT + ARABIC + PRICE + BARCODE -->
+        <t t-set="qr_data"
+           t-value="'Product: %s | Arabic: %s | Price: %s | Barcode: %s' % (english_name, product.arabic_name or '', '%.2f' % float(price_value or 0.0), bcode)"/>
+
+
         <!-- OUTER LABEL -->
         <div style="
             width:50mm;
             height:25mm;
             box-sizing:border-box;
             margin:0;
-            padding:1.5mm 0.6mm 0.4mm 0.6mm;
+            padding:2mm 0.6mm 0.3mm 0.6mm;
             overflow:hidden;
             border:0.3mm solid #111111;
             background:#FFFFFF;
@@ -45,48 +50,51 @@
             <!-- ARABIC NAME -->
             <div style="
                 width:100%;
-                height:3.8mm;
+                height:3.5mm;
                 overflow:hidden;
                 direction:rtl;
                 text-align:center;
                 font-family:'DejaVu Sans',sans-serif;
                 font-size:9px;
                 font-weight:bold;
-                line-height:3.8mm;
+                line-height:3.5mm;
                 white-space:nowrap;
                 margin:0;
             ">
                 <t t-out="product.arabic_name or ''"/>
             </div>
 
+
             <!-- ENGLISH NAME -->
             <div style="
                 width:100%;
-                height:3.2mm;
+                height:3mm;
                 overflow:hidden;
                 direction:ltr;
                 text-align:center;
                 font-size:7px;
                 font-weight:bold;
-                line-height:3.2mm;
+                line-height:3mm;
                 white-space:nowrap;
                 margin:0;
             ">
                 <t t-out="english_name"/>
             </div>
 
+
             <!-- SEPARATOR -->
             <div style="
                 width:100%;
                 height:0.25mm;
                 background:#111111;
-                margin:0.2mm 0;
+                margin:0.3mm 0;
             "></div>
+
 
             <!-- BARCODE / QR / PRICE -->
             <table style="
                 width:100%;
-                height:14.5mm;
+                height:13.5mm;
                 table-layout:fixed;
                 border-collapse:collapse;
                 border-spacing:0;
@@ -111,7 +119,7 @@
                                     'widget':'barcode',
                                     'symbology':'Code128',
                                     'quiet':1,
-                                    'img_style':'width:22mm;height:8mm;max-width:100%;'
+                                    'img_style':'width:22mm;height:7mm;max-width:100%;'
                                  }"/>
 
                             <div style="
@@ -135,14 +143,14 @@
                             text-align:center;
                         ">
 
-                            <div t-if="bcode"
-                                 t-out="bcode"
+                            <div t-if="qr_data"
+                                 t-out="qr_data"
                                  style="margin:0 auto;"
                                  t-options="{
                                     'widget':'barcode',
                                     'symbology':'QR',
                                     'quiet':1,
-                                    'img_style':'width:12mm;height:12mm;'
+                                    'img_style':'width:11.5mm;height:11.5mm;'
                                  }"/>
 
                         </td>
