@@ -28,18 +28,19 @@
            t-value="item_data.get('product_name') or product.name or ''"/>
 
         <!-- QR: KEEP ORIGINAL BARCODE CONTENT -->
-        <t t-set="qr_data" t-value="bcode"/>
+        <!-- <t t-set="qr_data" t-value="bcode"/> -->
+        <t t-set="company_name" t-value="product.company_id.name or ''"/>
+        <t t-set="qr_data" t-value="'Product: %s | Arabic: %s | Price: %.2f QAR (ر.ق) | Company: %s' % (english_name, product.arabic_name or '', float(price_value or 0.0), company_name)"/>
 
 
-        <!-- OUTER LABEL -->
+        <!-- OUTER LABEL  border:0mm solid #111111; -->
         <div style="
             width:50mm;
             height:25mm;
             box-sizing:border-box;
             margin:0;
             padding:1.5mm 0.6mm 0.4mm 0.6mm;
-            overflow:hidden;
-            border:0.3mm solid #111111;
+            overflow:hidden;   
             background:#FFFFFF;
             color:#000000;
             font-family:'DejaVu Sans',sans-serif;
