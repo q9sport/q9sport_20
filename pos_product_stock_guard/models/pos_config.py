@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import api , Command , fields , models , _
+from odoo import api , fields , models , _
 from odoo.exceptions import ValidationError
 
 STOCK_GUARD_QTY_FIELDS = {
@@ -183,15 +183,22 @@ class PosCategory(models.Model):
         default=False,
     )
 
-    @api.onchange('add_to_all_pos')
-    def _onchange_add_to_all_pos(self):
-        for record in self:
-            if record.add_to_all_pos:
-                pos_configs = self.env['pos.config'].search([])
-                record.pos_config_ids = [Command.set(pos_configs.ids)]
-            else:
-                record.pos_config_ids = [Command.clear()]
-                
+    @api.onchange ( 'add_to_all_pos' )
+    def _onchange_add_to_all_pos(self) :
+        for record in self :
+            if record.add_to_all_pos :
+                configs = self.env['pos.config'].sudo ().with_context (
+                    active_test=False
+                ).search ( [] )
+
+                record.update ( {
+                    'pos_config_ids' : [(6 , 0 , configs.ids)]
+                } )
+            else :
+                record.update ( {
+                    'pos_config_ids' : [(5 , 0 , 0)]
+                } )
+
 
 class PosStockGuardPassword ( models.Model ) :
     _name = 'pos.stock.guard.password'
