@@ -187,12 +187,23 @@ class PosCategory(models.Model):
     def _onchange_add_to_all_pos(self):
         for rec in self:
             if rec.add_to_all_pos:
-                all_pos = self.env['pos.config'].sudo().search([])
-
-                rec.pos_config_ids = [(6, 0, all_pos.ids)]
+                all_ids = self.env['pos.config'].sudo().search([]).ids
+                rec.pos_config_ids = [(6, 0, all_ids)]
             else:
                 rec.pos_config_ids = [(5, 0, 0)]
 
+    def write(self, vals):
+        vals = vals.copy()
+
+        if 'add_to_all_pos' in vals:
+            if vals['add_to_all_pos']:
+                all_ids = self.env['pos.config'].sudo().search([]).ids
+                vals['pos_config_ids'] = [(6, 0, all_ids)]
+            else:
+                vals['pos_config_ids'] = [(5, 0, 0)]
+
+        return super().write(vals)
+    
 
 
 class PosStockGuardPassword ( models.Model ) :
