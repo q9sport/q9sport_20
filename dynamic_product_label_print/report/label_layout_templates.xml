@@ -27,13 +27,6 @@
         <t t-set="english_name"
            t-value="item_data.get('product_name') or product.name or ''"/>
 
-        <!-- QR INFORMATION -->
-        <t t-set="company_name"
-           t-value="product.company_id.name or ''"/>
-
-        <t t-set="qr_data"
-           t-value="'Product: %s | Arabic: %s | Price: %.2f QAR (ر.ق) | Company: %s' % (english_name, product.arabic_name or '', float(price_value or 0.0), company_name)"/>
-
 
         <!-- OUTER LABEL -->
         <div style="
@@ -63,7 +56,7 @@
                 white-space:nowrap;
                 margin:0;
             ">
-                <t t-out="product.arabic_name or ''"/>
+                <t t-out="item_data.get('arabic_name') or ''"/>
             </div>
 
 
@@ -137,7 +130,7 @@
                         </td>
 
 
-                        <!-- QR CODE IMAGE -->
+                        <!-- REAL QR CODE IMAGE -->
                         <td style="
                             width:26%;
                             padding:0.2mm;
@@ -145,16 +138,16 @@
                             text-align:center;
                         ">
 
-                            <span t-if="qr_data"
-                                  t-out="qr_data"
-                                  t-options="{
-                                      'widget':'barcode',
-                                      'symbology':'QR',
-                                      'width':160,
-                                      'height':160,
-                                      'quiet':0,
-                                      'img_style':'width:12mm;height:12mm;display:block;margin:0 auto;'
-                                  }"/>
+                            <img t-if="item_data.get('qr_url')"
+                                 t-att-src="item_data.get('qr_url')"
+                                 alt="Product QR Code"
+                                 style="
+                                    display:block;
+                                    width:12mm;
+                                    height:12mm;
+                                    margin:0 auto;
+                                    object-fit:contain;
+                                 "/>
 
                         </td>
 
@@ -205,7 +198,8 @@
 
         <t t-set="labels" t-value="[]"/>
 
-        <t t-foreach="quantity.items()" t-as="barcode_and_qty_by_product">
+        <t t-foreach="quantity.items()"
+           t-as="barcode_and_qty_by_product">
 
             <t t-set="product"
                t-value="barcode_and_qty_by_product[0]"/>
