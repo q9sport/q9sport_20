@@ -190,17 +190,15 @@
     direction:rtl;
     text-align:center;
     font-family:'DejaVu Sans',sans-serif;
-    font-size:9px;
+    font-size:6px;
     font-weight:bold;
     line-height:3.8mm;
     white-space:nowrap;
     margin:0;
 ">
-    <span style="
-        font-weight:700;
-        color:#8B7355;
-        letter-spacing:0.2px;
-    ">شكراً جزيلاً لاختياركم منتجاتنا</span>
+    <span style="font-size:6px; font-weight:bold; color:#8B7355;">
+        شكراً جزيلاً لاختياركم منتجاتنا
+    </span>
 </div>
         </div>
 
