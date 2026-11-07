@@ -27,7 +27,7 @@
         <t t-set="english_name"
            t-value="item_data.get('product_name') or product.name or ''"/>
 
-        <!-- QR DATA -->
+        <!-- QR INFORMATION -->
         <t t-set="company_name"
            t-value="product.company_id.name or ''"/>
 
@@ -137,7 +137,7 @@
                         </td>
 
 
-                        <!-- REAL QR CODE WITH PRODUCT INFORMATION -->
+                        <!-- QR CODE IMAGE -->
                         <td style="
                             width:26%;
                             padding:0.2mm;
@@ -145,17 +145,16 @@
                             text-align:center;
                         ">
 
-                            <div t-if="qr_data"
-                                 t-out="qr_data"
-                                 style="margin:0 auto;"
-                                 t-options="{
-                                    'widget':'barcode',
-                                    'symbology':'QR',
-                                    'width':160,
-                                    'height':160,
-                                    'quiet':1,
-                                    'img_style':'width:12mm;height:12mm;display:block;margin:0 auto;'
-                                 }"/>
+                            <span t-if="qr_data"
+                                  t-out="qr_data"
+                                  t-options="{
+                                      'widget':'barcode',
+                                      'symbology':'QR',
+                                      'width':160,
+                                      'height':160,
+                                      'quiet':0,
+                                      'img_style':'width:12mm;height:12mm;display:block;margin:0 auto;'
+                                  }"/>
 
                         </td>
 
