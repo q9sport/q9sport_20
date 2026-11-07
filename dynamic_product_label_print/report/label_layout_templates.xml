@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- ================================================= -->
     <!-- MAIN REPORT -->
-    <!-- ================================================= -->
     <template id="report_dynamic">
         <t t-call="web.html_container">
             <t t-call="web.basic_layout">
@@ -13,9 +11,7 @@
     </template>
 
 
-    <!-- ================================================= -->
-    <!-- LABEL DESIGN: 50mm x 25mm -->
-    <!-- ================================================= -->
+    <!-- LABEL DESIGN 50 x 25 MM -->
     <template id="report_dynamic_label">
 
         <t t-set="bcode"
@@ -26,11 +22,6 @@
 
         <t t-set="english_name"
            t-value="item_data.get('product_name') or product.name or ''"/>
-
-        <!-- QR CONTENT: PRODUCT + ARABIC + PRICE + BARCODE -->
-        <t t-set="qr_data"
-           t-value="'Product: %s | Arabic: %s | Price: %s | Barcode: %s' % (english_name, product.arabic_name or '', '%.2f' % float(price_value or 0.0), bcode)"/>
-
 
         <!-- OUTER LABEL -->
         <div style="
@@ -50,20 +41,19 @@
             <!-- ARABIC NAME -->
             <div style="
                 width:100%;
-                height:3.5mm;
+                height:3.6mm;
                 overflow:hidden;
                 direction:rtl;
                 text-align:center;
                 font-family:'DejaVu Sans',sans-serif;
                 font-size:9px;
                 font-weight:bold;
-                line-height:3.5mm;
+                line-height:3.6mm;
                 white-space:nowrap;
                 margin:0;
             ">
                 <t t-out="product.arabic_name or ''"/>
             </div>
-
 
             <!-- ENGLISH NAME -->
             <div style="
@@ -81,15 +71,13 @@
                 <t t-out="english_name"/>
             </div>
 
-
             <!-- SEPARATOR -->
             <div style="
                 width:100%;
                 height:0.25mm;
                 background:#111111;
-                margin:0.3mm 0;
+                margin:0.2mm 0;
             "></div>
-
 
             <!-- BARCODE / QR / PRICE -->
             <table style="
@@ -119,7 +107,7 @@
                                     'widget':'barcode',
                                     'symbology':'Code128',
                                     'quiet':1,
-                                    'img_style':'width:22mm;height:7mm;max-width:100%;'
+                                    'img_style':'width:22mm;height:7.5mm;max-width:100%;'
                                  }"/>
 
                             <div style="
@@ -143,14 +131,14 @@
                             text-align:center;
                         ">
 
-                            <div t-if="qr_data"
-                                 t-out="qr_data"
+                            <div t-if="bcode"
+                                 t-out="bcode"
                                  style="margin:0 auto;"
                                  t-options="{
                                     'widget':'barcode',
                                     'symbology':'QR',
                                     'quiet':1,
-                                    'img_style':'width:11.5mm;height:11.5mm;'
+                                    'img_style':'width:12mm;height:12mm;'
                                  }"/>
 
                         </td>
@@ -181,6 +169,16 @@
                                 <t t-out="'%.2f' % float(price_value or 0.0)"/>
                             </div>
 
+                            <!-- CURRENCY -->
+                            <div style="
+                                font-size:9px;
+                                font-weight:bold;
+                                line-height:10px;
+                                direction:rtl;
+                            ">
+                                ر.ق
+                            </div>
+
                         </td>
 
                     </tr>
@@ -192,10 +190,7 @@
     </template>
 
 
-    <!-- ================================================= -->
-    <!-- LABEL COLLECTION -->
-    <!-- ONE LABEL = ONE PAGE -->
-    <!-- ================================================= -->
+    <!-- LABEL COLLECTION: ONE LABEL PER PAGE -->
     <template id="report_productlabel_dynamic">
 
         <t t-set="labels" t-value="[]"/>
@@ -219,7 +214,6 @@
             </t>
 
         </t>
-
 
         <!-- EACH LABEL IN SEPARATE PAGE -->
         <t t-foreach="labels" t-as="label">
@@ -252,16 +246,13 @@
     </template>
 
 
-    <!-- ================================================= -->
-    <!-- THERMAL PAPER FORMAT: 50 x 25 MM -->
-    <!-- ================================================= -->
+    <!-- THERMAL PAPER FORMAT 50 x 25 MM -->
     <record id="paperformat_dynamic_a4_80x65"
             model="report.paperformat">
 
         <field name="name">Thermal Label 50x25 mm</field>
 
         <field name="default" eval="False"/>
-
         <field name="format">custom</field>
 
         <field name="page_width">50</field>
@@ -276,25 +267,23 @@
 
         <field name="header_line" eval="False"/>
         <field name="header_spacing">0</field>
-
         <field name="dpi">90</field>
 
     </record>
 
 
-    <!-- ================================================= -->
     <!-- REPORT ACTION -->
-    <!-- ================================================= -->
     <record id="product_label_layout_form_dynamic"
             model="ir.actions.report">
 
         <field name="name">Product Label 50x25 Thermal</field>
 
         <field name="model">product.template</field>
-
         <field name="report_type">qweb-pdf</field>
 
-        <field name="report_name">dynamic_product_label_print.report_dynamic</field>
+        <field name="report_name">
+            dynamic_product_label_print.report_dynamic
+        </field>
 
         <field name="paperformat_id"
                ref="dynamic_product_label_print.paperformat_dynamic_a4_80x65"/>
