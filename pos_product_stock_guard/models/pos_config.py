@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import api , fields , models , _
+from odoo import api , Command , fields , models , _
 from odoo.exceptions import ValidationError
 
 STOCK_GUARD_QTY_FIELDS = {
