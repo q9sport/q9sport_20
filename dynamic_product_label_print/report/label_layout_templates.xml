@@ -27,45 +27,47 @@
         <t t-set="english_name"
            t-value="item_data.get('product_name') or product.name or ''"/>
 
+        <t t-set="arabic_name"
+           t-value="product.arabic_name or ''"/>
+
+        <!-- REAL QR DATA -->
+        <t t-set="qr_data"
+           t-value="'اسم المنتج: %s\nProduct: %s\nالسعر: %s ر.س\nBarcode: %s' % (arabic_name, english_name, '%.2f' % float(price_value or 0.0), bcode)"/>
+
+
         <!-- OUTER LABEL -->
         <div style="
             width:50mm;
-            height:25mm;
+            height:24mm;
             box-sizing:border-box;
             margin:0;
-            padding:1mm 0.7mm 0.4mm 0.7mm;
+            padding:0.6mm 0.5mm 0.3mm 0.5mm;
             overflow:hidden;
-            border:0.2mm solid #111111;
+            border:0.25mm solid #111111;
             background:#FFFFFF;
             color:#000000;
             font-family:'DejaVu Sans',sans-serif;
             text-align:center;
         ">
 
-            <!-- TOP SPACING -->
-            <div style="
-                height:1mm;
-                width:100%;
-                font-size:0;
-                line-height:0;
-            "></div>
-
             <!-- ARABIC NAME -->
             <div style="
                 width:100%;
-                height:3.5mm;
+                height:3.6mm;
                 overflow:hidden;
                 direction:rtl;
+                unicode-bidi:embed;
                 text-align:center;
                 font-family:'DejaVu Sans',sans-serif;
                 font-size:9px;
                 font-weight:bold;
-                line-height:3.5mm;
+                line-height:3.6mm;
                 white-space:nowrap;
                 margin:0;
             ">
-                <t t-out="product.arabic_name or ''"/>
+                <t t-out="arabic_name"/>
             </div>
+
 
             <!-- ENGLISH NAME -->
             <div style="
@@ -74,7 +76,8 @@
                 overflow:hidden;
                 direction:ltr;
                 text-align:center;
-                font-size:7px;
+                font-family:'DejaVu Sans',sans-serif;
+                font-size:6.5px;
                 font-weight:bold;
                 line-height:3mm;
                 white-space:nowrap;
@@ -83,20 +86,22 @@
                 <t t-out="english_name"/>
             </div>
 
+
             <!-- SEPARATOR -->
             <div style="
-                width:100%;
-                height:0.2mm;
-                background:#111111;
-                margin:0.2mm 0;
+                width:98%;
+                height:0.25mm;
+                background:#222222;
+                margin:0.2mm auto;
                 font-size:0;
                 line-height:0;
             "></div>
 
+
             <!-- BARCODE / QR / PRICE -->
             <table style="
                 width:100%;
-                height:14mm;
+                height:15.8mm;
                 table-layout:fixed;
                 border-collapse:collapse;
                 border-spacing:0;
@@ -108,7 +113,7 @@
 
                         <!-- BARCODE -->
                         <td style="
-                            width:47%;
+                            width:48%;
                             padding:0.2mm;
                             vertical-align:middle;
                             text-align:center;
@@ -121,13 +126,15 @@
                                     'widget':'barcode',
                                     'symbology':'Code128',
                                     'quiet':1,
-                                    'img_style':'width:21mm;height:8mm;max-width:100%;'
+                                    'img_style':'width:21mm;height:7.5mm;max-width:100%;'
                                  }"/>
 
                             <div style="
+                                width:100%;
+                                font-family:'DejaVu Sans',sans-serif;
                                 font-size:5.5px;
                                 font-weight:bold;
-                                line-height:6px;
+                                line-height:7px;
                                 white-space:nowrap;
                                 overflow:hidden;
                             ">
@@ -137,28 +144,37 @@
                         </td>
 
 
-                        <!-- QR CODE -->
+                        <!-- QR CODE WITH PRODUCT DATA -->
                         <td style="
-                            width:27%;
+                            width:26%;
                             padding:0.2mm;
                             vertical-align:middle;
                             text-align:center;
                         ">
 
-                            <div t-if="bcode"
-                                 t-out="bcode"
+                            <div t-if="qr_data"
+                                 t-out="qr_data"
                                  style="margin:0 auto;"
                                  t-options="{
                                     'widget':'barcode',
                                     'symbology':'QR',
                                     'quiet':1,
-                                    'img_style':'width:12mm;height:12mm;'
+                                    'img_style':'width:12mm;height:12mm;max-width:100%;'
                                  }"/>
+
+                            <div style="
+                                font-size:5px;
+                                font-weight:bold;
+                                line-height:6px;
+                                text-align:center;
+                            ">
+                                QR DATA
+                            </div>
 
                         </td>
 
 
-                        <!-- PRICE WITH CURRENCY -->
+                        <!-- PRICE -->
                         <td style="
                             width:26%;
                             padding:0.2mm;
@@ -167,6 +183,7 @@
                         ">
 
                             <div style="
+                                font-family:'DejaVu Sans',sans-serif;
                                 font-size:7px;
                                 font-weight:bold;
                                 line-height:8px;
@@ -175,6 +192,7 @@
                             </div>
 
                             <div style="
+                                font-family:'DejaVu Sans',sans-serif;
                                 font-size:11px;
                                 font-weight:bold;
                                 line-height:13px;
@@ -185,12 +203,12 @@
                             </div>
 
                             <div style="
-                                font-size:8px;
+                                font-family:'DejaVu Sans',sans-serif;
+                                font-size:6px;
                                 font-weight:bold;
-                                line-height:9px;
-                                white-space:nowrap;
+                                line-height:7px;
                             ">
-                                ر.ق
+                                ر.س
                             </div>
 
                         </td>
@@ -233,21 +251,22 @@
         </t>
 
 
-        <!-- EACH LABEL IN SEPARATE PAGE -->
+        <!-- ONE LABEL PER PAGE -->
         <t t-foreach="labels" t-as="label">
 
-            <div class="page" style="
-                width:50mm !important;
-                height:25mm !important;
-                min-height:25mm !important;
-                max-height:25mm !important;
-                margin:0 !important;
-                padding:0 !important;
-                overflow:hidden;
-                box-sizing:border-box;
-                page-break-inside:avoid;
-                page-break-after:always;
-            ">
+            <div class="page"
+                 t-att-style="
+                    'width:50mm !important;'
+                    'height:24mm !important;'
+                    'min-height:24mm !important;'
+                    'max-height:24mm !important;'
+                    'margin:0 !important;'
+                    'padding:0 !important;'
+                    'overflow:hidden;'
+                    'box-sizing:border-box;'
+                    'page-break-inside:avoid;'
+                    + ('page-break-after:always;' if not label_last else '')
+                 ">
 
                 <t t-set="product"
                    t-value="label[0]"/>
@@ -266,11 +285,12 @@
 
     <!-- ================================================= -->
     <!-- THERMAL PAPER FORMAT: 50 x 25 MM -->
+    <!-- TOP MARGIN 1 MM -->
     <!-- ================================================= -->
     <record id="paperformat_dynamic_a4_80x65"
             model="report.paperformat">
 
-        <field name="name">Thermal Label 50x25 mm</field>
+        <field name="name">Thermal Label 50x25 mm QR Data</field>
 
         <field name="default" eval="False"/>
 
@@ -281,7 +301,7 @@
 
         <field name="orientation">Portrait</field>
 
-        <field name="margin_top">0</field>
+        <field name="margin_top">1</field>
         <field name="margin_bottom">0</field>
         <field name="margin_left">0</field>
         <field name="margin_right">0</field>
@@ -300,7 +320,7 @@
     <record id="product_label_layout_form_dynamic"
             model="ir.actions.report">
 
-        <field name="name">Product Label 50x25 Thermal</field>
+        <field name="name">Product Label 50x25 Thermal QR</field>
 
         <field name="model">product.template</field>
 
