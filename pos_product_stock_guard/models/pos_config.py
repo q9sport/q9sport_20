@@ -180,7 +180,7 @@ class PosCategory(models.Model):
 
     add_to_all_pos = fields.Boolean(
         string="Add to All POSs",
-        default=True,
+        default=False,
     )
 
     @api.onchange('add_to_all_pos')
