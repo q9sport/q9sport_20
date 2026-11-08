@@ -9,7 +9,7 @@ class ProductTemplate(models.Model):
     kit_type = fields.Char(string="Kit Type", tracking=True, copy=True)
     section = fields.Char(string="Section", tracking=True, copy=True)
     team = fields.Char(string="Team", tracking=True, copy=True)
-    season = fields.Many2many(comodel_name='product.template',relation='product_tag_season_rel',column1='product_id',column2='season_id',string='Season',domain=[],tracking=True,)
+    season = fields.Many2many(comodel_name='product.template',relation='product_tag_season_rel', column1='product_id',column2='tag_id',string='Season',domain=[],tracking=True,)
     @api.onchange(
         'jersey_version',
         'size',
