@@ -1,455 +1,390 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <!-- ================================================= -->
-    <!-- PAPER FORMAT: DYNAMIC 50 x 25 MM -->
-    <!-- ================================================= -->
-
-    <record id="paperformat_purchase_barcode_dynamic"
-            model="report.paperformat">
-
-        <field name="name">Purchase Barcode Label 50x25 mm</field>
-        <field name="default" eval="False"/>
-        <field name="format">custom</field>
-
-        <field name="page_width">50</field>
-        <field name="page_height">25</field>
-
-        <field name="orientation">Portrait</field>
-
-        <field name="margin_top">0</field>
-        <field name="margin_bottom">0</field>
-        <field name="margin_left">0</field>
-        <field name="margin_right">0</field>
-
-        <field name="header_line" eval="False"/>
-        <field name="header_spacing">0</field>
-        <field name="dpi">90</field>
-
-    </record>
-
-
-    <!-- ================================================= -->
-    <!-- PAPER FORMAT: A4 -->
-    <!-- ================================================= -->
-
-    <record id="paperformat_purchase_barcode_a4"
-            model="report.paperformat">
-
-        <field name="name">Purchase Barcode A4</field>
+    <!-- Paper Format -->
+    <record id="paperformat_purchase_order_barcodes" model="report.paperformat">
+        <field name="name">Q9SPORT Product Labels A4</field>
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-
         <field name="margin_top">5</field>
         <field name="margin_bottom">5</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
-
         <field name="header_line" eval="False"/>
         <field name="header_spacing">0</field>
         <field name="dpi">90</field>
-
     </record>
 
-
-    <!-- ================================================= -->
-    <!-- REPORT ACTION: A4 -->
-    <!-- ================================================= -->
-
-    <record id="action_purchase_order_barcodes"
-            model="ir.actions.report">
-
-        <field name="name">Purchase Order Barcodes A4</field>
+    <!-- Report Action -->
+    <record id="action_purchase_order_barcodes" model="ir.actions.report">
+        <field name="name">Purchase Order Product Labels</field>
         <field name="model">purchase.order.barcode.wizard</field>
         <field name="report_type">qweb-pdf</field>
-
         <field name="report_name">odoo_dynamic_dashboard.purchase_order_barcode_template</field>
-
-        <field name="paperformat_id"
-               ref="odoo_dynamic_dashboard.paperformat_purchase_barcode_a4"/>
-
+        <field name="paperformat_id" ref="odoo_dynamic_dashboard.paperformat_purchase_order_barcodes"/>
         <field name="binding_model_id" eval="False"/>
         <field name="binding_type">report</field>
-
     </record>
 
-
-    <!-- ================================================= -->
-    <!-- REPORT ACTION: DYNAMIC 50 x 25 -->
-    <!-- ================================================= -->
-
-    <record id="action_purchase_order_barcodes_dynamic"
-            model="ir.actions.report">
-
-        <field name="name">Purchase Barcode Dynamic 50x25</field>
-        <field name="model">purchase.order.barcode.wizard</field>
-        <field name="report_type">qweb-pdf</field>
-
-        <field name="report_name">odoo_dynamic_dashboard.purchase_order_barcode_template</field>
-
-        <field name="paperformat_id"
-               ref="odoo_dynamic_dashboard.paperformat_purchase_barcode_dynamic"/>
-
-        <field name="binding_model_id" eval="False"/>
-        <field name="binding_type">report</field>
-
-    </record>
-
-
-    <!-- ================================================= -->
-    <!-- MAIN REPORT TEMPLATE -->
-    <!-- ================================================= -->
-
+    <!-- QWeb Template -->
     <template id="purchase_order_barcode_template">
-
         <t t-call="web.html_container">
 
-            <t t-call="web.basic_layout">
-
-                <style type="text/css">
-
-                    @page {
-                        margin: 0;
-                        padding: 0;
-                    }
-
-                    /* ===================================== */
-                    /* DYNAMIC PAGE */
-                    /* ===================================== */
-
-                    .purchase-dynamic-page {
-                        width: 50mm !important;
-                        height: 25mm !important;
-                        min-height: 25mm !important;
-                        max-height: 25mm !important;
-
-                        margin: 0 !important;
-                        padding: 0 !important;
-
-                        overflow: hidden !important;
-                        box-sizing: border-box !important;
-
-                        page-break-inside: avoid !important;
-                        page-break-after: always !important;
-                    }
-
-
-                    /* ===================================== */
-                    /* MAIN LABEL */
-                    /* ===================================== */
-
-                    .purchase-dynamic-label {
-                        width: 50mm;
-                        height: 25mm;
-
-                        box-sizing: border-box;
-                        overflow: hidden;
-
-                        padding: 1mm 0.6mm 0.3mm 0.6mm;
-
-                        background: #FFFFFF;
-                        color: #000000;
-
-                        font-family: DejaVu Sans, sans-serif;
-                        text-align: center;
-                    }
-
-
-                    /* ===================================== */
-                    /* ARABIC NAME - TWO LINES */
-                    /* ===================================== */
-
-                    .purchase-arabic-name {
-                        width: 100%;
-                        height: 5.5mm;
-                        min-height: 5.5mm;
-                        max-height: 5.5mm;
-
-                        overflow: hidden;
-
-                        direction: rtl;
-                        text-align: center;
-
-                        font-size: 7px;
-                        font-weight: bold;
-                        line-height: 2.6mm;
-
-                        white-space: normal;
-                        overflow-wrap: anywhere;
-                        word-break: normal;
-
-                        display: block;
-
-                        margin: 0;
-                        padding: 0 0.3mm;
-
-                        box-sizing: border-box;
-                    }
-
-
-                    /* ===================================== */
-                    /* ENGLISH NAME */
-                    /* ===================================== */
-
-                    .purchase-english-name {
-                        width: 100%;
-                        height: 2.5mm;
-
-                        overflow: hidden;
-                        direction: ltr;
-                        text-align: center;
-
-                        font-size: 6px;
-                        font-weight: bold;
-                        line-height: 2.5mm;
-
-                        white-space: nowrap;
-                        margin: 0;
-                    }
-
-
-                    /* ===================================== */
-                    /* SEPARATOR */
-                    /* ===================================== */
-
-                    .purchase-label-separator {
-                        width: 100%;
-                        height: 0.25mm;
-
-                        background: #111111;
-                        margin: 0.2mm 0;
-                    }
-
-
-                    /* ===================================== */
-                    /* LABEL TABLE */
-                    /* ===================================== */
-
-                    .purchase-label-table {
-                        width: 100%;
-                        height: 15mm;
-
-                        table-layout: fixed;
-                        border-collapse: collapse;
-                        border-spacing: 0;
-
-                        margin: 0;
-                        padding: 0;
-                    }
-
-                    .purchase-label-table td {
-                        padding: 0.2mm;
-                        vertical-align: middle;
-                        text-align: center;
-                        overflow: hidden;
-                    }
-
-
-                    /* ===================================== */
-                    /* COLUMNS */
-                    /* ===================================== */
-
-                    .purchase-barcode-cell {
-                        width: 48%;
-                    }
-
-                    .purchase-qr-cell {
-                        width: 26%;
-                    }
-
-                    .purchase-price-cell {
-                        width: 26%;
-                    }
-
-
-                    /* ===================================== */
-                    /* BARCODE */
-                    /* ===================================== */
-
-                    .purchase-barcode-image img {
-                        width: 22mm !important;
-                        height: 8mm !important;
-                        max-width: 100% !important;
-                    }
-
-                    .purchase-barcode-number {
-                        font-size: 6px;
-                        font-weight: bold;
-                        line-height: 7px;
-
-                        white-space: nowrap;
-                        overflow: hidden;
-                    }
-
-
-                    /* ===================================== */
-                    /* QR CODE */
-                    /* ===================================== */
-
-                    .purchase-qr-image img {
-                        width: 12mm !important;
-                        height: 12mm !important;
-                    }
-
-
-                    /* ===================================== */
-                    /* PRICE */
-                    /* ===================================== */
-
-                    .purchase-price-title {
-                        font-size: 7px;
-                        font-weight: bold;
-                        line-height: 8px;
-                    }
-
-                    .purchase-price-value {
-                        font-size: 11px;
-                        font-weight: bold;
-                        line-height: 13px;
-
-                        white-space: nowrap;
-                        overflow: hidden;
-                    }
-
-                    .purchase-currency {
-                        font-size: 6px;
-                        font-weight: bold;
-                        line-height: 7px;
-                    }
-
-                </style>
-
-
-                <!-- ===================================== -->
-                <!-- DOCUMENTS -->
-                <!-- ===================================== -->
-
-                <t t-foreach="docs" t-as="wizard">
-
-                    <!-- ================================= -->
-                    <!-- LABELS PREPARED BY PYTHON -->
-                    <!-- ================================= -->
-
-                    <t t-foreach="labels" t-as="label">
-
-                        <t t-set="product"
-                           t-value="label['product']"/>
-
-                        <t t-set="item_data"
-                           t-value="label['item_data']"/>
-
-                        <t t-set="barcode_value"
-                           t-value="item_data.get('barcode') or item_data.get('qr_code') or ''"/>
-
-
-                        <!-- ================================= -->
-                        <!-- ONE LABEL PER PAGE -->
-                        <!-- ================================= -->
-
-                        <div class="page purchase-dynamic-page">
-
-                            <div class="purchase-dynamic-label">
-
-                                <!-- ARABIC NAME -->
-
-                                <div class="purchase-arabic-name">
-                                    <t t-out="item_data.get('arabic_name') or ''"/>
-                                </div>
-
-
-                                <!-- ENGLISH NAME -->
-
-                                <div class="purchase-english-name">
-                                    <t t-out="item_data.get('product_name') or product.name or ''"/>
-                                </div>
-
-
-                                <!-- SEPARATOR -->
-
-                                <div class="purchase-label-separator"></div>
-
-
-                                <!-- BARCODE / QR / PRICE -->
-
-                                <table class="purchase-label-table">
-
-                                    <tbody>
-                                        <tr>
-
-                                            <!-- BARCODE -->
-
-                                            <td class="purchase-barcode-cell">
-
-                                                <div t-if="barcode_value"
-                                                     class="purchase-barcode-image"
-                                                     t-out="barcode_value"
-                                                     t-options="{
-                                                         'widget': 'barcode',
-                                                         'symbology': 'Code128',
-                                                         'quiet': 1,
-                                                         'img_style': 'width:22mm;height:8mm;'
-                                                     }"/>
-
-                                                <div class="purchase-barcode-number">
-                                                    <t t-out="barcode_value"/>
+            <style type="text/css">
+
+                @font-face {
+                    font-family: 'Q9Arabic';
+                    src: url('/odoo_dynamic_dashboard/static/src/fonts/NotoNaskhArabic-Regular.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+
+                * {
+                    box-sizing: border-box;
+                }
+
+                .page {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+
+                .labels-table {
+                    width: 100%;
+                    border-collapse: separate;
+                    border-spacing: 2mm 2mm;
+                    table-layout: fixed;
+                }
+
+                .labels-table td {
+                    padding: 0;
+                    vertical-align: top;
+                }
+
+                /* Main Label */
+                .purchase-label {
+                    width: 100%;
+                    height: 46mm;
+                    overflow: hidden;
+                    background: #ffffff;
+                    border: 1px solid #000000;
+                    border-radius: 1mm;
+                    color: #000000;
+                    text-align: center;
+                    padding: 2mm;
+                    page-break-inside: avoid;
+                }
+
+                .purchase-label-inner {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-around;
+                    overflow: hidden;
+                }
+
+                /* Arabic Name */
+                .purchase-label-arabic {
+                    width: 100%;
+                    min-height: 5mm;
+                    max-height: 9mm;
+                    overflow: hidden;
+                    direction: rtl;
+                    text-align: center;
+                    font-family: 'Q9Arabic', sans-serif;
+                    font-size: 12px;
+                    line-height: 1.2;
+                    color: #000000;
+                    font-weight: bold;
+                    word-wrap: break-word;
+                }
+
+                /* English Name */
+                .purchase-label-english {
+                    width: 100%;
+                    max-height: 8mm;
+                    overflow: hidden;
+                    text-align: center;
+                    direction: ltr;
+                    font-family: Arial, sans-serif;
+                    font-size: 9px;
+                    line-height: 1.2;
+                    color: #000000;
+                    font-weight: bold;
+                    word-wrap: break-word;
+                }
+
+                /* Price */
+                .purchase-label-price {
+                    width: 100%;
+                    color: #000000;
+                    font-family: Arial, sans-serif;
+                    font-size: 12px;
+                    font-weight: bold;
+                    text-align: center;
+                    white-space: nowrap;
+                    direction: ltr;
+                    line-height: 1.2;
+                }
+
+                .purchase-label-currency {
+                    display: inline-block;
+                    margin-left: 1mm;
+                    font-size: 10px;
+                    font-weight: normal;
+                    direction: ltr;
+                }
+
+                /* Code128 */
+                .purchase-label-barcode {
+                    display: block;
+                    width: 95%;
+                    height: 12mm;
+                    object-fit: contain;
+                    margin: 0 auto;
+                }
+
+                .purchase-label-barcode-text {
+                    color: #000000;
+                    font-family: Arial, sans-serif;
+                    font-size: 8px;
+                    line-height: 1;
+                    text-align: center;
+                    direction: ltr;
+                }
+
+                /* QR */
+                .purchase-label-qr {
+                    display: block;
+                    width: 18mm;
+                    height: 18mm;
+                    object-fit: contain;
+                    margin: 0 auto;
+                    background: #ffffff;
+                }
+
+                /* Dynamic: 3 x 3 */
+                .format-dynamic .purchase-label {
+                    height: 46mm;
+                }
+
+                .format-dynamic .labels-table td {
+                    width: 33.333%;
+                }
+
+                /* Dymo */
+                .format-dymo .purchase-label {
+                    height: 35mm;
+                }
+
+                .format-dymo .labels-table td {
+                    width: 100%;
+                }
+
+                .format-dymo .purchase-label-arabic {
+                    font-size: 11px;
+                }
+
+                .format-dymo .purchase-label-english {
+                    font-size: 8px;
+                }
+
+                .format-dymo .purchase-label-qr {
+                    width: 13mm;
+                    height: 13mm;
+                }
+
+                .format-dymo .purchase-label-barcode {
+                    height: 9mm;
+                }
+
+                /* 2 x 7 */
+                .format-2x7 .purchase-label {
+                    height: 38mm;
+                }
+
+                .format-2x7 .labels-table td {
+                    width: 50%;
+                }
+
+                .format-2x7 .purchase-label-arabic {
+                    font-size: 10px;
+                }
+
+                .format-2x7 .purchase-label-english {
+                    font-size: 8px;
+                }
+
+                .format-2x7 .purchase-label-qr {
+                    width: 14mm;
+                    height: 14mm;
+                }
+
+                .format-2x7 .purchase-label-barcode {
+                    height: 10mm;
+                }
+
+                /* 4 x 7 */
+                .format-4x7 .purchase-label {
+                    height: 31mm;
+                    padding: 1mm;
+                }
+
+                .format-4x7 .labels-table td {
+                    width: 25%;
+                }
+
+                .format-4x7 .purchase-label-arabic {
+                    font-size: 8px;
+                    min-height: 3mm;
+                    max-height: 5mm;
+                }
+
+                .format-4x7 .purchase-label-english {
+                    font-size: 7px;
+                    max-height: 5mm;
+                }
+
+                .format-4x7 .purchase-label-price {
+                    font-size: 9px;
+                }
+
+                .format-4x7 .purchase-label-currency {
+                    font-size: 7px;
+                }
+
+                .format-4x7 .purchase-label-qr {
+                    width: 11mm;
+                    height: 11mm;
+                }
+
+                .format-4x7 .purchase-label-barcode {
+                    height: 8mm;
+                }
+
+                .format-4x7 .purchase-label-barcode-text {
+                    font-size: 6px;
+                }
+
+                /* 4 x 12 */
+                .format-4x12 .purchase-label {
+                    height: 21mm;
+                    padding: 1mm;
+                }
+
+                .format-4x12 .purchase-label-inner {
+                    justify-content: center;
+                    gap: 0.5mm;
+                }
+
+                .format-4x12 .purchase-label-arabic {
+                    font-size: 7px;
+                    min-height: 2mm;
+                    max-height: 4mm;
+                }
+
+                .format-4x12 .purchase-label-english {
+                    font-size: 6px;
+                    max-height: 4mm;
+                }
+
+                .format-4x12 .purchase-label-price {
+                    font-size: 8px;
+                }
+
+                .format-4x12 .purchase-label-currency {
+                    font-size: 6px;
+                }
+
+                .format-4x12 .purchase-label-qr {
+                    width: 9mm;
+                    height: 9mm;
+                }
+
+                .format-4x12 .purchase-label-barcode {
+                    height: 6mm;
+                }
+
+                .format-4x12 .purchase-label-barcode-text {
+                    font-size: 5px;
+                }
+
+            </style>
+
+            <t t-foreach="report_data" t-as="item">
+
+                <t t-set="wizard" t-value="item['wizard']"/>
+
+                <t t-foreach="item['pages']" t-as="page_rows">
+
+                    <div t-att-class="'page format-' + wizard.label_format">
+
+                        <table class="labels-table">
+                            <tbody>
+
+                                <tr t-foreach="page_rows" t-as="row">
+
+                                    <td t-foreach="row" t-as="label">
+
+                                        <div class="purchase-label">
+
+                                            <div class="purchase-label-inner">
+
+                                                <!-- Arabic Product Name -->
+                                                <div class="purchase-label-arabic">
+                                                    <span t-esc="label['arabic_name'] or ''"/>
                                                 </div>
 
-                                            </td>
-
-
-                                            <!-- QR CODE -->
-
-                                            <td class="purchase-qr-cell">
-
-                                                <div t-if="item_data.get('qr_code')"
-                                                     class="purchase-qr-image"
-                                                     t-out="item_data.get('qr_code')"
-                                                     t-options="{
-                                                         'widget': 'barcode',
-                                                         'symbology': 'QR',
-                                                         'quiet': 1,
-                                                         'img_style': 'width:12mm;height:12mm;'
-                                                     }"/>
-
-                                            </td>
-
-
-                                            <!-- PRICE -->
-
-                                            <td class="purchase-price-cell">
-
-                                                <div class="purchase-price-title">
-                                                    PRICE
+                                                <!-- English Product Name -->
+                                                <div class="purchase-label-english">
+                                                    <span t-esc="label['english_name'] or ''"/>
                                                 </div>
 
-                                                <div class="purchase-price-value">
-                                                    <t t-out="'%.2f' % float(item_data.get('price') or 0.0)"/>
+                                                <!-- Product Price -->
+                                                <div class="purchase-label-price">
+                                                    <span t-out="'%.2f' % (label['price'] or 0.0)"/>
+                                                    <span class="purchase-label-currency"
+                                                          t-esc="label['currency'].symbol if label['currency'] else ''"/>
                                                 </div>
 
-                                                <div class="purchase-currency">
-                                                    <t t-out="item_data.get('currency_symbol') or item_data.get('currency_id') or ''"/>
-                                                </div>
+                                                <!-- QR Code -->
+                                                <t t-if="label['barcode_type'] == 'qr'">
+                                                    <img class="purchase-label-qr"
+                                                         t-att-src="'data:image/png;base64,' + label['barcode_base64']"
+                                                         alt="QR Code"/>
+                                                </t>
 
-                                            </td>
+                                                <!-- Code128 Barcode -->
+                                                <t t-else="">
+                                                    <img class="purchase-label-barcode"
+                                                         t-att-src="'data:image/png;base64,' + label['barcode_base64']"
+                                                         alt="Barcode"/>
 
-                                        </tr>
-                                    </tbody>
+                                                    <div class="purchase-label-barcode-text">
+                                                        <span t-esc="label['barcode']"/>
+                                                    </div>
+                                                </t>
 
-                                </table>
+                                            </div>
 
-                            </div>
+                                        </div>
 
-                        </div>
+                                    </td>
 
-                    </t>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
 
                 </t>
 
             </t>
 
         </t>
-
     </template>
 
 </odoo>

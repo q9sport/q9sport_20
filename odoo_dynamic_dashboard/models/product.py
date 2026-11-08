@@ -1,5 +1,6 @@
 from odoo import api, fields, models
 
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
@@ -8,9 +9,7 @@ class ProductTemplate(models.Model):
     kit_type = fields.Char(string="Kit Type", tracking=True, copy=True)
     section = fields.Char(string="Section", tracking=True, copy=True)
     team = fields.Char(string="Team", tracking=True, copy=True)
-    season = fields.Many2many(comodel_name='product.tag',relation='product_template_season_tag_rel',column1='product_template_id',column2='tag_id',string='Season',tracking=True,copy=True,
-)   
-    
+
     @api.onchange(
         'jersey_version',
         'size',
