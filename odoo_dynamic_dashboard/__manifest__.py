@@ -43,7 +43,6 @@ Build dashboards without code, right in Odoo:
     'data': [
         'security/odoo_dynamic_dashboard_security.xml',
         'security/ir.access.csv',
-        'security/product_season_access.csv',
         'views/dynamic_dashboard_block_views.xml',
         'views/dynamic_dashboard_views.xml',
         'views/odoo_dynamic_dashboard_menus.xml',
