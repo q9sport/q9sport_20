@@ -1,16 +1,168 @@
+/* =========================================
+   POS PRODUCT CARD
+========================================= */
+
+.pos .product-card,
+.pos .product {
+    min-height: 210px !important;
+    height: auto !important;
+}
+
+/* =========================================
+   STOCK QUANTITY BADGE
+========================================= */
+
 .o_stock_guard_badge {
-    z-index: 1;
-    font-size: 0.8rem;
-    line-height: 1.5;
+    position: absolute !important;
+    top: 5px !important;
+    right: 5px !important;
+
+    z-index: 10 !important;
+
+    min-width: 42px;
+    height: 26px;
+
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 7px;
+
+    font-size: 11px !important;
+    font-weight: 900 !important;
+
+    border-radius: 7px;
     pointer-events: none;
 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.14);
+
+    /* GREEN - IN STOCK */
     &.o_stock_guard_in {
-        background-color: #047857;
-        color: #fff;
+        background: #BBE7CC !important;
+        color: #14532D !important;
+        border: 1px solid #65B889 !important;
     }
 
+    /* RED - OUT OF STOCK */
     &.o_stock_guard_out {
-        background-color: #be123c;
-        color: #fff;
+        background: #F8CACA !important;
+        color: #991B1B !important;
+        border: 1px solid #E88B8B !important;
     }
+
+    /* GOLD - LOW STOCK */
+    &.o_stock_guard_warning {
+        background: #F5D98B !important;
+        color: #783F00 !important;
+        border: 1px solid #D9AE45 !important;
+    }
+}
+
+/* =========================================
+   BARCODE - BOTTOM LEFT
+========================================= */
+
+.o_stock_guard_barcode {
+
+    position: relative !important;
+
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+
+    transform: none !important;
+
+    z-index: 5 !important;
+
+    display: inline-flex !important;
+    flex-direction: column !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: fit-content !important;
+
+    min-width: 0 !important;
+    max-width: 95% !important;
+
+    min-height: 34px !important;
+
+    /* Move LEFT - NOT RIGHT */
+    margin-top: 12px !important;
+    margin-right: auto !important;
+    margin-bottom: 5px !important;
+    margin-left: 8px !important;
+
+    padding: 3px 9px !important;
+
+    box-sizing: border-box !important;
+
+    /* Solid light background - no blur */
+    background: #EAF2FF !important;
+
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+
+    border: 1px solid #B8D0F5 !important;
+
+    border-radius: 6px !important;
+
+    box-shadow: 0 1px 3px rgba(30, 64, 175, 0.10) !important;
+
+    pointer-events: none !important;
+
+    overflow: hidden !important;
+}
+
+/* =========================================
+   BARCODE LABEL
+========================================= */
+
+.o_stock_guard_barcode_label {
+
+    display: block !important;
+
+    color: #64748B !important;
+
+    font-size: 7px !important;
+    font-weight: 800 !important;
+
+    line-height: 9px !important;
+
+    letter-spacing: 1.5px !important;
+
+    margin-bottom: 1px !important;
+}
+
+/* =========================================
+   BARCODE NUMBER
+========================================= */
+
+.o_stock_guard_barcode_value {
+
+    display: block !important;
+
+    width: auto !important;
+
+    max-width: 100% !important;
+
+    color: #172554 !important;
+
+    font-size: 12px !important;
+    font-weight: 900 !important;
+
+    line-height: 16px !important;
+
+    letter-spacing: 0.5px !important;
+
+    text-align: center !important;
+
+    white-space: nowrap !important;
+
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+
+    font-family: monospace !important;
+
+    text-shadow: none !important;
 }
