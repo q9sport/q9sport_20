@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Delivery Orders action: use Odoo's standard POS Order search view.
+         The previous custom search view caused an Invalid view definition
+         during module upgrade, so it is intentionally not registered here. -->
+    <record id="action_pos_delivery_orders" model="ir.actions.act_window">
+        <field name="name">Delivery Orders</field>
+        <field name="res_model">pos.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('delivery_employee_id', '!=', False)]</field>
+        <field name="context">{'search_default_group_driver': 0}</field>
+    </record>
+
+    <menuitem id="menu_pos_delivery_driver_root"
+              name="Delivery Management"
+              sequence="65"
+              web_icon="pos_delivery_driver,static/description/icon.png"/>
+
+    <menuitem id="menu_pos_delivery_orders"
+              name="Delivery Orders"
+              parent="menu_pos_delivery_driver_root"
+              action="action_pos_delivery_orders"
+              sequence="10"/>
+</odoo>

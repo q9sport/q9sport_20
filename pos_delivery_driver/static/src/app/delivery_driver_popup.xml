@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_delivery_driver.DeliveryDriverPopup">
+        <Dialog title="Choose Delivery Driver">
+        <div class="o_delivery_driver_popup">
+                <div class="o_delivery_driver_search input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-search"/></span>
+                    <input class="form-control"
+                           type="text"
+                           placeholder="Search delivery driver..."
+                           t-model="this.state.search"/>
+                </div>
+
+                <div class="o_delivery_driver_list">
+                    <t t-if="this.filteredEmployees.length">
+                        <t t-foreach="this.filteredEmployees" t-as="employee" t-key="employee.id">
+                            <button type="button"
+                                    t-att-class="'o_delivery_driver_card ' + (this.state.selectedDriverId === employee.id ? 'selected' : '')"
+                                    t-on-click="() => this.selectDriver(employee.id)">
+                                <span class="o_delivery_driver_avatar">
+                                    <i class="fa fa-motorcycle"/>
+                                </span>
+                                <span class="o_delivery_driver_info">
+                                    <strong t-out="employee.name"/>
+                                    <small>
+                                        <span t-out="employee.order_count || 0"/> total
+                                        <span class="mx-1">·</span>
+                                        <span t-out="employee.open_count || 0"/> open
+                                        <span class="mx-1">·</span>
+                                        <span t-out="employee.delivered_count || 0"/> delivered
+                                    </small>
+                                </span>
+                                <span class="o_delivery_driver_check">
+                                    <i t-if="this.state.selectedDriverId === employee.id" class="fa fa-check-circle"/>
+                                    <i t-else="" class="fa fa-circle-o"/>
+                                </span>
+                            </button>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="o_delivery_driver_empty">
+                            <i class="fa fa-user-times"/>
+                            <span>No drivers match your search.</span>
+                        </div>
+                    </t>
+                </div>
+
+                <div class="o_delivery_driver_footer mt-3">
+                    <label class="o_delivery_cod_toggle">
+                        <input type="checkbox" t-model="this.state.isCashOnDelivery"
+                               t-att-disabled="!this.state.selectedDriverId"/>
+                        <span class="o_delivery_cod_icon"><i class="fa fa-money"/></span>
+                        <span class="o_delivery_cod_text">
+                            <strong>Cash on Delivery</strong>
+                            <small>Customer pays the driver on delivery</small>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <div class="d-flex justify-content-end gap-2 w-100">
+                    <button type="button" class="btn btn-secondary" t-on-click="this.cancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" t-on-click="this.confirm"
+                            t-att-disabled="!this.state.selectedDriverId">
+                        <i class="fa fa-check me-1"/> Apply to Order
+                    </button>
+                </div>
+            </t>
+        </Dialog>
+    </t>
+</templates>

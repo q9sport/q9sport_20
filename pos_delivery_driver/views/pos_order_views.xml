@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_order_form_delivery_driver" model="ir.ui.view">
+        <field name="name">pos.order.form.delivery.driver</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet//group" position="after">
+                <group string="Delivery Management" name="delivery_management">
+                    <group>
+                        <field name="delivery_employee_id"/>
+                        <field name="delivery_status" widget="statusbar"
+                               statusbar_visible="pending,assigned,in_delivery,delivered"/>
+                        <field name="is_cash_on_delivery"/>
+                        <field name="delivery_assigned_date"/>
+                        <field name="delivery_date"/>
+                    </group>
+                    <group>
+                        <field name="delivery_collected"/>
+                        <field name="delivery_collected_amount"
+                               invisible="not delivery_collected and delivery_collected_amount == 0"/>
+                    </group>
+                    <group>
+                        <button name="action_delivery_start" type="object"
+                                string="Start Delivery" class="btn-primary"
+                                invisible="delivery_status not in ('assigned', 'pending')"/>
+                        <button name="action_delivery_mark_delivered" type="object"
+                                string="Mark Delivered" class="btn-primary"
+                                invisible="delivery_status in ('delivered', 'cancelled')"/>
+                        <button name="action_delivery_mark_failed" type="object"
+                                string="Mark Failed" class="btn-secondary"
+                                invisible="delivery_status in ('delivered', 'cancelled', 'failed')"/>
+                        <button name="action_delivery_record_collection" type="object"
+                                string="Confirm Collection" class="btn-secondary"
+                                invisible="delivery_collected or not is_cash_on_delivery"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_pos_order_tree_delivery_driver" model="ir.ui.view">
+        <field name="name">pos.order.list.delivery.driver</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list/field[@name='state']" position="after">
+                <field name="delivery_employee_id" optional="show"/>
+                <field name="delivery_status" optional="show"/>
+                <field name="is_cash_on_delivery" optional="hide"/>
+                <field name="delivery_collected" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
