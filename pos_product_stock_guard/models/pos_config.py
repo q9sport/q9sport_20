@@ -220,16 +220,21 @@ class PosCategory ( models.Model ) :
                 vals['pos_config_ids'] = [(5 , 0 , 0)]
 
         return super ().write ( vals )
-    
+
 
     #### identify  parent level ###
-    @api.depends ( 'parent_id' , 'parent_id.pos_category_level' )
+    @api.depends ( 'parent_id' , 'parent_id.parent_id' )
     def _compute_pos_category_level(self) :
         for rec in self :
-            rec.pos_category_level = (
-                rec.parent_id.pos_category_level + 1
-                if rec.parent_id else 1
-            )
+            level = 1
+            parent = rec.parent_id
+
+            while parent :
+                level += 1
+                parent = parent.parent_id
+
+            rec.pos_category_level = level
+
 
 
 
