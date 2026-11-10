@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_delivery_driver" model="ir.ui.view">
+        <field name="name">hr.employee.form.delivery.driver</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="POS Delivery Settings">
+                    <field name="is_delivery_driver"/>
+                </group>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_delivery_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-motorcycle"
+                        invisible="not is_delivery_driver">
+                    <field name="delivery_order_count" widget="statinfo" string="Delivery Orders"/>
+                </button>
+                <button name="action_view_open_delivery_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-clock-o"
+                        invisible="not is_delivery_driver">
+                    <field name="delivery_pending_count" widget="statinfo" string="Open Orders"/>
+                </button>
+                <button name="action_view_delivered_delivery_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-check-circle"
+                        invisible="not is_delivery_driver">
+                    <field name="delivery_delivered_count" widget="statinfo" string="Delivered"/>
+                </button>
+                <button name="action_view_failed_delivery_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-exclamation-triangle"
+                        invisible="not is_delivery_driver">
+                    <field name="delivery_failed_count" widget="statinfo" string="Failed"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>
