@@ -175,45 +175,62 @@ class PosConfig ( models.Model ) :
 
 
 ### ADD variables for adding categories of products in All pos  ###
-class PosCategory(models.Model):
+class PosCategory ( models.Model ) :
     _inherit = 'pos.category'
 
-    add_to_all_pos = fields.Boolean(
-        string="Add to All POSs",
-        default=True,
+    add_to_all_pos = fields.Boolean (
+        string="Add to All POSs" ,
+        default=True ,
     )
-    pos_category_sort_name = fields.Char(
-        string='PoS Product Category',
-        compute='_compute_pos_category_sort_name',
-        store=True,
+    pos_category_sort_name = fields.Char (
+        string='PoS Product Category' ,
+        compute='_compute_pos_category_sort_name' ,
+        store=True ,
     )
-    
-    @api.depends('name', 'parent_id', 'parent_id.name')
-    def _compute_pos_category_sort_name(self):
-        for rec in self:
+    pos_category_level = fields.Integer (
+        string="Category Level" ,
+        compute="_compute_pos_category_level" ,
+        store=True , )
+
+
+
+
+    @api.depends ( 'name' , 'parent_id' , 'parent_id.name' )
+    def _compute_pos_category_sort_name(self) :
+        for rec in self :
             rec.pos_category_sort_name = rec.display_name
 
-    @api.onchange('add_to_all_pos')
-    def _onchange_add_to_all_pos(self):
-        for rec in self:
-            if rec.add_to_all_pos:
-                all_ids = self.env['pos.config'].sudo().search([]).ids
-                rec.pos_config_ids = [(6, 0, all_ids)]
-            else:
-                rec.pos_config_ids = [(5, 0, 0)]
+    @api.onchange ( 'add_to_all_pos' )
+    def _onchange_add_to_all_pos(self) :
+        for rec in self :
+            if rec.add_to_all_pos :
+                all_ids = self.env['pos.config'].sudo ().search ( [] ).ids
+                rec.pos_config_ids = [(6 , 0 , all_ids)]
+            else :
+                rec.pos_config_ids = [(5 , 0 , 0)]
 
-    def write(self, vals):
-        vals = vals.copy()
+    def write(self , vals) :
+        vals = vals.copy ()
 
-        if 'add_to_all_pos' in vals:
-            if vals['add_to_all_pos']:
-                all_ids = self.env['pos.config'].sudo().search([]).ids
-                vals['pos_config_ids'] = [(6, 0, all_ids)]
-            else:
-                vals['pos_config_ids'] = [(5, 0, 0)]
+        if 'add_to_all_pos' in vals :
+            if vals['add_to_all_pos'] :
+                all_ids = self.env['pos.config'].sudo ().search ( [] ).ids
+                vals['pos_config_ids'] = [(6 , 0 , all_ids)]
+            else :
+                vals['pos_config_ids'] = [(5 , 0 , 0)]
 
-        return super().write(vals)
+        return super ().write ( vals )
     
+
+    #### identify  parent level ###
+    @api.depends ( 'parent_id' , 'parent_id.pos_category_level' )
+    def _compute_pos_category_level(self) :
+        for rec in self :
+            rec.pos_category_level = (
+                rec.parent_id.pos_category_level + 1
+                if rec.parent_id else 1
+            )
+
 
 
 class PosStockGuardPassword ( models.Model ) :
