@@ -182,6 +182,16 @@ class PosCategory(models.Model):
         string="Add to All POSs",
         default=True,
     )
+    pos_category_sort_name = fields.Char(
+        string='PoS Product Category',
+        compute='_compute_pos_category_sort_name',
+        store=True,
+    )
+    
+    @api.depends('name', 'parent_id', 'parent_id.name')
+    def _compute_pos_category_sort_name(self):
+        for rec in self:
+            rec.pos_category_sort_name = rec.display_name
 
     @api.onchange('add_to_all_pos')
     def _onchange_add_to_all_pos(self):
