@@ -11,3 +11,4 @@ access_dynamic_dashboard_menu_read,dynamic.dashboard.menu.read,dynamic.dashboard
 access_dynamic_dashboard_block_menu_read,dynamic.dashboard.block.menu.read,dynamic.dashboard.block,base.group_user,r,"[('dashboard_id.menu_id.group_ids', 'in', user.all_group_ids.ids)]"
 access_purchase_order_barcode_wizard,purchase.order.barcode.wizard,purchase.order.barcode.wizard,base.group_user,crud,
 access_purchase_order_barcode_wizard_line,purchase.order.barcode.wizard.line,purchase.order.barcode.wizard.line,base.group_user,crud,
+access_product_season_user,product.season.user,product.season,base.group_user,crud,

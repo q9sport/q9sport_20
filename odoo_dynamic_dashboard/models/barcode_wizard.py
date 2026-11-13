@@ -49,25 +49,35 @@ def _get_product_field_val(product, fname, env, purchase_line=None):
     # Currency
     elif fname == 'currency_id':
         currency = (
-            purchase_line.order_id.currency_id
-            if purchase_line and purchase_line.order_id
-            else env.company.currency_id
+            purchase_line.currency_id
+            if purchase_line and purchase_line.currency_id
+            else (
+                purchase_line.order_id.currency_id
+                if purchase_line and purchase_line.order_id
+                else env.company.currency_id
+            )
         )
         return currency.name or ''
 
     elif fname == 'currency_symbol':
         currency = (
-            purchase_line.order_id.currency_id
-            if purchase_line and purchase_line.order_id
-            else env.company.currency_id
+            purchase_line.currency_id
+            if purchase_line and purchase_line.currency_id
+            else (
+                purchase_line.order_id.currency_id
+                if purchase_line and purchase_line.order_id
+                else env.company.currency_id
+            )
         )
         return currency.symbol or ''
 
     # Purchase Price
     elif fname == 'price_unit':
+        # Keep Purchase Order unit price unchanged. For the standalone
+        # Products list, show the product's configured Sales Price.
         if purchase_line:
-            return str(purchase_line.price_unit or 0.0)
-        return '0.0'
+            return str(purchase_line.price_unit)
+        return str(product.list_price or 0.0)
 
     # Product Category
     elif fname == 'categ_id':
@@ -163,18 +173,26 @@ def _prepare_purchase_barcode_data(env, wizard):
         )
 
         # Purchase Price
-        purchase_price = (
-            purchase_line.price_unit
-            if purchase_line
-            else wizard_line.price_unit
-        )
-
-        # Currency
-        currency = (
-            wizard.purchase_order_id.currency_id
-            if wizard.purchase_order_id
-            else env.company.currency_id
-        )
+        # Price source:
+        # 1) Purchase Order flow: exact purchase.order.line price_unit.
+        # 2) Product list flow: product.template/product.product list_price.
+        # No fallback from a valid zero PO price to Sales Price.
+        if purchase_line:
+            purchase_price = purchase_line.price_unit
+            currency = (
+                purchase_line.currency_id
+                or purchase_line.order_id.currency_id
+                or env.company.currency_id
+            )
+        elif wizard.purchase_order_id:
+            purchase_price = wizard_line.price_unit or 0.0
+            currency = (
+                wizard.purchase_order_id.currency_id
+                or env.company.currency_id
+            )
+        else:
+            purchase_price = product.list_price or 0.0
+            currency = env.company.currency_id
 
         # Quantity
         quantity = max(
@@ -233,7 +251,7 @@ def _prepare_purchase_barcode_data(env, wizard):
 
             'categ_name': category_name,
 
-            'price': str(purchase_price or 0.0),
+            'price': str(currency.round(purchase_price or 0.0)),
 
             'currency_id': currency.name or '',
             'currency_symbol': currency.symbol or '',
@@ -249,6 +267,69 @@ def _prepare_purchase_barcode_data(env, wizard):
         quantity_by_product[product].append(item_data)
 
     return quantity_by_product
+
+
+# =========================================================
+# PRODUCT TEMPLATE LIST ACTION
+# =========================================================
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    def action_open_product_barcode_wizard(self):
+        """Open a pre-filled barcode wizard for selected product templates.
+
+        This action is separate from the Purchase Order flow. Each line is
+        created with product_id explicitly supplied, avoiding empty required
+        product lines in the transient One2many.
+        """
+        templates = self.exists()
+        if not templates:
+            raise UserError(_('Please select at least one product.'))
+
+        products = templates.mapped('product_variant_ids').exists()
+        if not products:
+            raise UserError(_(
+                'No product variants were found for the selected products.'
+            ))
+
+        line_commands = []
+        seen_product_ids = set()
+        for product in products:
+            if not product or not product.id or product.id in seen_product_ids:
+                continue
+            seen_product_ids.add(product.id)
+            line_commands.append((0, 0, {
+                'selected': True,
+                'product_id': product.id,
+                'barcode': (
+                    product.barcode
+                    or product.default_code
+                    or str(product.id)
+                ),
+                'quantity': 1,
+            }))
+
+        if not line_commands:
+            raise UserError(_('No valid products were selected.'))
+
+        wizard = self.env['purchase.order.barcode.wizard'].create({
+            'purchase_order_id': False,
+            'line_ids': line_commands,
+        })
+
+        view = self.env.ref(
+            'odoo_dynamic_dashboard.view_product_barcode_wizard_form'
+        )
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Print Product Barcodes'),
+            'res_model': 'purchase.order.barcode.wizard',
+            'res_id': wizard.id,
+            'view_mode': 'form',
+            'views': [(view.id, 'form')],
+            'target': 'new',
+        }
 
 
 # =========================================================
@@ -397,6 +478,40 @@ class PurchaseOrderBarcodeWizardLine(models.TransientModel):
         related='purchase_line_id.price_unit',
         readonly=True,
     )
+
+    display_currency_id = fields.Many2one(
+        'res.currency',
+        string='Display Currency',
+        compute='_compute_display_price',
+    )
+
+    display_price = fields.Monetary(
+        string='Price',
+        currency_field='display_currency_id',
+        compute='_compute_display_price',
+    )
+
+    @api.depends(
+        'product_id',
+        'product_id.list_price',
+        'purchase_line_id',
+        'purchase_line_id.price_unit',
+        'purchase_line_id.currency_id',
+        'purchase_line_id.order_id.currency_id',
+    )
+    def _compute_display_price(self):
+        for line in self:
+            if line.purchase_line_id:
+                purchase_line = line.purchase_line_id
+                line.display_price = purchase_line.price_unit
+                line.display_currency_id = (
+                    purchase_line.currency_id
+                    or purchase_line.order_id.currency_id
+                    or line.env.company.currency_id
+                )
+            else:
+                line.display_price = line.product_id.list_price if line.product_id else 0.0
+                line.display_currency_id = line.env.company.currency_id
 
     barcode = fields.Char(
         string='Barcode',

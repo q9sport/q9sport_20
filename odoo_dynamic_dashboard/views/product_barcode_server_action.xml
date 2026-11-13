@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--
+        Adds Action > Print Barcodes to the Product list view.
+        The selected product.template records are passed to the wizard.
+    -->
+    <record id="action_server_product_template_print_barcodes"
+            model="ir.actions.server">
+
+        <field name="name">Print Barcodes</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code"><![CDATA[
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'Print Product Barcodes',
+    'res_model': 'purchase.order.barcode.wizard',
+    'view_mode': 'form',
+    'views': [(env.ref('odoo_dynamic_dashboard.view_purchase_order_barcode_wizard_form').id, 'form')],
+    'target': 'new',
+    'context': dict(
+        env.context,
+        active_model='product.template',
+        active_ids=records.ids,
+    ),
+}
+        ]]></field>
+
+    </record>
+
+</odoo>
