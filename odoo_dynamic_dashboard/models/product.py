@@ -9,6 +9,11 @@ class ProductTemplate(models.Model):
     kit_type = fields.Char(string="Kit Type", tracking=True, copy=True)
     section = fields.Char(string="Section", tracking=True, copy=True)
     team = fields.Char(string="Team", tracking=True, copy=True)
+    season = fields.Many2one(
+        comodel_name='product.tag',
+        string='Season',
+        ondelete='set null',
+        index=True, )
 
     @api.onchange(
         'jersey_version',
