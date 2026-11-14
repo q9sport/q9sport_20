@@ -1,0 +1,441 @@
+/* Odoo 20 POS - compact split-payment and Qatar customer screen. */
+.payment-screen {
+    --q-ink: #202b42;
+    --q-muted: #77839a;
+    --q-line: #e3e9f2;
+    --q-primary: #365bd2;
+    --q-primary-soft: #eff3ff;
+    --q-green: #08784d;
+    background: #f5f7fb !important;
+    color: var(--q-ink);
+    font-size: 12px;
+}
+
+/* Desktop: payment methods LEFT; totals and customer details RIGHT. */
+@media (min-width: 768px) {
+    .payment-screen .main-content {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        padding: 9px 12px !important;
+        overflow: hidden !important;
+    }
+    .payment-screen .left-content {
+        order: 1 !important;
+        display: flex !important;
+        flex: 0 0 35% !important;
+        flex-direction: column !important;
+        width: 35% !important;
+        max-width: 35% !important;
+        min-width: 260px !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+        padding: 9px !important;
+        border: 1px solid var(--q-line);
+        border-radius: 13px;
+        background: #fff;
+        box-shadow: 0 4px 16px rgba(31, 47, 79, .05);
+    }
+    .payment-screen .left-content > .flex-grow-1 {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+    }
+    .payment-screen .left-content .paymentmethods-container {
+        max-height: calc(100vh - 255px) !important;
+        min-height: 100px !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+        scrollbar-color: #c7d1e3 transparent;
+    }
+    .payment-screen .left-content .paymentmethods-container::-webkit-scrollbar { width: 6px; }
+    .payment-screen .left-content .paymentmethods-container::-webkit-scrollbar-thumb { border-radius: 8px; background: #c7d1e3; }
+    .payment-screen .left-content .paymentmethods { max-height: none !important; overflow: visible !important; }
+    .payment-screen .left-content > .w-100,
+    .payment-screen .left-content > .d-flex.flex-row { flex: 0 0 auto !important; }
+    .payment-screen .center-content {
+        order: 2 !important;
+        display: flex !important;
+        flex: 1 1 65% !important;
+        flex-direction: column !important;
+        width: 65% !important;
+        max-width: 65% !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        padding: 7px 9px !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        scrollbar-width: thin;
+    }
+    .payment-screen .center-content > .payment-summary,
+    .payment-screen .center-content .paymentlines-container,
+    .payment-screen .center-content .o_qatar_inline_customer {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        overflow: visible !important;
+    }
+}
+
+/* Payment amount summary. */
+.payment-screen .paymentlines-container {
+    padding: 12px 14px !important;
+    border: 1px solid var(--q-line) !important;
+    border-radius: 12px !important;
+    background: #fff !important;
+    box-shadow: 0 3px 13px rgba(31, 47, 79, .045);
+}
+.payment-screen .paymentlines-container .total {
+    color: var(--q-ink) !important;
+    font-size: 29px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+}
+.payment-screen .o_pos_split_summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+    margin: 0 0 9px;
+    padding: 8px;
+    border: 1px solid var(--q-line);
+    border-radius: 11px;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(31, 47, 79, .04);
+}
+.payment-screen .o_pos_split_metric {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 4px 8px;
+}
+.payment-screen .o_pos_split_metric + .o_pos_split_metric { border-left: 1px solid var(--q-line); }
+.payment-screen .o_pos_split_metric_label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--q-muted);
+    font-size: 10px;
+    font-weight: 750;
+    line-height: 1.2;
+}
+.payment-screen .o_pos_split_metric_label .fa {
+    display: inline-grid;
+    width: 20px;
+    height: 20px;
+    place-items: center;
+    border-radius: 6px;
+    background: var(--q-primary-soft);
+    color: var(--q-primary);
+    font-size: 11px;
+}
+.payment-screen .o_pos_split_metric strong {
+    overflow: hidden;
+    color: var(--q-ink);
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+.payment-screen .o_pos_split_metric_paid strong { color: var(--q-primary); }
+.payment-screen .o_pos_split_metric_remaining {
+    border: 1px solid #b9e8d1;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #e9fbf2, #f4fff9);
+}
+.payment-screen .o_pos_split_metric_remaining .o_pos_split_metric_label,
+.payment-screen .o_pos_split_metric_remaining strong { color: var(--q-green) !important; }
+.payment-screen .o_pos_split_metric_remaining strong { font-size: 18px; }
+.payment-screen .o_pos_refund_indicator {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 9px;
+    border: 1px solid #f0d6bd;
+    border-radius: 8px;
+    background: #fff8ef;
+    color: #a65c16;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* Payment methods and split amount inputs. */
+.payment-screen .paymentmethods-container { min-width: 0; padding: 2px; }
+.payment-screen .paymentmethods { gap: 7px !important; }
+.payment-screen .paymentmethod {
+    min-height: 40px;
+    padding: 7px 10px !important;
+    border: 1px solid var(--q-line) !important;
+    border-radius: 9px !important;
+    background: #fff !important;
+    color: var(--q-ink) !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 3px rgba(31, 47, 79, .035) !important;
+}
+.payment-screen .paymentmethod:hover {
+    border-color: #b9c9f6 !important;
+    background: #f7f9ff !important;
+}
+.payment-screen .o_pos_split_amount_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 4px 2px 7px;
+    padding: 6px 8px;
+    border: 1px solid var(--q-line);
+    border-radius: 8px;
+    background: #f8faff;
+}
+.payment-screen .o_pos_split_amount_label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+    color: var(--q-muted);
+    font-size: 10px;
+    font-weight: 750;
+}
+.payment-screen .o_pos_split_amount_input {
+    width: 112px;
+    min-height: 30px;
+    padding: 5px 8px;
+    border: 1px solid #dce4f1;
+    border-radius: 7px;
+    outline: 0;
+    background: #fff;
+    color: var(--q-ink);
+    font-size: 12px;
+    font-weight: 750;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+.payment-screen .o_pos_split_amount_input:focus {
+    border-color: var(--q-primary);
+    box-shadow: 0 0 0 3px rgba(54, 91, 210, .1);
+}
+
+/* Native payment summary, keypad and validation buttons remain compact. */
+.payment-screen .payment-summary {
+    padding: 9px !important;
+    border: 1px solid var(--q-line);
+    border-radius: 11px;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(31, 47, 79, .04);
+}
+.payment-screen .payment-summary button,
+.payment-screen .payment-buttons button,
+.payment-screen .numpad button {
+    min-height: 34px;
+    border-radius: 8px !important;
+    font-size: 11px !important;
+}
+.payment-screen .payment-buttons { gap: 6px !important; }
+.payment-screen .numpad { gap: 5px !important; }
+.payment-screen .numpad button {
+    border: 1px solid var(--q-line) !important;
+    background: #fff !important;
+    color: var(--q-ink) !important;
+    font-weight: 800 !important;
+}
+.payment-screen .numpad .o_qatar_sign_button {
+    font-size: 17px !important;
+    font-weight: 900 !important;
+}
+.payment-screen .validation-button {
+    min-height: 39px !important;
+    border-radius: 9px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+}
+.payment-screen .validation-button.next {
+    background: linear-gradient(135deg, #456be4, #3157d5) !important;
+    color: #fff !important;
+}
+
+/* Inline customer details: exactly the three Qatar address numbers + GPS name. */
+.payment-screen .o_qatar_inline_customer {
+    width: 100%;
+    margin: 9px 0 10px;
+    padding: 11px;
+    border: 1px solid #e2e8f2;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #fff, #f8faff);
+    box-shadow: 0 4px 15px rgba(34, 52, 92, .045);
+}
+.payment-screen .o_qatar_inline_header,
+.payment-screen .o_qatar_inline_title,
+.payment-screen .o_qatar_inline_gps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 9px;
+}
+.payment-screen .o_qatar_inline_header { margin-bottom: 9px; }
+.payment-screen .o_qatar_inline_title { justify-content: flex-start; }
+.payment-screen .o_qatar_inline_icon {
+    display: grid;
+    width: 31px;
+    height: 31px;
+    flex: 0 0 31px;
+    place-items: center;
+    border-radius: 9px;
+    background: #edf2ff;
+    color: var(--q-primary);
+    font-size: 14px;
+}
+.payment-screen .o_qatar_inline_title strong {
+    display: block;
+    color: #25314a;
+    font-size: 12px;
+    font-weight: 850;
+}
+.payment-screen .o_qatar_inline_title small {
+    display: block;
+    margin-top: 2px;
+    color: #8791a3;
+    font-size: 9px;
+}
+.payment-screen .o_qatar_en_subtitle { color: #8791a3; font-size: 9px; font-weight: 600; }
+.payment-screen .o_qatar_required_hint { color: #9aa4b5; font-size: 9px; font-weight: 750; white-space: nowrap; }
+.payment-screen .o_qatar_inline_grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+.payment-screen .o_qatar_field { display: flex; min-width: 0; flex-direction: column; gap: 4px; margin: 0; }
+.payment-screen .o_qatar_field > span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #657188;
+    font-size: 10px;
+    font-weight: 800;
+}
+.payment-screen .o_qatar_field > span .fa { width: 13px; color: #7182a4; text-align: center; }
+.payment-screen .o_qatar_field > span b { color: #df536a; }
+.payment-screen .o_qatar_field input {
+    width: 100%;
+    min-width: 0;
+    min-height: 33px;
+    padding: 6px 9px;
+    border: 1px solid #e0e6f0;
+    border-radius: 8px;
+    outline: 0;
+    background: #fff;
+    color: #26334d;
+    font-size: 11px;
+}
+.payment-screen .o_qatar_field input:focus {
+    border-color: #6682e2;
+    box-shadow: 0 0 0 2px rgba(67, 100, 216, .1);
+}
+.payment-screen .o_qatar_field input[dir="rtl"] { text-align: right; }
+.payment-screen .o_qatar_inline_gps {
+    margin-top: 9px;
+    padding: 9px;
+    border: 1px solid #e8edf5;
+    border-radius: 9px;
+    background: #f8faff;
+}
+.payment-screen .o_qatar_inline_gps_text { min-width: 0; }
+.payment-screen .o_qatar_inline_gps_text strong {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #34415c;
+    font-size: 11px;
+    font-weight: 850;
+}
+.payment-screen .o_qatar_inline_gps_text strong .fa { color: var(--q-primary); }
+.payment-screen .o_qatar_inline_gps_text small {
+    display: block;
+    margin-top: 4px;
+    color: #8993a5;
+    font-size: 10px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+.payment-screen .o_qatar_arabic_location {
+    padding: 5px 7px;
+    border: 1px solid #e4eaf5;
+    border-radius: 7px;
+    background: #fff;
+    color: #34415c !important;
+    font-size: 10px !important;
+    font-weight: 800;
+    line-height: 1.55 !important;
+    text-align: right;
+}
+.payment-screen .o_qatar_inline_gps_button,
+.payment-screen .o_qatar_inline_save {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 6px 10px;
+    border: 1px solid #dce4f4;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--q-primary);
+    font-size: 10px;
+    font-weight: 850;
+    white-space: nowrap;
+}
+.payment-screen .o_qatar_inline_gps_button .fa,
+.payment-screen .o_qatar_inline_save .fa { margin-inline-end: 5px; }
+.payment-screen .o_qatar_inline_gps_button:disabled,
+.payment-screen .o_qatar_inline_save:disabled { cursor: wait; opacity: .6; }
+.payment-screen .o_qatar_inline_save {
+    width: 100%;
+    margin-top: 9px;
+    border-color: #3157d5;
+    background: linear-gradient(135deg, #456be4, #3157d5);
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(49, 87, 213, .14);
+}
+
+/* Refund action icon and responsive layout. */
+.ticket-screen .o_qatar_refund_action::before,
+.ticket-screen .o_qatar_refund_action button::before {
+    content: "\f0e2";
+    display: inline-block;
+    margin-inline-end: 7px;
+    font-family: FontAwesome;
+    font-size: 13px;
+    font-weight: 400;
+}
+@media (max-width: 767.98px) {
+    .payment-screen .main-content {
+        height: auto !important;
+        flex-direction: column !important;
+        overflow-y: auto !important;
+        padding: 6px !important;
+    }
+    .payment-screen .left-content,
+    .payment-screen .center-content {
+        order: initial !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+        overflow: visible !important;
+    }
+    .payment-screen .left-content .paymentmethods-container { max-height: 35vh !important; overflow-y: auto !important; }
+    .payment-screen .o_pos_split_summary { gap: 3px; padding: 6px; }
+    .payment-screen .o_pos_split_metric { padding: 3px 5px; }
+    .payment-screen .o_pos_split_metric strong { font-size: 12px; }
+    .payment-screen .paymentlines-container .total { font-size: 24px !important; }
+    .payment-screen .o_qatar_inline_customer { padding: 9px; }
+    .payment-screen .o_qatar_inline_grid { gap: 6px; }
+}

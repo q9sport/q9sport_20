@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_split_textbox_20.PaymentScreenSummary" t-inherit="point_of_sale.PaymentScreenDue" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('total')]" position="after">
+            <section class="o_pos_split_summary" aria-label="Payment summary">
+                <div class="o_pos_split_metric o_pos_split_metric_sale">
+                    <span class="o_pos_split_metric_label"><i class="fa fa-shopping-cart" aria-hidden="true"/> المبيعات · Sale</span>
+                    <strong t-out="this.pos.formatCurrency(this.currentOrder.totalDue)"/>
+                </div>
+                <div class="o_pos_split_metric o_pos_split_metric_paid">
+                    <span class="o_pos_split_metric_label"><i class="fa fa-check-circle" aria-hidden="true"/> المدفوع · Paid</span>
+                    <strong t-out="this.pos.formatCurrency(this.getSplitPaidTotal())"/>
+                </div>
+                <div class="o_pos_split_metric o_pos_split_metric_remaining">
+                    <span class="o_pos_split_metric_label"><i class="fa fa-hourglass-half" aria-hidden="true"/> المتبقي · Remaining</span>
+                    <strong t-out="this.pos.formatCurrency(this.currentOrder.remainingDue)"/>
+                </div>
+                <div t-if="this.currentOrder.isRefund" class="o_pos_refund_indicator">
+                    <i class="fa fa-undo" aria-hidden="true"/> Refund order
+                </div>
+            </section>
+        </xpath>
+    </t>
+    <t t-name="pos_split_textbox_20.PaymentMethodAmount" t-inherit="point_of_sale.PaymentScreenMethods" t-inherit-mode="extension">
+        <xpath expr="//div[@t-on-click='() =&gt; this.addNewPaymentLine(paymentMethod)']" position="after">
+            <div t-if="!paymentMethod.isProvider and !paymentMethod.payment_interface and !paymentMethod.useBankQrCode and paymentMethod.type != 'pay_later' and !this.currentOrder.isRefund and this.currentOrder.totalDue &gt; 0 and paymentMethod.availableCurrencies.length &lt;= 1" class="o_pos_split_amount_row">
+                <label class="o_pos_split_amount_label"><span>Amount</span><span class="o_pos_split_currency" t-out="this.pos.currency.name"/></label>
+                <input type="number" min="0" step="0.01" inputmode="decimal" autocomplete="off" class="o_pos_split_amount_input" placeholder="0.00" t-att-value="this.getSplitAmount(paymentMethod)" t-on-change="(ev) =&gt; this.setSplitAmount(paymentMethod, ev)" t-on-click="(ev) =&gt; ev.stopPropagation()" t-on-keydown="(ev) =&gt; ev.stopPropagation()"/>
+            </div>
+        </xpath>
+    </t>
+</templates>
