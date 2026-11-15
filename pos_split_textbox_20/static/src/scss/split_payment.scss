@@ -439,3 +439,585 @@
     .payment-screen .o_qatar_inline_customer { padding: 9px; }
     .payment-screen .o_qatar_inline_grid { gap: 6px; }
 }
+
+
+/* Royal POS refresh: premium navy, champagne and vivid method accents. */
+.payment-screen {
+    --q-ink: #17233d;
+    --q-muted: #74819a;
+    --q-line: #e2e7f0;
+    --q-primary: #6650c8;
+    --q-primary-soft: #f0edff;
+    --q-green: #087b61;
+    background:
+        radial-gradient(ellipse at 8% 0%, rgba(115, 91, 213, .10), transparent 34%),
+        radial-gradient(ellipse at 100% 100%, rgba(207, 165, 89, .10), transparent 32%),
+        #f4f6fb !important;
+}
+.payment-screen .left-content,
+.payment-screen .center-content,
+.payment-screen .payment-summary {
+    border-color: rgba(211, 218, 233, .9) !important;
+    box-shadow: 0 9px 28px rgba(28, 39, 69, .065), 0 2px 6px rgba(28, 39, 69, .035) !important;
+}
+.payment-screen .paymentmethods { gap: 9px !important; }
+.payment-screen .paymentmethod {
+    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    min-height: 48px !important;
+    padding: 9px 12px !important;
+    overflow: hidden;
+    border: 1px solid #e1e5ef !important;
+    border-radius: 13px !important;
+    background: linear-gradient(145deg, #fff 0%, #f9faff 100%) !important;
+    color: #25314c !important;
+    font-weight: 800 !important;
+    box-shadow: 0 3px 9px rgba(34, 45, 78, .045) !important;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+.payment-screen .paymentmethod::before {
+    display: inline-grid;
+    width: 29px;
+    height: 29px;
+    flex: 0 0 29px;
+    place-items: center;
+    border-radius: 9px;
+    background: #eeeaff;
+    color: #6650c8;
+    font-family: FontAwesome;
+    font-size: 14px;
+    content: "\f09d";
+}
+.payment-screen .paymentmethod:nth-child(5n + 1)::before { content: "\f09d"; color: #6650c8; background: #eeeaff; }
+.payment-screen .paymentmethod:nth-child(5n + 2)::before { content: "\f0d6"; color: #087b61; background: #e5f8f0; }
+.payment-screen .paymentmethod:nth-child(5n + 3)::before { content: "\f1f0"; color: #1678b8; background: #e7f4ff; }
+.payment-screen .paymentmethod:nth-child(5n + 4)::before { content: "\f1da"; color: #c17a19; background: #fff3df; }
+.payment-screen .paymentmethod:nth-child(5n + 5)::before { content: "\f0d6"; color: #c04f78; background: #ffedf3; }
+.payment-screen .paymentmethod:hover {
+    transform: translateY(-2px);
+    border-color: #b9afea !important;
+    background: linear-gradient(145deg, #fff, #f5f2ff) !important;
+    box-shadow: 0 8px 18px rgba(74, 57, 145, .11) !important;
+}
+.payment-screen .paymentmethod:active { transform: translateY(0) scale(.99); }
+.payment-screen .o_pos_split_amount_row {
+    margin: 5px 2px 9px;
+    padding: 8px 10px;
+    border: 1px solid #e3e0f5;
+    border-radius: 11px;
+    background: linear-gradient(110deg, #f5f2ff, #fff 72%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+}
+.payment-screen .o_pos_split_amount_input {
+    min-height: 34px;
+    border: 1px solid #ded8f5;
+    border-radius: 9px;
+    background: #fff;
+    color: #30265f;
+    font-weight: 850;
+    transition: border-color .18s ease, box-shadow .18s ease;
+}
+.payment-screen .o_pos_split_amount_input:focus {
+    border-color: #7662d1;
+    box-shadow: 0 0 0 3px rgba(102, 80, 200, .13);
+}
+.payment-screen .o_pos_split_summary {
+    border: 1px solid #e5e1f3;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #fff 0%, #f8f6ff 100%);
+    box-shadow: 0 5px 16px rgba(45, 37, 91, .055);
+}
+.payment-screen .o_pos_split_metric_label .fa {
+    background: #eeeaff;
+    color: #6650c8;
+}
+.payment-screen .o_pos_split_metric_paid .o_pos_split_metric_label .fa {
+    background: #e6f3ff;
+    color: #2476b8;
+}
+.payment-screen .o_pos_split_metric_remaining {
+    border-color: #bce8d8;
+    background: linear-gradient(135deg, #e8fbf3, #f7fffb);
+}
+.payment-screen .validation-button.next {
+    border: 0 !important;
+    background: linear-gradient(115deg, #7560d5 0%, #5140a9 58%, #b18a4b 140%) !important;
+    box-shadow: 0 5px 14px rgba(83, 65, 169, .22);
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+.payment-screen .validation-button.next:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(83, 65, 169, .27);
+}
+.payment-screen .numpad button {
+    border-color: #e2e5ef !important;
+    border-radius: 10px !important;
+    background: linear-gradient(145deg, #fff, #f7f8fc) !important;
+    transition: background .15s ease, transform .15s ease;
+}
+.payment-screen .numpad button:hover {
+    background: #f0edff !important;
+    transform: translateY(-1px);
+}
+.payment-screen .o_qatar_inline_customer {
+    border-color: #e4e0f2;
+    background: linear-gradient(145deg, #fff 0%, #faf9ff 100%);
+    box-shadow: 0 7px 20px rgba(36, 31, 77, .055);
+}
+.payment-screen .o_qatar_inline_icon {
+    background: linear-gradient(135deg, #eeeaff, #e7f3ff);
+    color: #5e4bb7;
+}
+.payment-screen .o_qatar_inline_save {
+    border: 0;
+    background: linear-gradient(110deg, #7560d5, #5140a9 75%, #b18a4b 145%);
+    box-shadow: 0 5px 13px rgba(83, 65, 169, .18);
+}
+@media (prefers-reduced-motion: reduce) {
+    .payment-screen .paymentmethod,
+    .payment-screen .validation-button.next,
+    .payment-screen .numpad button,
+    .payment-screen .o_pos_split_amount_input { transition: none !important; }
+}
+
+/* V15: vivid premium palette and real inline SVG payment icons. */
+.payment-screen {
+    --q-ink: #17142f;
+    --q-muted: #66658a;
+    --q-line: #ded8ff;
+    --q-primary: #7047ff;
+    --q-primary-soft: #eee8ff;
+    --q-green: #008f72;
+    background:
+        radial-gradient(ellipse at 8% 4%, rgba(119, 74, 255, .20), transparent 35%),
+        radial-gradient(ellipse at 96% 95%, rgba(255, 190, 65, .18), transparent 34%),
+        linear-gradient(135deg, #f5f2ff 0%, #f8fbff 48%, #fff8ed 100%) !important;
+}
+.payment-screen .o_pos_inline_svg {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vertical-align: middle;
+}
+.payment-screen .o_pos_split_metric_label {
+    color: #5c548a !important;
+}
+.payment-screen .o_pos_split_metric_label .o_pos_inline_svg {
+    box-sizing: content-box;
+    width: 18px;
+    height: 18px;
+    padding: 6px;
+    border-radius: 9px;
+    color: #fff;
+    background: linear-gradient(145deg, #8d5bff, #5931d8);
+    box-shadow: 0 4px 10px rgba(93, 49, 216, .25);
+}
+.payment-screen .o_pos_split_metric_paid .o_pos_inline_svg {
+    background: linear-gradient(145deg, #24b8ff, #1766d9);
+}
+.payment-screen .o_pos_split_metric_remaining .o_pos_inline_svg {
+    background: linear-gradient(145deg, #18c99a, #008b69);
+}
+.payment-screen .o_pos_payment_method_icon {
+    position: absolute;
+    inset-inline-start: 11px;
+    top: 50%;
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    transform: translateY(-50%);
+    border: 1px solid rgba(255,255,255,.85);
+    border-radius: 11px;
+    background: linear-gradient(145deg, #fff, #e9e3ff);
+    color: #6237e8;
+    box-shadow: 0 4px 11px rgba(78, 49, 174, .18);
+    pointer-events: none;
+}
+.payment-screen .o_pos_payment_method_icon svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.payment-screen .paymentmethod {
+    position: relative !important;
+    min-height: 56px !important;
+    padding-inline-start: 55px !important;
+    border: 1px solid #d8ceff !important;
+    border-radius: 15px !important;
+    background: linear-gradient(135deg, #fff 0%, #f3efff 100%) !important;
+    color: #24194d !important;
+    font-weight: 850 !important;
+    box-shadow: 0 5px 14px rgba(75, 47, 160, .10), inset 0 1px 0 #fff !important;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease !important;
+}
+.payment-screen .paymentmethod:hover {
+    transform: translateY(-2px) !important;
+    border-color: #8a68ff !important;
+    background: linear-gradient(135deg, #fff 0%, #e9e1ff 100%) !important;
+    box-shadow: 0 9px 22px rgba(94, 55, 210, .20) !important;
+}
+.payment-screen .paymentmethod:active { transform: scale(.985) !important; }
+.payment-screen .o_pos_split_amount_row {
+    border: 1px solid #cfc1ff !important;
+    border-radius: 12px !important;
+    background: linear-gradient(110deg, #eee8ff 0%, #fff 80%) !important;
+    box-shadow: 0 4px 12px rgba(92, 56, 194, .08) !important;
+}
+.payment-screen .o_pos_split_amount_input {
+    border: 1px solid #bca9ff !important;
+    color: #382078 !important;
+    font-weight: 900 !important;
+}
+.payment-screen .o_pos_split_amount_input:focus {
+    border-color: #7047ff !important;
+    box-shadow: 0 0 0 3px rgba(112, 71, 255, .18) !important;
+}
+.payment-screen .validation-button.next {
+    background: linear-gradient(110deg, #7047ff 0%, #4b25c9 58%, #d69a2d 130%) !important;
+    color: #fff !important;
+    box-shadow: 0 7px 18px rgba(82, 43, 192, .28) !important;
+}
+.payment-screen .numpad button:hover,
+.payment-screen .payment-summary button:hover {
+    border-color: #9b7cff !important;
+    background: linear-gradient(135deg, #f0eaff, #fff) !important;
+    color: #4e2ac7 !important;
+}
+
+/* Emoji icon fallback for the Qatar form controls; no webfont dependency. */
+.payment-screen .o_qatar_inline_customer .fa {
+    display: inline-block;
+    min-width: 1.25em;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif !important;
+    font-style: normal !important;
+    font-weight: 700;
+    text-align: center;
+}
+.payment-screen .o_qatar_inline_customer .fa-user::before { content: "👤"; }
+.payment-screen .o_qatar_inline_customer .fa-phone::before { content: "📞"; }
+.payment-screen .o_qatar_inline_customer .fa-calendar::before { content: "📅"; }
+.payment-screen .o_qatar_inline_customer .fa-map::before { content: "🗺️"; }
+.payment-screen .o_qatar_inline_customer .fa-road::before { content: "🛣️"; }
+.payment-screen .o_qatar_inline_customer .fa-building::before { content: "🏢"; }
+.payment-screen .o_qatar_inline_customer .fa-map-marker::before { content: "📍"; }
+.payment-screen .o_qatar_inline_customer .fa-crosshairs::before { content: "🎯"; }
+.payment-screen .o_qatar_inline_customer .fa-check-circle::before { content: "✅"; }
+
+/* V16 palette refresh: Midnight Emerald + Champagne (clean luxury, no neon purple). */
+.payment-screen {
+    --q-ink: #172b2a;
+    --q-muted: #71817d;
+    --q-line: #dce7e2;
+    --q-primary: #087f72;
+    --q-primary-soft: #e5f4ef;
+    --q-green: #087b59;
+    background:
+        radial-gradient(ellipse at 4% 0%, rgba(18, 143, 119, .10), transparent 34%),
+        radial-gradient(ellipse at 100% 100%, rgba(207, 166, 91, .13), transparent 31%),
+        linear-gradient(135deg, #f4f8f5 0%, #f8faf8 52%, #fbf7ef 100%) !important;
+    color: var(--q-ink) !important;
+}
+.payment-screen .left-content,
+.payment-screen .center-content,
+.payment-screen .payment-summary,
+.payment-screen .paymentlines-container {
+    border-color: #dce7e2 !important;
+    background-color: rgba(255,255,255,.97) !important;
+    box-shadow: 0 8px 24px rgba(24, 55, 47, .065), 0 2px 6px rgba(24, 55, 47, .035) !important;
+}
+.payment-screen .paymentlines-container .total,
+.payment-screen .o_pos_split_metric strong { color: #172b2a !important; }
+.payment-screen .o_pos_split_metric_label { color: #71817d !important; }
+.payment-screen .o_pos_split_metric_label .o_pos_inline_svg {
+    color: #fff !important;
+    background: linear-gradient(145deg, #159b83, #087365) !important;
+    box-shadow: 0 4px 10px rgba(8, 115, 101, .20) !important;
+}
+.payment-screen .o_pos_split_metric_paid .o_pos_inline_svg {
+    background: linear-gradient(145deg, #438fd0, #2866a6) !important;
+}
+.payment-screen .o_pos_split_metric_remaining {
+    border-color: #b9dfd0 !important;
+    background: linear-gradient(135deg, #e8f7ef, #f7fcf8) !important;
+}
+.payment-screen .o_pos_split_metric_remaining .o_pos_split_metric_label,
+.payment-screen .o_pos_split_metric_remaining strong { color: #087b59 !important; }
+.payment-screen .paymentmethod {
+    border: 1px solid #d8e5df !important;
+    border-radius: 13px !important;
+    background: linear-gradient(145deg, #ffffff 0%, #f5faf7 100%) !important;
+    color: #1d3934 !important;
+    box-shadow: 0 4px 12px rgba(24, 65, 53, .075), inset 0 1px 0 #fff !important;
+}
+.payment-screen .o_pos_payment_method_icon {
+    border: 1px solid rgba(255,255,255,.95) !important;
+    background: linear-gradient(145deg, #e7f6ef, #d4eee4) !important;
+    color: #087b68 !important;
+    box-shadow: 0 4px 11px rgba(8, 123, 104, .15) !important;
+}
+.payment-screen .paymentmethod:nth-child(4n + 2) .o_pos_payment_method_icon {
+    background: linear-gradient(145deg, #e8f2fc, #d8e9fa) !important;
+    color: #2869a8 !important;
+}
+.payment-screen .paymentmethod:nth-child(4n + 3) .o_pos_payment_method_icon {
+    background: linear-gradient(145deg, #fff4df, #fbe7bd) !important;
+    color: #a66a12 !important;
+}
+.payment-screen .paymentmethod:nth-child(4n + 4) .o_pos_payment_method_icon {
+    background: linear-gradient(145deg, #fce9e5, #f8d9d1) !important;
+    color: #b95343 !important;
+}
+.payment-screen .paymentmethod:hover,
+.payment-screen .paymentmethod:focus-visible {
+    border-color: #69b9a5 !important;
+    background: linear-gradient(145deg, #ffffff, #eaf7f1) !important;
+    color: #075f55 !important;
+    box-shadow: 0 8px 20px rgba(8, 123, 104, .15) !important;
+}
+.payment-screen .o_pos_split_amount_row {
+    border-color: #d6e8df !important;
+    background: linear-gradient(110deg, #edf7f2, #fff 78%) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+.payment-screen .o_pos_split_amount_label { color: #60766e !important; }
+.payment-screen .o_pos_split_amount_input {
+    border-color: #c9ded4 !important;
+    background: #fff !important;
+    color: #17483e !important;
+}
+.payment-screen .o_pos_split_amount_input:focus {
+    border-color: #159b83 !important;
+    box-shadow: 0 0 0 3px rgba(21, 155, 131, .14) !important;
+}
+.payment-screen .numpad button {
+    border-color: #dce7e2 !important;
+    background: linear-gradient(145deg, #fff, #f6faf7) !important;
+    color: #25433c !important;
+}
+.payment-screen .numpad button:hover,
+.payment-screen .payment-summary button:hover {
+    border-color: #8ac8b5 !important;
+    background: linear-gradient(135deg, #e9f6f0, #fff) !important;
+    color: #087365 !important;
+}
+.payment-screen .validation-button.next,
+.payment-screen .o_qatar_inline_save {
+    border: 0 !important;
+    background: linear-gradient(110deg, #087f72 0%, #11977c 58%, #c39a55 145%) !important;
+    color: #fff !important;
+    box-shadow: 0 6px 16px rgba(8, 113, 96, .22) !important;
+}
+.payment-screen .validation-button.next:hover,
+.payment-screen .o_qatar_inline_save:hover {
+    filter: brightness(1.06) saturate(1.05);
+    box-shadow: 0 9px 20px rgba(8, 113, 96, .27) !important;
+}
+.payment-screen .o_qatar_inline_customer {
+    border-color: #dce8e1 !important;
+    background: linear-gradient(145deg, #fff 0%, #f5faf7 100%) !important;
+    box-shadow: 0 6px 18px rgba(24, 65, 53, .055) !important;
+}
+.payment-screen .o_qatar_inline_icon {
+    background: linear-gradient(135deg, #e2f4ec, #e4eff8) !important;
+    color: #087b68 !important;
+}
+.payment-screen .o_qatar_inline_title strong,
+.payment-screen .o_qatar_inline_gps_text strong { color: #203c35 !important; }
+.payment-screen .o_qatar_inline_gps {
+    border-color: #deebe4 !important;
+    background: #f5faf7 !important;
+}
+.payment-screen .o_qatar_inline_gps_button,
+.payment-screen .o_qatar_inline_save {
+    border-color: #c8dfd4;
+    color: #087365;
+}
+.payment-screen .o_qatar_inline_save { color: #fff !important; }
+
+
+/* V17: cashier-wide modern surface and illustrated payment method tiles. */
+.pos .product-screen,
+.pos .product-screen .main-content,
+.pos .product-screen .leftpane,
+.pos .product-screen .rightpane {
+    background-color: #f3f7f6 !important;
+}
+.pos .product-screen {
+    background-image:
+        radial-gradient(ellipse at 8% 4%, rgba(22, 153, 125, .13), transparent 32%),
+        radial-gradient(ellipse at 96% 92%, rgba(218, 174, 91, .15), transparent 30%),
+        linear-gradient(135deg, #f5faf8 0%, #eef4f2 52%, #faf7ef 100%) !important;
+}
+.pos .product-screen .leftpane,
+.pos .product-screen .rightpane,
+.pos .product-screen .order-container,
+.pos .product-screen .products-widget,
+.pos .product-screen .product-list {
+    background: rgba(255,255,255,.82) !important;
+    border: 1px solid rgba(205,222,215,.85) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 26px rgba(26,65,54,.07), inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+.pos .product-screen .search-bar,
+.pos .product-screen .control-panel {
+    border-color: #dce8e2 !important;
+    background: linear-gradient(110deg, rgba(255,255,255,.97), rgba(242,249,245,.96)) !important;
+}
+.pos .product-screen .product {
+    border: 1px solid rgba(215,228,221,.85) !important;
+    border-radius: 12px !important;
+    background: linear-gradient(145deg,#fff,#f7fbf8) !important;
+    box-shadow: 0 3px 10px rgba(31,68,57,.055) !important;
+    transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.pos .product-screen .product:hover {
+    transform: translateY(-2px);
+    border-color: #83c8b2 !important;
+    box-shadow: 0 8px 18px rgba(13,126,99,.13) !important;
+}
+.pos .product-screen .orderline {
+    border-color: #e1ebe5 !important;
+}
+.pos .product-screen .button,
+.pos .product-screen button {
+    transition: filter .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+.pos .product-screen button:hover { filter: saturate(1.12); }
+
+.payment-screen .paymentmethods { gap: 12px !important; }
+.payment-screen .paymentmethod {
+    display: flex !important;
+    align-items: center !important;
+    min-height: 76px !important;
+    padding: 10px 13px !important;
+    gap: 12px !important;
+    border-radius: 16px !important;
+    border: 1px solid #d6e5de !important;
+    background: linear-gradient(145deg,#fff 0%,#f4faf7 100%) !important;
+    color: #193b34 !important;
+    box-shadow: 0 5px 15px rgba(22,74,59,.075), inset 0 1px 0 #fff !important;
+}
+.payment-screen .paymentmethod::before { content: none !important; display: none !important; }
+.payment-screen .o_pos_payment_method_visual {
+    display: grid !important;
+    width: 66px !important;
+    height: 48px !important;
+    flex: 0 0 66px !important;
+    place-items: center !important;
+    overflow: hidden !important;
+    border-radius: 11px !important;
+    background: #fff !important;
+    box-shadow: 0 3px 9px rgba(25,61,51,.10) !important;
+}
+.payment-screen .o_pos_payment_method_visual img {
+    display: block !important;
+    width: 62px !important;
+    height: 44px !important;
+    object-fit: contain !important;
+}
+.payment-screen .paymentmethod:hover,
+.payment-screen .paymentmethod:focus-visible {
+    transform: translateY(-2px) !important;
+    border-color: #62b99f !important;
+    background: linear-gradient(145deg,#fff,#eaf7f1) !important;
+    box-shadow: 0 10px 22px rgba(8,123,104,.16) !important;
+}
+.payment-screen .paymentmethod:active { transform: scale(.985) !important; }
+@media (max-width: 767.98px) {
+    .payment-screen .paymentmethod { min-height: 62px !important; padding: 7px 9px !important; }
+    .payment-screen .o_pos_payment_method_visual { width: 54px !important; height: 40px !important; flex-basis: 54px !important; }
+    .payment-screen .o_pos_payment_method_visual img { width: 50px !important; height: 36px !important; }
+}
+
+
+/* V18: brand-style payment marks and Qatar map action. */
+.payment-screen .o_pos_payment_method_visual {
+    width: 76px !important;
+    height: 52px !important;
+    flex-basis: 76px !important;
+    border: 1px solid #e7ecef !important;
+    border-radius: 10px !important;
+    background: #fff !important;
+    box-shadow: 0 4px 12px rgba(23, 43, 42, .09) !important;
+}
+.payment-screen .o_pos_payment_method_visual img {
+    width: 74px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+.payment-screen .o_qatar_location_actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 7px;
+}
+.payment-screen .o_qatar_inline_map_button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 6px 10px;
+    border: 1px solid #c8dfd4;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #eef7ff, #fff);
+    color: #2869a8;
+    font-size: 10px;
+    font-weight: 850;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+.payment-screen .o_qatar_inline_map_button:hover {
+    border-color: #83b5db;
+    background: #eaf4fc;
+    color: #174f82;
+}
+.payment-screen .o_qatar_inline_map_button.o_qatar_map_disabled {
+    opacity: .45;
+    pointer-events: none;
+}
+@media (max-width: 767.98px) {
+    .payment-screen .o_qatar_inline_gps { align-items: flex-start; flex-direction: column; }
+    .payment-screen .o_qatar_location_actions { width: 100%; justify-content: stretch; }
+    .payment-screen .o_qatar_inline_map_button,
+    .payment-screen .o_qatar_inline_gps_button { flex: 1 1 auto; }
+}
+
+/* V19: translucent cashier workspace; keep controls and cards readable. */
+.pos {
+    background: transparent !important;
+}
+.pos .product-screen,
+.pos .product-screen .main-content,
+.pos .product-screen .leftpane,
+.pos .product-screen .rightpane {
+    background-color: rgba(248, 251, 250, .76) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(1.12);
+    backdrop-filter: blur(12px) saturate(1.12);
+}
+.pos .product-screen .product-list,
+.pos .product-screen .products-widget,
+.pos .product-screen .product {
+    background-color: rgba(255, 255, 255, .78) !important;
+}
+.pos .product-screen .order-container,
+.pos .product-screen .order-summary,
+.pos .product-screen .orderline {
+    background-color: rgba(255, 255, 255, .88) !important;
+}
+.payment-screen .paymentmethod:has(img[src*="payment_customer_account"]) .o_pos_payment_method_visual {
+    background: linear-gradient(145deg, #edf6ff, #dcecff) !important;
+    border-color: #b9d5f0 !important;
+}

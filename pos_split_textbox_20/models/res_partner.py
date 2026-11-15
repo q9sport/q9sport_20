@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import re
-from urllib.parse import urlencode
+from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
 
 from odoo import api, fields, models, _
@@ -25,7 +25,13 @@ class ResPartner(models.Model):
     @api.model
     def _load_pos_data_fields(self, config):
         result = super()._load_pos_data_fields(config)
+        # Only request fields that actually exist in this database. Some Odoo
+        # 20 deployments do not expose res.partner.mobile (or phone_sanitized),
+        # and POS metadata loading fails hard if an unknown field is requested.
         for field_name in (
+            "mobile",
+            "phone_sanitized",
+            "street",
             "zone_no",
             "street_no",
             "building_no",
@@ -34,57 +40,78 @@ class ResPartner(models.Model):
             "birthdate_date",
             "location_description_ar",
         ):
-            if field_name not in result:
+            if field_name in self._fields and field_name not in result:
                 result.append(field_name)
         return result
 
     @api.model
     def _pos_qatar_normalize_phone(self, value):
-        return re.sub(r"\D", "", value or "")
+        """Normalize Qatar phone values, including Arabic-Indic numerals."""
+        value = str(value or "").translate(str.maketrans({
+            "٠": "0", "١": "1", "٢": "2", "٣": "3", "٤": "4",
+            "٥": "5", "٦": "6", "٧": "7", "٨": "8", "٩": "9",
+            "۰": "0", "۱": "1", "۲": "2", "۳": "3", "۴": "4",
+            "۵": "5", "۶": "6", "۷": "7", "۸": "8", "۹": "9",
+        }))
+        digits = re.sub(r"\D", "", value)
+        # Qatar local mobile/landline numbers are 8 digits. Ignore an optional
+        # international country prefix when comparing records.
+        if len(digits) > 8:
+            return digits[-8:]
+        return digits
 
     @api.model
     def _pos_qatar_partner_by_phone(self, phone):
         digits = self._pos_qatar_normalize_phone(phone)
-        if not digits:
+        if len(digits) < 8:
             return self.browse()
 
-        tail = digits[-8:] if len(digits) >= 8 else digits
-        search_tail = tail[-4:] if len(tail) >= 4 else tail
+        # Search across companies and archived contacts. POS databases often
+        # contain customers assigned to a different company or archived by mistake.
         Partner = self.sudo().with_context(active_test=False)
-        # IMPORTANT: this database does not have res.partner.mobile. Search phone only.
-        candidates = Partner.search(
-            [
-                "&",
-                ("company_id", "in", [False, self.env.company.id]),
-                ("phone", "ilike", search_tail),
-            ],
-            order="active desc, id asc",
-            limit=300,
-        )
-        matches = candidates.filtered(
-            lambda partner: bool(
-                partner.phone
-                and (
-                    self._pos_qatar_normalize_phone(partner.phone) == digits
-                    or (
-                        len(digits) >= 8
-                        and self._pos_qatar_normalize_phone(partner.phone).endswith(tail)
-                    )
-                )
-            )
-        )
+        # Use only ordinary stored contact fields. phone_sanitized can be
+        # computed/non-searchable in customized Odoo 20 databases.
+        phone_fields = [
+            field_name for field_name in ("phone", "mobile")
+            if field_name in Partner._fields
+        ]
+        if not phone_fields:
+            return self.browse()
+
+        # Search by a short trailing fragment first (works with spaces, +974,
+        # dashes and locally stored numbers), then verify the full final 8 digits
+        # in Python so the fragment never causes a false customer match.
+        suffix = digits[-4:]
+        search_domain = ["|"] * (len(phone_fields) - 1)
+        search_domain += [(field_name, "ilike", suffix) for field_name in phone_fields]
+        candidates = Partner.search(search_domain, order="active desc, id asc", limit=10000)
+
+        def matches_local(partner):
+            for field_name in phone_fields:
+                candidate = self._pos_qatar_normalize_phone(partner[field_name] or "")
+                if len(candidate) >= 8 and candidate[-8:] == digits[-8:]:
+                    return True
+            return False
+
+        matches = candidates.filtered(matches_local)
+        active_matches = matches.filtered("active")
+        if active_matches:
+            matches = active_matches
         if len(matches) > 1:
-            exact = matches.filtered(
-                lambda partner: bool(
-                    partner.phone
-                    and self._pos_qatar_normalize_phone(partner.phone) == digits
-                )
-            )
-            matches = exact or matches
-        if len(matches) > 1:
-            raise ValidationError(
-                _("More than one customer has this phone number. Please use a unique phone number.")
-            )
+            # Prefer a unique exact normalized value, otherwise fail explicitly
+            # instead of silently attaching the order to the wrong person.
+            exact = matches.filtered(lambda partner: any(
+                self._pos_qatar_normalize_phone(partner[field_name] or "") == digits
+                or self._pos_qatar_normalize_phone(partner[field_name] or "")[-8:] == digits[-8:]
+                for field_name in phone_fields
+            ))
+            if len(exact) == 1:
+                matches = exact
+            else:
+                raise ValidationError(_(
+                    "This phone number belongs to more than one customer. "
+                    "Please merge or correct the duplicate customer records first."
+                ))
         return matches[:1]
 
     @api.model
@@ -92,7 +119,9 @@ class ResPartner(models.Model):
         return {
             "id": partner.id,
             "name": partner.name or "",
-            "phone": partner.phone or "",
+            "phone": (partner["mobile"] if "mobile" in partner._fields else False) or partner.phone or "",
+            "street": partner.street or "",
+            "mobile": (partner["mobile"] if "mobile" in partner._fields else "") or "",
             "zone_no": partner.zone_no or "",
             "street_no": partner.street_no or "",
             "building_no": partner.building_no or "",
@@ -102,6 +131,151 @@ class ResPartner(models.Model):
             if partner.birthdate_date
             else "",
             "location_description_ar": partner.location_description_ar or "",
+        }
+
+    @api.model
+    def _pos_qatar_get_system_parameter(self, key):
+        """Read a system parameter across Odoo builds with/without get_param."""
+        ICP = self.env["ir.config_parameter"].sudo()
+        getter = getattr(ICP, "get_param", None)
+        if callable(getter):
+            try:
+                return getter(key, default=False)
+            except TypeError:
+                return getter(key)
+        # Compatibility fallback for this Odoo 20 deployment, whose traceback
+        # shows that ir.config_parameter.get_param is not exposed.
+        record = ICP.search([("key", "=", key)], limit=1)
+        return record.value if record else False
+
+    @api.model
+    def pos_qatar_geocode_address(self, zone_no, street_no, building_no):
+        """Resolve the customer's Qatar blue-plate address using QNAS.
+
+        This deliberately never reads the cashier device GPS. Coordinates are
+        returned only by QNAS for the exact Zone/Street/Building combination.
+        """
+        if not self.env.user.has_group("point_of_sale.group_pos_user"):
+            raise AccessError(_("You are not allowed to resolve POS addresses."))
+
+        zone_no = str(zone_no or "").strip()
+        street_no = str(street_no or "").strip()
+        building_no = str(building_no or "").strip()
+        if not all((zone_no, street_no, building_no)):
+            raise ValidationError(_("Enter Zone, Street and Building numbers first."))
+
+        # Zero is an explicit unknown/not-provided value, not a real Qatar
+        # address. Return a harmless result without contacting any API.
+        def is_zero(value):
+            normalized = re.sub(r"\D", "", value)
+            return bool(normalized) and int(normalized) == 0
+
+        if any(is_zero(value) for value in (zone_no, street_no, building_no)):
+            return {
+                "latitude": False,
+                "longitude": False,
+                "google_maps_url": False,
+                "waze_url": False,
+                "place_name": _("غير معرف"),
+                "verified": False,
+                "not_found": True,
+            }
+
+        token = self._pos_qatar_get_system_parameter("pos_split_textbox_20.qnas_token")
+        domain = self._pos_qatar_get_system_parameter("pos_split_textbox_20.qnas_domain")
+        if not token or not domain:
+            raise UserError(_(
+                "QNAS is not configured. Add both System Parameters: "
+                "pos_split_textbox_20.qnas_token and pos_split_textbox_20.qnas_domain. "
+                "Get the API token from QNAS first."
+            ))
+
+        url = "https://qnas.qa/get_location/%s/%s/%s" % (
+            quote(zone_no, safe=""), quote(street_no, safe=""), quote(building_no, safe="")
+        )
+        request = Request(
+            url,
+            headers={
+                "X-Token": str(token).strip(),
+                "X-Domain": str(domain).strip(),
+                "Accept": "application/json",
+                "User-Agent": "OdooPOSQatarCustomer/20.0",
+            },
+        )
+        try:
+            with urlopen(request, timeout=15) as response:
+                data = json.loads(response.read().decode("utf-8"))
+        except Exception as exc:
+            # Do not silently substitute device GPS, zone centroid or text search.
+            raise UserError(_("QNAS address service failed: %s") % str(exc))
+
+        if not isinstance(data, dict):
+            raise UserError(_("QNAS returned an invalid response."))
+        if str(data.get("status", "")).lower() == "error" or data.get("success") is False:
+            return {
+                "latitude": False,
+                "longitude": False,
+                "google_maps_url": False,
+                "waze_url": False,
+                "place_name": _("غير معرف"),
+                "verified": False,
+                "not_found": True,
+            }
+
+        # QNAS may wrap the location object; search common response envelopes.
+        payloads = [data]
+        for key in ("data", "result", "location", "building", "coordinates"):
+            value = data.get(key)
+            if isinstance(value, dict):
+                payloads.insert(0, value)
+        lat = lon = None
+        for payload in payloads:
+            lat = payload.get("latitude", payload.get("lat", payload.get("y")))
+            lon = payload.get("longitude", payload.get("lng", payload.get("lon", payload.get("x"))))
+            if lat is not None and lon is not None:
+                break
+        if lat is None or lon is None:
+            return {
+                "latitude": False,
+                "longitude": False,
+                "google_maps_url": False,
+                "waze_url": False,
+                "place_name": _("غير معرف"),
+                "verified": False,
+                "not_found": True,
+            }
+        try:
+            lat, lon = float(lat), float(lon)
+        except (TypeError, ValueError):
+            raise UserError(_("QNAS returned invalid GPS coordinates."))
+
+        # Qatar geographic bounds: reject bad or unrelated coordinates.
+        if not (24.4 <= lat <= 26.3 and 50.6 <= lon <= 52.1):
+            raise UserError(_("QNAS returned coordinates outside Qatar. The address was not saved as verified."))
+
+        place_name = "، ".join([
+            _("المنطقة %s") % zone_no,
+            _("الشارع %s") % street_no,
+            _("المبنى %s") % building_no,
+        ])
+        for payload in payloads:
+            place_name = (
+                payload.get("formatted_address")
+                or payload.get("address_name")
+                or payload.get("name")
+                or payload.get("location_name")
+                or place_name
+            )
+            if place_name:
+                break
+        return {
+            "latitude": lat,
+            "longitude": lon,
+            "google_maps_url": "https://www.google.com/maps?q=%s,%s" % (lat, lon),
+            "waze_url": "https://www.waze.com/ul?ll=%s,%s&navigate=yes" % (lat, lon),
+            "place_name": place_name,
+            "verified": True,
+            "not_found": False,
         }
 
     @api.model
@@ -188,6 +362,7 @@ class ResPartner(models.Model):
         values = values or {}
         name = (values.get("name") or "").strip()
         phone = (values.get("phone") or "").strip()
+        address = (values.get("street") or values.get("address") or "").strip()
         zone_no = (values.get("zone_no") or "").strip()
         street_no = (values.get("street_no") or "").strip()
         building_no = (values.get("building_no") or "").strip()
@@ -202,21 +377,29 @@ class ResPartner(models.Model):
             "zone_no": zone_no,
             "street_no": street_no,
             "building_no": building_no,
-            "gps_latitude": latitude,
-            "gps_longitude": longitude,
         }
         if any(not value for value in required.values()):
             raise ValidationError(
-                _("Please complete customer name, phone, Zone No, Street No, Building No and GPS location.")
+                _("Please complete customer name, phone, Zone No, Street No and Building No.")
             )
+        if len(self._pos_qatar_normalize_phone(phone)) < 8:
+            raise ValidationError(_("Enter a valid Qatar phone number with at least 8 digits."))
+        if any(len(value) > 30 for value in (zone_no, street_no, building_no)):
+            raise ValidationError(_("Zone, Street and Building numbers must not exceed 30 characters."))
 
-        try:
-            lat = float(latitude)
-            lon = float(longitude)
-        except (TypeError, ValueError):
-            raise ValidationError(_("GPS coordinates must be valid numbers."))
-        if not (-90 <= lat <= 90 and -180 <= lon <= 180):
-            raise ValidationError(_("GPS coordinates are outside the valid range."))
+        # GPS is optional: Zone / Street / Building are the actual Qatar
+        # delivery address identifiers and must never be guessed from GPS.
+        lat = lon = False
+        if latitude or longitude:
+            if not latitude or not longitude:
+                raise ValidationError(_("Enter both GPS latitude and longitude, or leave both empty."))
+            try:
+                lat = float(latitude)
+                lon = float(longitude)
+            except (TypeError, ValueError):
+                raise ValidationError(_("GPS coordinates must be valid numbers."))
+            if not (-90 <= lat <= 90 and -180 <= lon <= 180):
+                raise ValidationError(_("GPS coordinates are outside the valid range."))
 
         if birthdate_date:
             try:
@@ -224,7 +407,15 @@ class ResPartner(models.Model):
             except (TypeError, ValueError):
                 raise ValidationError(_("Customer date of birth must be a valid date."))
 
-        if not location_description_ar:
+        def is_zero_address_number(value):
+            digits = re.sub(r"\D", "", str(value or ""))
+            return bool(digits) and int(digits) == 0
+
+        if any(is_zero_address_number(value) for value in (zone_no, street_no, building_no)):
+            location_description_ar = _("غير معرف")
+            latitude = longitude = ""
+            lat = lon = False
+        elif not location_description_ar and lat is not False and lon is not False:
             location_description_ar = self._pos_qatar_reverse_geocode(lat, lon) or ""
 
         company = self.env.company
@@ -235,38 +426,12 @@ class ResPartner(models.Model):
 
         if not partner:
             partner = self._pos_qatar_partner_by_phone(phone).with_company(company)
-        if not partner:
-            partner = Partner.search(
-                [
-                    ("name", "=ilike", name),
-                    ("company_id", "in", [False, company.id]),
-                ],
-                order="active desc, id asc",
-                limit=1,
-            )
-
         country = self.env["res.country"].sudo().search([("code", "=", "QA")], limit=1)
         if not country:
             raise UserError(_("Qatar country is not configured in the database."))
 
-        receivable = self.env["account.account"].sudo().search(
-            [
-                ("code", "=", "100201"),
-                ("account_type", "=", "asset_receivable"),
-                ("company_ids", "in", company.id),
-            ],
-            limit=1,
-        )
-        if not receivable:
-            raise UserError(
-                _("Receivable account 100201 was not found for company %s.") % company.display_name
-            )
-        account_currency = receivable.currency_id or company.currency_id
-        if account_currency.name != "QAR":
-            raise UserError(
-                _("Account 100201 must use QAR. Its current effective currency is %s.")
-                % account_currency.name
-            )
+        # Do not hard-code an account code here. Odoo applies the company's
+        # standard receivable property when the partner is created.
 
         partner_values = {
             "name": name,
@@ -281,18 +446,20 @@ class ResPartner(models.Model):
             "gps_longitude": longitude,
             "birthdate_date": birthdate_date or False,
             "location_description_ar": location_description_ar or False,
-            # Keep the Arabic reverse-geocoded place name in Odoo's standard
-            # address field, and retain the three Qatar delivery numbers clearly.
-            "street": location_description_ar or (
-                "المنطقة: %s، الشارع: %s، المبنى: %s"
-                % (zone_no, street_no, building_no)
-            ),
-            "street2": "المنطقة رقم %s، شارع رقم %s، مبنى رقم %s"
-            % (zone_no, street_no, building_no),
-            "property_account_receivable_id": receivable.id,
+            # Store the official Qatar address numbers in both dedicated
+            # fields and the standard printable address, independently of GPS.
+            "street": address or "Zone %s, Street %s, Building %s" % (zone_no, street_no, building_no),
+            "street2": "المنطقة %s، الشارع %s، المبنى %s" % (zone_no, street_no, building_no),
             "company_id": False,
             "active": True,
         }
+        # POS phone input is a mobile number in this workflow. Keep Odoo's
+        # phone and mobile searchable so records created here are found by either.
+        if "mobile" in Partner._fields:
+            partner_values["mobile"] = phone
+
+        if lat is not False and lon is not False:
+            partner_values.update({"partner_latitude": lat, "partner_longitude": lon})
         if partner:
             partner.write(partner_values)
             created = False
@@ -300,6 +467,7 @@ class ResPartner(models.Model):
             partner = Partner.create(partner_values)
             created = True
 
+        # Keep Odoo's standard map coordinates in sync when GPS was captured.
         return {
             **self._pos_qatar_customer_payload(partner),
             "country_id": partner.country_id.id or False,

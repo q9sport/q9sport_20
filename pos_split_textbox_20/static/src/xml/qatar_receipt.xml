@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_split_textbox_20.QatarCustomerReceipt"
+       t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('pos-receipt-order-data')]" position="before">
+            <div t-if="props.data.qatar_customer and (props.data.qatar_customer.name or props.data.qatar_customer.address)"
+                 class="pos-receipt-qatar-customer"
+                 style="text-align: left; direction: ltr; margin: 6px 0; padding: 5px 0; border-top: 1px dashed #555; border-bottom: 1px dashed #555; overflow-wrap: anywhere;">
+                <div t-if="props.data.qatar_customer.name" style="font-weight: 700;">
+                    Customer: <t t-esc="props.data.qatar_customer.name"/>
+                </div>
+                <div t-if="props.data.qatar_customer.address">
+                    Address: <t t-esc="props.data.qatar_customer.address"/>
+                </div>
+            </div>
+        </xpath>
+    </t>
+</templates>

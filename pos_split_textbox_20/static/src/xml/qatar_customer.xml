@@ -16,7 +16,7 @@
 
                 <div class="o_qatar_inline_grid">
                     <label class="o_qatar_field">
-                        <span><i class="fa fa-phone" aria-hidden="true"/> رقم الهاتف <b>*</b></span>
+                        <span><i class="fa fa-phone" aria-hidden="true"/> Phone / رقم الهاتف <b>*</b></span>
                         <input type="tel" autocomplete="tel" placeholder="+974 XXXXXXXX"
                                t-att-value="this.getQatarCustomerValue('phone')"
                                t-on-input="(ev) =&gt; this.onQatarCustomerInput('phone', ev)"
@@ -29,26 +29,32 @@
                                t-att-value="this.getQatarCustomerValue('name')"
                                t-on-input="(ev) =&gt; this.onQatarCustomerInput('name', ev)"/>
                     </label>
+                    <label class="o_qatar_field o_qatar_address_field">
+                        <span><i class="fa fa-map-marker" aria-hidden="true"/> Address / العنوان</span>
+                        <input type="text" autocomplete="street-address" placeholder="Address" dir="auto"
+                               t-att-value="this.getQatarCustomerValue('street')"
+                               t-on-input="(ev) =&gt; this.onQatarCustomerInput('street', ev)"/>
+                    </label>
                     <label class="o_qatar_field">
-                        <span><i class="fa fa-calendar" aria-hidden="true"/> تاريخ الميلاد</span>
+                        <span><i class="fa fa-calendar" aria-hidden="true"/> Date of Birth / تاريخ الميلاد</span>
                         <input type="date" autocomplete="bday"
                                t-att-value="this.getQatarCustomerValue('birthdate_date')"
                                t-on-input="(ev) =&gt; this.onQatarCustomerInput('birthdate_date', ev)"/>
                     </label>
                     <label class="o_qatar_field">
-                        <span><i class="fa fa-map" aria-hidden="true"/> رقم المنطقة <b>*</b></span>
+                        <span><i class="fa fa-map" aria-hidden="true"/> Zone No / رقم المنطقة <b>*</b></span>
                         <input type="text" inputmode="numeric" placeholder="Zone No"
                                t-att-value="this.getQatarCustomerValue('zone_no')"
                                t-on-input="(ev) =&gt; this.onQatarCustomerInput('zone_no', ev)"/>
                     </label>
                     <label class="o_qatar_field">
-                        <span><i class="fa fa-road" aria-hidden="true"/> رقم الشارع <b>*</b></span>
+                        <span><i class="fa fa-road" aria-hidden="true"/> Street No / رقم الشارع <b>*</b></span>
                         <input type="text" inputmode="numeric" placeholder="Street No"
                                t-att-value="this.getQatarCustomerValue('street_no')"
                                t-on-input="(ev) =&gt; this.onQatarCustomerInput('street_no', ev)"/>
                     </label>
                     <label class="o_qatar_field">
-                        <span><i class="fa fa-building" aria-hidden="true"/> رقم المبنى <b>*</b></span>
+                        <span><i class="fa fa-building" aria-hidden="true"/> Building No / رقم المبنى <b>*</b></span>
                         <input type="text" inputmode="numeric" placeholder="Building No"
                                t-att-value="this.getQatarCustomerValue('building_no')"
                                t-on-input="(ev) =&gt; this.onQatarCustomerInput('building_no', ev)"/>
@@ -65,19 +71,25 @@
                             <t t-out="this.getQatarCustomerValue('gps_latitude')"/>,
                             <t t-out="this.getQatarCustomerValue('gps_longitude')"/>
                         </small>
-                        <small t-else="">حدد الموقع لعرض اسم المنطقة والشارع تلقائياً</small>
+                        <small t-else="">حدد GPS لحفظ الإحداثيات، أو اعرض أرقام العنوان على الخريطة</small>
                     </div>
-                    <button type="button" class="o_qatar_inline_gps_button"
-                            t-on-click="() =&gt; this.captureQatarLocation()"
-                            t-att-disabled="this.qatarCustomer.locating">
-                        <i class="fa fa-crosshairs" aria-hidden="true"/>
-                        <t t-if="this.qatarCustomer.locating">جارٍ تحديد الموقع…</t>
-                        <t t-else="">تحديد الموقع</t>
+                    <div class="o_qatar_location_actions">
+                    <button type="button" class="o_qatar_inline_gps_button o_qatar_resolve_address_button"
+                            t-on-click="() =&gt; this.resolveQatarAddress()"
+                            t-att-disabled="this.qatarCustomer.resolvingAddress">
+                        <i class="fa fa-location-arrow" aria-hidden="true"/>
+                        <t t-if="this.qatarCustomer.resolvingAddress">جارٍ البحث عن المبنى…</t>
+                        <t t-else="">تحقق من العنوان وتحديد المبنى</t>
                     </button>
+                    <a t-attf-class="o_qatar_inline_map_button {{ (!this.getQatarCustomerValue('gps_latitude') || !this.getQatarCustomerValue('gps_longitude')) ? 'o_qatar_map_disabled' : '' }}"
+                       t-att-href="this.getQatarMapSearchUrl()" t-att-aria-disabled="!this.getQatarCustomerValue('gps_latitude') || !this.getQatarCustomerValue('gps_longitude')" target="_blank" rel="noopener noreferrer">
+                        <i class="fa fa-map" aria-hidden="true"/> عرض الموقع الفعلي على الخريطة
+                    </a>
+                    </div>
                 </div>
 
                 <button type="button" class="o_qatar_inline_save"
-                        t-on-click="() =&gt; this.saveQatarCustomer(true)"
+                        t-on-click="() =&gt; this.onClickSaveQatarCustomer()"
                         t-att-disabled="this.qatarCustomer.saving">
                     <i class="fa fa-check-circle" aria-hidden="true"/>
                     <t t-if="this.qatarCustomer.saving">جارٍ الحفظ…</t>

@@ -72,7 +72,8 @@ patch(PaymentScreen.prototype, {
             this.deletePaymentLine(duplicate.uuid);
         }
 
-        if (amount <= 0) {
+        // A zero/rounded-zero amount must NEVER create a payment line.
+        if (amount <= 0 || maximum <= 0) {
             if (line) {
                 this.deletePaymentLine(line.uuid);
             }
@@ -81,19 +82,26 @@ patch(PaymentScreen.prototype, {
         }
 
         if (!line) {
-            const created = await this.addNewPaymentLine(paymentMethod);
-            if (!created) {
-                input.value = "";
-                return;
-            }
+            // addNewPaymentLine creates the native POS line but does not
+            // consistently return that line across POS builds. Never use its
+            // return value as a success flag.
+            await this.addNewPaymentLine(paymentMethod);
             line = this.paymentLines.find(
                 (paymentLine) => paymentLine.payment_method_id.id === paymentMethod.id
             );
         }
 
-        if (line) {
-            line.setAmount(amount, line.currency);
-            input.value = String(amount);
+        if (!line) {
+            input.value = "";
+            this.notification.add(
+                "Odoo could not create a payment line for this method. Please try again.",
+                { type: "warning" }
+            );
+            return;
         }
+
+        // setAmount updates the native payment line and triggers POS reactivity.
+        line.setAmount(amount);
+        input.value = String(amount);
     },
 });
