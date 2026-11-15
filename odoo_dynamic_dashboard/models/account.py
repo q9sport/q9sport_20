@@ -12,7 +12,8 @@ class AccountMove ( models.Model ) :
     partner_id = fields.Many2one ( 'res.partner' , string='Partner' , )
     allowed_partner_ids = fields.Many2many ( 'res.partner' , compute='_compute_allowed_partner_ids' ,
                                              string='Allowed Partners' , )
-    # date = fields.Date(string='Date', required=True, default=fields.Date.context_today, index=True, copy=True, related=False, compute=False,readonly=False,)
+    date = fields.Date( related='move_id.date', string='Date',   readonly=False, store=True,)
+    #date = fields.Date(string='Date', required=True, default=fields.Date.context_today, index=True, copy=True, related=False,compute=False,readonly=False,)
     analytic_distribution_readonly = fields.Boolean ( compute='_compute_analytic_distribution_readonly' )
     #copy_line_button = fields.Boolean ( string="Copy" , compute="_compute_copy_line_button" , )
 
@@ -154,20 +155,7 @@ class ChartsOfAccounts ( models.Model ) :
         
 
 
-## editing product
-class ProductTemplate ( models.Model ) :
-    _inherit = 'product.template'
 
-    arabic_name = fields.Char ( string="Arabic Name" , tracking=True , store=True )
-    attribute_id = fields.Many2one ( 'product.attribute' , string='Product Attribute' ,
-                                     related='attribute_line_ids.attribute_id' , store=True , )
-    product_tags_id = fields.Many2many (
-        comodel_name='product.tag' ,
-        string='Season' ,
-        relation='product_template_product_tag_rel' ,
-        column1='product_template_id' ,
-        column2='product_tag_id' ,
-    )
 
 
 ### editing contact ##

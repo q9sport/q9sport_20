@@ -49,6 +49,7 @@ Build dashboards without code, right in Odoo:
         'views/purchase_order_views.xml',
         'views/barcode_wizard_views.xml',
         'views/barcode_report.xml',
+        'views/product_template_views.xml',
        
       
     ],

@@ -9,7 +9,12 @@ class ProductTemplate ( models.Model ) :
     kit_type = fields.Char ( string="Kit Type" , tracking=True , copy=True )
     section = fields.Char ( string="Section" , tracking=True , copy=True )
     team = fields.Char ( string="Team" , tracking=True , copy=True )
-    season = fields.Many2many ( comodel_name='product.season' , relation='product_template_season_rel' , column1='product_tmpl_id' ,  column2='season_id' , string='Season' )
+    season = fields.Many2many ( comodel_name='product.season' , relation='product_template_season_rel' , column1='product_tmpl_id' ,  column2='season_id' , string='Season' ) 
+    arabic_name = fields.Char ( string="Arabic Name" , tracking=True , store=True )
+    attribute_id = fields.Many2one ( 'product.attribute' , string='Product Attribute' , related='attribute_line_ids.attribute_id' , store=True , )
+    product_tags_id = fields.Many2many (comodel_name='product.tag' ,       string='Season' ,    relation='product_template_product_tag_rel' ,     column1='product_template_id' ,       column2='product_tag_id' ,  )
+   
+
 
     @api.onchange (
         'jersey_version' ,
@@ -83,9 +88,5 @@ class ProductSeason(models.Model):
     _description = 'Product Season'
     _order = 'name'
 
-    name = fields.Char(
-        string='Season Name',
-        required=True
-    )
-
+    name = fields.Char(string='Season Name', required=True)
     active = fields.Boolean(default=True)

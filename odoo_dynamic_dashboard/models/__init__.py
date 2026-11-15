@@ -25,4 +25,5 @@ from . import purchase_order
 from . import barcode_wizard
 from . import purchase_order_barcode_wizard
 from . import product
+from . import product_dynamic_field
 

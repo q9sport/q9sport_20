@@ -12,3 +12,5 @@ access_dynamic_dashboard_block_menu_read,dynamic.dashboard.block.menu.read,dynam
 access_purchase_order_barcode_wizard,purchase.order.barcode.wizard,purchase.order.barcode.wizard,base.group_user,crud,
 access_purchase_order_barcode_wizard_line,purchase.order.barcode.wizard.line,purchase.order.barcode.wizard.line,base.group_user,crud,
 access_product_season_user,product.season.user,product.season,base.group_user,crud,
+access_product_dynamic_field_wizard,product.dynamic.field.wizard,product.dynamic.field.wizard,base.group_user,crud,
+
