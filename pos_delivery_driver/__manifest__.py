@@ -19,7 +19,7 @@
     ],
     "assets": {
         "point_of_sale._assets_pos": [
-            "pos_delivery_driver/static/src/app/delivery_driver_order.js",
+            #"pos_delivery_driver/static/src/app/delivery_driver_order.js",
             "pos_delivery_driver/static/src/app/delivery_driver_popup.js",
             "pos_delivery_driver/static/src/app/delivery_driver_auto.js",
             "pos_delivery_driver/static/src/app/delivery_driver_popup.xml",

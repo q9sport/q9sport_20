@@ -1,7 +1,6 @@
 /** @odoo-module **/
-import { Component, proxy, useProps } from "@odoo/owl";
+import { Component, proxy, useProps, t } from "@odoo/owl";
 import { Dialog } from "@web/core/dialog/dialog";
-
 
 export class DeliveryDriverPopup extends Component {
 
@@ -11,92 +10,54 @@ export class DeliveryDriverPopup extends Component {
         Dialog,
     };
 
-    // OWL 3: explicitly read component props.
-    props = useProps();
+    // Component properties
+    props = useProps({
+        orderName: t.string().optional("New Order"),
+        isCashOnDelivery: t.boolean().optional(true),
+        alreadyAdded: t.boolean().optional(false),
+        close: t.function(),
+        getPayload: t.function(),
+    });
 
     setup() {
 
         this.state = proxy({
-            search: "",
-            selectedDriverId: this.props.selectedDriverId || false,
-            isCashOnDelivery: Boolean(
-                this.props.isCashOnDelivery
-            ),
+            // Cash on Delivery is enabled by default
+            isCashOnDelivery: this.props.isCashOnDelivery !== false,
         });
 
-        this.employees = Array.isArray(this.props.employees)
-            ? this.props.employees
-            : [];
     }
 
-    get filteredEmployees() {
-
-        const query = String(this.state.search || "")
-            .trim()
-            .toLowerCase();
-
-        if (!query) {
-            return this.employees;
-        }
-
-        return this.employees.filter((employee) =>
-            String(employee.name || "")
-                .toLowerCase()
-                .includes(query)
-        );
-    }
-
-    onSearchInput(ev) {
-        this.state.search = ev.target.value || "";
-    }
-
+    // Cash on Delivery switch
     onCashOnDeliveryChange(ev) {
+
         this.state.isCashOnDelivery = Boolean(
             ev.target.checked
         );
+
     }
 
-    selectDriver(driverId) {
-        this.state.selectedDriverId = driverId || false;
-    }
-
-    finish(payload) {
-
-        // Resolve the promise created by makeAwaitable.
-        if (typeof this.props.getPayload === "function") {
-            this.props.getPayload(payload);
-        }
-
-        // Close the popup through the callback supplied by Dialog.
-        if (typeof this.props.close === "function") {
-            this.props.close();
-        }
-    }
-
+    // Confirm delivery
     confirm() {
 
-        const driverId = this.state.selectedDriverId;
-
-        if (!driverId) {
-            return;
-        }
-
-        const employee = this.employees.find(
-            (item) => Number(item.id) === Number(driverId)
-        );
-
-        this.finish({
-            driverId: Number(driverId),
-            driverName: employee ? employee.name : "",
+        this.props.getPayload({
+            confirmed: true,
             isCashOnDelivery: Boolean(
                 this.state.isCashOnDelivery
             ),
         });
+
+        this.props.close();
+
     }
 
+    // Cancel popup
     cancel() {
-        // Resolve with false so the calling method can stop
-        // without adding the Delivery product.
-        this.finish(false);
+
+        this.props.getPayload(false);
+
+        this.props.close();
+
     }
+
 }
