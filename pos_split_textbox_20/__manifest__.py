@@ -1,14 +1,24 @@
+
 # -*- coding: utf-8 -*-
 {
     "name": "POS Split Payment & Qatar Delivery Customer",
-    "version": "20.0.26.0.0",
+    "version": "20.0.26.0.1",
     "category": "Sales/Point of Sale",
     "summary": "Compact split payments and inline Qatar customer lookup and delivery details",
-    "description": "Manual split payment inputs, phone-based customer lookup, Qatar address numbers, Arabic GPS place name and QAR receivable validation.",
+    "description": (
+        "Manual split payment inputs, phone-based customer lookup, "
+        "Qatar address numbers, QNAS building geolocation, Arabic GPS "
+        "place name and QAR receivable validation."
+    ),
     "author": "Custom POS Extension",
     "license": "LGPL-3",
-    "depends": ["point_of_sale", "account"],
-    "data": [],
+    "depends": [
+        "point_of_sale",
+        "account",
+    ],
+    "data": [
+        "views/res_config_settings_views.xml",
+    ],
     "assets": {
         "point_of_sale._assets_pos": [
             "pos_split_textbox_20/static/src/js/split_payment.js",
