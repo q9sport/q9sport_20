@@ -1,394 +1,198 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <templates xml:space="preserve">
 
     <t t-name="pos_delivery_driver.DeliveryDriverPopup">
 
         <Dialog title="'Delivery Confirmation'" size="'lg'">
 
-            <div class="o_delivery_driver_popup o_delivery_luxury">
+            <div class="o_delivery_driver_popup">
 
-                <!-- HEADER -->
-                <div class="o_delivery_hero">
+                <!-- Header -->
+                <div class="o_delivery_popup_header">
 
-                    <div class="o_delivery_hero_icon">
-                        <svg viewBox="0 0 64 64" fill="none">
-                            <path d="M5 17.5C5 15.57 6.57 14 8.5 14H39V43H5V17.5Z"
-                                  stroke="currentColor" stroke-width="3.5"
-                                  stroke-linejoin="round"/>
-                            <path d="M39 23H49L59 34V43H39V23Z"
-                                  stroke="currentColor" stroke-width="3.5"
-                                  stroke-linejoin="round"/>
-                            <path d="M45 23V34H58"
-                                  stroke="currentColor" stroke-width="3.5"/>
-                            <circle cx="17" cy="45" r="6"
-                                    fill="#fff" stroke="currentColor"
-                                    stroke-width="3.5"/>
-                            <circle cx="49" cy="45" r="6"
-                                    fill="#fff" stroke="currentColor"
-                                    stroke-width="3.5"/>
-                            <path d="M13 24H29M13 31H24"
-                                  stroke="currentColor" stroke-width="3"
-                                  stroke-linecap="round"/>
-                        </svg>
+                    <div class="o_delivery_popup_icon">
+                        🚚
                     </div>
 
-                    <div class="o_delivery_hero_text">
+                    <div class="o_delivery_popup_header_text">
+
                         <span class="o_delivery_eyebrow">
-                            PREMIUM DELIVERY SERVICE
+                            DELIVERY SERVICE
                         </span>
 
-                        <h2>Delivery Confirmation</h2>
+                        <h2>
+                            Delivery Confirmation
+                        </h2>
 
                         <p>
-                            Your order is ready for delivery.
-                            Confirm the delivery service and payment method.
+                            Confirm delivery details before adding the service.
                         </p>
+
                     </div>
 
-                    <div class="o_delivery_hero_badge">
-                        <span class="o_delivery_live_dot"></span>
+                    <span class="o_delivery_popup_tag">
                         DELIVERY
-                    </div>
+                    </span>
 
                 </div>
 
 
-                <!-- ORDER INFORMATION -->
-                <div class="o_delivery_section_heading">
+                <!-- Order -->
+                <div class="o_delivery_order_box">
 
-                    <div class="o_delivery_heading_icon">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path d="M4 7L12 3L20 7V17L12 21L4 17V7Z"
-                                  stroke="currentColor" stroke-width="1.8"
-                                  stroke-linejoin="round"/>
-                            <path d="M4 7L12 11L20 7M12 11V21"
-                                  stroke="currentColor" stroke-width="1.8"/>
-                        </svg>
+                    <div class="o_delivery_order_icon">
+                        📦
                     </div>
 
-                    <div>
-                        <h3>Order Information</h3>
-                        <span>Current POS transaction</span>
-                    </div>
+                    <div class="o_delivery_order_info">
 
-                </div>
-
-
-                <div class="o_delivery_order_card">
-
-                    <div class="o_delivery_order_visual">
-                        <svg viewBox="0 0 64 64" fill="none">
-                            <path d="M13 18L32 8L51 18V46L32 56L13 46V18Z"
-                                  stroke="currentColor" stroke-width="3"
-                                  stroke-linejoin="round"/>
-                            <path d="M13 18L32 29L51 18M32 29V56"
-                                  stroke="currentColor" stroke-width="3"
-                                  stroke-linejoin="round"/>
-                            <path d="M22 13L41 24"
-                                  stroke="currentColor" stroke-width="2.5"
-                                  stroke-linecap="round"/>
-                        </svg>
-                    </div>
-
-                    <div class="o_delivery_order_details">
-                        <span class="o_delivery_order_label">
-                            ORDER NUMBER
-                        </span>
+                        <span>ORDER NUMBER</span>
 
                         <strong t-out="this.props.orderName"/>
 
-                        <span class="o_delivery_order_description">
-                            Delivery order
-                        </span>
-                    </div>
+                        <small>
+                            Delivery Order
+                        </small>
 
-                    <div class="o_delivery_order_status">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="9"
-                                    stroke="currentColor" stroke-width="2"/>
-                            <path d="M8 12L10.5 14.5L16 9"
-                                  stroke="currentColor" stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                        </svg>
-                        Ready
                     </div>
 
                 </div>
 
 
-                <!-- DELIVERY SERVICE -->
-                <div class="o_delivery_service_panel">
+                <!-- Driver -->
+                <div t-if="!this.props.alreadyAdded"
+                     class="o_delivery_driver_section">
 
-                    <div class="o_delivery_service_icon">
-                        <svg viewBox="0 0 64 64" fill="none">
-                            <path d="M5 17.5C5 15.57 6.57 14 8.5 14H39V43H5V17.5Z"
-                                  stroke="currentColor" stroke-width="3.5"
-                                  stroke-linejoin="round"/>
-                            <path d="M39 23H49L59 34V43H39V23Z"
-                                  stroke="currentColor" stroke-width="3.5"
-                                  stroke-linejoin="round"/>
-                            <circle cx="17" cy="45" r="6"
-                                    fill="#fff" stroke="currentColor"
-                                    stroke-width="3.5"/>
-                            <circle cx="49" cy="45" r="6"
-                                    fill="#fff" stroke="currentColor"
-                                    stroke-width="3.5"/>
-                            <path d="M13 24H29"
-                                  stroke="currentColor" stroke-width="3"
-                                  stroke-linecap="round"/>
-                        </svg>
-                    </div>
+                    <label for="o_delivery_driver_select">
+                        Assign Delivery Driver
+                    </label>
 
-                    <div class="o_delivery_service_text">
-                        <span class="o_delivery_service_label">
-                            SERVICE
+                    <select id="o_delivery_driver_select"
+                            class="form-select"
+                            t-on-change="onDriverChange">
+
+                        <option value="">
+                            No Driver Assigned
+                        </option>
+
+                        <t t-foreach="this.props.employees || []"
+                           t-as="employee"
+                           t-key="employee.id">
+
+                            <option t-att-value="employee.id"
+                                    t-att-selected="employee.id === this.state.selectedDriverId">
+
+                                <t t-esc="employee.name"/>
+
+                                <t t-if="employee.open_count">
+                                    — Open:
+                                    <t t-esc="employee.open_count"/>
+                                </t>
+
+                            </option>
+
+                        </t>
+
+                    </select>
+
+                    <small t-if="!(this.props.employees || []).length">
+                        No active drivers found. You can assign a driver later.
+                    </small>
+
+                </div>
+
+
+                <!-- Payment -->
+                <div t-if="!this.props.alreadyAdded"
+                     class="o_delivery_payment_box">
+
+                    <div class="o_delivery_payment_info">
+
+                        <span class="o_delivery_eyebrow">
+                            PAYMENT METHOD
                         </span>
 
-                        <h3>Delivery Service</h3>
+                        <h3>
+                            Payment on Delivery
+                        </h3>
 
                         <p>
-                            Delivery service will be added to this order.
+                            Customer pays when receiving the order.
                         </p>
+
+                        <div class="o_delivery_payment_options">
+
+                            <span t-att-class="
+                                this.state.isCashOnDelivery
+                                ? 'o_delivery_payment_option active'
+                                : 'o_delivery_payment_option'
+                            ">
+                                Cash
+                            </span>
+
+                            <span t-att-class="
+                                !this.state.isCashOnDelivery
+                                ? 'o_delivery_payment_option active'
+                                : 'o_delivery_payment_option'
+                            ">
+                                Card
+                            </span>
+
+                        </div>
+
                     </div>
 
-                    <div class="o_delivery_service_check">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path d="M5 12L10 17L20 7"
-                                  stroke="currentColor" stroke-width="2.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                        </svg>
-                    </div>
+                    <label class="o_delivery_toggle">
+
+                        <input type="checkbox"
+                               t-att-checked="this.state.isCashOnDelivery"
+                               t-on-change="onCashOnDeliveryChange"/>
+
+                        <span class="o_delivery_toggle_slider"/>
+
+                    </label>
 
                 </div>
 
 
-                <!-- PAYMENT AT DELIVERY -->
-                <div class="o_delivery_cod_card">
-
-                    <div class="o_delivery_payment_content">
-
-                        <!-- PAYMENT ILLUSTRATION -->
-                        <div class="o_delivery_payment_illustration">
-
-                            <svg viewBox="0 0 150 120" fill="none">
-
-                                <!-- PERSON HEAD -->
-                                <circle cx="42" cy="26" r="13"
-                                        fill="#F1C7A5"/>
-
-                                <!-- HAIR -->
-                                <path d="M30 24C30 13 38 8 46 12C51 14 55 19 54 25C50 21 45 20 40 21C36 22 33 24 30 28Z"
-                                      fill="#34445D"/>
-
-                                <!-- PERSON BODY -->
-                                <path d="M20 103V76C20 61 30 51 43 51C56 51 66 61 66 76V103H20Z"
-                                      fill="#3159A8"/>
-
-                                <!-- SHIRT -->
-                                <path d="M37 53L43 64L49 53"
-                                      stroke="#fff" stroke-width="2.5"
-                                      stroke-linecap="round"/>
-
-                                <!-- ARM -->
-                                <path d="M60 68C70 69 77 76 86 79"
-                                      stroke="#F1C7A5" stroke-width="9"
-                                      stroke-linecap="round"/>
-
-                                <!-- HAND -->
-                                <path d="M81 75L94 72"
-                                      stroke="#F1C7A5" stroke-width="8"
-                                      stroke-linecap="round"/>
-
-                                <!-- CASH NOTE -->
-                                <rect x="91" y="54" width="43" height="25"
-                                      rx="4" fill="#D8F0DE"
-                                      stroke="#278653" stroke-width="2"/>
-
-                                <circle cx="112" cy="66.5" r="7"
-                                        stroke="#278653" stroke-width="2"/>
-
-                                <path d="M97 60H102M123 73H128"
-                                      stroke="#278653" stroke-width="2"
-                                      stroke-linecap="round"/>
-
-                                <!-- CARD -->
-                                <rect x="91" y="86" width="43" height="25"
-                                      rx="4" fill="#F5E7C6"
-                                      stroke="#B28A43" stroke-width="2"/>
-
-                                <path d="M92 94H133"
-                                      stroke="#B28A43" stroke-width="3"/>
-
-                                <path d="M99 103H110"
-                                      stroke="#B28A43" stroke-width="2.5"
-                                      stroke-linecap="round"/>
-
-                                <!-- COINS -->
-                                <circle cx="77" cy="98" r="8"
-                                        fill="#E9C875"
-                                        stroke="#B28A43" stroke-width="2"/>
-
-                                <path d="M77 93V103M74 96H80M74 100H80"
-                                      stroke="#9A7130" stroke-width="1.4"
-                                      stroke-linecap="round"/>
-
-                            </svg>
-
-                        </div>
-
-
-                        <!-- PAYMENT TEXT -->
-                        <div class="o_delivery_cod_information">
-
-                            <span class="o_delivery_cod_label">
-                                PAYMENT ON DELIVERY
-                            </span>
-
-                            <h3>Cash or Card</h3>
-
-                            <p>
-                                Customer pays upon delivery by cash or card.
-                            </p>
-
-                            <div class="o_delivery_payment_selection">
-
-                                <span t-att-class="this.state.isCashOnDelivery ? 'o_delivery_payment_option active' : 'o_delivery_payment_option'">
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                        <rect x="3" y="6" width="18" height="12"
-                                              rx="2" stroke="currentColor"
-                                              stroke-width="1.8"/>
-                                        <path d="M3 10H21M7 14H11"
-                                              stroke="currentColor"
-                                              stroke-width="1.8"
-                                              stroke-linecap="round"/>
-                                    </svg>
-                                    Cash
-                                </span>
-
-                                <span t-att-class="!this.state.isCashOnDelivery ? 'o_delivery_payment_option active' : 'o_delivery_payment_option'">
-                                    <svg viewBox="0 0 24 24" fill="none">
-                                        <rect x="2.5" y="5" width="19" height="14"
-                                              rx="2.5" stroke="currentColor"
-                                              stroke-width="1.8"/>
-                                        <path d="M3 10H21M7 15H10"
-                                              stroke="currentColor"
-                                              stroke-width="1.8"
-                                              stroke-linecap="round"/>
-                                    </svg>
-                                    Card
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- PAYMENT SWITCH -->
-                        <label class="o_delivery_switch">
-
-                            <input
-                                type="checkbox"
-                                t-att-checked="this.state.isCashOnDelivery"
-                                t-on-change="this.onCashOnDeliveryChange"
-                                aria-label="Select cash or card payment"
-                            />
-
-                            <span class="o_delivery_switch_track">
-                                <span class="o_delivery_switch_thumb"></span>
-                            </span>
-
-                        </label>
-
-                    </div>
-
-
-                    <!-- PAYMENT STATUS -->
-                    <div class="o_delivery_cod_status">
-
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="9"
-                                    stroke="currentColor" stroke-width="2"/>
-                            <path d="M8 12L10.5 14.5L16 9"
-                                  stroke="currentColor" stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                        </svg>
-
-                        <span t-if="this.state.isCashOnDelivery">
-                            Selected payment method: Cash
-                        </span>
-
-                        <span t-else="">
-                            Selected payment method: Card
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- ALREADY ADDED -->
+                <!-- Duplicate -->
                 <div t-if="this.props.alreadyAdded"
-                     class="o_delivery_already_added">
+                     class="o_delivery_duplicate_message">
 
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="9"
-                                stroke="currentColor" stroke-width="2"/>
-                        <path d="M8 12L10.5 14.5L16 9"
-                              stroke="currentColor" stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"/>
-                    </svg>
+                    <strong>
+                        Delivery Already Added
+                    </strong>
 
-                    <div>
-                        <strong>Delivery Already Added</strong>
-                        <span>
-                            This order already includes the delivery service.
-                            No duplicate service will be added.
-                        </span>
-                    </div>
+                    <p>
+                        This order already includes the delivery service.
+                    </p>
 
                 </div>
 
 
-                <!-- FOOTER -->
-                <div class="o_delivery_footer">
+                <!-- Footer -->
+                <div class="o_delivery_popup_footer">
 
-                    <div class="o_delivery_footer_note">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path d="M12 3L20 6V11C20 16 16.5 19.5 12 21C7.5 19.5 4 16 4 11V6L12 3Z"
-                                  stroke="currentColor" stroke-width="1.8"
-                                  stroke-linejoin="round"/>
-                            <path d="M9 12L11 14L15 10"
-                                  stroke="currentColor" stroke-width="1.8"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                        </svg>
+                    <button type="button"
+                            class="btn btn-secondary"
+                            t-on-click="cancel">
 
-                        <span>Secure order confirmation</span>
-                    </div>
+                        Cancel
 
-                    <button
-                        type="button"
-                        class="o_delivery_confirm_btn"
-                        t-on-click="this.confirm">
+                    </button>
+
+                    <button type="button"
+                            class="o_delivery_confirm_button"
+                            t-on-click="confirm">
 
                         <t t-if="this.props.alreadyAdded">
-                            <span>Got It</span>
+                            Got It
                         </t>
 
                         <t t-else="">
-                            <span>Confirm Delivery</span>
+                            Confirm Delivery
                         </t>
-
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path d="M5 12H19M12 5L19 12L12 19"
-                                  stroke="currentColor" stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                        </svg>
 
                     </button>
 

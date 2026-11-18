@@ -3,15 +3,17 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
 
+DELIVERY_PRODUCT_ID = 38
+DELIVERY_PRODUCT_BARCODE = "10002"
+
+
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
     is_delivery_driver = fields.Boolean(
         string="Delivery Driver",
         default=False,
-        copy=False,
         index=True,
-        help="Enable this employee to be selected as a POS delivery driver.",
     )
 
     delivery_order_ids = fields.One2many(
@@ -22,12 +24,12 @@ class HrEmployee(models.Model):
     )
 
     delivery_order_count = fields.Integer(
-        string="Total Orders",
+        string="Total Delivery Orders",
         compute="_compute_delivery_statistics",
     )
 
     delivery_pending_count = fields.Integer(
-        string="Open Orders",
+        string="Open Deliveries",
         compute="_compute_delivery_statistics",
     )
 
@@ -44,11 +46,13 @@ class HrEmployee(models.Model):
     @api.depends(
         "delivery_order_ids",
         "delivery_order_ids.delivery_status",
-        "delivery_order_ids.state",
+        "delivery_order_ids.is_delivery_order",
     )
     def _compute_delivery_statistics(self):
         for employee in self:
-            orders = employee.delivery_order_ids
+            orders = employee.delivery_order_ids.filtered(
+                lambda order: order.is_delivery_order
+            )
 
             employee.delivery_order_count = len(orders)
 
@@ -74,10 +78,11 @@ class HrEmployee(models.Model):
                 )
             )
 
-    def _delivery_orders_action(self, title, extra_domain=None):
+    def _get_delivery_action(self, title, extra_domain=None):
         self.ensure_one()
 
         domain = [
+            ("is_delivery_order", "=", True),
             ("delivery_employee_id", "=", self.id),
         ]
 
@@ -88,49 +93,60 @@ class HrEmployee(models.Model):
             "type": "ir.actions.act_window",
             "name": title,
             "res_model": "pos.order",
-            "view_mode": "list,form",
+            "view_mode": "kanban,list,form",
             "domain": domain,
             "context": {
-                "default_delivery_employee_id": self.id,
+                "group_by": [
+                    "delivery_employee_id",
+                    "delivery_status",
+                ],
             },
         }
 
     def action_view_delivery_orders(self):
         self.ensure_one()
-        return self._delivery_orders_action(
+        return self._get_delivery_action(
             _("Delivery Orders - %s") % self.name
         )
 
     def action_view_open_delivery_orders(self):
         self.ensure_one()
-        return self._delivery_orders_action(
-            _("Open Delivery Orders - %s") % self.name,
+        return self._get_delivery_action(
+            _("Open Delivery Orders"),
             [
                 (
                     "delivery_status",
                     "in",
                     ["pending", "assigned", "in_delivery"],
-                ),
+                )
             ],
         )
 
     def action_view_delivered_delivery_orders(self):
         self.ensure_one()
-        return self._delivery_orders_action(
-            _("Delivered Orders - %s") % self.name,
+        return self._get_delivery_action(
+            _("Delivered Orders"),
             [("delivery_status", "=", "delivered")],
         )
 
     def action_view_failed_delivery_orders(self):
         self.ensure_one()
-        return self._delivery_orders_action(
-            _("Failed Orders - %s") % self.name,
+        return self._get_delivery_action(
+            _("Failed Orders"),
             [("delivery_status", "=", "failed")],
         )
 
 
 class PosOrder(models.Model):
     _inherit = "pos.order"
+
+    is_delivery_order = fields.Boolean(
+        string="Delivery Order",
+        compute="_compute_is_delivery_order",
+        store=True,
+        index=True,
+        copy=False,
+    )
 
     delivery_employee_id = fields.Many2one(
         "hr.employee",
@@ -146,17 +162,17 @@ class PosOrder(models.Model):
 
     delivery_status = fields.Selection(
         [
-            ("pending", "Waiting"),
-            ("assigned", "Assigned"),
-            ("in_delivery", "On the Way"),
+            ("pending", "Created"),
+            ("assigned", "Dispatched"),
+            ("in_delivery", "Driver Enroute"),
             ("delivered", "Delivered"),
             ("failed", "Failed"),
             ("cancelled", "Cancelled"),
         ],
         string="Delivery Status",
         default="pending",
-        copy=False,
         index=True,
+        copy=False,
     )
 
     delivery_assigned_date = fields.Datetime(
@@ -173,9 +189,8 @@ class PosOrder(models.Model):
 
     is_cash_on_delivery = fields.Boolean(
         string="Cash on Delivery",
-        default=False,
+        default=True,
         copy=False,
-        index=True,
     )
 
     delivery_collected = fields.Boolean(
@@ -185,23 +200,111 @@ class PosOrder(models.Model):
     )
 
     delivery_collected_amount = fields.Monetary(
-        string="Amount Collected by Driver",
+        string="Collected Amount",
         currency_field="currency_id",
         default=0.0,
         copy=False,
     )
 
+    delivery_payment_status = fields.Selection(
+        [
+            ("unpaid", "Unpaid"),
+            ("partial", "Partially Paid"),
+            ("paid", "Paid"),
+        ],
+        string="Payment Status",
+        compute="_compute_delivery_payment_status",
+        store=True,
+    )
+
+    delivery_customer_address = fields.Char(
+        string="Customer Address",
+        related="partner_id.contact_address",
+        readonly=True,
+    )
+
+    delivery_latitude = fields.Float(
+        string="Customer Latitude",
+        related="partner_id.partner_latitude",
+        readonly=True,
+    )
+
+    delivery_longitude = fields.Float(
+        string="Customer Longitude",
+        related="partner_id.partner_longitude",
+        readonly=True,
+    )
+
+    delivery_location_url = fields.Char(
+        string="Customer Map",
+        compute="_compute_delivery_location_url",
+    )
+
     # ---------------------------------------------------------
-    # GET ACTIVE DELIVERY EMPLOYEES
+    # Detect delivery product
+    # ---------------------------------------------------------
+
+    @api.depends(
+        "lines",
+        "lines.product_id",
+        "lines.product_id.barcode",
+    )
+    def _compute_is_delivery_order(self):
+        for order in self:
+            order.is_delivery_order = any(
+                line.product_id
+                and (
+                    line.product_id.id == DELIVERY_PRODUCT_ID
+                    or (
+                        (line.product_id.barcode or "").strip()
+                        == DELIVERY_PRODUCT_BARCODE
+                    )
+                )
+                for line in order.lines
+            )
+
+    # ---------------------------------------------------------
+    # Payment status
+    # ---------------------------------------------------------
+
+    @api.depends("amount_paid", "amount_total")
+    def _compute_delivery_payment_status(self):
+        for order in self:
+            paid = order.amount_paid or 0.0
+            total = order.amount_total or 0.0
+
+            if paid <= 0 or total <= 0:
+                order.delivery_payment_status = "unpaid"
+            elif paid >= total:
+                order.delivery_payment_status = "paid"
+            else:
+                order.delivery_payment_status = "partial"
+
+    # ---------------------------------------------------------
+    # Customer GPS URL
+    # ---------------------------------------------------------
+
+    @api.depends("delivery_latitude", "delivery_longitude")
+    def _compute_delivery_location_url(self):
+        for order in self:
+            if order.delivery_latitude and order.delivery_longitude:
+                order.delivery_location_url = (
+                    "https://www.google.com/maps?q=%s,%s"
+                    % (
+                        order.delivery_latitude,
+                        order.delivery_longitude,
+                    )
+                )
+            else:
+                order.delivery_location_url = False
+
+    # ---------------------------------------------------------
+    # Drivers for POS popup
     # ---------------------------------------------------------
 
     @api.model
     def get_active_delivery_employees(self):
-
-        Employee = self.env["hr.employee"].sudo()
-        Order = self.env["pos.order"].sudo()
-
-        employees = Employee.search(
+        employees = self.env["hr.employee"].sudo().search(
             [
                 ("active", "=", True),
                 ("is_delivery_driver", "=", True),
@@ -211,56 +314,47 @@ class PosOrder(models.Model):
 
         result = []
 
-        open_statuses = [
-            "pending",
-            "assigned",
-            "in_delivery",
-        ]
-
         for employee in employees:
-
-            base_domain = [
-                ("delivery_employee_id", "=", employee.id),
-            ]
-
-            total_count = Order.search_count(base_domain)
-
-            open_count = Order.search_count(
-                base_domain + [
-                    ("delivery_status", "in", open_statuses),
+            orders = self.sudo().search(
+                [
+                    ("is_delivery_order", "=", True),
+                    ("delivery_employee_id", "=", employee.id),
                 ]
             )
 
-            delivered_count = Order.search_count(
-                base_domain + [
-                    ("delivery_status", "=", "delivered"),
-                ]
-            )
-
-            failed_count = Order.search_count(
-                base_domain + [
-                    ("delivery_status", "=", "failed"),
-                ]
+            open_orders = orders.filtered(
+                lambda order: order.delivery_status in (
+                    "pending",
+                    "assigned",
+                    "in_delivery",
+                )
             )
 
             result.append({
                 "id": employee.id,
                 "name": employee.name,
-                "order_count": total_count,
-                "open_count": open_count,
-                "delivered_count": delivered_count,
-                "failed_count": failed_count,
+                "order_count": len(orders),
+                "open_count": len(open_orders),
+                "delivered_count": len(
+                    orders.filtered(
+                        lambda order: order.delivery_status == "delivered"
+                    )
+                ),
+                "failed_count": len(
+                    orders.filtered(
+                        lambda order: order.delivery_status == "failed"
+                    )
+                ),
             })
 
         return result
 
     # ---------------------------------------------------------
-    # RECEIVE DATA FROM POS
+    # Receive custom POS fields
     # ---------------------------------------------------------
 
     @api.model
     def _order_fields(self, ui_order):
-
         result = super()._order_fields(ui_order)
 
         driver_id = ui_order.get("delivery_employee_id") or False
@@ -272,7 +366,7 @@ class PosOrder(models.Model):
                 or ("assigned" if driver_id else "pending")
             ),
             "is_cash_on_delivery": bool(
-                ui_order.get("is_cash_on_delivery")
+                ui_order.get("is_cash_on_delivery", True)
             ),
         })
 
@@ -282,14 +376,12 @@ class PosOrder(models.Model):
         return result
 
     # ---------------------------------------------------------
-    # VALIDATE DRIVER
+    # Validate driver
     # ---------------------------------------------------------
 
     @api.constrains("delivery_employee_id")
     def _check_delivery_employee(self):
-
         for order in self:
-
             employee = order.delivery_employee_id
 
             if employee and (
@@ -297,30 +389,20 @@ class PosOrder(models.Model):
                 or not employee.is_delivery_driver
             ):
                 raise ValidationError(
-                    _(
-                        "The selected employee is not an active delivery driver."
-                    )
+                    _("The selected employee is not an active delivery driver.")
                 )
 
     # ---------------------------------------------------------
-    # WRITE
+    # Update delivery data
     # ---------------------------------------------------------
 
     def write(self, vals):
-
         vals = dict(vals)
 
-        if (
-            "delivery_employee_id" in vals
-            and vals["delivery_employee_id"]
-        ):
-
-            employee = (
-                self.env["hr.employee"]
-                .sudo()
-                .browse(vals["delivery_employee_id"])
-                .exists()
-            )
+        if vals.get("delivery_employee_id"):
+            employee = self.env["hr.employee"].sudo().browse(
+                vals["delivery_employee_id"]
+            ).exists()
 
             if (
                 not employee
@@ -328,51 +410,41 @@ class PosOrder(models.Model):
                 or not employee.is_delivery_driver
             ):
                 raise UserError(
-                    _(
-                        "Select an active employee marked as a Delivery Driver."
-                    )
+                    _("Select an active employee marked as a Delivery Driver.")
                 )
 
-            if "delivery_assigned_date" not in vals:
-                vals["delivery_assigned_date"] = fields.Datetime.now()
+            vals.setdefault(
+                "delivery_assigned_date",
+                fields.Datetime.now(),
+            )
 
-            if "delivery_status" not in vals:
-                vals["delivery_status"] = "assigned"
+            vals.setdefault("delivery_status", "assigned")
 
-        if (
-            "delivery_employee_id" in vals
-            and not vals["delivery_employee_id"]
-        ):
+        elif "delivery_employee_id" in vals:
             vals.setdefault("delivery_status", "pending")
-            vals.setdefault("is_cash_on_delivery", False)
             vals.setdefault("delivery_assigned_date", False)
 
         if vals.get("delivery_status") == "delivered":
-            if "delivery_date" not in vals:
-                vals["delivery_date"] = fields.Datetime.now()
-
+            vals.setdefault("delivery_date", fields.Datetime.now())
         elif "delivery_status" in vals:
             vals.setdefault("delivery_date", False)
 
         return super().write(vals)
 
     # ---------------------------------------------------------
-    # DELIVERY ACTIONS
+    # Delivery actions
     # ---------------------------------------------------------
 
     def action_delivery_start(self):
-
         for order in self:
+            if not order.is_delivery_order:
+                raise UserError(_("This is not a delivery order."))
 
             if not order.delivery_employee_id:
-                raise UserError(
-                    _("Assign a delivery driver first.")
-                )
+                raise UserError(_("Assign a delivery driver first."))
 
             if order.delivery_status in ("delivered", "cancelled"):
-                raise UserError(
-                    _("This order can no longer be started for delivery.")
-                )
+                raise UserError(_("This order can no longer be started."))
 
             order.write({
                 "delivery_status": "in_delivery",
@@ -381,13 +453,15 @@ class PosOrder(models.Model):
         return True
 
     def action_delivery_mark_delivered(self):
-
         for order in self:
+            if not order.is_delivery_order:
+                raise UserError(_("This is not a delivery order."))
 
             if not order.delivery_employee_id:
-                raise UserError(
-                    _("Assign a delivery driver first.")
-                )
+                raise UserError(_("Assign a delivery driver first."))
+
+            if order.delivery_status in ("cancelled", "failed"):
+                raise UserError(_("This order cannot be marked as delivered."))
 
             order.write({
                 "delivery_status": "delivered",
@@ -396,27 +470,99 @@ class PosOrder(models.Model):
         return True
 
     def action_delivery_mark_failed(self):
+        for order in self:
+            if not order.is_delivery_order:
+                raise UserError(_("This is not a delivery order."))
 
-        self.write({
-            "delivery_status": "failed",
-        })
+            if order.delivery_status in ("delivered", "cancelled"):
+                raise UserError(_("This order can no longer be marked as failed."))
+
+            order.write({
+                "delivery_status": "failed",
+            })
 
         return True
 
     def action_delivery_record_collection(self):
-
         for order in self:
+            if not order.is_delivery_order:
+                raise UserError(_("This is not a delivery order."))
 
-            if order.delivery_collected_amount < 0:
-                raise UserError(
-                    _("Collected amount cannot be negative.")
-                )
+            if order.delivery_collected:
+                raise UserError(_("Collection has already been confirmed."))
+
+            if order.delivery_collected_amount <= 0:
+                raise UserError(_("Enter the collected amount first."))
 
             if order.delivery_collected_amount > order.amount_total:
                 raise UserError(
                     _("Collected amount cannot exceed the order total.")
                 )
 
-            order.delivery_collected = True
+            order.write({
+                "delivery_collected": True,
+            })
 
         return True
+
+    # ---------------------------------------------------------
+    # Register invoice payment
+    # ---------------------------------------------------------
+
+    def action_register_payment(self):
+        self.ensure_one()
+
+        invoice = self.account_move
+
+        if not invoice:
+            raise UserError(
+                _("There is no invoice linked to this POS order.")
+            )
+
+        if invoice.state != "posted":
+            raise UserError(
+                _("You can only register payment for a posted invoice.")
+            )
+
+        if invoice.payment_state == "paid":
+            raise UserError(
+                _("This invoice is already fully paid.")
+            )
+
+        return invoice.action_register_payment()
+
+    # ---------------------------------------------------------
+    # Payment history
+    # ---------------------------------------------------------
+
+    def action_view_delivery_payments(self):
+        self.ensure_one()
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("POS Payments"),
+            "res_model": "pos.payment",
+            "view_mode": "list,form",
+            "domain": [
+                ("pos_order_id", "=", self.id),
+            ],
+            "target": "current",
+        }
+
+    # ---------------------------------------------------------
+    # Open customer map
+    # ---------------------------------------------------------
+
+    def action_view_delivery_location(self):
+        self.ensure_one()
+
+        if not self.delivery_location_url:
+            raise UserError(
+                _("No GPS coordinates are available for this customer.")
+            )
+
+        return {
+            "type": "ir.actions.act_url",
+            "url": self.delivery_location_url,
+            "target": "new",
+        }

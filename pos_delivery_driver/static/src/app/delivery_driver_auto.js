@@ -1,31 +1,34 @@
 /** @odoo-module **/
 import { patch } from "@web/core/utils/patch";
-import { _t } from "@web/core/l10n/translation";
 
 import { PosStore } from "@point_of_sale/app/services/pos_store";
 
-import { makeAwaitable } from "@point_of_sale/app/utils/make_awaitable_dialog";
+import { makeAwaitable } from
+    "@point_of_sale/app/utils/make_awaitable_dialog";
 
-import { DeliveryDriverPopup } from "@pos_delivery_driver/app/delivery_driver_popup";
+import { DeliveryDriverPopup } from
+    "@pos_delivery_driver/app/delivery_driver_popup";
 
-
-// ============================================================
-// DELIVERY PRODUCT SETTINGS
-// ============================================================
 
 const DELIVERY_PRODUCT_ID = 38;
 const DELIVERY_PRODUCT_BARCODE = "10002";
 
-
-// منع تكرار معالجة نفس الطلب أثناء فتح النافذة.
 const processingOrders = new WeakSet();
 
 
-// ============================================================
-// CHECK PRODUCT ID / BARCODE
-// ============================================================
+function getProduct(vals) {
+    const product = vals?.product_id;
 
-function matchesDeliveryProduct(product) {
+    if (product && typeof product === "object") {
+        return product;
+    }
+
+    return false;
+}
+
+
+function isDeliveryProduct(vals) {
+    const product = getProduct(vals);
 
     if (!product) {
         return false;
@@ -33,7 +36,9 @@ function matchesDeliveryProduct(product) {
 
     const productId = Number(product.id || 0);
 
-    const barcode = String(product.barcode || "").trim();
+    const barcode = String(
+        product.barcode || ""
+    ).trim();
 
     return (
         productId === DELIVERY_PRODUCT_ID ||
@@ -42,85 +47,27 @@ function matchesDeliveryProduct(product) {
 }
 
 
-// ============================================================
-// IDENTIFY DELIVERY PRODUCT
-// يدعم المنتج نفسه أو قالب المنتج ومتغيراته.
-// ============================================================
-
-function isDeliveryProduct(vals) {
-
-    if (!vals) {
-        return false;
-    }
-
-    const product = vals.product_id || null;
-
-    const template =
-        vals.product_tmpl_id ||
-        product?.product_tmpl_id ||
-        null;
-
-    // فحص المنتج مباشرة.
-    if (matchesDeliveryProduct(product)) {
-        return true;
-    }
-
-    // فحص قالب المنتج.
-    if (matchesDeliveryProduct(template)) {
-        return true;
-    }
-
-    // فحص متغيرات قالب المنتج.
-    const variants = template?.product_variant_ids || [];
-
-    if (
-        Array.isArray(variants) &&
-        variants.some((variant) => matchesDeliveryProduct(variant))
-    ) {
-        return true;
-    }
-
-    return false;
-}
-
-
-// ============================================================
-// CHECK EXISTING DELIVERY LINE
-// Odoo 20: order.lines
-// ============================================================
-
 function isDeliveryAlreadyInOrder(order) {
+    const lines = order?.lines || [];
 
-    if (!order || !Array.isArray(order.lines)) {
-        return false;
-    }
-
-    return order.lines.some((line) => {
-
+    return lines.some((line) => {
         const product = line.product_id;
 
-        if (matchesDeliveryProduct(product)) {
-            return true;
+        if (!product) {
+            return false;
         }
 
-        // احتياطاً إذا كان التعرف على المنتج من خلال قالب المنتج.
-        if (matchesDeliveryProduct(product?.product_tmpl_id)) {
-            return true;
-        }
-
-        return false;
+        return (
+            Number(product.id || 0) === DELIVERY_PRODUCT_ID ||
+            String(product.barcode || "").trim() === DELIVERY_PRODUCT_BARCODE
+        );
     });
 }
 
 
-// ============================================================
-// GET ORDER NUMBER
-// ============================================================
-
-function getOrderName(order) {
-
+function getOrderLabel(order) {
     if (!order) {
-        return "طلب جديد";
+        return "New Order";
     }
 
     if (order.tracking_number) {
@@ -139,65 +86,26 @@ function getOrderName(order) {
         return String(order.uuid).substring(0, 8);
     }
 
-    return "طلب جديد";
+    return "New Order";
 }
 
-
-// ============================================================
-// SHOW DUPLICATE REMINDER
-// ============================================================
-
-async function showAlreadyAddedReminder(store, order) {
-
-    return await makeAwaitable(
-        store.dialog,
-        DeliveryDriverPopup,
-        {
-            orderName: getOrderName(order),
-            alreadyAdded: true,
-            isCashOnDelivery: Boolean(
-                order.is_cash_on_delivery
-            ),
-        }
-    );
-}
-
-
-// ============================================================
-// POS STORE PATCH
-// اعتراض جميع طرق إضافة المنتج:
-// - اختيار المنتج من شاشة POS.
-// - مسح الباركود.
-// - الإضافة من المسارات التي تستخدم addLineToCurrentOrder.
-// ============================================================
 
 patch(PosStore.prototype, {
 
     async addLineToCurrentOrder(vals, opts = {}, configure = true) {
 
-        // المنتجات العادية تعمل بالطريقة الأصلية دون أي تغيير.
+        // Normal products are not affected.
         if (!isDeliveryProduct(vals)) {
-
-            return await super.addLineToCurrentOrder(
-                vals,
-                opts,
-                configure
-            );
+            return await super.addLineToCurrentOrder(...arguments);
         }
 
         const order = this.getOrder();
 
-        // إذا لم يوجد طلب، نترك Odoo ينفذ الإضافة بالطريقة الأصلية.
         if (!order) {
-
-            return await super.addLineToCurrentOrder(
-                vals,
-                opts,
-                configure
-            );
+            return await super.addLineToCurrentOrder(...arguments);
         }
 
-        // منع معالجة نفس الطلب أكثر من مرة أثناء فتح النافذة.
+        // Prevent duplicate popup for the same order.
         if (processingOrders.has(order)) {
             return false;
         }
@@ -206,94 +114,94 @@ patch(PosStore.prototype, {
 
         try {
 
-            // ====================================================
-            // CHECK DUPLICATE
-            // ====================================================
-
+            // Prevent adding delivery product more than once.
             if (isDeliveryAlreadyInOrder(order)) {
 
-                await showAlreadyAddedReminder(this, order);
+                await makeAwaitable(
+                    this.dialog,
+                    DeliveryDriverPopup,
+                    {
+                        orderName: getOrderLabel(order),
+                        alreadyAdded: true,
+                        isCashOnDelivery:
+                            order.is_cash_on_delivery !== false,
+                        employees: [],
+                        selectedDriverId:
+                            order.delivery_employee_id || false,
+                    }
+                );
 
-                // لا نضيف المنتج مرة ثانية.
                 return false;
             }
 
+            // Load active drivers.
+            let employees = [];
 
-            // ====================================================
-            // SHOW DELIVERY REMINDER
-            // ====================================================
+            try {
+                employees = await this.orm.call(
+                    "pos.order",
+                    "get_active_delivery_employees",
+                    [],
+                    {}
+                );
+            } catch (error) {
+                console.warn(
+                    "Could not load delivery drivers:",
+                    error
+                );
+            }
 
+            // Open delivery confirmation popup.
             const payload = await makeAwaitable(
                 this.dialog,
                 DeliveryDriverPopup,
                 {
-                    orderName: getOrderName(order),
+                    orderName: getOrderLabel(order),
                     alreadyAdded: false,
-                    isCashOnDelivery: Boolean(
-                        order.is_cash_on_delivery
-                    ),
+                    isCashOnDelivery:
+                        order.is_cash_on_delivery !== false,
+                    employees: employees,
+                    selectedDriverId:
+                        order.delivery_employee_id || false,
                 }
             );
-
-
-            // ====================================================
-            // CANCEL
-            // ====================================================
 
             if (!payload || !payload.confirmed) {
                 return false;
             }
 
-
-            // ====================================================
-            // CHECK AGAIN BEFORE ADDING
-            // ====================================================
-
+            // Check again before adding.
             if (isDeliveryAlreadyInOrder(order)) {
-
-                await showAlreadyAddedReminder(this, order);
-
                 return false;
             }
 
-
-            // ====================================================
-            // ADD DELIVERY PRODUCT
-            // ====================================================
-
-            // لا نحدد سعر المنتج.
-            // لا نغير الكمية.
-            // لا نعين مندوب توصيل.
-            // نترك Odoo ينفذ الإضافة والسعر بالطريقة الأصلية.
-
+            // Add product using Odoo native behavior.
+            // No price or quantity modifications.
             const result = await super.addLineToCurrentOrder(
-                vals,
-                opts,
-                configure
+                ...arguments
             );
 
+            if (result) {
 
-            // ====================================================
-            // CASH ON DELIVERY
-            // ====================================================
+                order.is_cash_on_delivery =
+                    Boolean(payload.isCashOnDelivery);
 
-            // الاحتفاظ بخيار الدفع عند الاستلام إذا كان الحقل
-            // موجوداً في موديل الطلب المخصص لديك.
+                order.delivery_employee_id =
+                    payload.driverId || false;
 
-            if (
-                result &&
-                "is_cash_on_delivery" in order
-            ) {
-
-                order.is_cash_on_delivery = Boolean(
-                    payload.isCashOnDelivery
-                );
+                order.delivery_status =
+                    payload.driverId ? "assigned" : "pending";
 
                 if (typeof order._markDirty === "function") {
                     order._markDirty();
+                } else if (typeof order.setDirty === "function") {
+                    order.setDirty();
+                }
+
+                if (typeof this.save_to_db === "function") {
+                    await this.save_to_db();
                 }
             }
-
 
             return result;
 

@@ -5,7 +5,6 @@ import { patch } from "@web/core/utils/patch";
 patch(PosOrder.prototype, {
 
     setup(vals = {}) {
-
         super.setup(...arguments);
 
         this.delivery_employee_id =
@@ -15,12 +14,10 @@ patch(PosOrder.prototype, {
             vals.delivery_status || "pending";
 
         this.is_cash_on_delivery =
-            Boolean(vals.is_cash_on_delivery);
+            vals.is_cash_on_delivery !== false;
     },
 
-
     export_as_JSON() {
-
         const json = super.export_as_JSON(...arguments);
 
         json.delivery_employee_id =
@@ -35,9 +32,7 @@ patch(PosOrder.prototype, {
         return json;
     },
 
-
     init_from_JSON(json) {
-
         super.init_from_JSON(...arguments);
 
         this.delivery_employee_id =
@@ -47,7 +42,7 @@ patch(PosOrder.prototype, {
             json.delivery_status || "pending";
 
         this.is_cash_on_delivery =
-            Boolean(json.is_cash_on_delivery);
+            json.is_cash_on_delivery !== false;
     },
 
 });

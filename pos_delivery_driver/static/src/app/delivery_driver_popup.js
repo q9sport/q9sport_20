@@ -1,6 +1,7 @@
 /** @odoo-module **/
-import { Component, proxy, useProps, t } from "@odoo/owl";
+import { Component, useState } from "@odoo/owl";
 import { Dialog } from "@web/core/dialog/dialog";
+
 
 export class DeliveryDriverPopup extends Component {
 
@@ -10,54 +11,87 @@ export class DeliveryDriverPopup extends Component {
         Dialog,
     };
 
-    // Component properties
-    props = useProps({
-        orderName: t.string().optional("New Order"),
-        isCashOnDelivery: t.boolean().optional(true),
-        alreadyAdded: t.boolean().optional(false),
-        close: t.function(),
-        getPayload: t.function(),
-    });
+    static props = {
+        orderName: {
+            type: String,
+            optional: true,
+        },
+
+        isCashOnDelivery: {
+            type: Boolean,
+            optional: true,
+        },
+
+        alreadyAdded: {
+            type: Boolean,
+            optional: true,
+        },
+
+        employees: {
+            type: Array,
+            optional: true,
+        },
+
+        selectedDriverId: {
+            type: [Number, Boolean],
+            optional: true,
+        },
+
+        close: Function,
+        getPayload: Function,
+    };
+
 
     setup() {
+        this.state = useState({
 
-        this.state = proxy({
-            // Cash on Delivery is enabled by default
-            isCashOnDelivery: this.props.isCashOnDelivery !== false,
+            isCashOnDelivery:
+                this.props.isCashOnDelivery !== false,
+
+            selectedDriverId:
+                this.props.selectedDriverId || false,
+
         });
-
     }
 
-    // Cash on Delivery switch
+
+    onDriverChange(ev) {
+        this.state.selectedDriverId =
+            ev.target.value
+                ? Number(ev.target.value)
+                : false;
+    }
+
+
     onCashOnDeliveryChange(ev) {
-
-        this.state.isCashOnDelivery = Boolean(
-            ev.target.checked
-        );
-
+        this.state.isCashOnDelivery =
+            Boolean(ev.target.checked);
     }
 
-    // Confirm delivery
+
     confirm() {
 
         this.props.getPayload({
+
             confirmed: true,
-            isCashOnDelivery: Boolean(
-                this.state.isCashOnDelivery
-            ),
+
+            driverId:
+                this.state.selectedDriverId || false,
+
+            isCashOnDelivery:
+                Boolean(this.state.isCashOnDelivery),
+
         });
 
         this.props.close();
-
     }
 
-    // Cancel popup
+
     cancel() {
 
         this.props.getPayload(false);
 
         this.props.close();
-
     }
 
 }

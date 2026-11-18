@@ -1,55 +1,935 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <!-- ===================================================== -->
+    <!-- POS ORDER FORM -->
+    <!-- ===================================================== -->
+
     <record id="view_pos_order_form_delivery_driver" model="ir.ui.view">
         <field name="name">pos.order.form.delivery.driver</field>
         <field name="model">pos.order</field>
         <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet//group" position="after">
-                <group string="Delivery Management" name="delivery_management">
-                    <group>
-                        <field name="delivery_employee_id"/>
-                        <field name="delivery_status" widget="statusbar"
-                               statusbar_visible="pending,assigned,in_delivery,delivered"/>
-                        <field name="is_cash_on_delivery"/>
+                <group string="Delivery Management"
+                       invisible="not is_delivery_order">
+
+                    <group string="Driver">
+                        <field name="is_delivery_order"/>
+                        <field name="delivery_employee_id"
+                               domain="[('active', '=', True), ('is_delivery_driver', '=', True)]"/>
+                        <field name="delivery_status"/>
                         <field name="delivery_assigned_date"/>
                         <field name="delivery_date"/>
                     </group>
-                    <group>
+
+                    <group string="Customer Location">
+                        <field name="delivery_customer_address"/>
+                        <field name="delivery_latitude"/>
+                        <field name="delivery_longitude"/>
+                        <field name="delivery_location_url" widget="url"/>
+                    </group>
+
+                    <group string="Payment Collection">
+                        <field name="is_cash_on_delivery"/>
                         <field name="delivery_collected"/>
                         <field name="delivery_collected_amount"
-                               invisible="not delivery_collected and delivery_collected_amount == 0"/>
+                               invisible="not is_cash_on_delivery"/>
+                        <field name="delivery_payment_status"/>
+                        <field name="account_move" string="Invoice"/>
                     </group>
-                    <group>
-                        <button name="action_delivery_start" type="object"
-                                string="Start Delivery" class="btn-primary"
-                                invisible="delivery_status not in ('assigned', 'pending')"/>
-                        <button name="action_delivery_mark_delivered" type="object"
-                                string="Mark Delivered" class="btn-primary"
-                                invisible="delivery_status in ('delivered', 'cancelled')"/>
-                        <button name="action_delivery_mark_failed" type="object"
-                                string="Mark Failed" class="btn-secondary"
-                                invisible="delivery_status in ('delivered', 'cancelled', 'failed')"/>
-                        <button name="action_delivery_record_collection" type="object"
-                                string="Confirm Collection" class="btn-secondary"
-                                invisible="delivery_collected or not is_cash_on_delivery"/>
+
+                    <group string="Delivery Actions">
+                        <button name="action_delivery_start"
+                                type="object"
+                                string="Start Delivery"
+                                icon="fa-play"
+                                class="btn-primary"
+                                invisible="delivery_status != 'assigned'"/>
+
+                        <button name="action_delivery_mark_delivered"
+                                type="object"
+                                string="Mark Delivered"
+                                icon="fa-check-circle"
+                                class="btn-success"
+                                invisible="delivery_status != 'in_delivery'"/>
+
+                        <button name="action_delivery_mark_failed"
+                                type="object"
+                                string="Mark Failed"
+                                icon="fa-times-circle"
+                                class="btn-danger"
+                                invisible="delivery_status not in ['assigned', 'in_delivery']"/>
+
+                        <button name="action_delivery_record_collection"
+                                type="object"
+                                string="Record Collection"
+                                icon="fa-money"
+                                class="btn-primary"
+                                invisible="not is_cash_on_delivery or delivery_collected"/>
+
+                        <button name="action_register_payment"
+                                type="object"
+                                string="Register Invoice Payment"
+                                icon="fa-credit-card"
+                                class="btn-warning"
+                                invisible="not account_move"/>
+
+                        <button name="action_view_delivery_payments"
+                                type="object"
+                                string="View POS Payments"
+                                icon="fa-history"
+                                class="btn-secondary"/>
+
+                        <button name="action_view_delivery_location"
+                                type="object"
+                                string="Open Location"
+                                icon="fa-map-marker"
+                                class="btn-secondary"
+                                invisible="not delivery_latitude or not delivery_longitude"/>
                     </group>
+
                 </group>
             </xpath>
         </field>
     </record>
 
-    <record id="view_pos_order_tree_delivery_driver" model="ir.ui.view">
+
+    <!-- ===================================================== -->
+    <!-- POS ORDER LIST -->
+    <!-- ===================================================== -->
+
+    <record id="view_pos_order_list_delivery_driver" model="ir.ui.view">
         <field name="name">pos.order.list.delivery.driver</field>
         <field name="model">pos.order</field>
         <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//list/field[@name='state']" position="after">
+            <xpath expr="//list" position="inside">
+                <field name="is_delivery_order" optional="hide"/>
                 <field name="delivery_employee_id" optional="show"/>
                 <field name="delivery_status" optional="show"/>
                 <field name="is_cash_on_delivery" optional="hide"/>
                 <field name="delivery_collected" optional="hide"/>
+                <field name="delivery_collected_amount" optional="hide"/>
+                <field name="delivery_payment_status" optional="hide"/>
+                <field name="account_move" optional="hide"/>
             </xpath>
         </field>
     </record>
+
+
+    <!-- ===================================================== -->
+    <!-- DELIVERY DISPATCH KANBAN -->
+    <!-- ===================================================== -->
+
+    <record id="view_pos_order_kanban_delivery_driver" model="ir.ui.view">
+        <field name="name">pos.order.kanban.delivery.driver</field>
+        <field name="model">pos.order</field>
+        <field name="arch" type="xml">
+
+            <kanban class="o_delivery_dispatch_board"
+                    create="false"
+                    delete="false"
+                    quick_create="false">
+
+                <field name="name"/>
+                <field name="pos_reference"/>
+                <field name="partner_id"/>
+                <field name="amount_total"/>
+                <field name="currency_id"/>
+
+                <field name="is_delivery_order"/>
+                <field name="delivery_employee_id"/>
+                <field name="delivery_status"/>
+                <field name="delivery_customer_address"/>
+
+                <field name="is_cash_on_delivery"/>
+                <field name="delivery_collected"/>
+                <field name="delivery_collected_amount"/>
+                <field name="delivery_payment_status"/>
+
+                <field name="delivery_latitude"/>
+                <field name="delivery_longitude"/>
+                <field name="account_move"/>
+
+                <templates>
+                    <t t-name="card">
+
+                        <div style="
+                            width:100%;
+                            max-width:310px;
+                            background:#ffffff;
+                            border:1px solid #e5dfd2;
+                            border-radius:12px;
+                            overflow:hidden;
+                            box-shadow:0 3px 10px rgba(20,33,61,0.09);
+                            font-size:11px;
+                        ">
+
+                            <!-- HEADER -->
+                            <div style="
+                                padding:9px 11px;
+                                background:linear-gradient(120deg,#101d36,#263e63);
+                                color:#ffffff;
+                            ">
+                                <div class="d-flex align-items-center justify-content-between">
+
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span style="
+                                            width:31px;
+                                            height:31px;
+                                            display:flex;
+                                            align-items:center;
+                                            justify-content:center;
+                                            border-radius:9px;
+                                            background:#d4af6a;
+                                            color:#14213d;
+                                            font-size:16px;
+                                        ">
+                                            <i class="fa fa-truck"/>
+                                        </span>
+
+                                        <div>
+                                            <div style="
+                                                font-size:8px;
+                                                letter-spacing:1.3px;
+                                                color:#e7d5ae;
+                                                font-weight:800;
+                                            ">
+                                                DELIVERY ORDER
+                                            </div>
+
+                                            <div style="
+                                                font-size:13px;
+                                                font-weight:900;
+                                                color:#ffffff;
+                                            ">
+                                                <field name="pos_reference"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <span style="
+                                        padding:4px 7px;
+                                        border:1px solid #d4af6a;
+                                        border-radius:6px;
+                                        color:#f2d99f;
+                                        background:rgba(212,175,106,0.13);
+                                        font-size:9px;
+                                        font-weight:800;
+                                    ">
+                                        <field name="name"/>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <!-- DELIVERY STATUS -->
+                            <div style="
+                                padding:10px 10px 9px;
+                                background:#fbfaf7;
+                                border-bottom:1px solid #eee9df;
+                            ">
+
+                                <div class="d-flex align-items-center justify-content-between"
+                                     style="margin-bottom:10px;">
+
+                                    <span style="
+                                        color:#14213d;
+                                        font-size:9px;
+                                        font-weight:900;
+                                        letter-spacing:.6px;
+                                    ">
+                                        <i class="fa fa-road"
+                                           style="color:#b18b45;margin-right:4px;"/>
+                                        DELIVERY PROGRESS
+                                    </span>
+
+                                    <t t-if="record.delivery_status.raw_value == 'pending'">
+                                        <span style="color:#9a7535;font-size:9px;font-weight:900;">
+                                            NEW ORDER
+                                        </span>
+                                    </t>
+
+                                    <t t-elif="record.delivery_status.raw_value == 'assigned'">
+                                        <span style="color:#42658d;font-size:9px;font-weight:900;">
+                                            DRIVER ASSIGNED
+                                        </span>
+                                    </t>
+
+                                    <t t-elif="record.delivery_status.raw_value == 'in_delivery'">
+                                        <span style="color:#9a7535;font-size:9px;font-weight:900;">
+                                            ON THE WAY
+                                        </span>
+                                    </t>
+
+                                    <t t-elif="record.delivery_status.raw_value == 'delivered'">
+                                        <span style="color:#087f5b;font-size:9px;font-weight:900;">
+                                            COMPLETED
+                                        </span>
+                                    </t>
+
+                                    <t t-elif="record.delivery_status.raw_value == 'failed'">
+                                        <span style="color:#b42318;font-size:9px;font-weight:900;">
+                                            DELIVERY FAILED
+                                        </span>
+                                    </t>
+
+                                    <t t-elif="record.delivery_status.raw_value == 'cancelled'">
+                                        <span style="color:#777777;font-size:9px;font-weight:900;">
+                                            CANCELLED
+                                        </span>
+                                    </t>
+                                </div>
+
+
+                                <!-- STEP ICONS -->
+                                <div class="d-flex align-items-start justify-content-between">
+
+                                    <!-- CREATED -->
+                                    <div style="width:25%;text-align:center;">
+                                        <t t-if="record.delivery_status.raw_value in ['pending','assigned','in_delivery','delivered']">
+                                            <span style="
+                                                width:29px;height:29px;
+                                                margin:auto;
+                                                display:flex;
+                                                align-items:center;
+                                                justify-content:center;
+                                                border-radius:50%;
+                                                background:#d4af6a;
+                                                border:2px solid #b18b45;
+                                                color:#14213d;
+                                                font-size:12px;
+                                            ">
+                                                <i class="fa fa-file-text-o"/>
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <span style="
+                                                width:29px;height:29px;
+                                                margin:auto;
+                                                display:flex;
+                                                align-items:center;
+                                                justify-content:center;
+                                                border-radius:50%;
+                                                background:#ffffff;
+                                                border:2px solid #dedede;
+                                                color:#aaaaaa;
+                                                font-size:12px;
+                                            ">
+                                                <i class="fa fa-file-text-o"/>
+                                            </span>
+                                        </t>
+                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;">
+                                            Created
+                                        </div>
+                                    </div>
+
+
+                                    <!-- ASSIGNED -->
+                                    <div style="width:25%;text-align:center;">
+                                        <t t-if="record.delivery_status.raw_value in ['assigned','in_delivery','delivered']">
+                                            <span style="
+                                                width:29px;height:29px;
+                                                margin:auto;
+                                                display:flex;
+                                                align-items:center;
+                                                justify-content:center;
+                                                border-radius:50%;
+                                                background:#d4af6a;
+                                                border:2px solid #b18b45;
+                                                color:#14213d;
+                                                font-size:12px;
+                                            ">
+                                                <i class="fa fa-user"/>
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <span style="
+                                                width:29px;height:29px;
+                                                margin:auto;
+                                                display:flex;
+                                                align-items:center;
+                                                justify-content:center;
+                                                border-radius:50%;
+                                                background:#ffffff;
+                                                border:2px solid #dedede;
+                                                color:#aaaaaa;
+                                                font-size:12px;
+                                            ">
+                                                <i class="fa fa-user"/>
+                                            </span>
+                                        </t>
+                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;">
+                                            Assigned
+                                        </div>
+                                    </div>
+
+
+                                    <!-- ON ROAD -->
+                                    <div style="width:25%;text-align:center;">
+                                        <t t-if="record.delivery_status.raw_value in ['in_delivery','delivered']">
+                                            <span style="
+                                                width:29px;height:29px;
+                                                margin:auto;
+                                                display:flex;
+                                                align-items:center;
+                                                justify-content:center;
+                                                border-radius:50%;
+                                                background:#d4af6a;
+                                                border:2px solid #b18b45;
+                                                color:#14213d;
+                                                font-size:13px;
+                                            ">
+                                                <i class="fa fa-motorcycle"/>
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <span style="
+                                                width:29px;height:29px;
+                                                margin:auto;
+                                                display:flex;
+                                                align-items:center;
+                                                justify-content:center;
+                                                border-radius:50%;
+                                                background:#ffffff;
+                                                border:2px solid #dedede;
+                                                color:#aaaaaa;
+                                                font-size:13px;
+                                            ">
+                                                <i class="fa fa-motorcycle"/>
+                                            </span>
+                                        </t>
+                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;">
+                                            On Road
+                                        </div>
+                                    </div>
+
+
+                                    <!-- DELIVERED -->
+                                    <div style="width:25%;text-align:center;">
+                                        <t t-if="record.delivery_status.raw_value == 'delivered'">
+                                            <span style="
+                                                width:29px;height:29px;
+                                                margin:auto;
+                                                display:flex;
+                                                align-items:center;
+                                                justify-content:center;
+                                                border-radius:50%;
+                                                background:#087f5b;
+                                                border:2px solid #087f5b;
+                                                color:#ffffff;
+                                                font-size:13px;
+                                            ">
+                                                <i class="fa fa-check"/>
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <span style="
+                                                width:29px;height:29px;
+                                                margin:auto;
+                                                display:flex;
+                                                align-items:center;
+                                                justify-content:center;
+                                                border-radius:50%;
+                                                background:#ffffff;
+                                                border:2px solid #dedede;
+                                                color:#aaaaaa;
+                                                font-size:13px;
+                                            ">
+                                                <i class="fa fa-check"/>
+                                            </span>
+                                        </t>
+                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;">
+                                            Delivered
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <!-- PROGRESS BAR -->
+                                <div style="
+                                    height:6px;
+                                    margin:9px 5px 0;
+                                    background:#e8e5de;
+                                    border-radius:10px;
+                                    overflow:hidden;
+                                ">
+                                    <t t-if="record.delivery_status.raw_value == 'pending'">
+                                        <div style="height:6px;width:8%;background:#d4af6a;border-radius:10px;"/>
+                                    </t>
+                                    <t t-elif="record.delivery_status.raw_value == 'assigned'">
+                                        <div style="height:6px;width:35%;background:#d4af6a;border-radius:10px;"/>
+                                    </t>
+                                    <t t-elif="record.delivery_status.raw_value == 'in_delivery'">
+                                        <div style="height:6px;width:68%;background:linear-gradient(90deg,#d4af6a,#b18b45);border-radius:10px;"/>
+                                    </t>
+                                    <t t-elif="record.delivery_status.raw_value == 'delivered'">
+                                        <div style="height:6px;width:100%;background:linear-gradient(90deg,#087f5b,#20a879);border-radius:10px;"/>
+                                    </t>
+                                    <t t-elif="record.delivery_status.raw_value in ['failed','cancelled']">
+                                        <div style="height:6px;width:100%;background:#b42318;border-radius:10px;"/>
+                                    </t>
+                                </div>
+
+                                <t t-if="record.delivery_status.raw_value in ['failed','cancelled']">
+                                    <div style="
+                                        margin-top:6px;
+                                        text-align:center;
+                                        font-size:9px;
+                                        font-weight:900;
+                                        color:#b42318;
+                                    ">
+                                        <i class="fa fa-exclamation-triangle me-1"/>
+                                        <t t-if="record.delivery_status.raw_value == 'failed'">
+                                            Delivery Failed
+                                        </t>
+                                        <t t-else="">
+                                            Order Cancelled
+                                        </t>
+                                    </div>
+                                </t>
+
+                            </div>
+
+
+                            <!-- CUSTOMER -->
+                            <div style="padding:9px 11px 6px;">
+                                <div class="d-flex align-items-center">
+
+                                    <span style="
+                                        width:28px;height:28px;min-width:28px;
+                                        display:flex;align-items:center;justify-content:center;
+                                        border-radius:8px;
+                                        background:#edf1f7;
+                                        color:#23395b;
+                                        margin-right:8px;
+                                        font-size:13px;
+                                    ">
+                                        <i class="fa fa-user"/>
+                                    </span>
+
+                                    <div style="min-width:0;flex:1;">
+                                        <div style="font-size:8px;color:#929292;font-weight:800;letter-spacing:.7px;">
+                                            CUSTOMER
+                                        </div>
+                                        <div style="
+                                            font-size:11px;
+                                            color:#14213d;
+                                            font-weight:900;
+                                            overflow:hidden;
+                                            text-overflow:ellipsis;
+                                            white-space:nowrap;
+                                        ">
+                                            <field name="partner_id"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- DRIVER -->
+                            <div style="
+                                margin:2px 11px 7px;
+                                padding:7px 8px;
+                                background:#f7f5f0;
+                                border:1px solid #eee8db;
+                                border-radius:8px;
+                            ">
+                                <div class="d-flex align-items-center">
+
+                                    <span style="
+                                        width:30px;height:30px;min-width:30px;
+                                        display:flex;align-items:center;justify-content:center;
+                                        border-radius:50%;
+                                        background:#14213d;
+                                        color:#d4af6a;
+                                        margin-right:8px;
+                                        font-size:14px;
+                                    ">
+                                        <i class="fa fa-motorcycle"/>
+                                    </span>
+
+                                    <div style="min-width:0;flex:1;">
+                                        <div style="font-size:8px;color:#929292;font-weight:800;letter-spacing:.6px;">
+                                            DELIVERY DRIVER
+                                        </div>
+
+                                        <t t-if="record.delivery_employee_id.raw_value">
+                                            <div style="font-size:10px;color:#14213d;font-weight:900;">
+                                                <field name="delivery_employee_id"/>
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <div style="font-size:10px;color:#b18b45;font-weight:800;">
+                                                <i class="fa fa-user-plus me-1"/>
+                                                Not Assigned
+                                            </div>
+                                        </t>
+                                    </div>
+
+                                    <i class="fa fa-id-badge"
+                                       style="color:#b18b45;font-size:15px;"/>
+                                </div>
+                            </div>
+
+
+                            <!-- ADDRESS -->
+                            <div style="padding:0 11px 8px;">
+
+                                <div style="
+                                    font-size:8px;
+                                    color:#9a7535;
+                                    font-weight:900;
+                                    letter-spacing:.7px;
+                                    margin-bottom:4px;
+                                ">
+                                    <i class="fa fa-map-marker me-1"/>
+                                    DELIVERY ADDRESS
+                                </div>
+
+                                <div style="
+                                    font-size:10px;
+                                    color:#475569;
+                                    line-height:1.4;
+                                    max-height:29px;
+                                    overflow:hidden;
+                                ">
+                                    <field name="delivery_customer_address"/>
+                                </div>
+
+                                <t t-if="record.delivery_latitude.raw_value and record.delivery_longitude.raw_value">
+                                    <button name="action_view_delivery_location"
+                                            type="object"
+                                            class="btn btn-sm oe_kanban_action"
+                                            title="Open customer location"
+                                            style="
+                                                margin-top:5px;
+                                                padding:3px 7px;
+                                                border-radius:6px;
+                                                background:#edf1f7;
+                                                color:#23395b;
+                                                border:1px solid #d7dfeb;
+                                                font-size:9px;
+                                                font-weight:800;
+                                            ">
+                                        <i class="fa fa-map-marked-alt me-1"/>
+                                        Google Maps
+                                    </button>
+                                </t>
+                            </div>
+
+
+                            <!-- ORDER TOTAL -->
+                            <div style="
+                                margin:0 11px 8px;
+                                padding:8px 9px;
+                                border-radius:8px;
+                                background:linear-gradient(110deg,#14213d,#263e63);
+                                color:#ffffff;
+                            ">
+                                <div class="d-flex align-items-center justify-content-between">
+
+                                    <div>
+                                        <div style="
+                                            font-size:8px;
+                                            color:#d9c69f;
+                                            font-weight:800;
+                                            letter-spacing:.8px;
+                                        ">
+                                            ORDER TOTAL
+                                        </div>
+
+                                        <div style="font-size:16px;font-weight:900;color:#ffffff;">
+                                            <field name="amount_total"/>
+                                        </div>
+                                    </div>
+
+                                    <span style="
+                                        width:31px;height:31px;
+                                        display:flex;align-items:center;justify-content:center;
+                                        border-radius:9px;
+                                        background:rgba(212,175,106,.2);
+                                        color:#e5c783;
+                                        font-size:15px;
+                                    ">
+                                        <i class="fa fa-shopping-bag"/>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <!-- PAYMENT COLLECTION -->
+                            <t t-if="record.is_cash_on_delivery.raw_value">
+                                <div style="
+                                    margin:0 11px 8px;
+                                    padding:8px 9px;
+                                    border:1px solid #eadfc8;
+                                    background:#fffaf0;
+                                    border-radius:8px;
+                                ">
+
+                                    <div style="
+                                        font-size:9px;
+                                        color:#8d6a2f;
+                                        font-weight:900;
+                                        margin-bottom:6px;
+                                    ">
+                                        <i class="fa fa-credit-card me-1"/>
+                                        PAYMENT COLLECTION
+                                    </div>
+
+                                    <t t-if="record.delivery_collected.raw_value">
+                                        <div style="font-size:10px;color:#087f5b;font-weight:900;">
+                                            <i class="fa fa-check-circle me-1"/>
+                                            Payment Collected
+                                        </div>
+                                    </t>
+
+                                    <t t-else="">
+                                        <div style="font-size:10px;color:#b7791f;font-weight:900;">
+                                            <i class="fa fa-exclamation-circle me-1"/>
+                                            Payment Not Collected
+                                        </div>
+                                    </t>
+
+                                    <div class="d-flex justify-content-between align-items-center"
+                                         style="margin-top:6px;padding-top:5px;border-top:1px solid #eee3cf;">
+
+                                        <span style="font-size:9px;color:#777;">
+                                            <i class="fa fa-money me-1"/>
+                                            Collected Amount
+                                        </span>
+
+                                        <strong style="font-size:10px;color:#14213d;">
+                                            <field name="delivery_collected_amount"/>
+                                        </strong>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center"
+                                         style="margin-top:4px;">
+                                        <span style="font-size:9px;color:#777;">
+                                            <i class="fa fa-info-circle me-1"/>
+                                            Payment Status
+                                        </span>
+
+                                        <strong style="font-size:9px;color:#14213d;">
+                                            <field name="delivery_payment_status"/>
+                                        </strong>
+                                    </div>
+
+                                </div>
+                            </t>
+
+
+                            <!-- INVOICE -->
+                            <div style="
+                                margin:0 11px 8px;
+                                padding:7px 9px;
+                                border:1px solid #e7eaf0;
+                                border-radius:8px;
+                                background:#fafbfc;
+                            ">
+
+                                <div class="d-flex align-items-center justify-content-between">
+
+                                    <div style="font-size:9px;color:#23395b;font-weight:900;">
+                                        <i class="fa fa-file-text-o me-1"/>
+                                        INVOICE
+                                    </div>
+
+                                    <t t-if="record.account_move.raw_value">
+                                        <span style="font-size:9px;color:#087f5b;font-weight:900;">
+                                            <i class="fa fa-check-circle me-1"/>
+                                            Available
+                                        </span>
+                                    </t>
+
+                                    <t t-else="">
+                                        <span style="font-size:9px;color:#9a7535;font-weight:900;">
+                                            <i class="fa fa-info-circle me-1"/>
+                                            Not Linked
+                                        </span>
+                                    </t>
+                                </div>
+
+                                <t t-if="record.account_move.raw_value">
+                                    <button name="action_register_payment"
+                                            type="object"
+                                            class="btn btn-sm oe_kanban_action"
+                                            title="Register invoice payment"
+                                            style="
+                                                margin-top:6px;
+                                                padding:4px 8px;
+                                                border-radius:6px;
+                                                background:#edf1f7;
+                                                color:#23395b;
+                                                border:1px solid #d7dfeb;
+                                                font-size:9px;
+                                                font-weight:800;
+                                            ">
+                                        <i class="fa fa-credit-card me-1"/>
+                                        Register Payment
+                                    </button>
+                                </t>
+
+                            </div>
+
+
+                            <!-- ACTION BUTTONS -->
+                            <div style="
+                                padding:8px 9px;
+                                background:#f7f6f2;
+                                border-top:1px solid #e9e4d9;
+                            ">
+                                <div class="d-flex flex-wrap align-items-center justify-content-center"
+                                     style="gap:5px;">
+
+                                    <t t-if="record.delivery_status.raw_value == 'assigned'">
+                                        <button name="action_delivery_start"
+                                                type="object"
+                                                class="btn btn-sm oe_kanban_action"
+                                                title="Start delivery"
+                                                style="
+                                                    background:#14213d;
+                                                    color:#f2d99f;
+                                                    border:1px solid #d4af6a;
+                                                    border-radius:6px;
+                                                    padding:5px 8px;
+                                                    font-size:9px;
+                                                    font-weight:900;
+                                                ">
+                                            <i class="fa fa-play me-1"/>
+                                            Start
+                                        </button>
+                                    </t>
+
+                                    <t t-if="record.delivery_status.raw_value == 'in_delivery'">
+                                        <button name="action_delivery_mark_delivered"
+                                                type="object"
+                                                class="btn btn-sm oe_kanban_action"
+                                                title="Mark as delivered"
+                                                style="
+                                                    background:#087f5b;
+                                                    color:#ffffff;
+                                                    border:1px solid #087f5b;
+                                                    border-radius:6px;
+                                                    padding:5px 8px;
+                                                    font-size:9px;
+                                                    font-weight:900;
+                                                ">
+                                            <i class="fa fa-check-circle me-1"/>
+                                            Delivered
+                                        </button>
+                                    </t>
+
+                                    <t t-if="record.delivery_status.raw_value in ['assigned','in_delivery']">
+                                        <button name="action_delivery_mark_failed"
+                                                type="object"
+                                                class="btn btn-sm oe_kanban_action"
+                                                title="Mark delivery as failed"
+                                                style="
+                                                    background:#fff1f0;
+                                                    color:#b42318;
+                                                    border:1px solid #efc2bd;
+                                                    border-radius:6px;
+                                                    padding:5px 8px;
+                                                    font-size:9px;
+                                                    font-weight:900;
+                                                ">
+                                            <i class="fa fa-times-circle me-1"/>
+                                            Failed
+                                        </button>
+                                    </t>
+
+                                    <t t-if="record.is_cash_on_delivery.raw_value and !record.delivery_collected.raw_value">
+                                        <button name="action_delivery_record_collection"
+                                                type="object"
+                                                class="btn btn-sm oe_kanban_action"
+                                                title="Record cash collection"
+                                                style="
+                                                    background:#fff8e8;
+                                                    color:#8d6a2f;
+                                                    border:1px solid #e4c987;
+                                                    border-radius:6px;
+                                                    padding:5px 8px;
+                                                    font-size:9px;
+                                                    font-weight:900;
+                                                ">
+                                            <i class="fa fa-money me-1"/>
+                                            Collect
+                                        </button>
+                                    </t>
+
+                                    <button name="action_view_delivery_payments"
+                                            type="object"
+                                            class="btn btn-sm oe_kanban_action"
+                                            title="View POS payment history"
+                                            style="
+                                                background:#ffffff;
+                                                color:#23395b;
+                                                border:1px solid #d9dce3;
+                                                border-radius:6px;
+                                                padding:5px 8px;
+                                                font-size:9px;
+                                                font-weight:900;
+                                            ">
+                                        <i class="fa fa-history me-1"/>
+                                        Payments
+                                    </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <!-- ===================================================== -->
+    <!-- DELIVERY ACTION -->
+    <!-- ===================================================== -->
+
+    <record id="action_pos_delivery_orders" model="ir.actions.act_window">
+        <field name="name">Delivery Management</field>
+        <field name="res_model">pos.order</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_delivery_order', '=', True)]</field>
+        <field name="context">
+            {
+                'group_by': ['delivery_employee_id', 'delivery_status']
+            }
+        </field>
+    </record>
+
+
+    <!-- ===================================================== -->
+    <!-- ACTION KANBAN VIEW -->
+    <!-- ===================================================== -->
+
+    <record id="action_pos_delivery_orders_kanban"
+            model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_pos_order_kanban_delivery_driver"/>
+        <field name="act_window_id" ref="action_pos_delivery_orders"/>
+    </record>
+
+
+    <!-- ===================================================== -->
+    <!-- ACTION LIST VIEW -->
+    <!-- ===================================================== -->
+
+    <record id="action_pos_delivery_orders_list"
+            model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_pos_order_list_delivery_driver"/>
+        <field name="act_window_id" ref="action_pos_delivery_orders"/>
+    </record>
+
 </odoo>
