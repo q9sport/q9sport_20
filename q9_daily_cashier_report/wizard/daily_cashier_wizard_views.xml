@@ -25,6 +25,6 @@
         <field name="target">new</field>
     </record>
     <menuitem id="menu_daily_cashier_report" name="Daily Cashier Report"
-              parent="point_of_sale.menu_point_root" action="action_daily_cashier_wizard"
-              sequence="90"/>
+              parent="point_of_sale.menu_point_rep" action="action_daily_cashier_wizard"
+              sequence="20" groups="point_of_sale.group_pos_manager,point_of_sale.group_pos_user"/>
 </odoo>
