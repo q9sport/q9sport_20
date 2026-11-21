@@ -106,20 +106,7 @@
                                t-on-input="(ev) => this.onQatarCustomerInput('building_no', ev)"/>
                     </label>
 
-            
-                             <label class="o_qatar_field o_qatar_address_field">
-                        <span>
-                            <i class="fa fa-map-marker"/>
-                            Address
-                        </span>
-                        <input type="text"
-                               autocomplete="street-address"
-                               placeholder="Enter Address"
-                               dir="auto"
-                             
-                               t-att-value="this.getQatarCustomerValue('street')"
-                               t-on-input="(ev) => this.onQatarCustomerInput('street', ev)"/>
-                    </label>
+   
 
                 </div>
 
@@ -178,6 +165,20 @@
 
                     </div>
                 </div>
+                         
+                             <label class="o_qatar_field o_qatar_address_field">
+                        <span>
+                            <i class="fa fa-map-marker"/>
+                            Address
+                        </span>
+                        <input type="text"
+                               autocomplete="street-address"
+                               placeholder="Enter Address"
+                               dir="auto"
+                             
+                               t-att-value="this.getQatarCustomerValue('street')"
+                               t-on-input="(ev) => this.onQatarCustomerInput('street', ev)"/>
+                    </label>
 
                 <button type="button"
                         class="o_qatar_inline_save"
