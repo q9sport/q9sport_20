@@ -5,7 +5,7 @@
     "summary": "Daily cashier report with PDF and Excel exports",
     "depends": ["point_of_sale"],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "wizard/daily_cashier_wizard_views.xml",
         "report/daily_cashier_report.xml",
     ],
