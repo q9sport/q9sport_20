@@ -58,18 +58,7 @@
                                t-on-input="(ev) => this.onQatarCustomerInput('name', ev)"/>
                     </label>
 
-                    <label class="o_qatar_field o_qatar_address_field">
-                        <span>
-                            <i class="fa fa-map-marker"/>
-                            Address
-                        </span>
-                        <input type="text"
-                               autocomplete="street-address"
-                               placeholder="Enter Address"
-                               dir="auto"
-                               t-att-value="this.getQatarCustomerValue('street')"
-                               t-on-input="(ev) => this.onQatarCustomerInput('street', ev)"/>
-                    </label>
+           
 
                     <label class="o_qatar_field">
                         <span>
@@ -105,8 +94,7 @@
                                t-att-value="this.getQatarCustomerValue('street_no')"
                                t-on-input="(ev) => this.onQatarCustomerInput('street_no', ev)"/>
                     </label>
-
-                    <label class="o_qatar_field">
+                            <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-building"/>
                             Building No <b>*</b>
@@ -116,6 +104,21 @@
                                placeholder="Building No"
                                t-att-value="this.getQatarCustomerValue('building_no')"
                                t-on-input="(ev) => this.onQatarCustomerInput('building_no', ev)"/>
+                    </label>
+
+            
+                             <label class="o_qatar_field o_qatar_address_field">
+                        <span>
+                            <i class="fa fa-map-marker"/>
+                            Address
+                        </span>
+                        <input type="text"
+                               autocomplete="street-address"
+                               placeholder="Enter Address"
+                               dir="auto"
+                             
+                               t-att-value="this.getQatarCustomerValue('street')"
+                               t-on-input="(ev) => this.onQatarCustomerInput('street', ev)"/>
                     </label>
 
                 </div>
