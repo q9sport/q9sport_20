@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
 
+    <!-- ===================================================== -->
+    <!-- PAYMENT SUMMARY -->
+    <!-- ===================================================== -->
+
     <t t-name="pos_split_textbox_20.PaymentScreenSummary"
        t-inherit="point_of_sale.PaymentScreenDue"
        t-inherit-mode="extension">
@@ -55,11 +59,18 @@
     </t>
 
 
+    <!-- ===================================================== -->
+    <!-- PAYMENT METHODS -->
+    <!-- ===================================================== -->
+
     <t t-name="pos_split_textbox_20.PaymentMethodAmount"
        t-inherit="point_of_sale.PaymentScreenMethods"
        t-inherit-mode="extension">
 
-        <!-- Never create an empty native payment line after the order is fully allocated. -->
+        <!-- ================================================= -->
+        <!-- Prevent adding empty payment lines -->
+        <!-- ================================================= -->
+
         <xpath expr="//div[@t-on-click='() =&gt; this.addNewPaymentLine(paymentMethod)']"
                position="attributes">
 
@@ -70,8 +81,12 @@
         </xpath>
 
 
-        <!-- Real inline SVG icons: independent of FontAwesome being loaded. -->
-        <xpath expr="//div[@t-on-click='() =&gt; this.currentOrder.currency.round(this.currentOrder.remainingDue) &gt; 0 &amp;&amp; this.addNewPaymentLine(paymentMethod)']"
+        <!-- ================================================= -->
+        <!-- Payment method icons -->
+        <!-- IMPORTANT: use ORIGINAL parent XPath -->
+        <!-- ================================================= -->
+
+        <xpath expr="//div[@t-on-click='() =&gt; this.addNewPaymentLine(paymentMethod)']"
                position="inside">
 
             <span class="o_pos_payment_method_visual" aria-hidden="true">
@@ -121,7 +136,7 @@
                      alt="Wallet"
                      title="Wallet"/>
 
-                <img t-elif="paymentMethod.name and paymentMethod.name.toLowerCase().includes('online') or paymentMethod.payment_interface or paymentMethod.isProvider or paymentMethod.useBankQrCode"
+                <img t-elif="(paymentMethod.name and paymentMethod.name.toLowerCase().includes('online')) or paymentMethod.payment_interface or paymentMethod.isProvider or paymentMethod.useBankQrCode"
                      src="/pos_split_textbox_20/static/src/img/payment_online.svg"
                      alt="Online payment"
                      title="Online"/>
@@ -136,9 +151,15 @@
         </xpath>
 
 
+        <!-- ================================================= -->
         <!-- Amount and Change textboxes -->
-        <xpath expr="//div[@t-on-click='() =&gt; this.currentOrder.currency.round(this.currentOrder.remainingDue) &gt; 0 &amp;&amp; this.addNewPaymentLine(paymentMethod)']"
+        <!-- IMPORTANT: use ORIGINAL parent XPath -->
+        <!-- ================================================= -->
+
+        <xpath expr="//div[@t-on-click='() =&gt; this.addNewPaymentLine(paymentMethod)']"
                position="after">
+
+            <!-- Amount textbox -->
 
             <div t-if="!paymentMethod.isProvider
                       and !paymentMethod.payment_interface
@@ -149,7 +170,6 @@
                       and (paymentMethod.availableCurrencies || []).length &lt;= 1"
                  class="o_pos_split_amount_row">
 
-                <!-- Amount label and input -->
                 <label class="o_pos_split_amount_label">
                     <span>Amount</span>
                     <span class="o_pos_split_currency"
@@ -172,7 +192,9 @@
 
             </div>
 
-            <!-- Change textbox: Cash only -->
+
+            <!-- Cash change textbox -->
+
             <div t-if="this.isSplitCashMethod(paymentMethod)
                       and !this.currentOrder.isRefund
                       and this.currentOrder.totalDue &gt; 0
