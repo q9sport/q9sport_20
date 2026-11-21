@@ -17,14 +17,17 @@
                         </span>
                         <div>
                             <strong>
-                                Customer &amp; Delivery Information
+                                بيانات العميل والتوصيل
+                                <span class="o_qatar_en_subtitle">
+                                    Customer &amp; Delivery
+                                </span>
                             </strong>
                             <small>
-                                Enter the phone number first to automatically load customer information.
+                                أدخل رقم الهاتف أولاً لتحميل بيانات العميل تلقائياً
                             </small>
                         </div>
                     </div>
-                    <span class="o_qatar_required_hint">* Required</span>
+                    <span class="o_qatar_required_hint">* مطلوب</span>
                 </div>
 
                 <div class="o_qatar_inline_grid">
@@ -32,12 +35,11 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-phone"/>
-                            Phone <b>*</b>
+                            Phone / رقم الهاتف <b>*</b>
                         </span>
                         <input type="tel"
                                autocomplete="tel"
                                placeholder="+974 XXXXXXXX"
-                               required="required"
                                t-att-value="this.getQatarCustomerValue('phone')"
                                t-on-input="(ev) => this.onQatarCustomerInput('phone', ev)"
                                t-on-blur="() => this.lookupQatarCustomerByPhone()"
@@ -47,13 +49,12 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-user"/>
-                            Customer Name <b>*</b>
+                            اسم العميل <b>*</b>
                         </span>
                         <input type="text"
                                autocomplete="name"
-                               placeholder="Customer Name"
-                               dir="auto"
-                               required="required"
+                               placeholder="اسم العميل"
+                               dir="rtl"
                                t-att-value="this.getQatarCustomerValue('name')"
                                t-on-input="(ev) => this.onQatarCustomerInput('name', ev)"/>
                     </label>
@@ -61,7 +62,7 @@
                     <label class="o_qatar_field o_qatar_address_field">
                         <span>
                             <i class="fa fa-map-marker"/>
-                            Address
+                            Address / العنوان
                         </span>
                         <input type="text"
                                autocomplete="street-address"
@@ -74,11 +75,10 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-calendar"/>
-                            Date of Birth <b>*</b>
+                            Date of Birth / تاريخ الميلاد
                         </span>
                         <input type="date"
                                autocomplete="bday"
-                               required="required"
                                t-att-value="this.getQatarCustomerValue('birthdate_date')"
                                t-on-input="(ev) => this.onQatarCustomerInput('birthdate_date', ev)"/>
                     </label>
@@ -86,12 +86,11 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-map"/>
-                            Zone No <b>*</b>
+                            Zone No / رقم المنطقة <b>*</b>
                         </span>
                         <input type="text"
                                inputmode="numeric"
                                placeholder="Zone No"
-                               required="required"
                                t-att-value="this.getQatarCustomerValue('zone_no')"
                                t-on-input="(ev) => this.onQatarCustomerInput('zone_no', ev)"/>
                     </label>
@@ -99,12 +98,11 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-road"/>
-                            Street No <b>*</b>
+                            Street No / رقم الشارع <b>*</b>
                         </span>
                         <input type="text"
                                inputmode="numeric"
                                placeholder="Street No"
-                               required="required"
                                t-att-value="this.getQatarCustomerValue('street_no')"
                                t-on-input="(ev) => this.onQatarCustomerInput('street_no', ev)"/>
                     </label>
@@ -112,12 +110,11 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-building"/>
-                            Building No <b>*</b>
+                            Building No / رقم المبنى <b>*</b>
                         </span>
                         <input type="text"
                                inputmode="numeric"
                                placeholder="Building No"
-                               required="required"
                                t-att-value="this.getQatarCustomerValue('building_no')"
                                t-on-input="(ev) => this.onQatarCustomerInput('building_no', ev)"/>
                     </label>
@@ -129,12 +126,12 @@
                     <div class="o_qatar_inline_gps_text">
                         <strong>
                             <i class="fa fa-map-marker"/>
-                            GPS Location
+                            الموقع الجغرافي
                         </strong>
 
                         <small class="o_qatar_arabic_location"
                                t-if="this.getQatarCustomerValue('location_description_ar')"
-                               dir="auto">
+                               dir="rtl">
                             <t t-out="this.getQatarCustomerValue('location_description_ar')"/>
                         </small>
 
@@ -144,7 +141,7 @@
                         </small>
 
                         <small t-else="">
-                            Specify the building's actual location using the address details.
+                            حدد الموقع الفعلي للمبنى باستخدام أرقام العنوان
                         </small>
                     </div>
 
@@ -158,11 +155,11 @@
                             <i class="fa fa-location-arrow"/>
 
                             <t t-if="this.qatarCustomer.resolvingAddress">
-                                Searching for building...
+                                جارٍ البحث عن المبنى…
                             </t>
 
                             <t t-else="">
-                                Verify Address &amp; Locate Building
+                                تحقق من العنوان وتحديد المبنى
                             </t>
 
                         </button>
@@ -174,7 +171,7 @@
                            rel="noopener noreferrer">
 
                             <i class="fa fa-map"/>
-                            View Actual Location on Map
+                            عرض الموقع الفعلي على الخريطة
 
                         </a>
 
@@ -189,11 +186,11 @@
                     <i class="fa fa-check-circle"/>
 
                     <t t-if="this.qatarCustomer.saving">
-                        Saving...
+                        جارٍ الحفظ…
                     </t>
 
                     <t t-else="">
-                        Save Customer Information
+                        حفظ بيانات العميل
                     </t>
 
                 </button>

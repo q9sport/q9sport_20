@@ -1,225 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-
-    <!-- ===================================================== -->
-    <!-- PAYMENT SUMMARY -->
-    <!-- ===================================================== -->
-
-    <t t-name="pos_split_textbox_20.PaymentScreenSummary"
-       t-inherit="point_of_sale.PaymentScreenDue"
-       t-inherit-mode="extension">
-
+    <t t-name="pos_split_textbox_20.PaymentScreenSummary" t-inherit="point_of_sale.PaymentScreenDue" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('total')]" position="after">
-
             <section class="o_pos_split_summary" aria-label="Payment summary">
-
                 <div class="o_pos_split_metric o_pos_split_metric_sale">
-                    <span class="o_pos_split_metric_label">
-                        <svg class="o_pos_inline_svg" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 8H6"/>
-                            <circle cx="10" cy="20" r="1.5"/>
-                            <circle cx="18" cy="20" r="1.5"/>
-                        </svg>
-                        المبيعات · Sale
-                    </span>
+                    <span class="o_pos_split_metric_label"><svg class="o_pos_inline_svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 8H6"/><circle cx="10" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg> المبيعات · Sale</span>
                     <strong t-out="this.pos.formatCurrency(this.currentOrder.totalDue)"/>
                 </div>
-
                 <div class="o_pos_split_metric o_pos_split_metric_paid">
-                    <span class="o_pos_split_metric_label">
-                        <svg class="o_pos_inline_svg" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M20 7 10 17l-5-5"/>
-                            <circle cx="12" cy="12" r="9"/>
-                        </svg>
-                        المدفوع · Paid
-                    </span>
+                    <span class="o_pos_split_metric_label"><svg class="o_pos_inline_svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7 10 17l-5-5"/><circle cx="12" cy="12" r="9"/></svg> المدفوع · Paid</span>
                     <strong t-out="this.pos.formatCurrency(this.getSplitPaidTotal())"/>
                 </div>
-
                 <div class="o_pos_split_metric o_pos_split_metric_remaining">
-                    <span class="o_pos_split_metric_label">
-                        <svg class="o_pos_inline_svg" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M6 2h12M6 22h12M7 2v4a5 5 0 0 0 2 4l3 2-3 2a5 5 0 0 0-2 4v4m10-20v4a5 5 0 0 1-2 4l-3 2 3 2a5 5 0 0 1 2 4v4"/>
-                        </svg>
-                        المتبقي · Remaining
-                    </span>
+                    <span class="o_pos_split_metric_label"><svg class="o_pos_inline_svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12M6 22h12M7 2v4a5 5 0 0 0 2 4l3 2-3 2a5 5 0 0 0-2 4v4m10-20v4a5 5 0 0 1-2 4l-3 2 3 2a5 5 0 0 1 2 4v4"/></svg> المتبقي · Remaining</span>
                     <strong t-out="this.pos.formatCurrency(this.currentOrder.remainingDue)"/>
                 </div>
-
                 <div t-if="this.currentOrder.isRefund" class="o_pos_refund_indicator">
-                    <svg class="o_pos_inline_svg" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M3 7v6h6M4 13a8 8 0 1 0 2-6L3 10"/>
-                    </svg>
-                    Refund order
+                    <svg class="o_pos_inline_svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7v6h6M4 13a8 8 0 1 0 2-6L3 10"/></svg> Refund order
                 </div>
-
             </section>
-
         </xpath>
     </t>
-
-
-    <!-- ===================================================== -->
-    <!-- PAYMENT METHODS -->
-    <!-- ===================================================== -->
-
-    <t t-name="pos_split_textbox_20.PaymentMethodAmount"
-       t-inherit="point_of_sale.PaymentScreenMethods"
-       t-inherit-mode="extension">
-
-        <!-- ================================================= -->
-        <!-- Prevent adding empty payment lines -->
-        <!-- ================================================= -->
-
-        <xpath expr="//div[@t-on-click='() =&gt; this.addNewPaymentLine(paymentMethod)']"
-               position="attributes">
-
-            <attribute name="t-on-click">
-                () =&gt; this.currentOrder.currency.round(this.currentOrder.remainingDue) &gt; 0 &amp;&amp; this.addNewPaymentLine(paymentMethod)
-            </attribute>
-
+    <t t-name="pos_split_textbox_20.PaymentMethodAmount" t-inherit="point_of_sale.PaymentScreenMethods" t-inherit-mode="extension">
+        <!-- Never create an empty native payment line after the order is fully allocated. -->
+        <xpath expr="//div[@t-on-click='() =&gt; this.addNewPaymentLine(paymentMethod)']" position="attributes">
+            <attribute name="t-on-click">() =&gt; this.currentOrder.currency.round(this.currentOrder.remainingDue) &gt; 0 &amp;&amp; this.addNewPaymentLine(paymentMethod)</attribute>
         </xpath>
-
-
-        <!-- ================================================= -->
-        <!-- Payment method icons -->
-        <!-- IMPORTANT: use ORIGINAL parent XPath -->
-        <!-- ================================================= -->
-
-        <xpath expr="//div[@t-on-click='() =&gt; this.addNewPaymentLine(paymentMethod)']"
-               position="inside">
-
+        <!-- Real inline SVG icons: independent of FontAwesome being loaded. -->
+        <xpath expr="//div[@t-on-click='() =&gt; this.currentOrder.currency.round(this.currentOrder.remainingDue) &gt; 0 &amp;&amp; this.addNewPaymentLine(paymentMethod)']" position="inside">
             <span class="o_pos_payment_method_visual" aria-hidden="true">
-
-                <img t-if="paymentMethod.type === 'pay_later' or (paymentMethod.name and (paymentMethod.name.toLowerCase().includes('customer account') or paymentMethod.name.toLowerCase().includes('customer_account') or paymentMethod.name.toLowerCase().includes('account') or paymentMethod.name.includes('حساب العميل') or paymentMethod.name.includes('حساب')))"
-                     src="/pos_split_textbox_20/static/src/img/payment_customer_account.svg"
-                     alt="Customer account / Online store"
-                     title="Customer account"/>
-
-                <img t-elif="paymentMethod.type === 'cash' or (paymentMethod.name and paymentMethod.name.toLowerCase().includes('cash'))"
-                     src="/pos_split_textbox_20/static/src/img/payment_cash.svg"
-                     alt="Cash"
-                     title="Cash"/>
-
-                <img t-elif="paymentMethod.name and (paymentMethod.name.toLowerCase().includes('mada') or paymentMethod.name.includes('مدى'))"
-                     src="/pos_split_textbox_20/static/src/img/payment_mada.svg"
-                     alt="mada"
-                     title="mada"/>
-
-                <img t-elif="paymentMethod.name and paymentMethod.name.toLowerCase().includes('visa')"
-                     src="/pos_split_textbox_20/static/src/img/payment_visa.svg"
-                     alt="Visa"
-                     title="Visa"/>
-
-                <img t-elif="paymentMethod.name and (paymentMethod.name.toLowerCase().includes('mastercard') or paymentMethod.name.toLowerCase().includes('master card'))"
-                     src="/pos_split_textbox_20/static/src/img/payment_mastercard.svg"
-                     alt="Mastercard"
-                     title="Mastercard"/>
-
-                <img t-elif="paymentMethod.name and paymentMethod.name.toLowerCase().includes('apple')"
-                     src="/pos_split_textbox_20/static/src/img/payment_applepay.svg"
-                     alt="Apple Pay"
-                     title="Apple Pay"/>
-
-                <img t-elif="paymentMethod.name and paymentMethod.name.toLowerCase().includes('google')"
-                     src="/pos_split_textbox_20/static/src/img/payment_googlepay.svg"
-                     alt="Google Pay"
-                     title="Google Pay"/>
-
-                <img t-elif="paymentMethod.name and (paymentMethod.name.toLowerCase().includes('bank') or paymentMethod.name.includes('بنك') or paymentMethod.name.includes('تحويل'))"
-                     src="/pos_split_textbox_20/static/src/img/payment_bank.svg"
-                     alt="Bank transfer"
-                     title="Bank transfer"/>
-
-                <img t-elif="paymentMethod.name and (paymentMethod.name.toLowerCase().includes('wallet') or paymentMethod.name.includes('محفظة'))"
-                     src="/pos_split_textbox_20/static/src/img/payment_wallet.svg"
-                     alt="Wallet"
-                     title="Wallet"/>
-
-                <img t-elif="(paymentMethod.name and paymentMethod.name.toLowerCase().includes('online')) or paymentMethod.payment_interface or paymentMethod.isProvider or paymentMethod.useBankQrCode"
-                     src="/pos_split_textbox_20/static/src/img/payment_online.svg"
-                     alt="Online payment"
-                     title="Online"/>
-
-                <img t-else=""
-                     src="/pos_split_textbox_20/static/src/img/payment_card.svg"
-                     alt="Card"
-                     title="Card"/>
-
+                <img t-if="paymentMethod.type === 'pay_later' or (paymentMethod.name and (paymentMethod.name.toLowerCase().includes('customer account') or paymentMethod.name.toLowerCase().includes('customer_account') or paymentMethod.name.toLowerCase().includes('account') or paymentMethod.name.includes('حساب العميل') or paymentMethod.name.includes('حساب')))" src="/pos_split_textbox_20/static/src/img/payment_customer_account.svg" alt="Customer account / Online store" title="Customer account"/>
+                <img t-elif="paymentMethod.type === 'cash' or (paymentMethod.name and paymentMethod.name.toLowerCase().includes('cash'))" src="/pos_split_textbox_20/static/src/img/payment_cash.svg" alt="Cash" title="Cash"/>
+                <img t-elif="paymentMethod.name and (paymentMethod.name.toLowerCase().includes('mada') or paymentMethod.name.includes('مدى'))" src="/pos_split_textbox_20/static/src/img/payment_mada.svg" alt="mada" title="mada"/>
+                <img t-elif="paymentMethod.name and paymentMethod.name.toLowerCase().includes('visa')" src="/pos_split_textbox_20/static/src/img/payment_visa.svg" alt="Visa" title="Visa"/>
+                <img t-elif="paymentMethod.name and (paymentMethod.name.toLowerCase().includes('mastercard') or paymentMethod.name.toLowerCase().includes('master card'))" src="/pos_split_textbox_20/static/src/img/payment_mastercard.svg" alt="Mastercard" title="Mastercard"/>
+                <img t-elif="paymentMethod.name and paymentMethod.name.toLowerCase().includes('apple')" src="/pos_split_textbox_20/static/src/img/payment_applepay.svg" alt="Apple Pay" title="Apple Pay"/>
+                <img t-elif="paymentMethod.name and paymentMethod.name.toLowerCase().includes('google')" src="/pos_split_textbox_20/static/src/img/payment_googlepay.svg" alt="Google Pay" title="Google Pay"/>
+                <img t-elif="paymentMethod.name and (paymentMethod.name.toLowerCase().includes('bank') or paymentMethod.name.includes('بنك') or paymentMethod.name.includes('تحويل'))" src="/pos_split_textbox_20/static/src/img/payment_bank.svg" alt="Bank transfer" title="Bank transfer"/>
+                <img t-elif="paymentMethod.name and (paymentMethod.name.toLowerCase().includes('wallet') or paymentMethod.name.includes('محفظة'))" src="/pos_split_textbox_20/static/src/img/payment_wallet.svg" alt="Wallet" title="Wallet"/>
+                <img t-elif="paymentMethod.name and paymentMethod.name.toLowerCase().includes('online') or paymentMethod.payment_interface or paymentMethod.isProvider or paymentMethod.useBankQrCode" src="/pos_split_textbox_20/static/src/img/payment_online.svg" alt="Online payment" title="Online"/>
+                <img t-else="" src="/pos_split_textbox_20/static/src/img/payment_card.svg" alt="Card" title="Card"/>
             </span>
-
         </xpath>
-
-
-        <!-- ================================================= -->
-        <!-- Amount and Change textboxes -->
-        <!-- IMPORTANT: use ORIGINAL parent XPath -->
-        <!-- ================================================= -->
-
-        <xpath expr="//div[@t-on-click='() =&gt; this.addNewPaymentLine(paymentMethod)']"
-               position="after">
-
-            <!-- Amount textbox -->
-
-            <div t-if="!paymentMethod.isProvider
-                      and !paymentMethod.payment_interface
-                      and !paymentMethod.useBankQrCode
-                      and paymentMethod.type != 'pay_later'
-                      and !this.currentOrder.isRefund
-                      and this.currentOrder.totalDue &gt; 0
-                      and (paymentMethod.availableCurrencies || []).length &lt;= 1"
-                 class="o_pos_split_amount_row">
-
-                <label class="o_pos_split_amount_label">
-                    <span>Amount</span>
-                    <span class="o_pos_split_currency"
-                          t-out="this.pos.currency.name"/>
-                </label>
-
-                <input type="number"
-                       min="0.01"
-                       step="0.01"
-                       inputmode="decimal"
-                       autocomplete="off"
-                       dir="ltr"
-                       lang="en"
-                       class="o_pos_split_amount_input"
-                       placeholder="0.00"
-                       t-att-value="this.getSplitAmount(paymentMethod)"
-                       t-on-change="(ev) =&gt; this.setSplitAmount(paymentMethod, ev)"
-                       t-on-click="(ev) =&gt; ev.stopPropagation()"
-                       t-on-keydown="(ev) =&gt; ev.stopPropagation()"/>
-
+        <xpath expr="//div[@t-on-click='() =&gt; this.currentOrder.currency.round(this.currentOrder.remainingDue) &gt; 0 &amp;&amp; this.addNewPaymentLine(paymentMethod)']" position="after">
+            <div t-if="!paymentMethod.isProvider and !paymentMethod.payment_interface and !paymentMethod.useBankQrCode and paymentMethod.type != 'pay_later' and !this.currentOrder.isRefund and this.currentOrder.totalDue &gt; 0 and (paymentMethod.availableCurrencies || []).length &lt;= 1" class="o_pos_split_amount_row">
+                <label class="o_pos_split_amount_label"><span>Amount</span><span class="o_pos_split_currency" t-out="this.pos.currency.name"/></label>
+                <input type="number" min="0.01" step="0.01" inputmode="decimal" autocomplete="off" class="o_pos_split_amount_input" placeholder="0.00" t-att-value="this.getSplitAmount(paymentMethod)" t-on-change="(ev) =&gt; this.setSplitAmount(paymentMethod, ev)" t-on-click="(ev) =&gt; ev.stopPropagation()" t-on-keydown="(ev) =&gt; ev.stopPropagation()"/>
             </div>
-
-
-            <!-- Cash change textbox -->
-
-            <div t-if="this.isSplitCashMethod(paymentMethod)
-                      and !this.currentOrder.isRefund
-                      and this.currentOrder.totalDue &gt; 0
-                      and (paymentMethod.availableCurrencies || []).length &lt;= 1"
-                 class="o_pos_split_change_row">
-
-                <label class="o_pos_split_change_label">
-                    <span>Change</span>
-                    <span class="o_pos_split_currency"
-                          t-out="this.pos.currency.name"/>
-                </label>
-
-                <input type="text"
-                       readonly="readonly"
-                       tabindex="-1"
-                       dir="ltr"
-                       lang="en"
-                       class="o_pos_split_change_input"
-                       t-att-value="this.getSplitChange(paymentMethod)"
-                       placeholder="0.00"/>
-
-            </div>
-
         </xpath>
-
     </t>
-
 </templates>
