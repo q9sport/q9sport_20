@@ -1021,3 +1021,56 @@
     background: linear-gradient(145deg, #edf6ff, #dcecff) !important;
     border-color: #b9d5f0 !important;
 }
+
+
+/* FINAL: English LTR amount textbox on the left, with cash change display. */
+.payment-screen .o_pos_split_amount_row {
+    direction: ltr !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+}
+
+.payment-screen .o_pos_split_amount_row .o_pos_split_amount_input {
+    order: 1 !important;
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: plaintext !important;
+    font-variant-numeric: tabular-nums !important;
+}
+
+.payment-screen .o_pos_split_amount_row .o_pos_split_amount_label {
+    order: 2 !important;
+    direction: ltr !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+}
+
+.payment-screen .o_pos_split_amount_row .o_pos_split_currency {
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+}
+
+.payment-screen .o_pos_split_change_row {
+    border-color: #b9dfd0 !important;
+    background: linear-gradient(110deg, #eaf7f0, #fff 78%) !important;
+}
+
+.payment-screen .o_pos_split_change_row .o_pos_split_amount_label {
+    color: #087b59 !important;
+}
+
+.payment-screen .o_pos_split_change_input {
+    border-color: #b9dfd0 !important;
+    background: #f7fcf8 !important;
+    color: #087b59 !important;
+    font-weight: 900 !important;
+    cursor: default !important;
+}
+
+.payment-screen .o_pos_split_change_input:focus {
+    border-color: #b9dfd0 !important;
+    box-shadow: none !important;
+}
