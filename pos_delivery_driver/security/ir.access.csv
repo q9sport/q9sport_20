@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_pos_delivery_driver_assign_wizard_user,access.pos.delivery.driver.assign.wizard,model_pos_delivery_driver_assign_wizard,base.group_user,crud,

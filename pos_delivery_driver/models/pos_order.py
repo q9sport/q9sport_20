@@ -239,6 +239,10 @@ class PosOrder(models.Model):
         string="Customer Map",
         compute="_compute_delivery_location_url",
     )
+    account_move_payment_state = fields.Selection(
+        related="account_move.payment_state",
+        string="Invoice Payment Status",
+        readonly=True,)
 
     # ---------------------------------------------------------
     # Detect delivery product
@@ -432,6 +436,42 @@ class PosOrder(models.Model):
         return super().write(vals)
 
     # ---------------------------------------------------------
+    # Open driver assignment wizard
+    # ---------------------------------------------------------
+
+    def action_open_delivery_driver_wizard(self):
+        self.ensure_one()
+
+        if not self.is_delivery_order:
+            raise UserError(_("This is not a delivery order."))
+
+        if self.delivery_status in ("delivered", "cancelled"):
+            raise UserError(
+                _("A completed or cancelled order cannot be reassigned.")
+            )
+
+        view = self.env.ref(
+            "pos_delivery_driver.view_pos_delivery_driver_assign_wizard_form"
+        )
+
+        wizard = self.env[
+            "pos.delivery.driver.assign.wizard"
+        ].sudo().create({
+            "pos_order_id": self.id,
+            "delivery_employee_id": self.delivery_employee_id.id or False,
+        })
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Assign Delivery Driver"),
+            "res_model": "pos.delivery.driver.assign.wizard",
+            "res_id": wizard.id,
+            "view_mode": "form",
+            "views": [(view.id, "form")],
+            "target": "new",
+        }
+
+    # ---------------------------------------------------------
     # Delivery actions
     # ---------------------------------------------------------
 
@@ -565,4 +605,66 @@ class PosOrder(models.Model):
             "type": "ir.actions.act_url",
             "url": self.delivery_location_url,
             "target": "new",
+        }
+
+
+# =============================================================
+# DELIVERY DRIVER ASSIGN WIZARD
+# =============================================================
+
+class PosDeliveryDriverAssignWizard(models.TransientModel):
+    _name = "pos.delivery.driver.assign.wizard"
+    _description = "Assign POS Delivery Driver"
+
+    pos_order_id = fields.Many2one(
+        "pos.order",
+        string="Delivery Order",
+        required=True,
+        readonly=True,
+    )
+
+    delivery_employee_id = fields.Many2one(
+        "hr.employee",
+        string="Delivery Driver",
+        required=True,
+        domain=[
+            ("active", "=", True),
+            ("is_delivery_driver", "=", True),
+        ],
+        default=lambda self: self.env["pos.order"].browse(
+            self.env.context.get("default_pos_order_id")
+        ).delivery_employee_id.id,
+    )
+
+    def action_assign_driver(self):
+        self.ensure_one()
+
+        order = self.pos_order_id.sudo().exists()
+        driver = self.delivery_employee_id.sudo()
+
+        if not order or not order.is_delivery_order:
+            raise UserError(
+                _("The delivery order could not be found.")
+            )
+
+        if order.delivery_status in ("delivered", "cancelled"):
+            raise UserError(
+                _("A completed or cancelled order cannot be reassigned.")
+            )
+
+        if (
+            not driver
+            or not driver.active
+            or not driver.is_delivery_driver
+        ):
+            raise UserError(
+                _("Select an active employee marked as a Delivery Driver.")
+            )
+
+        order.write({
+            "delivery_employee_id": driver.id,
+        })
+
+        return {
+            "type": "ir.actions.act_window_close",
         }

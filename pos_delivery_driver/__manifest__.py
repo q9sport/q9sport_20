@@ -9,21 +9,26 @@
         track delivery status and collections.
     """,
     "depends": [
+        "base",
         "point_of_sale",
         "hr",
     ],
     "data": [
+        # "security/ir.access.csv",
         "views/hr_employee_views.xml",
         "views/delivery_driver_menu.xml",
         "views/pos_order_views.xml",
     ],
     "assets": {
         "point_of_sale._assets_pos": [
-            #"pos_delivery_driver/static/src/app/delivery_driver_order.js",
-            "pos_delivery_driver/static/src/app/delivery_driver_popup.js",
+            # "pos_delivery_driver/static/src/app/delivery_driver_popup.js",
             "pos_delivery_driver/static/src/app/delivery_driver_auto.js",
-            "pos_delivery_driver/static/src/app/delivery_driver_popup.xml",
+            # "pos_delivery_driver/static/src/app/delivery_driver_popup.xml",
             "pos_delivery_driver/static/src/app/delivery_driver.scss",
+            "pos_delivery_driver/static/src/js/delivery_orders_button.js",
+            "pos_delivery_driver/static/src/xml/delivery_orders_button.xml",
+            
+
         ],
     },
     "images": [

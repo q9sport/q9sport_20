@@ -4,8 +4,287 @@
     <!-- ===================================================== -->
     <!-- POS ORDER FORM -->
     <!-- ===================================================== -->
+    
+<record id="view_pos_order_form_delivery_driver" model="ir.ui.view">
+    <field name="name">pos.order.form.delivery.driver</field>
+    <field name="model">pos.order</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+    <field name="arch" type="xml">
 
-    <record id="view_pos_order_form_delivery_driver" model="ir.ui.view">
+        <xpath expr="//sheet" position="inside">
+
+            <div class="o_delivery_form_dashboard"
+                 invisible="not is_delivery_order"
+                 style="background:#f5f5f2;padding:16px;border:1px solid #e5dfd2;border-radius:14px;margin-top:15px;">
+
+                <!-- HEADER -->
+                <div style="background:linear-gradient(120deg,#101d36,#263e63);padding:20px;border-radius:12px;color:white;margin-bottom:14px;">
+
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:#d4af6a;color:#14213d;border-radius:11px;font-size:23px;">
+                                <i class="fa fa-truck"/>
+                            </span>
+
+                            <div>
+                                <div style="font-size:10px;letter-spacing:1.5px;color:#e7d5ae;font-weight:900;">
+                                    DELIVERY MANAGEMENT
+                                </div>
+
+                                <div style="font-size:20px;font-weight:900;color:white;margin-top:4px;">
+                                    <field name="pos_reference" readonly="1"/>
+                                </div>
+
+                                <div style="font-size:11px;color:#e7d5ae;">
+                                    <field name="name" readonly="1"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="text-align:right;">
+                            <div style="font-size:10px;color:#e7d5ae;font-weight:800;">
+                                ORDER TOTAL
+                            </div>
+
+                            <div style="font-size:23px;color:white;font-weight:900;">
+                                <field name="amount_total" readonly="1"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- DELIVERY STATUS -->
+                <div style="background:white;padding:15px;border:1px solid #e5dfd2;border-radius:11px;margin-bottom:12px;">
+
+                    <div style="font-size:11px;font-weight:900;color:#14213d;margin-bottom:10px;">
+                        <i class="fa fa-route" style="color:#b18b45;"/>
+                        DELIVERY PROGRESS
+                    </div>
+
+                    <field name="delivery_status"
+                           widget="badge"
+                           readonly="1"/>
+
+                </div>
+
+                <!-- DRIVER ALWAYS VISIBLE -->
+                <div style="background:#f7f5f0;border:1px solid #e5dfd2;border-radius:11px;padding:16px;margin-bottom:12px;">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <span style="width:46px;height:46px;min-width:46px;display:flex;align-items:center;justify-content:center;background:#14213d;color:#d4af6a;border-radius:50%;font-size:21px;">
+                            <i class="fa fa-motorcycle"/>
+                        </span>
+
+                        <div style="flex:1;min-width:0;">
+
+                            <div style="font-size:10px;color:#929292;font-weight:900;letter-spacing:.8px;margin-bottom:6px;">
+                                DELIVERY DRIVER
+                            </div>
+
+                            <field name="delivery_employee_id"
+                                   domain="[('active', '=', True), ('is_delivery_driver', '=', True)]"
+                                   options="{'no_create': True, 'no_create_edit': True}"
+                                   placeholder="Choose Delivery Driver"/>
+
+                        </div>
+
+                        <i class="fa fa-id-badge" style="color:#b18b45;font-size:19px;"/>
+
+                    </div>
+
+                </div>
+
+                <!-- DELIVERY ACTIONS -->
+                <div style="background:white;border:1px solid #e5dfd2;border-radius:11px;padding:15px;margin-bottom:14px;">
+
+                    <div style="font-size:11px;font-weight:900;color:#14213d;margin-bottom:12px;">
+                        <i class="fa fa-bolt" style="color:#b18b45;"/>
+                        DELIVERY ACTIONS
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+
+                        <button name="action_delivery_start"
+                                type="object"
+                                string="Start Delivery"
+                                icon="fa-play"
+                                class="btn-primary"
+                                invisible="delivery_status != 'assigned'"/>
+
+                        <button name="action_delivery_mark_delivered"
+                                type="object"
+                                string="Mark Delivered"
+                                icon="fa-check-circle"
+                                class="btn-success"
+                                invisible="delivery_status != 'in_delivery'"/>
+
+                        <button name="action_delivery_mark_failed"
+                                type="object"
+                                string="Mark Failed"
+                                icon="fa-times-circle"
+                                class="btn-danger"
+                                invisible="delivery_status not in ['assigned', 'in_delivery']"/>
+
+                        <button name="action_delivery_record_collection"
+                                type="object"
+                                string="Record Collection"
+                                icon="fa-money"
+                                class="btn-primary"
+                                invisible="not is_cash_on_delivery or delivery_collected"/>
+
+                        <button name="action_register_payment"
+                                type="object"
+                                string="Register Invoice Payment"
+                                icon="fa-credit-card"
+                                class="btn-warning"
+                                invisible="not account_move"/>
+
+                        <button name="action_view_delivery_payments"
+                                type="object"
+                                string="View POS Payments"
+                                icon="fa-credit-card"
+                                class="btn-secondary"/>
+
+                        <button name="action_view_delivery_location"
+                                type="object"
+                                string="Open Location"
+                                icon="fa-map-marker"
+                                class="btn-secondary"
+                                invisible="not delivery_latitude or not delivery_longitude"/>
+
+                    </div>
+
+                </div>
+
+                <!-- DETAILS NAVIGATION -->
+                <div style="background:white;border:1px solid #e5dfd2;border-radius:11px;padding:15px;margin-bottom:12px;">
+
+                    <div style="font-size:11px;font-weight:900;color:#14213d;margin-bottom:12px;">
+                        <i class="fa fa-th-large" style="color:#b18b45;"/>
+                        ORDER DETAILS
+                    </div>
+
+                    <notebook>
+
+                        <!-- CUSTOMER -->
+                        <page string="Customer Details"
+                              name="delivery_customer_details">
+
+                            <group>
+                                <group string="Customer">
+                                    <field name="partner_id"/>
+                                </group>
+                            </group>
+
+                        </page>
+
+                        <!-- LOCATION -->
+                        <page string="Location"
+                              name="delivery_location_details">
+
+                            <group>
+                                <group string="Customer Location">
+                                    <field name="delivery_customer_address"/>
+                                    <field name="delivery_latitude"/>
+                                    <field name="delivery_longitude"/>
+                                    <field name="delivery_location_url" widget="url"/>
+                                </group>
+                            </group>
+
+                            <footer>
+                                <button name="action_view_delivery_location"
+                                        type="object"
+                                        string="Open Google Maps"
+                                        icon="fa-map-marker"
+                                        class="btn-primary"
+                                        invisible="not delivery_latitude or not delivery_longitude"/>
+                            </footer>
+
+                        </page>
+
+                        <!-- PAYMENT -->
+                        <page string="Payment Details"
+                              name="delivery_payment_details">
+
+                            <group>
+                                <group string="Payment Collection">
+                                    <field name="is_cash_on_delivery"/>
+                                    <field name="delivery_collected"/>
+                                    <field name="delivery_collected_amount"
+                                           invisible="not is_cash_on_delivery"/>
+                                    <field name="delivery_payment_status"/>
+                                </group>
+                            </group>
+
+                            <div style="margin-top:10px;">
+                                <button name="action_delivery_record_collection"
+                                        type="object"
+                                        string="Record Collection"
+                                        icon="fa-money"
+                                        class="btn-primary"
+                                        invisible="not is_cash_on_delivery or delivery_collected"/>
+                            </div>
+
+                        </page>
+
+                        <!-- INVOICE -->
+                        <page string="Invoice Details"
+                              name="delivery_invoice_details">
+
+                            <group>
+                                <group string="Invoice Information">
+                                    <field name="account_move" string="Invoice"/>
+                                    <field name="account_move_payment_state"/>
+                                </group>
+                            </group>
+
+                            <div style="margin-top:10px;">
+
+                                <button name="action_register_payment"
+                                        type="object"
+                                        string="Register Invoice Payment"
+                                        icon="fa-credit-card"
+                                        class="btn-primary"
+                                        invisible="not account_move"/>
+
+                            </div>
+
+                        </page>
+
+                        <!-- DELIVERY DATES -->
+                        <page string="Delivery Dates"
+                              name="delivery_dates_details">
+
+                            <group>
+                                <group string="Delivery Schedule">
+                                    <field name="delivery_assigned_date"/>
+                                    <field name="delivery_date"/>
+                                </group>
+                            </group>
+
+                        </page>
+
+                    </notebook>
+
+                </div>
+
+                <!-- HIDDEN TECHNICAL FIELD -->
+                <field name="is_delivery_order" invisible="1"/>
+
+            </div>
+
+        </xpath>
+
+    </field>
+</record>
+
+
+    <!-- <record id="view_pos_order_form_delivery_driver" model="ir.ui.view">
         <field name="name">pos.order.form.delivery.driver</field>
         <field name="model">pos.order</field>
         <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
@@ -37,6 +316,7 @@
                                invisible="not is_cash_on_delivery"/>
                         <field name="delivery_payment_status"/>
                         <field name="account_move" string="Invoice"/>
+                        <field name="account_move_payment_state"/>
                     </group>
 
                     <group string="Delivery Actions">
@@ -78,7 +358,7 @@
                         <button name="action_view_delivery_payments"
                                 type="object"
                                 string="View POS Payments"
-                                icon="fa-history"
+                                icon="fa-credit-card"
                                 class="btn-secondary"/>
 
                         <button name="action_view_delivery_location"
@@ -92,7 +372,7 @@
                 </group>
             </xpath>
         </field>
-    </record>
+    </record> -->
 
 
     <!-- ===================================================== -->
@@ -113,6 +393,7 @@
                 <field name="delivery_collected_amount" optional="hide"/>
                 <field name="delivery_payment_status" optional="hide"/>
                 <field name="account_move" optional="hide"/>
+                <field name="account_move_payment_state" optional="hide"/>
             </xpath>
         </field>
     </record>
@@ -151,6 +432,7 @@
                 <field name="delivery_latitude"/>
                 <field name="delivery_longitude"/>
                 <field name="account_move"/>
+                <field name="account_move_payment_state"/>
 
                 <templates>
                     <t t-name="card">
@@ -165,6 +447,109 @@
                             box-shadow:0 3px 10px rgba(20,33,61,0.09);
                             font-size:11px;
                         ">
+
+                            <!-- DELIVERY + PAYMENT STATUS RIBBON -->
+
+                            <!-- FAILED / CANCELLED -->
+                            <t t-if="record.delivery_status.raw_value in ['failed', 'cancelled']">
+                                <div style="
+                                    width:100%;
+                                    padding:6px 8px;
+                                    box-sizing:border-box;
+                                    background:#FCE7E7;
+                                    color:#B84B4B;
+                                    text-align:center;
+                                    font-size:9px;
+                                    font-weight:900;
+                                    letter-spacing:.5px;
+                                    border-bottom:1px solid #F4D0D0;
+                                ">
+                                    <i class="oi oi-filled me-1" data-icon="warning"/>
+                                    <t t-if="record.delivery_status.raw_value == 'failed'">
+                                        DELIVERY FAILED
+                                    </t>
+                                    <t t-else="">
+                                        ORDER CANCELLED
+                                    </t>
+                                </div>
+                            </t>
+
+                            <!-- DELIVERED AND PAID -->
+                            <t t-elif="record.delivery_status.raw_value == 'delivered' and record.account_move_payment_state.raw_value == 'paid'">
+                                <div style="
+                                    width:100%;
+                                    padding:6px 8px;
+                                    box-sizing:border-box;
+                                    background:#E2F3EA;
+                                    color:#26734D;
+                                    text-align:center;
+                                    font-size:9px;
+                                    font-weight:900;
+                                    letter-spacing:.5px;
+                                    border-bottom:1px solid #D1E9DA;
+                                ">
+                                    <i class="oi oi-filled me-1" data-icon="check_circle"/>
+                                    DELIVERED &amp; PAID
+                                </div>
+                            </t>
+
+                            <!-- DELIVERED BUT NOT PAID -->
+                            <t t-elif="record.delivery_status.raw_value == 'delivered' and record.account_move_payment_state.raw_value != 'paid'">
+                                <div style="
+                                    width:100%;
+                                    padding:6px 8px;
+                                    box-sizing:border-box;
+                                    background:#FFF0D9;
+                                    color:#A66A16;
+                                    text-align:center;
+                                    font-size:9px;
+                                    font-weight:900;
+                                    letter-spacing:.5px;
+                                    border-bottom:1px solid #F3E3C7;
+                                ">
+                                    <i class="oi oi-filled me-1" data-icon="local_shipping"/>
+                                    DELIVERED - PAYMENT PENDING
+                                </div>
+                            </t>
+
+                            <!-- PAID BUT NOT DELIVERED -->
+                            <t t-elif="record.account_move_payment_state.raw_value == 'paid' and record.delivery_status.raw_value != 'delivered'">
+                                <div style="
+                                    width:100%;
+                                    padding:6px 8px;
+                                    box-sizing:border-box;
+                                    background:#E5EEFF;
+                                    color:#3869A8;
+                                    text-align:center;
+                                    font-size:9px;
+                                    font-weight:900;
+                                    letter-spacing:.5px;
+                                    border-bottom:1px solid #D5E2F7;
+                                ">
+                                    <i class="oi oi-filled me-1" data-icon="payments"/>
+                                    PAID - NOT DELIVERED
+                                </div>
+                            </t>
+
+                            <!-- NOT PAID AND NOT DELIVERED -->
+                            <t t-else="">
+                                <div style="
+                                    width:100%;
+                                    padding:6px 8px;
+                                    box-sizing:border-box;
+                                    background:#EEF0F3;
+                                    color:#657080;
+                                    text-align:center;
+                                    font-size:9px;
+                                    font-weight:900;
+                                    letter-spacing:.5px;
+                                    border-bottom:1px solid #E0E3E8;
+                                ">
+                                    <i class="oi oi-filled me-1" data-icon="schedule"/>
+                                    DELIVERY / PAYMENT PENDING
+                                </div>
+                            </t>
+
 
                             <!-- HEADER -->
                             <div style="
@@ -186,7 +571,7 @@
                                             color:#14213d;
                                             font-size:16px;
                                         ">
-                                            <i class="fa fa-truck"/>
+                                            <i class="oi oi-filled" data-icon="local_shipping"/>
                                         </span>
 
                                         <div>
@@ -240,8 +625,7 @@
                                         font-weight:900;
                                         letter-spacing:.6px;
                                     ">
-                                        <i class="fa fa-road"
-                                           style="color:#b18b45;margin-right:4px;"/>
+                                        <i class="oi oi-filled" data-icon="route" style="color:#b18b45;margin-right:4px;"/>
                                         DELIVERY PROGRESS
                                     </span>
 
@@ -301,7 +685,7 @@
                                                 color:#14213d;
                                                 font-size:12px;
                                             ">
-                                                <i class="fa fa-file-text-o"/>
+                                                <i class="oi oi-filled" data-icon="assignment" style="display:inline-block;line-height:1;color:inherit;"/>
                                             </span>
                                         </t>
                                         <t t-else="">
@@ -317,10 +701,11 @@
                                                 color:#aaaaaa;
                                                 font-size:12px;
                                             ">
-                                                <i class="fa fa-file-text-o"/>
+                                                <i class="oi oi-filled" data-icon="assignment" style="display:inline-block;line-height:1;color:inherit;"/>
                                             </span>
                                         </t>
-                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;">
+                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;white-space:nowrap;">
+                                            <i class="oi oi-filled me-1" data-icon="assignment" style="font-size:9px;color:#b18b45;"/>
                                             Created
                                         </div>
                                     </div>
@@ -341,7 +726,7 @@
                                                 color:#14213d;
                                                 font-size:12px;
                                             ">
-                                                <i class="fa fa-user"/>
+                                                <i class="oi oi-filled" data-icon="person_add" style="display:inline-block;line-height:1;color:inherit;"/>
                                             </span>
                                         </t>
                                         <t t-else="">
@@ -357,10 +742,11 @@
                                                 color:#aaaaaa;
                                                 font-size:12px;
                                             ">
-                                                <i class="fa fa-user"/>
+                                                <i class="oi oi-filled" data-icon="person_add" style="display:inline-block;line-height:1;color:inherit;"/>
                                             </span>
                                         </t>
-                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;">
+                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;white-space:nowrap;">
+                                            <i class="oi oi-filled me-1" data-icon="person_add" style="font-size:9px;color:#b18b45;"/>
                                             Assigned
                                         </div>
                                     </div>
@@ -381,7 +767,7 @@
                                                 color:#14213d;
                                                 font-size:13px;
                                             ">
-                                                <i class="fa fa-motorcycle"/>
+                                                <i class="oi oi-filled" data-icon="two_wheeler" style="display:inline-block;line-height:1;color:inherit;"/>
                                             </span>
                                         </t>
                                         <t t-else="">
@@ -397,10 +783,11 @@
                                                 color:#aaaaaa;
                                                 font-size:13px;
                                             ">
-                                                <i class="fa fa-motorcycle"/>
+                                                <i class="oi oi-filled" data-icon="two_wheeler" style="display:inline-block;line-height:1;color:inherit;"/>
                                             </span>
                                         </t>
-                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;">
+                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;white-space:nowrap;">
+                                            <i class="oi oi-filled me-1" data-icon="two_wheeler" style="font-size:9px;color:#b18b45;"/>
                                             On Road
                                         </div>
                                     </div>
@@ -421,7 +808,7 @@
                                                 color:#ffffff;
                                                 font-size:13px;
                                             ">
-                                                <i class="fa fa-check"/>
+                                                <i class="oi oi-filled" data-icon="check" style="display:inline-block;line-height:1;color:inherit;"/>
                                             </span>
                                         </t>
                                         <t t-else="">
@@ -437,10 +824,11 @@
                                                 color:#aaaaaa;
                                                 font-size:13px;
                                             ">
-                                                <i class="fa fa-check"/>
+                                                <i class="oi oi-filled" data-icon="check" style="display:inline-block;line-height:1;color:inherit;"/>
                                             </span>
                                         </t>
-                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;">
+                                        <div style="font-size:8px;margin-top:4px;color:#34445e;font-weight:800;white-space:nowrap;">
+                                            <i class="oi oi-filled me-1" data-icon="check_circle" style="font-size:9px;color:#087f5b;"/>
                                             Delivered
                                         </div>
                                     </div>
@@ -481,7 +869,7 @@
                                         font-weight:900;
                                         color:#b42318;
                                     ">
-                                        <i class="fa fa-exclamation-triangle me-1"/>
+                                        <i class="oi oi-filled me-1" data-icon="warning"/>
                                         <t t-if="record.delivery_status.raw_value == 'failed'">
                                             Delivery Failed
                                         </t>
@@ -507,7 +895,7 @@
                                         margin-right:8px;
                                         font-size:13px;
                                     ">
-                                        <i class="fa fa-user"/>
+                                        <i class="oi oi-filled" data-icon="person"/>
                                     </span>
 
                                     <div style="min-width:0;flex:1;">
@@ -548,7 +936,7 @@
                                         margin-right:8px;
                                         font-size:14px;
                                     ">
-                                        <i class="fa fa-motorcycle"/>
+                                        <i class="oi oi-filled" data-icon="two_wheeler"/>
                                     </span>
 
                                     <div style="min-width:0;flex:1;">
@@ -557,20 +945,35 @@
                                         </div>
 
                                         <t t-if="record.delivery_employee_id.raw_value">
-                                            <div style="font-size:10px;color:#14213d;font-weight:900;">
+                                            <div style="font-size:10px;color:#14213d;font-weight:900;margin-bottom:4px;">
                                                 <field name="delivery_employee_id"/>
                                             </div>
                                         </t>
                                         <t t-else="">
-                                            <div style="font-size:10px;color:#b18b45;font-weight:800;">
-                                                <i class="fa fa-user-plus me-1"/>
+                                            <div style="font-size:10px;color:#b18b45;font-weight:800;margin-bottom:4px;">
+                                                <i class="oi oi-filled me-1" data-icon="person_add"/>
                                                 Not Assigned
                                             </div>
                                         </t>
+
+                                        <field name="delivery_employee_id"
+                                               widget="many2one"
+                                               options="{'no_create': True, 'no_open': True}"
+                                               placeholder="Choose Delivery Driver"
+                                               class="oe_inline"/>
+
+                                        <!--button name="action_open_delivery_driver_wizard"
+                                                type="object"
+                                                class="btn btn-sm oe_kanban_action"
+                                                title="Choose or change delivery driver"
+                                                style="padding:3px 7px;border-radius:6px;background:#edf1f7;color:#23395b;border:1px solid #d7dfeb;font-size:9px;font-weight:800;">
+                                            <i class="oi oi-filled me-1" data-icon="edit"/>
+                                            Assign / Change Driver
+                                        </button> -->
+
                                     </div>
 
-                                    <i class="fa fa-id-badge"
-                                       style="color:#b18b45;font-size:15px;"/>
+                                    <i class="oi oi-filled" data-icon="badge" style="color:#b18b45;font-size:15px;"/>
                                 </div>
                             </div>
 
@@ -585,7 +988,7 @@
                                     letter-spacing:.7px;
                                     margin-bottom:4px;
                                 ">
-                                    <i class="fa fa-map-marker me-1"/>
+                                    <i class="oi oi-filled me-1" data-icon="location_on"/>
                                     DELIVERY ADDRESS
                                 </div>
 
@@ -614,7 +1017,7 @@
                                                 font-size:9px;
                                                 font-weight:800;
                                             ">
-                                        <i class="fa fa-map-marked-alt me-1"/>
+                                        <i class="oi oi-filled me-1" data-icon="map"/>
                                         Google Maps
                                     </button>
                                 </t>
@@ -654,7 +1057,7 @@
                                         color:#e5c783;
                                         font-size:15px;
                                     ">
-                                        <i class="fa fa-shopping-bag"/>
+                                        <i class="oi oi-filled" data-icon="shopping_bag"/>
                                     </span>
                                 </div>
                             </div>
@@ -676,20 +1079,20 @@
                                         font-weight:900;
                                         margin-bottom:6px;
                                     ">
-                                        <i class="fa fa-credit-card me-1"/>
+                                        <i class="oi oi-filled me-1" data-icon="credit_card"/>
                                         PAYMENT COLLECTION
                                     </div>
 
                                     <t t-if="record.delivery_collected.raw_value">
                                         <div style="font-size:10px;color:#087f5b;font-weight:900;">
-                                            <i class="fa fa-check-circle me-1"/>
+                                            <i class="oi oi-filled me-1" data-icon="check_circle"/>
                                             Payment Collected
                                         </div>
                                     </t>
 
                                     <t t-else="">
                                         <div style="font-size:10px;color:#b7791f;font-weight:900;">
-                                            <i class="fa fa-exclamation-circle me-1"/>
+                                            <i class="oi oi-filled me-1" data-icon="error"/>
                                             Payment Not Collected
                                         </div>
                                     </t>
@@ -698,7 +1101,7 @@
                                          style="margin-top:6px;padding-top:5px;border-top:1px solid #eee3cf;">
 
                                         <span style="font-size:9px;color:#777;">
-                                            <i class="fa fa-money me-1"/>
+                                            <i class="oi oi-filled me-1" data-icon="payments"/>
                                             Collected Amount
                                         </span>
 
@@ -710,7 +1113,7 @@
                                     <div class="d-flex justify-content-between align-items-center"
                                          style="margin-top:4px;">
                                         <span style="font-size:9px;color:#777;">
-                                            <i class="fa fa-info-circle me-1"/>
+                                            <i class="oi oi-filled me-1" data-icon="info"/>
                                             Payment Status
                                         </span>
 
@@ -735,26 +1138,38 @@
                                 <div class="d-flex align-items-center justify-content-between">
 
                                     <div style="font-size:9px;color:#23395b;font-weight:900;">
-                                        <i class="fa fa-file-text-o me-1"/>
+                                        <i class="oi oi-filled me-1" data-icon="description"/>
                                         INVOICE
                                     </div>
 
                                     <t t-if="record.account_move.raw_value">
                                         <span style="font-size:9px;color:#087f5b;font-weight:900;">
-                                            <i class="fa fa-check-circle me-1"/>
+                                            <i class="oi oi-filled me-1" data-icon="check_circle"/>
                                             Available
                                         </span>
                                     </t>
 
                                     <t t-else="">
                                         <span style="font-size:9px;color:#9a7535;font-weight:900;">
-                                            <i class="fa fa-info-circle me-1"/>
+                                            <i class="oi oi-filled me-1" data-icon="info"/>
                                             Not Linked
                                         </span>
                                     </t>
                                 </div>
 
                                 <t t-if="record.account_move.raw_value">
+                                    <div class="d-flex align-items-center justify-content-between"
+                                         style="margin-top:6px;">
+
+                                        <span style="font-size:9px;color:#777;">
+                                            Invoice Payment
+                                        </span>
+
+                                        <strong style="font-size:9px;color:#14213d;">
+                                            <field name="account_move_payment_state"/>
+                                        </strong>
+                                    </div>
+
                                     <button name="action_register_payment"
                                             type="object"
                                             class="btn btn-sm oe_kanban_action"
@@ -769,11 +1184,31 @@
                                                 font-size:9px;
                                                 font-weight:800;
                                             ">
-                                        <i class="fa fa-credit-card me-1"/>
+                                        <i class="oi oi-filled me-1" data-icon="credit_card"/>
                                         Register Payment
                                     </button>
                                 </t>
 
+                            </div>
+
+
+                            <!-- DELIVERY PROGRESS CONTROLS -->
+                            <div style="padding:0 9px 7px;background:#f7f6f2;text-align:center;">
+                                <t t-if="record.delivery_status.raw_value == 'assigned'">
+                                    <span style="font-size:8px;color:#52627a;font-weight:800;">
+                                        Use Start to move the order to On Road
+                                    </span>
+                                </t>
+                                <t t-elif="record.delivery_status.raw_value == 'in_delivery'">
+                                    <span style="font-size:8px;color:#087f5b;font-weight:800;">
+                                        Use Delivered to complete this order
+                                    </span>
+                                </t>
+                                <t t-elif="record.delivery_status.raw_value == 'pending'">
+                                    <span style="font-size:8px;color:#9a7535;font-weight:800;">
+                                        Assign a driver to begin delivery
+                                    </span>
+                                </t>
                             </div>
 
 
@@ -800,7 +1235,7 @@
                                                     font-size:9px;
                                                     font-weight:900;
                                                 ">
-                                            <i class="fa fa-play me-1"/>
+                                            <i class="oi oi-filled me-1" data-icon="play_arrow"/>
                                             Start
                                         </button>
                                     </t>
@@ -819,7 +1254,7 @@
                                                     font-size:9px;
                                                     font-weight:900;
                                                 ">
-                                            <i class="fa fa-check-circle me-1"/>
+                                            <i class="oi oi-filled me-1" data-icon="check_circle"/>
                                             Delivered
                                         </button>
                                     </t>
@@ -838,7 +1273,7 @@
                                                     font-size:9px;
                                                     font-weight:900;
                                                 ">
-                                            <i class="fa fa-times-circle me-1"/>
+                                            <i class="oi oi-filled me-1" data-icon="cancel"/>
                                             Failed
                                         </button>
                                     </t>
@@ -857,12 +1292,12 @@
                                                     font-size:9px;
                                                     font-weight:900;
                                                 ">
-                                            <i class="fa fa-money me-1"/>
+                                            <i class="oi oi-filled me-1" data-icon="payments"/>
                                             Collect
                                         </button>
                                     </t>
 
-                                    <button name="action_view_delivery_payments"
+                                    <!-- <button name="action_view_delivery_payments"
                                             type="object"
                                             class="btn btn-sm oe_kanban_action"
                                             title="View POS payment history"
@@ -875,9 +1310,9 @@
                                                 font-size:9px;
                                                 font-weight:900;
                                             ">
-                                        <i class="fa fa-history me-1"/>
+                                        <i class="oi oi-filled me-1" data-icon="credit_card"/>
                                         Payments
-                                    </button>
+                                    </button> -->
 
                                 </div>
                             </div>
@@ -888,6 +1323,44 @@
             </kanban>
         </field>
     </record>
+    
+    
+    <!-- ===================================================== -->
+    <!-- MY CASHIER DELIVERY ORDERS -->
+    <!-- ===================================================== -->
+
+    <record id="action_pos_my_delivery_orders" model="ir.actions.act_window">
+        <field name="name">My Delivery Orders</field>
+        <field name="res_model">pos.order</field>
+        <field name="view_mode">kanban,list,form</field>
+
+        <field name="domain">
+            [
+                ('is_delivery_order', '=', True),
+                ('user_id', '=', context.get('pos_user_id', False)),
+                ('session_id', '=', context.get('pos_session_id', False)),
+                ('lines.product_id', '=', 38),
+                ('delivery_status', 'in', ['pending', 'assigned', 'in_delivery'])
+            ]
+        </field>
+    </record>
+
+    <record id="action_pos_my_delivery_orders_kanban"
+            model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_pos_order_kanban_delivery_driver"/>
+        <field name="act_window_id" ref="action_pos_my_delivery_orders"/>
+    </record>
+
+    <record id="action_pos_my_delivery_orders_list"
+            model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_pos_order_list_delivery_driver"/>
+        <field name="act_window_id" ref="action_pos_my_delivery_orders"/>
+    </record>
+
 
 
     <!-- ===================================================== -->
@@ -930,6 +1403,35 @@
         <field name="view_mode">list</field>
         <field name="view_id" ref="view_pos_order_list_delivery_driver"/>
         <field name="act_window_id" ref="action_pos_delivery_orders"/>
+    </record>
+
+
+    <!-- ===================================================== -->
+    <!-- DELIVERY DRIVER ASSIGNMENT WIZARD -->
+    <!-- ===================================================== -->
+
+    <record id="view_pos_delivery_driver_assign_wizard_form" model="ir.ui.view">
+        <field name="name">pos.delivery.driver.assign.wizard.form</field>
+        <field name="model">pos.delivery.driver.assign.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Assign Delivery Driver">
+                <group>
+                    <field name="pos_order_id" readonly="1"/>
+                    <field name="delivery_employee_id"
+                           required="1"
+                           domain="[('active', '=', True), ('is_delivery_driver', '=', True)]"
+                           options="{'no_create': True, 'no_create_edit': True}"
+                           placeholder="Select a delivery driver..."/>
+                </group>
+                <footer>
+                    <button name="action_assign_driver"
+                            type="object"
+                            string="Assign Driver"
+                            class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
     </record>
 
 </odoo>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ================================================= -->
+    <!-- DELIVERY BUTTON STYLES                             -->
+    <!-- ================================================= -->
+
+    <t t-name="pos_delivery_driver.DeliveryButtonStyles">
+        <style>
+
+            .delivery-orders-royal-btn {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 38px !important;
+                min-width: 38px !important;
+                height: 38px !important;
+                min-height: 38px !important;
+                padding: 0 !important;
+                margin: 0 4px !important;
+                box-sizing: border-box !important;
+                flex: 0 0 38px !important;
+                border: 1px solid #c6a15b !important;
+                border-radius: 8px !important;
+                background: #304b6b !important;
+                color: #e5c17e !important;
+                cursor: pointer !important;
+            }
+
+            .delivery-orders-royal-btn:hover {
+                background: #243a55 !important;
+                border-color: #e5c17e !important;
+            }
+
+            .delivery-follow-btn {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 32px !important;
+                min-width: 32px !important;
+                height: 32px !important;
+                min-height: 32px !important;
+                padding: 0 !important;
+                margin: 0 auto !important;
+                box-sizing: border-box !important;
+                flex: 0 0 32px !important;
+                border: 1px solid #c6a15b !important;
+                border-radius: 7px !important;
+                background: #304b6b !important;
+                color: #e5c17e !important;
+                cursor: pointer !important;
+            }
+
+            .delivery-follow-btn:hover {
+                background: #243a55 !important;
+            }
+
+            .delivery-svg-icon {
+                display: block !important;
+                width: 22px !important;
+                height: 22px !important;
+                min-width: 22px !important;
+                min-height: 22px !important;
+                fill: none !important;
+                stroke: #e5c17e !important;
+                stroke-width: 1.8 !important;
+                stroke-linecap: round !important;
+                stroke-linejoin: round !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                flex-shrink: 0 !important;
+            }
+
+            .delivery-follow-btn .delivery-svg-icon {
+                width: 19px !important;
+                height: 19px !important;
+                min-width: 19px !important;
+                min-height: 19px !important;
+            }
+
+            .delivery-orders-royal-btn:hover .delivery-svg-icon,
+            .delivery-follow-btn:hover .delivery-svg-icon {
+                stroke: #ffffff !important;
+            }
+
+        </style>
+    </t>
+
+
+    <!-- ================================================= -->
+    <!-- NAVBAR                                             -->
+    <!-- ================================================= -->
+
+    <t t-inherit="point_of_sale.Navbar"
+       t-inherit-mode="extension">
+
+        <xpath expr="." position="inside">
+            <t t-call="pos_delivery_driver.DeliveryButtonStyles"/>
+        </xpath>
+
+        <xpath expr="//button[hasclass('orders-button')]"
+               position="after">
+
+            <button
+                type="button"
+                class="btn delivery-orders-royal-btn"
+                t-on-click="() => this.onDeliveryOrdersClick()"
+                title="Delivery Orders"
+                aria-label="Delivery Orders">
+
+                <svg class="delivery-svg-icon"
+                     viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     aria-hidden="true">
+
+                    <path d="M3 7h11v11H3z"/>
+                    <path d="M14 11h4l3 3v4h-7z"/>
+                    <circle cx="7.5" cy="19" r="2"/>
+                    <circle cx="17.5" cy="19" r="2"/>
+                    <path d="M5 7l1-3h7l1 3"/>
+                </svg>
+
+            </button>
+
+        </xpath>
+
+    </t>
+
+
+    <!-- ================================================= -->
+    <!-- TICKET SCREEN                                      -->
+    <!-- ================================================= -->
+
+    <t t-inherit="point_of_sale.TicketScreen"
+       t-inherit-mode="extension">
+
+        <!-- DESKTOP -->
+
+        <xpath expr="//td[@name='delete-column']"
+               position="inside">
+
+            <button
+                t-if="this.pos.deliveryOrdersMode"
+                type="button"
+                class="btn delivery-follow-btn"
+                title="Manage Delivery"
+                aria-label="Manage Delivery"
+                t-on-click.stop="() => this.onOpenDeliveryOrderBackend(order)">
+
+                <svg class="delivery-svg-icon"
+                     viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     aria-hidden="true">
+
+                    <path d="M3 7h11v11H3z"/>
+                    <path d="M14 11h4l3 3v4h-7z"/>
+                    <circle cx="7.5" cy="19" r="2"/>
+                    <circle cx="17.5" cy="19" r="2"/>
+                    <path d="M5 7l1-3h7l1 3"/>
+                </svg>
+
+            </button>
+
+        </xpath>
+
+
+        <!-- MOBILE -->
+
+        <xpath expr="//div[@name='delete-column']"
+               position="inside">
+
+            <button
+                t-if="this.pos.deliveryOrdersMode"
+                type="button"
+                class="btn delivery-follow-btn"
+                title="Manage Delivery"
+                aria-label="Manage Delivery"
+                t-on-click.stop="() => this.onOpenDeliveryOrderBackend(order)">
+
+                <svg class="delivery-svg-icon"
+                     viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg"
+                     aria-hidden="true">
+
+                    <path d="M3 7h11v11H3z"/>
+                    <path d="M14 11h4l3 3v4h-7z"/>
+                    <circle cx="7.5" cy="19" r="2"/>
+                    <circle cx="17.5" cy="19" r="2"/>
+                    <path d="M5 7l1-3h7l1 3"/>
+                </svg>
+
+            </button>
+
+        </xpath>
+
+    </t>
+
+</templates>

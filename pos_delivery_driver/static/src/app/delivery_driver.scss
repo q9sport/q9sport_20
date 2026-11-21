@@ -757,3 +757,324 @@
     }
 
 }
+
+
+/* =========================================================
+   ROYAL DELIVERY NAVBAR BUTTON
+   Odoo 20 - Premium Navy & Gold
+   ========================================================= */
+
+.delivery-orders-royal-btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+
+    min-height: 44px;
+    padding: 8px 19px !important;
+
+    border: 1px solid rgba(198, 161, 91, 0.65) !important;
+    border-radius: 11px !important;
+
+    background: linear-gradient(
+        135deg,
+        #17243b 0%,
+        #243a5b 55%,
+        #304c70 100%
+    ) !important;
+
+    color: #ffffff !important;
+
+    box-shadow:
+        0 4px 12px rgba(23, 36, 59, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.13);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
+
+    &::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+
+        top: 0;
+        left: -120%;
+
+        width: 65%;
+        height: 100%;
+
+        background: linear-gradient(
+            110deg,
+            transparent,
+            rgba(255, 255, 255, 0.16),
+            transparent
+        );
+
+        transform: skewX(-20deg);
+        transition: left 0.6s ease;
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+
+        border-color: #e1c487 !important;
+
+        background: linear-gradient(
+            135deg,
+            #243a5b,
+            #304c70,
+            #3d587d
+        ) !important;
+
+        color: #ffffff !important;
+
+        box-shadow:
+            0 7px 19px rgba(23, 36, 59, 0.28),
+            0 0 0 3px rgba(198, 161, 91, 0.10),
+            inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+        &::before {
+            left: 150%;
+        }
+
+        .delivery-royal-icon {
+            transform: translateX(3px);
+            color: #ffe1a0 !important;
+        }
+    }
+
+    &:active {
+        transform: scale(0.97);
+    }
+
+    &:focus-visible {
+        outline: 3px solid rgba(198, 161, 91, 0.55);
+        outline-offset: 3px;
+    }
+
+    .delivery-royal-icon {
+        position: relative;
+        z-index: 1;
+
+        font-size: 21px !important;
+        color: #e5c17e !important;
+
+        filter: drop-shadow(
+            0 2px 4px rgba(198, 161, 91, 0.30)
+        );
+
+        transition:
+            transform 0.25s ease,
+            color 0.25s ease;
+    }
+
+    .delivery-royal-text {
+        position: relative;
+        z-index: 1;
+
+        color: #ffffff !important;
+
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.45px;
+
+        white-space: nowrap;
+    }
+}
+
+/* Small screens */
+@media (max-width: 768px) {
+    .delivery-orders-royal-btn {
+        padding: 8px 12px !important;
+        gap: 7px;
+
+        .delivery-royal-text {
+            font-size: 11px;
+        }
+
+        .delivery-royal-icon {
+            font-size: 18px !important;
+        }
+    }
+}
+
+/* =========================================================
+   ROYAL DELIVERY BUTTON - CLICK INTERACTION
+   ========================================================= */
+
+.delivery-orders-royal-btn {
+
+    .delivery-royal-icon {
+        transform-origin: center;
+    }
+
+    &:active {
+        border-color: #e5c17e !important;
+
+        background: linear-gradient(
+            135deg,
+            #304c70,
+            #17243b
+        ) !important;
+
+        box-shadow:
+            0 2px 7px rgba(23, 36, 59, 0.30),
+            0 0 0 3px rgba(198, 161, 91, 0.18);
+
+        .delivery-royal-icon {
+            animation: deliveryTruckSpin .65s ease-in-out;
+            color: #ffe1a0 !important;
+        }
+    }
+
+    &:active .delivery-royal-text {
+        color: #ffe1a0 !important;
+    }
+}
+
+/* Truck rotation */
+@keyframes deliveryTruckSpin {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    35% {
+        transform: rotate(180deg) scale(1.2);
+    }
+
+    70% {
+        transform: rotate(300deg) scale(1.1);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+/* Respect reduced-motion accessibility setting */
+@media (prefers-reduced-motion: reduce) {
+    .delivery-orders-royal-btn:active .delivery-royal-icon {
+        animation: none;
+    }
+}
+
+
+/* =========================================================
+   DELIVERY ORDER FOLLOW ICON
+   Odoo 20 - Royal Navy & Gold
+   ========================================================= */
+
+.delivery-follow-icon {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+
+    margin: 0 3px;
+    padding: 0 !important;
+
+    border: 1px solid rgba(198, 161, 91, 0.75) !important;
+    border-radius: 10px !important;
+
+    background: linear-gradient(
+        135deg,
+        #17243b,
+        #304c70
+    ) !important;
+
+    color: #e5c17e !important;
+
+    box-shadow:
+        0 3px 9px rgba(23, 36, 59, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+    vertical-align: middle;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+    i {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 16px !important;
+        color: #e5c17e !important;
+
+        transition:
+            transform 0.2s ease,
+            color 0.2s ease;
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+
+        border-color: #e5c17e !important;
+
+        background: linear-gradient(
+            135deg,
+            #c6a15b,
+            #e5c17e
+        ) !important;
+
+        color: #17243b !important;
+
+        box-shadow:
+            0 5px 13px rgba(23, 36, 59, 0.22),
+            0 0 0 3px rgba(198, 161, 91, 0.12);
+
+        i {
+            color: #17243b !important;
+            transform: translateX(2px);
+        }
+    }
+
+    &:active {
+        transform: scale(0.94);
+        background: #17243b !important;
+
+        i {
+            color: #ffe1a0 !important;
+        }
+    }
+
+    &:focus-visible {
+        outline: 3px solid rgba(198, 161, 91, 0.45);
+        outline-offset: 2px;
+    }
+}
+
+/* Mobile follow icon */
+@media (max-width: 768px) {
+    .delivery-follow-icon {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        margin: 0 2px;
+
+        i {
+            font-size: 15px !important;
+        }
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .delivery-follow-icon,
+    .delivery-follow-icon i {
+        transition: none;
+    }
+}
