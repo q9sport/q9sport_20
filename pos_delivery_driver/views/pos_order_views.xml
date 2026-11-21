@@ -965,27 +965,7 @@
 
 
                             <!-- DRIVER -->
-                            <div style="
-                                margin:2px 11px 7px;
-                                padding:7px 8px;
-                                background:#f7f5f0;
-                                border:1px solid #eee8db;
-                                border-radius:8px;
-                            ">
-                                <div class="d-flex align-items-center">
-
-                                    <span style="
-                                        width:30px;height:30px;min-width:30px;
-                                        display:flex;align-items:center;justify-content:center;
-                                        border-radius:50%;
-                                        background:#14213d;
-                                        color:#d4af6a;
-                                        margin-right:8px;
-                                        font-size:14px;
-                                    ">
-                                        <span aria-hidden="true">🛵</span>
-                                    </span>
-                                    <!-- DRIVER SELECTION -->
+                            <!-- DRIVER SELECTION -->
 <div style="
     margin:3px 11px 8px;
     padding:9px;
@@ -1048,19 +1028,39 @@
     </button>
 
 </div>
+                            <!-- <div style="
+                                margin:2px 11px 7px;
+                                padding:7px 8px;
+                                background:#f7f5f0;
+                                border:1px solid #eee8db;
+                                border-radius:8px;
+                            ">
+                                <div class="d-flex align-items-center">
 
-                                    <!-- <div style="min-width:0;flex:1;">
+                                    <span style="
+                                        width:30px;height:30px;min-width:30px;
+                                        display:flex;align-items:center;justify-content:center;
+                                        border-radius:50%;
+                                        background:#14213d;
+                                        color:#d4af6a;
+                                        margin-right:8px;
+                                        font-size:14px;
+                                    ">
+                                        <span aria-hidden="true">🛵</span>
+                                    </span>
+
+                                    <div style="min-width:0;flex:1;">
                                         <div style="font-size:8px;color:#929292;font-weight:800;letter-spacing:.6px;margin-bottom:5px;">
                                             ASSIGNED DRIVER
-                                        </div> -->
+                                        </div>
 
-                                        <!-- <div style="margin-top:3px;padding:4px 7px;background:#eceff3;border:1px solid #d8dee8;border-radius:7px;min-height:28px;">
+                                        <div style="margin-top:3px;padding:4px 7px;background:#eceff3;border:1px solid #d8dee8;border-radius:7px;min-height:28px;">
                                             <field name="delivery_employee_id"
                                                    widget="many2one"
                                                    options="{'no_create': True, 'no_open': True}"
                                                    placeholder="Select / type driver name"
                                                    class="oe_inline"/>
-                                        </div> -->
+                                        </div>
 
                                         <!--button name="action_open_delivery_driver_wizard"
                                                 type="object"
@@ -1075,7 +1075,7 @@
 
                                     <span style="color:#b18b45;font-size:15px;" aria-hidden="true">▣</span>
                                 </div>
-                            </div>
+                            </div> -->
 
 
                             <!-- ADDRESS -->
