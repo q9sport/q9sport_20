@@ -42,6 +42,23 @@ class HrEmployee(models.Model):
         string="Failed Orders",
         compute="_compute_delivery_statistics",
     )
+    delivery_details_visible = fields.Boolean (
+        string="Delivery Details Visible" ,
+        default=False ,
+        copy=False ,
+    )
+
+    def action_toggle_delivery_details(self) :
+        self.ensure_one ()
+
+        self.write ( {
+            'delivery_details_visible' : not self.delivery_details_visible
+        } )
+
+        return {
+            'type' : 'ir.actions.client' ,
+            'tag' : 'reload' ,
+        }
 
     @api.depends(
         "delivery_order_ids",
