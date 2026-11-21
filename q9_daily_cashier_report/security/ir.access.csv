@@ -1,2 +1,0 @@
-id,name,model_id,group_id/id,operation,domain
-access_q9_daily_cashier_wizard,Q9 Daily Cashier Wizard,q9.daily.cashier.wizard,point_of_sale.group_pos_user,crud,
