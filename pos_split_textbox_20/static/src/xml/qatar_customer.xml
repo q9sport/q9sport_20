@@ -17,17 +17,17 @@
                         </span>
                         <div>
                             <strong>
-                                بيانات العميل والتوصيل
+                                Customer &amp; Delivery Information
                                 <span class="o_qatar_en_subtitle">
                                     Customer &amp; Delivery
                                 </span>
                             </strong>
                             <small>
-                                أدخل رقم الهاتف أولاً لتحميل بيانات العميل تلقائياً
+                                Enter the phone number first to automatically load customer details.
                             </small>
                         </div>
                     </div>
-                    <span class="o_qatar_required_hint">* مطلوب</span>
+                    <span class="o_qatar_required_hint">* Required</span>
                 </div>
 
                 <div class="o_qatar_inline_grid">
@@ -35,7 +35,7 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-phone"/>
-                            Phone / رقم الهاتف <b>*</b>
+                            Phone <b>*</b>
                         </span>
                         <input type="tel"
                                autocomplete="tel"
@@ -49,12 +49,11 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-user"/>
-                            اسم العميل <b>*</b>
+                            Customer Name <b>*</b>
                         </span>
                         <input type="text"
                                autocomplete="name"
-                               placeholder="اسم العميل"
-                               dir="rtl"
+                               placeholder="Customer Name"
                                t-att-value="this.getQatarCustomerValue('name')"
                                t-on-input="(ev) => this.onQatarCustomerInput('name', ev)"/>
                     </label>
@@ -62,11 +61,11 @@
                     <label class="o_qatar_field o_qatar_address_field">
                         <span>
                             <i class="fa fa-map-marker"/>
-                            Address / العنوان
+                            Address
                         </span>
                         <input type="text"
                                autocomplete="street-address"
-                               placeholder="Address"
+                               placeholder="Enter Address"
                                dir="auto"
                                t-att-value="this.getQatarCustomerValue('street')"
                                t-on-input="(ev) => this.onQatarCustomerInput('street', ev)"/>
@@ -75,7 +74,7 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-calendar"/>
-                            Date of Birth / تاريخ الميلاد
+                            Date of Birth
                         </span>
                         <input type="date"
                                autocomplete="bday"
@@ -86,7 +85,7 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-map"/>
-                            Zone No / رقم المنطقة <b>*</b>
+                            Zone No <b>*</b>
                         </span>
                         <input type="text"
                                inputmode="numeric"
@@ -98,7 +97,7 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-road"/>
-                            Street No / رقم الشارع <b>*</b>
+                            Street No <b>*</b>
                         </span>
                         <input type="text"
                                inputmode="numeric"
@@ -110,7 +109,7 @@
                     <label class="o_qatar_field">
                         <span>
                             <i class="fa fa-building"/>
-                            Building No / رقم المبنى <b>*</b>
+                            Building No <b>*</b>
                         </span>
                         <input type="text"
                                inputmode="numeric"
@@ -126,12 +125,11 @@
                     <div class="o_qatar_inline_gps_text">
                         <strong>
                             <i class="fa fa-map-marker"/>
-                            الموقع الجغرافي
+                            GPS Location
                         </strong>
 
                         <small class="o_qatar_arabic_location"
-                               t-if="this.getQatarCustomerValue('location_description_ar')"
-                               dir="rtl">
+                               t-if="this.getQatarCustomerValue('location_description_ar')">
                             <t t-out="this.getQatarCustomerValue('location_description_ar')"/>
                         </small>
 
@@ -141,7 +139,7 @@
                         </small>
 
                         <small t-else="">
-                            حدد الموقع الفعلي للمبنى باستخدام أرقام العنوان
+                            Enter the address details to identify the exact building location.
                         </small>
                     </div>
 
@@ -155,11 +153,11 @@
                             <i class="fa fa-location-arrow"/>
 
                             <t t-if="this.qatarCustomer.resolvingAddress">
-                                جارٍ البحث عن المبنى…
+                                Searching for building...
                             </t>
 
                             <t t-else="">
-                                تحقق من العنوان وتحديد المبنى
+                                Verify Address &amp; Locate Building
                             </t>
 
                         </button>
@@ -171,7 +169,7 @@
                            rel="noopener noreferrer">
 
                             <i class="fa fa-map"/>
-                            عرض الموقع الفعلي على الخريطة
+                            View Exact Location on Map
 
                         </a>
 
@@ -186,11 +184,11 @@
                     <i class="fa fa-check-circle"/>
 
                     <t t-if="this.qatarCustomer.saving">
-                        جارٍ الحفظ…
+                        Saving...
                     </t>
 
                     <t t-else="">
-                        حفظ بيانات العميل
+                        Save Customer Information
                     </t>
 
                 </button>
