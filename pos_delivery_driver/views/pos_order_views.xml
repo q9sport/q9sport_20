@@ -130,10 +130,14 @@
                                 DELIVERY DRIVER
                             </div>
 
-                            <field name="delivery_employee_id"
-                                   domain="[('active', '=', True), ('is_delivery_driver', '=', True)]"
-                                   options="{'no_create': True, 'no_create_edit': True}"
-                                   placeholder="Choose Delivery Driver"/>
+                            <div style="background:#ffffff !important;border:1px solid #cfd6e2;border-radius:8px;padding:5px 9px;min-height:38px;box-shadow:inset 0 1px 2px rgba(20,33,61,.06);">
+                                <field name="delivery_employee_id"
+                                       domain="[('active', '=', True), ('is_delivery_driver', '=', True)]"
+                                       options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"
+                                       placeholder="Search and select a driver..."
+                                       class="o_delivery_driver_select"
+                                       style="background:#ffffff !important;color:#14213d !important;"/>
+                            </div>
 
                         </div>
 
@@ -143,59 +147,70 @@
 
                 </div>
 
-                <!-- DELIVERY ACTIONS -->
-                <div style="background:#f7f6f2;border:1px solid #e5dfd2;border-radius:11px;padding:12px;margin-bottom:14px;">
-
-                    <div style="font-size:11px;font-weight:900;color:#14213d;margin-bottom:12px;">
-                        <span style="color:#b18b45;" aria-hidden="true">⚡</span>
+                <!-- DELIVERY ACTIONS: DELIVERY STATUS ONLY -->
+                <div style="background:#f7f6f2;border:1px solid #e5dfd2;border-radius:10px;padding:12px;margin-bottom:9px;">
+                    <div style="font-size:11px;font-weight:900;color:#14213d;margin-bottom:10px;">
+                        <span style="color:#b18b45;" aria-hidden="true">🚚</span>
                         DELIVERY ACTIONS
                     </div>
-
-                    <div class="d-flex flex-wrap align-items-center" style="gap:8px;">
-
-                        <button name="action_delivery_start"
-                                type="object"
-                                string="▶  Start Delivery"
-                                class="btn-primary"
-                                invisible="delivery_status != 'assigned'"/>
-
-                        <button name="action_delivery_mark_delivered"
-                                type="object"
-                                string="✓  Mark Delivered"
-                                class="btn-success"
-                                invisible="delivery_status != 'in_delivery'"/>
-
-                        <button name="action_delivery_mark_failed"
-                                type="object"
-                                string="✕  Mark Failed"
-                                class="btn-danger"
-                                invisible="delivery_status not in ['assigned', 'in_delivery']"/>
-
-                        <button name="action_delivery_record_collection"
-                                type="object"
-                                string="💰  Record Collection"
-                                class="btn-primary"
-                                invisible="not is_cash_on_delivery or delivery_collected"/>
-
-                        <button name="action_register_payment"
-                                type="object"
-                                string="▣  Register Invoice Payment"
-                                class="btn-warning"
-                                invisible="not account_move"/>
-
-                        <button name="action_view_delivery_payments"
-                                type="object"
-                                string="▤  View POS Payments"
-                                class="btn-secondary"/>
-
-                        <button name="action_view_delivery_location"
-                                type="object"
-                                string="📍  Open Location"
-                                class="btn-secondary"
-                                invisible="not delivery_latitude or not delivery_longitude"/>
-
+                    <div class="d-flex flex-wrap" style="gap:10px;">
+                        <div style="min-width:145px;flex:1;background:#ffffff;border:1px solid #dce2eb;border-radius:8px;padding:9px;">
+                            <div style="font-size:9px;color:#64748b;font-weight:800;margin-bottom:7px;">START DELIVERY</div>
+                            <button name="action_delivery_start" type="object"
+                                    string="▶  Start Delivery" class="btn btn-primary btn-sm w-100"
+                                    invisible="delivery_status != 'assigned'"/>
+                            <div invisible="delivery_status == 'assigned'" style="font-size:10px;color:#94a3b8;">Not available at this stage</div>
+                        </div>
+                        <div style="min-width:145px;flex:1;background:#ffffff;border:1px solid #dce2eb;border-radius:8px;padding:9px;">
+                            <div style="font-size:9px;color:#64748b;font-weight:800;margin-bottom:7px;">COMPLETE DELIVERY</div>
+                            <button name="action_delivery_mark_delivered" type="object"
+                                    string="✓  Mark Delivered" class="btn btn-success btn-sm w-100"
+                                    invisible="delivery_status != 'in_delivery'"/>
+                            <div invisible="delivery_status == 'in_delivery'" style="font-size:10px;color:#94a3b8;">Available when on road</div>
+                        </div>
+                        <div style="min-width:145px;flex:1;background:#ffffff;border:1px solid #dce2eb;border-radius:8px;padding:9px;">
+                            <div style="font-size:9px;color:#64748b;font-weight:800;margin-bottom:7px;">DELIVERY ISSUE</div>
+                            <button name="action_delivery_mark_failed" type="object"
+                                    string="✕  Mark Failed" class="btn btn-danger btn-sm w-100"
+                                    invisible="delivery_status not in ['assigned', 'in_delivery']"/>
+                            <div invisible="delivery_status in ['assigned', 'in_delivery']" style="font-size:10px;color:#94a3b8;">No active delivery</div>
+                        </div>
                     </div>
+                </div>
 
+                <!-- PAYMENT ACTIONS: KEPT SEPARATE FROM DELIVERY -->
+                <div style="background:#fbf8f0;border:1px solid #eadfc8;border-radius:10px;padding:12px;margin-bottom:9px;">
+                    <div style="font-size:11px;font-weight:900;color:#8d6a2f;margin-bottom:10px;">
+                        <span aria-hidden="true">💳</span> PAYMENT ACTIONS
+                    </div>
+                    <div class="d-flex flex-wrap" style="gap:10px;">
+                        <div style="min-width:170px;flex:1;background:#ffffff;border:1px solid #eadfc8;border-radius:8px;padding:9px;">
+                            <div style="font-size:9px;color:#8d6a2f;font-weight:800;margin-bottom:7px;">INVOICE PAYMENT</div>
+                            <button name="action_register_payment" type="object"
+                                    string="💳  Register Payment" class="btn btn-warning btn-sm w-100"
+                                    confirm="Are you sure you want to register a payment for this invoice?"
+                                    invisible="not account_move"/>
+                            <div invisible="account_move" style="font-size:10px;color:#94a3b8;">No invoice linked</div>
+                        </div>
+                        <div style="min-width:170px;flex:1;background:#ffffff;border:1px solid #eadfc8;border-radius:8px;padding:9px;">
+                            <div style="font-size:9px;color:#8d6a2f;font-weight:800;margin-bottom:7px;">POS PAYMENT HISTORY</div>
+                            <button name="action_view_delivery_payments" type="object"
+                                    string="▤  View POS Payments" class="btn btn-secondary btn-sm w-100"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LOCATION ACTIONS: SEPARATE GROUP -->
+                <div style="background:#f3f6fa;border:1px solid #dce2eb;border-radius:10px;padding:12px;margin-bottom:12px;">
+                    <div style="font-size:11px;font-weight:900;color:#23395b;margin-bottom:8px;">
+                        <span aria-hidden="true">📍</span> LOCATION
+                    </div>
+                    <div style="background:#ffffff;border:1px solid #dce2eb;border-radius:8px;padding:9px;">
+                        <button name="action_view_delivery_location" type="object"
+                                string="📍  Open Delivery Location" class="btn btn-secondary btn-sm w-100"
+                                invisible="not delivery_latitude or not delivery_longitude"/>
+                        <div invisible="delivery_latitude and delivery_longitude" style="font-size:10px;color:#94a3b8;">Delivery coordinates are not available</div>
+                    </div>
                 </div>
 
                 <!-- DETAILS NAVIGATION -->
@@ -258,15 +273,6 @@
                                     <field name="delivery_payment_status"/>
                                 </group>
                             </group>
-
-                            <div style="margin-top:10px;">
-                                <button name="action_delivery_record_collection"
-                                        type="object"
-                                        string="Record Collection"
-                                        icon="fa-money"
-                                        class="btn-primary"
-                                        invisible="not is_cash_on_delivery or delivery_collected"/>
-                            </div>
 
                         </page>
 
@@ -391,12 +397,6 @@
                                 string="✕  Mark Failed"
                                 class="btn-danger"
                                 invisible="delivery_status not in ['assigned', 'in_delivery']"/>
-
-                        <button name="action_delivery_record_collection"
-                                type="object"
-                                string="💰  Record Collection"
-                                class="btn-primary"
-                                invisible="not is_cash_on_delivery or delivery_collected"/>
 
                         <button name="action_register_payment"
                                 type="object"
@@ -1315,24 +1315,7 @@
                                         </button>
                                     </t>
 
-                                    <t t-if="record.is_cash_on_delivery.raw_value and !record.delivery_collected.raw_value">
-                                        <button name="action_delivery_record_collection"
-                                                type="object"
-                                                class="btn btn-sm oe_kanban_action"
-                                                title="Record cash collection"
-                                                style="
-                                                    background:#f7efd9;
-                                                    color:#8d6a2f;
-                                                    border:1px solid #e4c987;
-                                                    border-radius:6px;
-                                                    padding:5px 8px;
-                                                    font-size:9px;
-                                                    font-weight:900;
-                                                ">
-                                            <span class="me-1" aria-hidden="true">💳</span>
-                                            Collect
-                                        </button>
-                                    </t>
+
 
                                     <!-- <button name="action_view_delivery_payments"
                                             type="object"
