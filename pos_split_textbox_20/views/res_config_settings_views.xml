@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_qnas"
+            model="ir.ui.view">
+
+        <field name="name">res.config.settings.view.form.qnas</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+
+                <app name="pos_split_textbox_20"
+                     string="Qatar POS"
+                     groups="base.group_system">
+
+                    <block title="QNAS Geographic Location">
+
+                        <setting string="Enable QNAS Integration"
+                                 help="Enable or disable automatic building location lookup using QNAS.">
+                            <field name="qnas_enabled"/>
+                        </setting>
+
+                        <setting string="QNAS Domain"
+                                 help="Your registered QNAS domain.">
+                            <field name="qnas_domain"
+                                   placeholder="q9sport-q9sport-20.odoo.com"/>
+                        </setting>
+
+                        <setting string="QNAS API Token"
+                                 help="Your QNAS API access token. Keep this token private.">
+                            <field name="qnas_token"
+                                   password="True"
+                                   placeholder="Enter API Token"/>
+                        </setting>
+
+                        <setting string="Building Location"
+                                 help="QNAS retrieves building GPS coordinates using the official Zone, Street and Building numbers.">
+                            <div class="text-muted">
+                                QNAS can return:
+                                <ul>
+                                    <li>GPS Latitude</li>
+                                    <li>GPS Longitude</li>
+                                    <li>Google Maps URL</li>
+                                    <li>Waze URL</li>
+                                </ul>
+                            </div>
+                        </setting>
+
+                    </block>
+                </app>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

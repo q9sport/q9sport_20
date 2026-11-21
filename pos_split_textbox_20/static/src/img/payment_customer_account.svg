@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 104" role="img" aria-label="Online store customer account">
+  <defs>
+    <linearGradient id="shop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#173f72"/><stop offset="1" stop-color="#2879b9"/></linearGradient>
+    <linearGradient id="awning" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc95c"/><stop offset="1" stop-color="#f28b32"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#12304b" flood-opacity=".2"/></filter>
+  </defs>
+  <rect x="5" y="5" width="150" height="94" rx="17" fill="#f1f7fc"/>
+  <g filter="url(#shadow)">
+    <path d="M35 42h90v43H35z" fill="url(#shop)"/>
+    <path d="M29 42 39 20h82l10 22z" fill="url(#awning)"/>
+    <path d="M29 42h110c0 9-7 14-14 14s-13-5-13-14c0 9-7 14-14 14s-14-5-14-14c0 9-7 14-14 14s-14-5-14-14c0 9-7 14-14 14s-13-5-13-14z" fill="#fff"/>
+    <path d="M29 42h22c0 9-7 14-14 14-7 0-8-6-8-14zm44 0h22c0 9-7 14-14 14s-8-6-8-14zm44 0h22c0 8-1 14-8 14-7 0-14-5-14-14z" fill="url(#awning)"/>
+    <rect x="47" y="62" width="27" height="23" rx="3" fill="#d8efff"/>
+    <rect x="84" y="61" width="27" height="24" rx="3" fill="#fff"/>
+    <path d="M90 68h15M90 73h15M90 78h10" stroke="#2a78ad" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="119" cy="76" r="16" fill="#fff" stroke="#2c9b79" stroke-width="3"/>
+    <path d="M112 76h14m-7-7v14" stroke="#2c9b79" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>
