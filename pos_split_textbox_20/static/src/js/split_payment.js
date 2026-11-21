@@ -54,12 +54,13 @@ patch(PaymentScreen.prototype, {
     },
 
     /**
-     * Calculate the change for Cash only.
+     * Calculate the Change for Cash only.
      *
      * Example:
      * Order total = 100
      * Mada = 40
      * Cash = 70
+     * Remaining before Cash = 60
      * Change = 10
      */
     getSplitChange(paymentMethod) {
@@ -70,6 +71,7 @@ patch(PaymentScreen.prototype, {
         const order = this.currentOrder;
         const currency = order.currency;
 
+        // Total entered through this Cash payment method.
         const cashAmount = this.paymentLines
             .filter(
                 (line) =>
@@ -81,6 +83,7 @@ patch(PaymentScreen.prototype, {
                 0
             );
 
+        // Amount allocated to all other payment methods.
         const allocatedByOthers = this.paymentLines
             .filter(
                 (line) =>
@@ -92,11 +95,13 @@ patch(PaymentScreen.prototype, {
                 0
             );
 
+        // Amount still required before receiving Cash.
         const remainingBeforeCash = Math.max(
             0,
             currency.round(order.totalDue - allocatedByOthers)
         );
 
+        // Change = Cash received - remaining amount.
         const change = Math.max(
             0,
             currency.round(cashAmount - remainingBeforeCash)
@@ -110,7 +115,7 @@ patch(PaymentScreen.prototype, {
      *
      * Cash:
      * - Allows an amount greater than the remaining balance.
-     * - Change is calculated by getSplitChange().
+     * - Calculates the Change using getSplitChange().
      *
      * Other payment methods:
      * - Cannot exceed the remaining unallocated balance.
@@ -129,6 +134,8 @@ patch(PaymentScreen.prototype, {
 
         let line = lines[0];
 
+        const isCash = this.isSplitCashMethod(paymentMethod);
+
         // Empty textbox: remove all payment lines for this method.
         if (!rawValue) {
             for (const oldLine of lines) {
@@ -139,6 +146,7 @@ patch(PaymentScreen.prototype, {
 
         let amount = Number(rawValue);
 
+        // Validate the entered amount.
         if (!Number.isFinite(amount) || amount < 0) {
             input.value = this.getSplitAmount(paymentMethod);
 
@@ -167,16 +175,15 @@ patch(PaymentScreen.prototype, {
                 0
             );
 
+        // Maximum amount available for this payment method.
         const maximum = Math.max(
             0,
             currency.round(order.totalDue - allocatedByOthers)
         );
 
-        const isCash = this.isSplitCashMethod(paymentMethod);
-
         /*
          * IMPORTANT:
-         * Only non-cash methods are restricted to the remaining balance.
+         * Only non-cash payment methods are restricted to the remaining balance.
          * Cash is allowed to exceed the remaining balance.
          */
         if (!isCash && amount > maximum) {
@@ -196,11 +203,12 @@ patch(PaymentScreen.prototype, {
         }
 
         /*
-         * For non-cash methods, a zero available balance must not create
-         * a payment line.
+         * For non-cash methods:
+         * A zero available balance must not create a payment line.
          *
-         * Cash is allowed even when maximum is zero, because the entered
-         * amount may represent cash received and returned as change.
+         * For Cash:
+         * Allow entry even if maximum is zero, because the entered amount
+         * may represent cash received and returned as Change.
          */
         if (amount <= 0 || (!isCash && maximum <= 0)) {
             if (line) {
@@ -221,6 +229,7 @@ patch(PaymentScreen.prototype, {
             );
         }
 
+        // Verify that Odoo successfully created the payment line.
         if (!line) {
             input.value = "";
 
@@ -237,4 +246,5 @@ patch(PaymentScreen.prototype, {
 
         input.value = String(amount);
     },
+
 });
