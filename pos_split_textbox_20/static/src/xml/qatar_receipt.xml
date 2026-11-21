@@ -1,18 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<templates id="template" xml:space="preserve">
-    <t t-name="pos_split_textbox_20.QatarCustomerReceipt"
-       t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
-        <xpath expr="//div[hasclass('pos-receipt-order-data')]" position="before">
-            <div t-if="props.data.qatar_customer and (props.data.qatar_customer.name or props.data.qatar_customer.address)"
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Odoo 20 receipt template. This is a backend QWeb view inherited by
+        point_of_sale.pos_order_receipt; it is shared by the Python and JS
+        receipt renderers.
+    -->
+    <template id="qatar_customer_and_cash_receipt"
+              inherit_id="point_of_sale.pos_order_receipt">
+
+        <!-- Qatar customer details, without replacing the standard receipt. -->
+        <xpath expr="//div[@name='partner_info']" position="after">
+            <div t-if="qatar_customer and (qatar_customer.get('name') or qatar_customer.get('address') or qatar_customer.get('phone'))"
                  class="pos-receipt-qatar-customer"
                  style="text-align: left; direction: ltr; margin: 6px 0; padding: 5px 0; border-top: 1px dashed #555; border-bottom: 1px dashed #555; overflow-wrap: anywhere;">
-                <div t-if="props.data.qatar_customer.name" style="font-weight: 700;">
-                    Customer: <t t-esc="props.data.qatar_customer.name"/>
+                <div t-if="qatar_customer.get('name')" style="font-weight: 700;">
+                    Customer: <t t-out="qatar_customer.get('name')"/>
                 </div>
-                <div t-if="props.data.qatar_customer.address">
-                    Address: <t t-esc="props.data.qatar_customer.address"/>
+                <div t-if="qatar_customer.get('phone')">
+                    Phone: <t t-out="qatar_customer.get('phone')"/>
+                </div>
+                <div t-if="qatar_customer.get('address')">
+                    Address: <t t-out="qatar_customer.get('address')"/>
                 </div>
             </div>
         </xpath>
-    </t>
-</templates>
+
+        <!-- Cash Received is informational only and is never a payment line. -->
+        <xpath expr="//t[@t-foreach='payments']" position="after">
+            <tr t-if="order.get('cash_received') and order.get('cash_payment_amount')"
+                class="cash-received-line">
+                <td class="text-start w-70">Cash Received:</td>
+                <td class="text-end w-30 font-monospace"
+                    t-out="order['cash_received_formatted']"/>
+            </tr>
+            <tr t-if="order.get('cash_received') and order.get('cash_payment_amount')"
+                class="text-bold cash-change-line">
+                <td class="text-start w-70"><t t-out="order['cash_change_label']"/>:</td>
+                <td class="text-end w-30 font-monospace"
+                    t-out="order['cash_change_formatted']"/>
+            </tr>
+        </xpath>
+    </template>
+</odoo>

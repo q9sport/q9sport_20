@@ -84,3 +84,13 @@ Replace the entire previous addon folder with this version, upgrade the module, 
 - Receipt fields are added through `export_for_printing`; no `id` property is assigned to reactive POS partner records.
 
 After upgrading, close the POS tab and reopen it with a hard refresh so the updated POS assets are loaded. Test on staging with a newly created customer and an existing customer before production.
+
+
+## V20.0.27 — Cash tender and Odoo 20 receipt renderer
+
+- Keeps the native POS payment line amount as the actual payment amount.
+- Adds a separate informational `cash_received` value on `pos.order`; it is not a `pos.payment` and is not used to calculate accounting or invoice amounts.
+- Shows Cash Received and the calculated Change / Remaining only for cash payment methods.
+- Adds the cash tender details to the Odoo 20 `point_of_sale.pos_order_receipt` renderer.
+- Moves the Qatar receipt extension to the backend QWeb receipt template and supplies the same Qatar/customer and cash fields to the Python and JavaScript receipt data builders.
+- The original Qatar customer editor, QNAS integration, payment artwork, split-payment behavior and SCSS design are retained.
