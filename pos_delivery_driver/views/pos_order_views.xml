@@ -11,7 +11,7 @@
     <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
     <field name="arch" type="xml">
 
-        <xpath expr="//sheet" position="inside">
+        <xpath expr="//sheet" position="before">
 
             <div class="o_delivery_form_dashboard"
                  invisible="not is_delivery_order"
@@ -55,6 +55,24 @@
                         </div>
 
                     </div>
+                </div>
+
+                <!-- SHOW / HIDE ORIGINAL POS ORDER DETAILS -->
+                <div class="d-flex justify-content-end gap-2" style="margin-bottom:12px;">
+                    <button name="action_toggle_delivery_details"
+                            type="object"
+                            string="Show Order Details"
+                            icon="fa-eye"
+                            class="btn btn-sm"
+                            style="background:#d4af6a;color:#14213d;border:1px solid #b18b45;border-radius:7px;font-weight:800;padding:7px 13px;"
+                            invisible="delivery_details_visible"/>
+                    <button name="action_toggle_delivery_details"
+                            type="object"
+                            string="Hide Order Details"
+                            icon="fa-eye-slash"
+                            class="btn btn-sm"
+                            style="background:#edf1f7;color:#23395b;border:1px solid #d7dfeb;border-radius:7px;font-weight:800;padding:7px 13px;"
+                            invisible="not delivery_details_visible"/>
                 </div>
 
                 <!-- DELIVERY STATUS -->
@@ -273,11 +291,17 @@
 
                 </div>
 
-                <!-- HIDDEN TECHNICAL FIELD -->
+                <!-- HIDDEN TECHNICAL FIELDS -->
                 <field name="is_delivery_order" invisible="1"/>
+                <field name="delivery_details_visible" invisible="1"/>
 
             </div>
 
+        </xpath>
+
+        <!-- Hide the standard POS order sheet until the user asks to show it. -->
+        <xpath expr="//sheet" position="attributes">
+            <attribute name="invisible">is_delivery_order and not delivery_details_visible</attribute>
         </xpath>
 
     </field>
