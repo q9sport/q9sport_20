@@ -5,13 +5,13 @@
     <field name="model">q9.daily.cashier.wizard</field>
     <field name="report_type">qweb-pdf</field>
     <field name="report_name">q9_daily_cashier_report.daily_cashier_template</field>
-    <field name="report_file">q9_daily_cashier_report.daily_cashier_template</field>
     <field name="print_report_name">'Daily_Cashier_%s' % (object.date_start)</field>
   </record>
   <template id="daily_cashier_template">
     <t t-call="web.html_container">
-      <t t-set="data" t-value="doc._report_data()"/>
-      <t t-call="web.external_layout">
+      <t t-foreach="docs" t-as="doc">
+        <t t-set="data" t-value="doc._report_data()"/>
+        <t t-call="web.external_layout">
         <div class="page">
           <h2>Daily Cashier Report</h2>
           <p><b>Store(s):</b> <span t-esc="', '.join(doc.config_ids.mapped('display_name')) or 'All POS'"/> |
@@ -41,7 +41,7 @@
             <thead><tr><th>Account Code</th><th>Account Name</th><th>Qty</th><th>Total Amount</th></tr></thead>
             <tbody>
               <tr t-foreach="data['credit_accounts']" t-as="a"><td t-esc="a['code']"/><td t-esc="a['name']"/><td t-esc="a['qty']"/><td class="text-end"><span t-esc="a['amount']" t-options="{'widget':'monetary','display_currency':data['currency']}"/></td></tr>
-              <tr class="fw-bold"><td colspan="2">TOTAL</td><td t-esc="sum(a['qty'] for a in data['credit_accounts'])"/><td class="text-end"><span t-esc="sum(a['amount'] for a in data['credit_accounts'])" t-options="{'widget':'monetary','display_currency':data['currency']}"/></td></tr>
+              <tr class="fw-bold"><td colspan="2">TOTAL</td><td t-esc="data['credit_qty_total']"/><td class="text-end"><span t-esc="data['credit_amount_total']" t-options="{'widget':'monetary','display_currency':data['currency']}"/></td></tr>
             </tbody>
           </table>
           <h3>Daily Items Report</h3>
@@ -49,7 +49,7 @@
             <thead><tr><th>Item Code</th><th>Item Name</th><th>Qty Sold</th><th>Total Price</th></tr></thead>
             <tbody>
               <tr t-foreach="data['products']" t-as="p"><td t-esc="p['code']"/><td t-esc="p['name']"/><td t-esc="p['qty']"/><td class="text-end"><span t-esc="p['total']" t-options="{'widget':'monetary','display_currency':data['currency']}"/></td></tr>
-              <tr class="fw-bold"><td colspan="2">TOTAL</td><td t-esc="sum(p['qty'] for p in data['products'])"/><td class="text-end"><span t-esc="sum(p['total'] for p in data['products'])" t-options="{'widget':'monetary','display_currency':data['currency']}"/></td></tr>
+              <tr class="fw-bold"><td colspan="2">TOTAL</td><td t-esc="data['products_qty_total']"/><td class="text-end"><span t-esc="data['products_amount_total']" t-options="{'widget':'monetary','display_currency':data['currency']}"/></td></tr>
             </tbody>
           </table>
           <h3>Daily Return Report</h3>
@@ -57,7 +57,7 @@
             <thead><tr><th>Item Code</th><th>Item Name</th><th>Qty Returned</th><th>Total Refund</th></tr></thead>
             <tbody>
               <tr t-foreach="data['returns']" t-as="r"><td t-esc="r['code']"/><td t-esc="r['name']"/><td t-esc="r['returned_qty']"/><td class="text-end"><span t-esc="r['refund']" t-options="{'widget':'monetary','display_currency':data['currency']}"/></td></tr>
-              <tr class="fw-bold"><td colspan="2">TOTAL</td><td t-esc="sum(r['returned_qty'] for r in data['returns'])"/><td class="text-end"><span t-esc="sum(r['refund'] for r in data['returns'])" t-options="{'widget':'monetary','display_currency':data['currency']}"/></td></tr>
+              <tr class="fw-bold"><td colspan="2">TOTAL</td><td t-esc="data['returns_qty_total']"/><td class="text-end"><span t-esc="data['returns_amount_total']" t-options="{'widget':'monetary','display_currency':data['currency']}"/></td></tr>
             </tbody>
           </table>
           <h3>Salesman Performance Report</h3>
@@ -90,6 +90,7 @@
             <tbody><tr t-foreach="data['top_items']" t-as="t"><td t-esc="t['code']"/><td t-esc="t['name']"/><td t-esc="t['qty']"/><td t-esc="t['total']"/><td t-esc="t['total']/t['qty'] if t['qty'] else 0"/></tr></tbody>
           </table>
         </div>
+        </t>
       </t>
     </t>
   </template>
