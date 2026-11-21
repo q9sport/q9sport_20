@@ -4,312 +4,416 @@
     <!-- ===================================================== -->
     <!-- POS ORDER FORM -->
     <!-- ===================================================== -->
-   <record id="view_pos_order_form_delivery_driver" model="ir.ui.view">
-        <field name="name">pos.order.form.delivery.driver</field>
-        <field name="model">pos.order</field>
-        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
-        <field name="arch" type="xml">
 
-            <!-- DELIVERY DASHBOARD -->
-            <xpath expr="//sheet" position="before">
+<record id="view_pos_order_form_delivery_driver" model="ir.ui.view">
+    <field name="name">pos.order.form.delivery.driver</field>
+    <field name="model">pos.order</field>
+    <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+    <field name="arch" type="xml">
 
-                <div class="o_delivery_form_dashboard"
-                     invisible="not is_delivery_order"
-                     style="background:#f5f5f2;padding:16px;border:1px solid #e5dfd2;border-radius:14px;margin-top:15px;">
+        <!-- Hidden field used by the toggle -->
+        <xpath expr="//sheet" position="inside">
+            <field name="is_delivery_order" invisible="1"/>
+            <field name="delivery_details_visible" invisible="1"/>
+        </xpath>
 
-                    <!-- TECHNICAL FIELDS -->
-                    <field name="is_delivery_order" invisible="1"/>
-                    <field name="delivery_details_visible" invisible="1"/>
+        <!-- DELIVERY SMART BUTTON -->
+        <xpath expr="//div[@name='button_box']" position="inside">
 
-                    <!-- HEADER -->
-                    <div style="background:linear-gradient(120deg,#101d36,#263e63);padding:20px;border-radius:12px;color:white;margin-bottom:14px;">
+            <button name="action_toggle_delivery_details"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-truck"
+                    invisible="not is_delivery_order or delivery_details_visible">
 
-                        <div class="d-flex align-items-center justify-content-between flex-wrap">
+                <div class="o_stat_info">
+                    <span class="o_stat_text">Delivery Details</span>
+                    <span class="o_stat_text text-muted">Show Details</span>
+                </div>
+            </button>
 
-                            <div class="d-flex align-items-center gap-3">
+            <button name="action_toggle_delivery_details"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-eye-slash"
+                    invisible="not is_delivery_order or not delivery_details_visible">
 
-                                <span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:#d4af6a;color:#14213d;border-radius:11px;font-size:23px;">
-                                    <i class="fa fa-truck"/>
-                                </span>
+                <div class="o_stat_info">
+                    <span class="o_stat_text">Hide Details</span>
+                    <span class="o_stat_text text-muted">Close Panel</span>
+                </div>
+            </button>
 
-                                <div>
-                                    <div style="font-size:10px;letter-spacing:1.5px;color:#e7d5ae;font-weight:900;">
-                                        DELIVERY MANAGEMENT
-                                    </div>
+        </xpath>
 
-                                    <div style="font-size:20px;font-weight:900;color:white;margin-top:4px;">
-                                        <field name="pos_reference" readonly="1"/>
-                                    </div>
+        <!-- DELIVERY DASHBOARD -->
+        <xpath expr="//sheet" position="inside">
 
-                                    <div style="font-size:11px;color:#e7d5ae;">
-                                        <field name="name" readonly="1"/>
-                                    </div>
-                                </div>
+            <div class="o_delivery_form_dashboard"
+                 invisible="not is_delivery_order or not delivery_details_visible"
+                 style="
+                    margin-top:18px;
+                    padding:18px;
+                    background:#f3f5f8;
+                    border:1px solid #dce2e9;
+                    border-radius:14px;
+                    color:#263445;
+                 ">
 
+                <!-- HEADER -->
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:space-between;
+                    flex-wrap:wrap;
+                    gap:15px;
+                    padding:19px;
+                    margin-bottom:15px;
+                    background:#24364b;
+                    color:#ffffff;
+                    border-radius:12px;
+                ">
+
+                    <div style="display:flex;align-items:center;gap:13px;">
+
+                        <span style="
+                            width:48px;
+                            height:48px;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            background:#e8edf3;
+                            border-radius:12px;
+                        ">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="27" height="27"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="#24364b"
+                                 stroke-width="1.8"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
+                                <path d="M3 7h11v11H3z"/>
+                                <path d="M14 11h4l3 3v4h-7z"/>
+                                <circle cx="7.5" cy="18" r="2"/>
+                                <circle cx="17.5" cy="18" r="2"/>
+                            </svg>
+                        </span>
+
+                        <div>
+                            <div style="
+                                font-size:11px;
+                                font-weight:800;
+                                letter-spacing:1.3px;
+                                color:#b9c8d8;
+                            ">
+                                DELIVERY MANAGEMENT
                             </div>
 
-                            <div style="text-align:right;">
-                                <div style="font-size:10px;color:#e7d5ae;font-weight:800;">
-                                    ORDER TOTAL
-                                </div>
-
-                                <div style="font-size:23px;color:white;font-weight:900;">
-                                    <field name="amount_total" readonly="1"/>
-                                </div>
+                            <div style="
+                                font-size:20px;
+                                font-weight:800;
+                                margin-top:4px;
+                                color:#ffffff;
+                            ">
+                                <field name="pos_reference" readonly="1"/>
                             </div>
 
-                        </div>
-                    </div>
-
-                    <!-- SHOW / HIDE ORIGINAL DETAILS -->
-                    <div class="d-flex justify-content-end gap-2"
-                         style="margin-bottom:12px;">
-
-                        <button name="action_toggle_delivery_details"
-                                type="object"
-                                string="Show Order Details"
-                                icon="fa-eye"
-                                class="btn btn-sm"
-                                style="background:#d4af6a;color:#14213d;border:1px solid #b18b45;border-radius:7px;font-weight:800;padding:7px 13px;"
-                                invisible="delivery_details_visible"/>
-
-                        <button name="action_toggle_delivery_details"
-                                type="object"
-                                string="Hide Order Details"
-                                icon="fa-eye-slash"
-                                class="btn btn-sm"
-                                style="background:#edf1f7;color:#23395b;border:1px solid #d7dfeb;border-radius:7px;font-weight:800;padding:7px 13px;"
-                                invisible="not delivery_details_visible"/>
-
-                    </div>
-
-                    <!-- DELIVERY STATUS -->
-                    <div style="background:white;padding:15px;border:1px solid #e5dfd2;border-radius:11px;margin-bottom:12px;">
-
-                        <div style="font-size:11px;font-weight:900;color:#14213d;margin-bottom:10px;">
-                            <i class="fa fa-route" style="color:#b18b45;"/>
-                            DELIVERY PROGRESS
-                        </div>
-
-                        <field name="delivery_status"
-                               widget="badge"
-                               readonly="1"/>
-
-                    </div>
-
-                    <!-- DRIVER -->
-                    <div style="background:#f7f5f0;border:1px solid #e5dfd2;border-radius:11px;padding:16px;margin-bottom:12px;">
-
-                        <div class="d-flex align-items-center gap-3">
-
-                            <span style="width:46px;height:46px;min-width:46px;display:flex;align-items:center;justify-content:center;background:#14213d;color:#d4af6a;border-radius:50%;font-size:21px;">
-                                <i class="fa fa-motorcycle"/>
-                            </span>
-
-                            <div style="flex:1;min-width:0;">
-
-                                <div style="font-size:10px;color:#929292;font-weight:900;letter-spacing:.8px;margin-bottom:6px;">
-                                    DELIVERY DRIVER
-                                </div>
-
-                                <field name="delivery_employee_id"
-                                       domain="[('active', '=', True), ('is_delivery_driver', '=', True)]"
-                                       options="{'no_create': True, 'no_create_edit': True}"
-                                       placeholder="Choose Delivery Driver"/>
-
+                            <div style="font-size:12px;color:#d2dce7;">
+                                <field name="name" readonly="1"/>
                             </div>
-
-                            <i class="fa fa-id-badge" style="color:#b18b45;font-size:19px;"/>
-
                         </div>
-
                     </div>
 
-                    <!-- DELIVERY ACTIONS -->
-                    <div style="background:white;border:1px solid #e5dfd2;border-radius:11px;padding:15px;margin-bottom:14px;">
-
-                        <div style="font-size:11px;font-weight:900;color:#14213d;margin-bottom:12px;">
-                            <i class="fa fa-bolt" style="color:#b18b45;"/>
-                            DELIVERY ACTIONS
+                    <div style="text-align:right;">
+                        <div style="
+                            font-size:10px;
+                            font-weight:800;
+                            color:#b9c8d8;
+                            letter-spacing:1px;
+                        ">
+                            ORDER TOTAL
                         </div>
 
-                        <div class="d-flex flex-wrap gap-2">
-
-                            <button name="action_delivery_start"
-                                    type="object"
-                                    string="Start Delivery"
-                                    icon="fa-play"
-                                    class="btn-primary"
-                                    invisible="delivery_status != 'assigned'"/>
-
-                            <button name="action_delivery_mark_delivered"
-                                    type="object"
-                                    string="Mark Delivered"
-                                    icon="fa-check-circle"
-                                    class="btn-success"
-                                    invisible="delivery_status != 'in_delivery'"/>
-
-                            <button name="action_delivery_mark_failed"
-                                    type="object"
-                                    string="Mark Failed"
-                                    icon="fa-times-circle"
-                                    class="btn-danger"
-                                    invisible="delivery_status not in ['assigned', 'in_delivery']"/>
-
-                            <button name="action_delivery_record_collection"
-                                    type="object"
-                                    string="Record Collection"
-                                    icon="fa-money"
-                                    class="btn-primary"
-                                    invisible="not is_cash_on_delivery or delivery_collected"/>
-
-                            <button name="action_register_payment"
-                                    type="object"
-                                    string="Register Invoice Payment"
-                                    icon="fa-credit-card"
-                                    class="btn-warning"
-                                    invisible="not account_move"/>
-
-                            <button name="action_view_delivery_payments"
-                                    type="object"
-                                    string="View POS Payments"
-                                    icon="fa-credit-card"
-                                    class="btn-secondary"/>
-
-                            <button name="action_view_delivery_location"
-                                    type="object"
-                                    string="Open Location"
-                                    icon="fa-map-marker"
-                                    class="btn-secondary"
-                                    invisible="not delivery_latitude or not delivery_longitude"/>
-
+                        <div style="
+                            font-size:24px;
+                            font-weight:900;
+                            color:#ffffff;
+                        ">
+                            <field name="amount_total" readonly="1"/>
                         </div>
+                    </div>
+                </div>
 
+                <!-- DELIVERY PROGRESS -->
+                <div style="
+                    padding:17px;
+                    margin-bottom:14px;
+                    background:#ffffff;
+                    border:1px solid #dce2e9;
+                    border-radius:11px;
+                ">
+
+                    <div style="
+                        display:flex;
+                        align-items:center;
+                        gap:9px;
+                        margin-bottom:15px;
+                        color:#24364b;
+                        font-size:12px;
+                        font-weight:900;
+                    ">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="19" height="19"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="#52769a"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                        DELIVERY PROGRESS
                     </div>
 
-                    <!-- ORDER DETAILS -->
-                    <div style="background:white;border:1px solid #e5dfd2;border-radius:11px;padding:15px;margin-bottom:12px;">
+                    <field name="delivery_status"
+                           widget="statusbar"
+                           statusbar_visible="pending,assigned,in_delivery,delivered"
+                           readonly="1"/>
 
-                        <div style="font-size:11px;font-weight:900;color:#14213d;margin-bottom:12px;">
-                            <i class="fa fa-th-large" style="color:#b18b45;"/>
-                            ORDER DETAILS
+                </div>
+
+                <!-- DRIVER CARD -->
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:14px;
+                    padding:17px;
+                    margin-bottom:14px;
+                    background:#ffffff;
+                    border:1px solid #dce2e9;
+                    border-radius:11px;
+                ">
+
+                    <span style="
+                        width:46px;
+                        height:46px;
+                        min-width:46px;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        border-radius:12px;
+                        background:#eaf0f6;
+                    ">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="25" height="25"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="#365b7e"
+                             stroke-width="1.8"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <circle cx="12" cy="7" r="4"/>
+                            <path d="M5 21v-2a7 7 0 0 1 14 0v2"/>
+                            <path d="M19 8h3"/>
+                        </svg>
+                    </span>
+
+                    <div style="flex:1;min-width:0;">
+                        <div style="
+                            font-size:10px;
+                            font-weight:900;
+                            color:#758397;
+                            letter-spacing:1px;
+                            margin-bottom:7px;
+                        ">
+                            DELIVERY DRIVER
                         </div>
 
-                        <notebook>
-
-                            <!-- CUSTOMER -->
-                            <page string="Customer Details"
-                                  name="delivery_customer_details">
-
-                                <group>
-                                    <group string="Customer">
-                                        <field name="partner_id"/>
-                                    </group>
-                                </group>
-
-                            </page>
-
-                            <!-- LOCATION -->
-                            <page string="Location"
-                                  name="delivery_location_details">
-
-                                <group>
-                                    <group string="Customer Location">
-                                        <field name="delivery_customer_address"/>
-                                        <field name="delivery_latitude"/>
-                                        <field name="delivery_longitude"/>
-                                        <field name="delivery_location_url" widget="url"/>
-                                    </group>
-                                </group>
-
-                                <div class="mt-2">
-                                    <button name="action_view_delivery_location"
-                                            type="object"
-                                            string="Open Google Maps"
-                                            icon="fa-map-marker"
-                                            class="btn-primary"
-                                            invisible="not delivery_latitude or not delivery_longitude"/>
-                                </div>
-
-                            </page>
-
-                            <!-- PAYMENT -->
-                            <page string="Payment Details"
-                                  name="delivery_payment_details">
-
-                                <group>
-                                    <group string="Payment Collection">
-                                        <field name="is_cash_on_delivery"/>
-                                        <field name="delivery_collected"/>
-                                        <field name="delivery_collected_amount"
-                                               invisible="not is_cash_on_delivery"/>
-                                        <field name="delivery_payment_status"/>
-                                    </group>
-                                </group>
-
-                                <div class="mt-2">
-                                    <button name="action_delivery_record_collection"
-                                            type="object"
-                                            string="Record Collection"
-                                            icon="fa-money"
-                                            class="btn-primary"
-                                            invisible="not is_cash_on_delivery or delivery_collected"/>
-                                </div>
-
-                            </page>
-
-                            <!-- INVOICE -->
-                            <page string="Invoice Details"
-                                  name="delivery_invoice_details">
-
-                                <group>
-                                    <group string="Invoice Information">
-                                        <field name="account_move" string="Invoice"/>
-                                        <field name="account_move_payment_state"/>
-                                    </group>
-                                </group>
-
-                                <div class="mt-2">
-                                    <button name="action_register_payment"
-                                            type="object"
-                                            string="Register Invoice Payment"
-                                            icon="fa-credit-card"
-                                            class="btn-primary"
-                                            invisible="not account_move"/>
-                                </div>
-
-                            </page>
-
-                            <!-- DELIVERY DATES -->
-                            <page string="Delivery Dates"
-                                  name="delivery_dates_details">
-
-                                <group>
-                                    <group string="Delivery Schedule">
-                                        <field name="delivery_assigned_date"/>
-                                        <field name="delivery_date"/>
-                                    </group>
-                                </group>
-
-                            </page>
-
-                        </notebook>
-
+                        <field name="delivery_employee_id"
+                               domain="[('active', '=', True), ('is_delivery_driver', '=', True)]"
+                               options="{'no_create': True, 'no_create_edit': True}"
+                               placeholder="Select delivery driver"/>
                     </div>
 
                 </div>
 
-            </xpath>
+                <!-- ACTIONS -->
+                <div style="
+                    padding:16px;
+                    margin-bottom:14px;
+                    background:#ffffff;
+                    border:1px solid #dce2e9;
+                    border-radius:11px;
+                ">
+
+                    <div style="
+                        font-size:12px;
+                        font-weight:900;
+                        color:#24364b;
+                        margin-bottom:13px;
+                    ">
+                        DELIVERY ACTIONS
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+
+                        <button name="action_delivery_start"
+                                type="object"
+                                string="Start Delivery"
+                                class="btn btn-primary"
+                                invisible="delivery_status != 'assigned'"/>
+
+                        <button name="action_delivery_mark_delivered"
+                                type="object"
+                                string="Mark Delivered"
+                                class="btn btn-success"
+                                invisible="delivery_status != 'in_delivery'"/>
+
+                        <button name="action_delivery_mark_failed"
+                                type="object"
+                                string="Mark Failed"
+                                class="btn btn-danger"
+                                invisible="delivery_status not in ['assigned', 'in_delivery']"/>
+
+                        <button name="action_delivery_record_collection"
+                                type="object"
+                                string="Record Collection"
+                                class="btn btn-warning"
+                                invisible="not is_cash_on_delivery or delivery_collected"/>
+
+                        <button name="action_register_payment"
+                                type="object"
+                                string="Register Invoice Payment"
+                                class="btn btn-primary"
+                                invisible="not account_move"/>
+
+                        <button name="action_view_delivery_payments"
+                                type="object"
+                                string="View POS Payments"
+                                class="btn btn-secondary"/>
+
+                        <button name="action_view_delivery_location"
+                                type="object"
+                                string="Open Location"
+                                class="btn btn-secondary"
+                                invisible="not delivery_latitude or not delivery_longitude"/>
+
+                    </div>
+                </div>
+
+                <!-- DETAILS -->
+                <div style="
+                    padding:16px;
+                    background:#ffffff;
+                    border:1px solid #dce2e9;
+                    border-radius:11px;
+                ">
+
+                    <div style="
+                        font-size:12px;
+                        font-weight:900;
+                        color:#24364b;
+                        margin-bottom:12px;
+                    ">
+                        ORDER DETAILS
+                    </div>
+
+                    <notebook>
+
+                        <page string="Customer Details"
+                              name="delivery_customer_details">
+                            <group>
+                                <group string="Customer">
+                                    <field name="partner_id"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Location"
+                              name="delivery_location_details">
+                            <group>
+                                <group string="Customer Location">
+                                    <field name="delivery_customer_address"/>
+                                    <field name="delivery_latitude"/>
+                                    <field name="delivery_longitude"/>
+                                    <field name="delivery_location_url" widget="url"/>
+                                </group>
+                            </group>
+
+                            <footer>
+                                <button name="action_view_delivery_location"
+                                        type="object"
+                                        string="Open Google Maps"
+                                        class="btn btn-primary"
+                                        invisible="not delivery_latitude or not delivery_longitude"/>
+                            </footer>
+                        </page>
+
+                        <page string="Payment Details"
+                              name="delivery_payment_details">
+                            <group>
+                                <group string="Payment Collection">
+                                    <field name="is_cash_on_delivery"/>
+                                    <field name="delivery_collected"/>
+                                    <field name="delivery_collected_amount"
+                                           invisible="not is_cash_on_delivery"/>
+                                    <field name="delivery_payment_status"/>
+                                </group>
+                            </group>
+
+                            <button name="action_delivery_record_collection"
+                                    type="object"
+                                    string="Record Collection"
+                                    class="btn btn-primary"
+                                    invisible="not is_cash_on_delivery or delivery_collected"/>
+                        </page>
+
+                        <page string="Invoice Details"
+                              name="delivery_invoice_details">
+                            <group>
+                                <group string="Invoice Information">
+                                    <field name="account_move" string="Invoice"/>
+                                    <field name="account_move_payment_state"/>
+                                </group>
+                            </group>
+
+                            <button name="action_register_payment"
+                                    type="object"
+                                    string="Register Invoice Payment"
+                                    class="btn btn-primary"
+                                    invisible="not account_move"/>
+                        </page>
+
+                        <page string="Delivery Dates"
+                              name="delivery_dates_details">
+                            <group>
+                                <group string="Delivery Schedule">
+                                    <field name="delivery_assigned_date"/>
+                                    <field name="delivery_date"/>
+                                </group>
+                            </group>
+                        </page>
+
+                    </notebook>
+                </div>
+
+            </div>
+
+        </xpath>
+
+    </field>
+</record>
+
 
             <!-- HIDE ORIGINAL POS SHEET -->
-            <xpath expr="//sheet" position="attributes">
+            <!-- <xpath expr="//sheet" position="attributes">
                 <attribute name="invisible">
                     is_delivery_order and not delivery_details_visible
                 </attribute>
-            </xpath>
+            </xpath> -->
 
-        </field>
-    </record>
 
 
 
