@@ -1,12 +1,11 @@
 {
-    "name": "Q9 Daily Cashier Report",
-    "version": "20.0.1.0.0",
+    "name": "Q9 POS Sales Details Extended",
+    "version": "20.0.2.0.0",
     "category": "Point of Sale",
-    "summary": "Daily cashier report with PDF and Excel exports",
+    "summary": "Extend the native POS Sales Details report with cashier report sections",
     "depends": ["point_of_sale"],
     "data": [
-        "wizard/daily_cashier_wizard_views.xml",
-        "report/daily_cashier_report.xml",
+        "report/sales_details_inherit.xml",
     ],
     "installable": True,
     "application": False,

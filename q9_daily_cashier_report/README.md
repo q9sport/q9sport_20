@@ -1,11 +1,13 @@
-# Q9 Daily Cashier Report — Odoo 20
+# Q9 POS Sales Details Extended (Odoo 20)
 
-Adds a Daily Cashier report wizard with PDF and XLSX exports, date/POS/cashier filters, and sections modeled after the uploaded WEBZ report.
+This addon extends the native `point_of_sale.report_saledetails` QWeb report. It does not create a second cashier wizard, report action, menu, or security/access CSV.
 
-Sections: payment-method summary, collections, credit accounts (credit-payment customers), items, returns, cashier performance, delivery performance (only if a recognized delivery-driver field exists), hourly totals, POS-by-hour, top-selling items.
+## Install / Upgrade
+1. Copy `q9_daily_cashier_report` into the custom addons directory (replace the old addon folder).
+2. Restart/update Apps List and upgrade `Q9 POS Sales Details Extended` / technical module `q9_daily_cashier_report`.
+3. Open Point of Sale → Reporting → Sales Details and print the standard report.
 
-## Install
-Copy this addon into the custom addons directory, push to Odoo.sh, update Apps list, install `Q9 Daily Cashier Report`.
+The extra sections use the native `pos.details.wizard` record and search POS orders for its date/config/session filters. The addon intentionally contains no `security` directory and no custom ACLs.
 
-## Important validation notes
-This is a first implementation based on standard Odoo POS models and common custom delivery-field names. It has not been run against the Q9SPORT database. Credit-account rows are inferred from credit-like payment method names and the order partner. Driver performance requires a delivery-driver field on `pos.order` with one of the recognized names; if Q9SPORT uses a different custom field, update the candidate list. Hourly channel groups are POS configurations, not external marketplace channels unless those are configured as separate POSs.
+## Notes
+The module was statically checked only; it has not been installed or executed against the target Q9SPORT Odoo.sh database. The Odoo 20 native QWeb template external ID is expected to be `point_of_sale.report_saledetails`; confirm against the exact deployed build if Odoo reports an XML ID inheritance error.
