@@ -12,13 +12,3 @@ class PosOrder(models.Model):
     customer_gps_longitude = fields.Char(related="partner_id.gps_longitude", string="GPS Longitude", readonly=True, store=True)
 
     customer_location_description_ar = fields.Char(related="partner_id.location_description_ar", string="Geographic Location (Arabic)", readonly=True, store=True)
-
-
-    # Cash tendered by the customer. This is informational receipt data only:
-    # it is deliberately not a pos.payment and is not used by accounting.
-    cash_received = fields.Monetary(
-        string="Cash Received",
-        currency_field="currency_id",
-        default=0.0,
-        copy=False,
-    )

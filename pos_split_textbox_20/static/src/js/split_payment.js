@@ -15,99 +15,6 @@ patch(PaymentScreen.prototype, {
         return amount ? String(amount) : "";
     },
 
-
-    /**
-     * Cash Received is informational only. The native POS payment line
-     * continues to contain the actual allocated Amount.
-     */
-    getCashReceived(paymentMethod) {
-        if (paymentMethod && paymentMethod.type !== "cash") {
-            return 0;
-        }
-        return Number(
-            this.currentOrder.cash_received ??
-            this.currentOrder.raw?.cash_received ??
-            0
-        ) || 0;
-    },
-
-    setCashReceived(paymentMethod, event) {
-        const input = event.currentTarget;
-        const rawValue = String(input.value ?? "").trim();
-
-        if (paymentMethod.type !== "cash") {
-            input.value = "";
-            return;
-        }
-
-        if (!rawValue) {
-            this.currentOrder.cash_received = 0;
-            if (this.currentOrder.raw) {
-                this.currentOrder.raw.cash_received = 0;
-            }
-            input.value = "";
-            return;
-        }
-
-        let amount = Number(rawValue);
-        if (!Number.isFinite(amount) || amount < 0) {
-            input.value = String(this.getCashReceived(paymentMethod) || "");
-            this.notification.add(
-                "Enter a valid non-negative cash received amount.",
-                { type: "warning" }
-            );
-            return;
-        }
-
-        amount = this.currentOrder.currency.round(amount);
-        this.currentOrder.cash_received = amount;
-        if (this.currentOrder.raw) {
-            this.currentOrder.raw.cash_received = amount;
-        }
-        input.value = String(amount);
-    },
-
-    getCashChange(paymentMethod) {
-        if (!paymentMethod || paymentMethod.type !== "cash") {
-            return 0;
-        }
-        const cashAmount = this.paymentLines
-            .filter((line) => line.payment_method_id.type === "cash")
-            .reduce((sum, line) => sum + (Number(line.getAmount()) || 0), 0);
-        return this.currentOrder.currency.round(
-            this.getCashReceived(paymentMethod) - cashAmount
-        );
-    },
-
-    getCashChangeLabel(paymentMethod) {
-        return this.getCashChange(paymentMethod) >= 0 ? "Change" : "Remaining";
-    },
-
-    getCashChangeFormatted(paymentMethod) {
-        return this.pos.formatCurrency(Math.abs(this.getCashChange(paymentMethod)));
-    },
-
-    /**
-     * Clear the informational tender value when the cashier removes the last
-     * cash payment line using Odoo's native delete control.
-     */
-    deletePaymentLine(uuid) {
-        const line = this.paymentLines.find((paymentLine) => paymentLine.uuid === uuid);
-        const result = super.deletePaymentLine(...arguments);
-        if (
-            line?.payment_method_id?.type === "cash" &&
-            !this.paymentLines.some(
-                (paymentLine) => paymentLine.payment_method_id?.type === "cash"
-            )
-        ) {
-            this.currentOrder.cash_received = 0;
-            if (this.currentOrder.raw) {
-                this.currentOrder.raw.cash_received = 0;
-            }
-        }
-        return result;
-    },
-
     /** Only completed native payment lines count as Paid in Odoo 20. */
     getSplitPaidTotal() {
         return this.currentOrder.amountPaid || 0;
@@ -130,12 +37,6 @@ patch(PaymentScreen.prototype, {
         if (!rawValue) {
             for (const oldLine of lines) {
                 this.deletePaymentLine(oldLine.uuid);
-            }
-            if (paymentMethod.type === "cash") {
-                this.currentOrder.cash_received = 0;
-                if (this.currentOrder.raw) {
-                    this.currentOrder.raw.cash_received = 0;
-                }
             }
             return;
         }

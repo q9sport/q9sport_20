@@ -44,16 +44,8 @@
         </xpath>
         <xpath expr="//div[@t-on-click='() =&gt; this.currentOrder.currency.round(this.currentOrder.remainingDue) &gt; 0 &amp;&amp; this.addNewPaymentLine(paymentMethod)']" position="after">
             <div t-if="!paymentMethod.isProvider and !paymentMethod.payment_interface and !paymentMethod.useBankQrCode and paymentMethod.type != 'pay_later' and !this.currentOrder.isRefund and this.currentOrder.totalDue &gt; 0 and (paymentMethod.availableCurrencies || []).length &lt;= 1" class="o_pos_split_amount_row">
-                <input type="number" min="0.01" step="0.01" inputmode="decimal" autocomplete="off" class="o_pos_split_amount_input" placeholder="0.00" t-att-value="this.getSplitAmount(paymentMethod)" t-on-change="(ev) =&gt; this.setSplitAmount(paymentMethod, ev)" t-on-click="(ev) =&gt; ev.stopPropagation()" t-on-keydown="(ev) =&gt; ev.stopPropagation()"/>
                 <label class="o_pos_split_amount_label"><span>Amount</span><span class="o_pos_split_currency" t-out="this.pos.currency.name"/></label>
-            </div>
-            <div t-if="paymentMethod.type === 'cash' and !paymentMethod.isProvider and !paymentMethod.payment_interface and !paymentMethod.useBankQrCode and !this.currentOrder.isRefund and this.currentOrder.totalDue &gt; 0 and (paymentMethod.availableCurrencies || []).length &lt;= 1" class="o_pos_split_amount_row o_pos_split_cash_received_row">
-                <input type="number" min="0" step="0.01" inputmode="decimal" autocomplete="off" class="o_pos_split_amount_input o_pos_cash_received_input" placeholder="0.00" t-att-value="this.getCashReceived(paymentMethod) || ''" t-on-change="(ev) =&gt; this.setCashReceived(paymentMethod, ev)" t-on-click="(ev) =&gt; ev.stopPropagation()" t-on-keydown="(ev) =&gt; ev.stopPropagation()"/>
-                <label class="o_pos_split_amount_label"><span>Cash Received</span><span class="o_pos_split_currency" t-out="this.pos.currency.name"/></label>
-            </div>
-            <div t-if="paymentMethod.type === 'cash' and this.getCashReceived(paymentMethod) &gt; 0 and this.getSplitAmount(paymentMethod)" class="o_pos_split_cash_change">
-                <span t-out="this.getCashChangeLabel(paymentMethod)"/>
-                <strong t-out="this.getCashChangeFormatted(paymentMethod)"/>
+                <input type="number" min="0.01" step="0.01" inputmode="decimal" autocomplete="off" class="o_pos_split_amount_input" placeholder="0.00" t-att-value="this.getSplitAmount(paymentMethod)" t-on-change="(ev) =&gt; this.setSplitAmount(paymentMethod, ev)" t-on-click="(ev) =&gt; ev.stopPropagation()" t-on-keydown="(ev) =&gt; ev.stopPropagation()"/>
             </div>
         </xpath>
     </t>
