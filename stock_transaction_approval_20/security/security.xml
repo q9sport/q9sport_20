@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Approval rights are granted to the standard Inventory Manager group:
+         stock.group_stock_manager. No additional security group is required. -->
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_internal_transfer_approval" model="ir.ui.view">
+        <field name="name">stock.picking.form.internal.transfer.approval</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="action_submit_for_approval"
+                        type="object"
+                        string="Submit for Approval"
+                        class="btn-primary"
+                        invisible="picking_type_code != 'internal' or approval_state not in ['draft', 'rejected'] or state in ['done', 'cancel']"/>
+
+                <button name="action_approve_internal_transfer"
+                        type="object"
+                        string="Approve"
+                        class="btn-primary"
+                        groups="stock.group_stock_manager"
+                        invisible="picking_type_code != 'internal' or approval_state != 'waiting' or state in ['done', 'cancel']"/>
+
+                <button name="action_reject_internal_transfer"
+                        type="object"
+                        string="Reject"
+                        class="btn-secondary"
+                        groups="stock.group_stock_manager"
+                        invisible="picking_type_code != 'internal' or approval_state != 'waiting' or state in ['done', 'cancel']"/>
+            </xpath>
+
+            <xpath expr="//button[@name='button_validate']" position="attributes">
+                <attribute name="invisible" add="(picking_type_code == 'internal' and approval_state != 'approved')" separator=" or "/>
+            </xpath>
+
+            <xpath expr="//sheet" position="inside">
+                <group string="Internal Transfer Approval"
+                       invisible="picking_type_code != 'internal'">
+                    <group>
+                        <field name="approval_state" widget="badge"
+                               decoration-info="approval_state == 'waiting'"
+                               decoration-success="approval_state == 'approved'"
+                               decoration-danger="approval_state == 'rejected'"/>
+                        <field name="approval_requested_by" invisible="approval_state == 'draft'"/>
+                        <field name="approval_requested_date" invisible="approval_state == 'draft'"/>
+                    </group>
+                    <group>
+                        <field name="approved_by" invisible="approval_state != 'approved'"/>
+                        <field name="approval_date" invisible="approval_state != 'approved'"/>
+                        <field name="rejected_by" invisible="approval_state != 'rejected'"/>
+                        <field name="rejection_date" invisible="approval_state != 'rejected'"/>
+                    </group>
+                    <field name="rejection_reason"
+                           groups="stock.group_stock_manager"
+                           invisible="approval_state not in ['waiting', 'rejected']"
+                           placeholder="Enter the reason if this transfer is rejected..."/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
