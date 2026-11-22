@@ -51,10 +51,10 @@ class StockPicking(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        internal_types = self.env["stock.picking.type"].search(
-            [("code", "=", "internal")]
+        approval_types = self.env["stock.picking.type"].search(
+            [("code", "in", ["incoming", "internal"])]
         )
-        internal_type_ids = set(internal_types.ids)
+        approval_type_ids = set(approval_types.ids)
         prepared_vals = []
         for incoming_vals in vals_list:
             vals = dict(incoming_vals)
@@ -64,7 +64,7 @@ class StockPicking(models.Model):
             picking_type_id = vals.get("picking_type_id")
             if picking_type_id:
                 vals["approval_state"] = (
-                    "draft" if picking_type_id in internal_type_ids else "not_required"
+                    "draft" if picking_type_id in approval_type_ids else "not_required"
                 )
             prepared_vals.append(vals)
         return super().create(prepared_vals)
@@ -82,7 +82,7 @@ class StockPicking(models.Model):
         if "picking_type_id" in vals and "approval_state" not in vals:
             picking_type = self.env["stock.picking.type"].browse(vals["picking_type_id"])
             vals["approval_state"] = (
-                "draft" if picking_type.code == "internal" else "not_required"
+                "draft" if picking_type.code in ("incoming", "internal") else "not_required"
             )
             return super().write(vals)
 
@@ -92,10 +92,10 @@ class StockPicking(models.Model):
         """Write workflow fields after the calling action has checked authorization."""
         return self.sudo().write(vals)
 
-    def _check_internal_transfer_approval(self):
+    def _check_stock_operation_approval(self):
         blocked = self.filtered(
             lambda picking: (
-                picking.picking_type_id.code == "internal"
+                picking.picking_type_id.code in ("incoming", "internal")
                 and picking.approval_state != "approved"
             )
         )
@@ -103,24 +103,24 @@ class StockPicking(models.Model):
             names = ", ".join(blocked.mapped("display_name"))
             raise UserError(
                 _(
-                    "Internal transfers must be approved by a member of the "
-                    "Inventory Administrator group before validation. Transfers: %s"
+                    "Receipts and internal transfers must be approved by a member of the "
+                    "Inventory Administrator group before validation. Operations: %s"
                 ) % names
             )
 
     def button_validate(self):
-        self._check_internal_transfer_approval()
+        self._check_stock_operation_approval()
         return super().button_validate()
 
     def _action_done(self, *args, **kwargs):
         # Protect direct server-side completion calls as well as the Validate button.
-        self._check_internal_transfer_approval()
+        self._check_stock_operation_approval()
         return super()._action_done(*args, **kwargs)
 
     def action_submit_for_approval(self):
         for picking in self:
-            if picking.picking_type_id.code != "internal":
-                raise UserError(_("Approval is available for internal transfers only."))
+            if picking.picking_type_id.code not in ("incoming", "internal"):
+                raise UserError(_("Approval is available for receipts and internal transfers only."))
             if picking.state in ("done", "cancel"):
                 raise UserError(_("A completed or cancelled transfer cannot be submitted."))
             if picking.approval_state not in ("draft", "rejected"):
@@ -136,7 +136,7 @@ class StockPicking(models.Model):
                 "rejection_date": False,
                 "rejection_reason": False,
             })
-            picking.message_post(body=_("Internal transfer submitted for approval."))
+            picking.message_post(body=_("Stock operation submitted for approval."))
         return True
 
     def action_approve_internal_transfer(self):
@@ -146,8 +146,8 @@ class StockPicking(models.Model):
             )
 
         for picking in self:
-            if picking.picking_type_id.code != "internal":
-                raise UserError(_("Only internal transfers can be approved."))
+            if picking.picking_type_id.code not in ("incoming", "internal"):
+                raise UserError(_("Only receipts and internal transfers can be approved."))
             if picking.state in ("done", "cancel"):
                 raise UserError(_("A completed or cancelled transfer cannot be approved."))
             if picking.approval_state != "waiting":
@@ -161,7 +161,7 @@ class StockPicking(models.Model):
                 "rejection_date": False,
                 "rejection_reason": False,
             })
-            picking.message_post(body=_("Internal transfer approved."))
+            picking.message_post(body=_("Stock operation approved."))
         return True
 
     def action_reject_internal_transfer(self):
@@ -171,8 +171,8 @@ class StockPicking(models.Model):
             )
 
         for picking in self:
-            if picking.picking_type_id.code != "internal":
-                raise UserError(_("Only internal transfers can be rejected."))
+            if picking.picking_type_id.code not in ("incoming", "internal"):
+                raise UserError(_("Only receipts and internal transfers can be rejected."))
             if picking.state in ("done", "cancel"):
                 raise UserError(_("A completed or cancelled transfer cannot be rejected."))
             if picking.approval_state != "waiting":
@@ -183,7 +183,7 @@ class StockPicking(models.Model):
                 "rejected_by": self.env.user.id,
                 "rejection_date": fields.Datetime.now(),
             })
-            body = _("Internal transfer rejected.")
+            body = _("Stock operation rejected.")
             if picking.rejection_reason:
                 body += _(" Reason: %s") % picking.rejection_reason
             picking.message_post(body=body)

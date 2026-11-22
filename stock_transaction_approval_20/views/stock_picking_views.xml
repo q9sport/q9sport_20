@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_picking_form_internal_transfer_approval" model="ir.ui.view">
-        <field name="name">stock.picking.form.internal.transfer.approval</field>
+    <record id="view_picking_form_receipt_internal_transfer_approval" model="ir.ui.view">
+        <field name="name">stock.picking.form.receipt.internal.transfer.approval</field>
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
@@ -11,30 +11,30 @@
                         type="object"
                         string="Submit for Approval"
                         class="btn-primary"
-                        invisible="picking_type_code != 'internal' or approval_state not in ['draft', 'rejected'] or state in ['done', 'cancel']"/>
+                        invisible="picking_type_code not in ['incoming', 'internal'] or approval_state not in ['draft', 'rejected'] or state in ['done', 'cancel']"/>
 
                 <button name="action_approve_internal_transfer"
                         type="object"
                         string="Approve"
                         class="btn-primary"
                         groups="stock.group_stock_manager"
-                        invisible="picking_type_code != 'internal' or approval_state != 'waiting' or state in ['done', 'cancel']"/>
+                        invisible="picking_type_code not in ['incoming', 'internal'] or approval_state != 'waiting' or state in ['done', 'cancel']"/>
 
                 <button name="action_reject_internal_transfer"
                         type="object"
                         string="Reject"
                         class="btn-secondary"
                         groups="stock.group_stock_manager"
-                        invisible="picking_type_code != 'internal' or approval_state != 'waiting' or state in ['done', 'cancel']"/>
+                        invisible="picking_type_code not in ['incoming', 'internal'] or approval_state != 'waiting' or state in ['done', 'cancel']"/>
             </xpath>
 
             <xpath expr="//button[@name='button_validate']" position="attributes">
-                <attribute name="invisible" add="(picking_type_code == 'internal' and approval_state != 'approved')" separator=" or "/>
+                <attribute name="invisible" add="(picking_type_code in ['incoming', 'internal'] and approval_state != 'approved')" separator=" or "/>
             </xpath>
 
             <xpath expr="//sheet" position="inside">
-                <group string="Internal Transfer Approval"
-                       invisible="picking_type_code != 'internal'">
+                <group string="Stock Operation Approval"
+                       invisible="picking_type_code not in ['incoming', 'internal']">
                     <group>
                         <field name="approval_state" widget="badge"
                                decoration-info="approval_state == 'waiting'"
