@@ -1,0 +1,10 @@
+# ©  2008-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+from . import test_negative
+from . import test_negative_multiline
+from . import test_negative_serial
+from . import test_screenshots
+from . import test_negative_nonstorable
+from . import test_negative_pos
