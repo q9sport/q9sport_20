@@ -1360,7 +1360,7 @@
         </field>
     </record>
 
- <record id="view_account_payment_register_form_delivery_styled"
+    <record id="view_account_payment_register_form_delivery_styled"
             model="ir.ui.view">
 
         <field name="name">account.payment.register.form.delivery.styled</field>
@@ -1374,69 +1374,42 @@
 
                 <group colspan="2" col="1">
 
-                    <!-- HEADER -->
+                    <!-- PAYMENT HEADER -->
                     <div style="
-                        width:100%;
-                        box-sizing:border-box;
-                        padding:14px 18px;
-                        margin-bottom:12px;
-                        border-radius:9px;
-                        background:#203954;
+                        background:#243b53;
+                        border-radius:6px;
+                        padding:8px 12px;
+                        margin-bottom:7px;
                         color:#ffffff;
-                        display:flex;
-                        align-items:center;
-                        gap:13px;
                     ">
-                        <div style="
-                            width:38px;
-                            height:38px;
-                            border-radius:8px;
-                            background:#304b6b;
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            color:#e2c17e;
-                            font-size:21px;
+                        <span style="font-size:14px;font-weight:700;">
+                            💰 Payment Collection
+                        </span>
+                        <span style="
+                            font-size:11px;
+                            color:#d5e1ed;
+                            margin-left:8px;
                         ">
-                            <i class="fa fa-credit-card"/>
-                        </div>
-
-                        <div>
-                            <div style="
-                                font-size:16px;
-                                font-weight:700;
-                                color:#ffffff;
-                            ">
-                                Payment Collection
-                            </div>
-                            <div style="
-                                font-size:11px;
-                                color:#d5dfeb;
-                                margin-top:3px;
-                            ">
-                                Select payment method and collection account
-                            </div>
-                        </div>
+                            Choose payment method
+                        </span>
                     </div>
 
-                    <!-- PAYMENT METHODS -->
+                    <!-- PAYMENT METHOD -->
                     <div style="
-                        width:100%;
-                        box-sizing:border-box;
-                        padding:15px;
-                        margin-bottom:12px;
-                        border:1px solid #dce3eb;
-                        border-radius:9px;
-                        background:#f4f7fa;
+                        background:#eaf0f6;
+                        border:1px solid #cbd7e3;
+                        border-radius:6px;
+                        padding:9px 12px;
+                        margin-bottom:7px;
                     ">
 
                         <div style="
-                            margin-bottom:13px;
-                            color:#203954;
-                            font-size:13px;
+                            color:#243b53;
+                            font-size:12px;
                             font-weight:700;
+                            margin-bottom:7px;
                         ">
-                            Payment Method
+                            💳 Payment Method
                         </div>
 
                         <field name="payment_method_type"
@@ -1449,44 +1422,31 @@
 
                     <!-- COLLECTION ACCOUNT -->
                     <div style="
-                        width:100%;
-                        box-sizing:border-box;
-                        padding:15px;
-                        border:1px solid #dce3eb;
-                        border-radius:9px;
-                        background:#f4f7fa;
+                        background:#eaf0f6;
+                        border:1px solid #cbd7e3;
+                        border-radius:6px;
+                        padding:9px 12px;
                     ">
 
                         <div style="
-                            margin-bottom:12px;
-                            color:#203954;
-                            font-size:13px;
+                            color:#243b53;
+                            font-size:12px;
                             font-weight:700;
+                            margin-bottom:6px;
                         ">
-                            Collection Account
+                            🏦 Collection Account
                         </div>
 
                         <div style="
-                            display:flex;
-                            align-items:center;
-                            gap:12px;
-                            padding:12px;
-                            border:1px solid #e0e6ed;
-                            border-radius:7px;
                             background:#ffffff;
+                            border:1px solid #cbd7e3;
+                            border-radius:5px;
+                            padding:5px 9px;
                         ">
-                            <i class="fa fa-university"
-                               style="
-                                   font-size:20px;
-                                   color:#b28b49;
-                               "/>
-
-                            <div style="flex:1;">
-                                <field name="collection_account_id"
-                                       nolabel="1"
-                                       placeholder="Select collection account..."
-                                       options="{'no_create': True, 'no_open': True}"/>
-                            </div>
+                            <field name="collection_account_id"
+                                   nolabel="1"
+                                   placeholder="Select collection account..."
+                                   options="{'no_create': True, 'no_open': True}"/>
                         </div>
 
                     </div>
