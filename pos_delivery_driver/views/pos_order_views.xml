@@ -1372,244 +1372,110 @@
 
         <xpath expr="//group[@name='group1']" position="before">
 
-            <!-- FULL WIDTH PAYMENT AREA -->
-            <group colspan="2" col="1"
-                   class="o_delivery_payment_full_width">
+            <group colspan="2" col="1">
 
-                <div class="o_delivery_payment_wrapper"
-                     style="width:100%; padding:12px 0 20px;">
+                <div style="
+                    width:100%;
+                    padding:12px 15px;
+                    margin-bottom:12px;
+                    border-radius:8px;
+                    background:#203954;
+                    color:white;
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                ">
+                    <i class="fa fa-credit-card"
+                       style="font-size:20px;color:#e2c17e;"/>
 
-                    <!-- ================= HEADER ================= -->
+                    <div>
+                        <div style="font-size:16px;font-weight:700;">
+                            Payment Collection
+                        </div>
+                        <div style="font-size:11px;color:#d5dfeb;">
+                            Select payment method and collection account
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAYMENT METHOD -->
+
+                <div style="
+                    width:100%;
+                    padding:13px 15px;
+                    margin-bottom:12px;
+                    border:1px solid #e1e5eb;
+                    border-radius:8px;
+                    background:#ffffff;
+                ">
 
                     <div style="
                         display:flex;
                         align-items:center;
-                        gap:18px;
-                        padding:23px 25px;
-                        margin-bottom:20px;
-                        border:1px solid #c6a15b;
-                        border-radius:14px;
-                        background:linear-gradient(115deg,#17243b,#304b6b);
-                        color:#ffffff;
-                        box-shadow:0 5px 15px rgba(23,36,59,.14);
+                        gap:8px;
+                        margin-bottom:10px;
+                        color:#203954;
+                        font-size:13px;
+                        font-weight:700;
                     ">
-
-                        <div style="
-                            width:58px;
-                            height:58px;
-                            min-width:58px;
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            border-radius:13px;
-                            border:1px solid #c6a15b;
-                            background:rgba(255,255,255,.10);
-                            color:#e8c779;
-                            font-size:27px;
-                        ">
-                            <i class="fa fa-credit-card"/>
-                        </div>
-
-                        <div style="flex:1; min-width:0;">
-
-                            <div style="
-                                color:#ffffff;
-                                font-size:23px;
-                                font-weight:800;
-                                line-height:1.4;
-                            ">
-                                Payment Collection
-                            </div>
-
-                            <div style="
-                                color:#d5e0ed;
-                                font-size:13px;
-                                margin-top:4px;
-                            ">
-                                Manage payment methods and collection accounts
-                            </div>
-
-                        </div>
-
-                        <div style="
-                            display:flex;
-                            align-items:center;
-                            gap:8px;
-                            padding:9px 13px;
-                            border:1px solid rgba(232,199,121,.65);
-                            border-radius:30px;
-                            color:#f0d38c;
-                            font-size:12px;
-                            font-weight:700;
-                            white-space:nowrap;
-                        ">
-                            <i class="fa fa-shield"/>
-                            Secure Payment
-                        </div>
-
+                        <i class="fa fa-wallet"
+                           style="color:#b28b49;"/>
+                        Payment Method
                     </div>
 
+                    <field name="payment_method_type"
+                           widget="radio"
+                           nolabel="1"
+                           options="{'horizontal': true}"
+                           class="o_delivery_payment_method_radio"/>
 
-                    <!-- ================= PAYMENT METHOD ================= -->
+                </div>
+
+                <!-- COLLECTION ACCOUNT -->
+
+                <div style="
+                    width:100%;
+                    padding:13px 15px;
+                    border:1px solid #e1e5eb;
+                    border-radius:8px;
+                    background:#ffffff;
+                ">
 
                     <div style="
-                        padding:21px;
-                        margin-bottom:18px;
-                        border:1px solid #dce3ec;
-                        border-radius:14px;
-                        background:#ffffff;
-                        box-shadow:0 3px 12px rgba(23,36,59,.06);
+                        display:flex;
+                        align-items:center;
+                        gap:8px;
+                        margin-bottom:10px;
+                        color:#203954;
+                        font-size:13px;
+                        font-weight:700;
+                    ">
+                        <i class="fa fa-university"
+                           style="color:#b28b49;"/>
+                        Collection Account
+                    </div>
+
+                    <div style="
+                        display:flex;
+                        align-items:center;
+                        gap:12px;
+                        padding:10px;
+                        border-radius:6px;
+                        background:#f6f8fa;
                     ">
 
-                        <div style="
-                            display:flex;
-                            align-items:center;
-                            gap:12px;
-                            padding-bottom:15px;
-                            margin-bottom:17px;
-                            border-bottom:1px solid #e8edf3;
-                        ">
+                        <i class="fa fa-bank"
+                           style="
+                               font-size:20px;
+                               color:#45617e;
+                           "/>
 
-                            <div style="
-                                width:39px;
-                                height:39px;
-                                display:flex;
-                                align-items:center;
-                                justify-content:center;
-                                border-radius:10px;
-                                background:#172f4d;
-                                color:#e8c779;
-                                font-size:18px;
-                            ">
-                                <i class="fa fa-wallet"/>
-                            </div>
+                        <div style="flex:1;">
 
-                            <div style="
-                                color:#193453;
-                                font-size:16px;
-                                font-weight:800;
-                            ">
-                                Payment Method
-                            </div>
-
-                            <div style="
-                                flex:1;
-                                height:2px;
-                                background:#e7d4ad;
-                            "/>
-
-                        </div>
-
-                        <div style="
-                            padding:12px;
-                            border:1px solid #e5eaf0;
-                            border-radius:11px;
-                            background:#f8fafc;
-                        ">
-
-                            <field name="payment_method_type"
-                                   widget="radio"
+                            <field name="collection_account_id"
                                    nolabel="1"
-                                   options="{'horizontal': true}"
-                                   class="o_delivery_payment_method_radio"/>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ================= COLLECTION ACCOUNT ================= -->
-
-                    <div style="
-                        padding:21px;
-                        margin-bottom:18px;
-                        border:1px solid #dce3ec;
-                        border-radius:14px;
-                        background:#ffffff;
-                        box-shadow:0 3px 12px rgba(23,36,59,.06);
-                    ">
-
-                        <div style="
-                            display:flex;
-                            align-items:center;
-                            gap:12px;
-                            padding-bottom:15px;
-                            margin-bottom:17px;
-                            border-bottom:1px solid #e8edf3;
-                        ">
-
-                            <div style="
-                                width:39px;
-                                height:39px;
-                                display:flex;
-                                align-items:center;
-                                justify-content:center;
-                                border-radius:10px;
-                                background:#172f4d;
-                                color:#e8c779;
-                                font-size:18px;
-                            ">
-                                <i class="fa fa-university"/>
-                            </div>
-
-                            <div style="
-                                color:#193453;
-                                font-size:16px;
-                                font-weight:800;
-                            ">
-                                Collection Account
-                            </div>
-
-                            <div style="
-                                flex:1;
-                                height:2px;
-                                background:#e7d4ad;
-                            "/>
-
-                        </div>
-
-                        <div style="
-                            display:flex;
-                            align-items:center;
-                            gap:16px;
-                            padding:17px;
-                            border:1px solid #e2e8f0;
-                            border-radius:11px;
-                            background:#f8fafc;
-                        ">
-
-                            <div style="
-                                width:48px;
-                                height:48px;
-                                min-width:48px;
-                                display:flex;
-                                align-items:center;
-                                justify-content:center;
-                                border-radius:11px;
-                                background:#e8eff8;
-                                color:#294b70;
-                                font-size:22px;
-                            ">
-                                <i class="fa fa-bank"/>
-                            </div>
-
-                            <div style="flex:1; min-width:0;">
-
-                                <div style="
-                                    margin-bottom:8px;
-                                    color:#526176;
-                                    font-size:12px;
-                                    font-weight:800;
-                                ">
-                                    Select Collection Account
-                                </div>
-
-                                <field name="collection_account_id"
-                                       nolabel="1"
-                                       placeholder="Choose collection account..."
-                                       options="{'no_create': True, 'no_open': True}"/>
-
-                            </div>
+                                   placeholder="Select collection account..."
+                                   options="{'no_create': True, 'no_open': True}"/>
 
                         </div>
 
