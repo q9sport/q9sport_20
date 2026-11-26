@@ -1359,70 +1359,108 @@
             </kanban>
         </field>
     </record>
-	<record id="view_account_payment_register_form_delivery_styled"
-        model="ir.ui.view">
+<record id="view_account_payment_register_form_delivery_styled"
+            model="ir.ui.view">
 
-    <field name="name">account.payment.register.form.delivery.styled</field>
-    <field name="model">account.payment.register</field>
-    <field name="inherit_id" ref="account.view_account_payment_register_form"/>
+        <field name="name">account.payment.register.form.delivery.styled</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id"
+               ref="account.view_account_payment_register_form"/>
 
-    <field name="arch" type="xml">
+        <field name="arch" type="xml">
 
-        <!-- Professional Payment Header -->
-        <xpath expr="//group[@name='group1']" position="before">
+            <!-- Main Payment Header -->
+            <xpath expr="//group[@name='group1']" position="before">
 
-            <div class="o_delivery_payment_header">
+                <div class="o_delivery_payment_wrapper">
 
-                <div class="o_delivery_payment_header_icon">
-                    <i class="fa fa-credit-card"/>
-                </div>
+                    <!-- Premium Header -->
+                    <div class="o_delivery_payment_header">
 
-                <div class="o_delivery_payment_header_text">
-                    <div class="o_delivery_payment_title">
-                        Payment Collection
+                        <div class="o_delivery_payment_header_icon">
+                            <i class="fa fa-credit-card-alt"/>
+                        </div>
+
+                        <div class="o_delivery_payment_header_text">
+                            <div class="o_delivery_payment_title">
+                                Payment Collection
+                            </div>
+                            <div class="o_delivery_payment_subtitle">
+                                Manage your payment method and collection account
+                            </div>
+                        </div>
+
+                        <div class="o_delivery_payment_header_badge">
+                            <i class="fa fa-shield"/>
+                            <span>Secure Payment</span>
+                        </div>
+
                     </div>
 
-                    <div class="o_delivery_payment_subtitle">
-                        Select your payment method and collection account
+                    <!-- Payment Method Section -->
+                    <div class="o_delivery_payment_card">
+
+                        <div class="o_delivery_payment_section_header">
+                            <div class="o_delivery_payment_section_icon">
+                                <i class="fa fa-wallet"/>
+                            </div>
+
+                            <span>Payment Method</span>
+
+                            <div class="o_delivery_payment_section_line"/>
+                        </div>
+
+                        <div class="o_delivery_payment_method_content">
+
+                            <field name="payment_method_type"
+                                   widget="radio"
+                                   nolabel="1"
+                                   options="{'horizontal': true}"
+                                   class="o_delivery_payment_method_radio"/>
+
+                        </div>
+
                     </div>
+
+                    <!-- Collection Account Section -->
+                    <div class="o_delivery_collection_card">
+
+                        <div class="o_delivery_payment_section_header">
+                            <div class="o_delivery_payment_section_icon">
+                                <i class="fa fa-university"/>
+                            </div>
+
+                            <span>Collection Account</span>
+
+                            <div class="o_delivery_payment_section_line"/>
+                        </div>
+
+                        <div class="o_delivery_collection_content">
+
+                            <div class="o_delivery_collection_icon">
+                                <i class="fa fa-bank"/>
+                            </div>
+
+                            <div class="o_delivery_collection_field">
+                                <label for="collection_account_id"
+                                       string="Select Collection Account"/>
+
+                                <field name="collection_account_id"
+                                       nolabel="1"
+                                       placeholder="Choose collection account..."
+                                       options="{'no_create': True, 'no_open': True}"/>
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="o_delivery_payment_header_badge">
-                    <i class="fa fa-shield"/>
-                    Secure Payment
-                </div>
+            </xpath>
 
-            </div>
-
-            <div class="o_delivery_payment_methods">
-
-                <div class="o_delivery_payment_section_title">
-                    <i class="fa fa-wallet"/>
-                    Payment Method
-                </div>
-
-                <field name="payment_method_type"
-                       widget="radio"
-                       nolabel="1"
-                       options="{'horizontal': true}"
-                       class="o_delivery_payment_method_radio"/>
-
-            </div>
-
-        </xpath>
-
-        <!-- Collection Account -->
-        <xpath expr="//field[@name='payment_method_line_id']"
-               position="after">
-
-            <field name="collection_account_id"
-                   string="Collection Account"
-                   options="{'no_create': True, 'no_open': True}"/>
-
-        </xpath>
-
-    </field>
-</record>
+        </field>
+    </record>
 	
  
 
