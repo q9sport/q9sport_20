@@ -1359,7 +1359,7 @@
             </kanban>
         </field>
     </record>
-<record id="view_account_payment_register_form_delivery_styled"
+  <record id="view_account_payment_register_form_delivery_styled"
             model="ir.ui.view">
 
         <field name="name">account.payment.register.form.delivery.styled</field>
@@ -1461,6 +1461,7 @@
 
         </field>
     </record>
+
 	
  
 
