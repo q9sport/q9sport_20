@@ -1360,37 +1360,51 @@
         </field>
     </record>
 	
-	 <record id="view_account_payment_register_form_delivery"
+ <record id="view_account_payment_register_form_delivery_styled"
             model="ir.ui.view">
-
-        <field name="name">
-            account.payment.register.form.delivery
-        </field>
-
+        <field name="name">account.payment.register.form.delivery.styled</field>
         <field name="model">account.payment.register</field>
-
-        <field name="inherit_id"
-               ref="account.view_account_payment_register_form"/>
-
+        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//field[@name='payment_method_line_id']"
-                   position="after">
+            <xpath expr="//form/sheet" position="inside">
 
-                <field name="payment_method_type"
-                       string="Payment Method"/>
+                <div class="o_delivery_payment_panel">
 
-                <field name="collection_account_id"
-                       string="Collection Account"
-                       readonly="1"
-                       options="{'no_create': True, 'no_open': True}"/>
+                    <div class="o_delivery_payment_header">
+                        <div class="o_delivery_payment_header_icon">
+                            <i class="fa fa-credit-card"/>
+                        </div>
+                        <div>
+                            <h3>Payment Method</h3>
+                            <p>Select the method used to collect this payment.</p>
+                        </div>
+                    </div>
+
+                    <div class="o_delivery_payment_choices">
+                        <field name="payment_method_type"
+                               widget="radio"
+                               options="{'horizontal': true}"
+                               nolabel="1"/>
+                    </div>
+
+                    <div class="o_delivery_collection_account">
+                        <div class="o_delivery_account_heading">
+                            <i class="fa fa-university"/>
+                            <span>Collection Account</span>
+                        </div>
+
+                        <field name="collection_account_id"
+                               options="{'no_create': True, 'no_open': True}"
+                               nolabel="1"/>
+                    </div>
+
+                </div>
 
             </xpath>
 
         </field>
-
     </record>
-    
     
     <!-- ===================================================== -->
     <!-- MY CASHIER DELIVERY ORDERS -->
