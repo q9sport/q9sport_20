@@ -1080,164 +1080,234 @@
 }
 /* edit style of form view */
 
-.o_delivery_payment_header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 18px 22px;
-    margin: 8px 0 20px;
-    border: 1px solid #e5eaf0;
-    border-left: 5px solid #c6a15b;
-    border-radius: 12px;
-    background: linear-gradient(110deg, #f4f7fb 0%, #ffffff 75%);
-}
+.o_delivery_payment_wrapper {
+    padding: 12px 4px 18px;
+    font-family: inherit;
+    color: #193453;
 
-.o_delivery_payment_header_icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    flex: 0 0 48px;
-    border-radius: 12px;
-    color: #ffffff;
-    background: #263f5b;
-    font-size: 21px;
-}
-
-.o_delivery_payment_header_text {
-    flex: 1;
-    min-width: 0;
-}
-
-.o_delivery_payment_title {
-    color: #263f5b;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.4;
-}
-
-.o_delivery_payment_subtitle {
-    margin-top: 3px;
-    color: #788697;
-    font-size: 12px;
-}
-
-.o_delivery_payment_header_badge {
-    padding: 7px 12px;
-    border: 1px solid #ead9b5;
-    border-radius: 20px;
-    color: #8b6b2e;
-    background: #fffaf0;
-    font-size: 11px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.o_delivery_payment_header_badge i {
-    margin-right: 5px;
-}
-
-.o_delivery_payment_methods {
-    padding: 16px 18px;
-    margin-bottom: 18px;
-    border: 1px solid #e5eaf0;
-    border-radius: 12px;
-    background: #ffffff;
-}
-
-.o_delivery_payment_section_title {
-    margin-bottom: 14px;
-    color: #263f5b;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.o_delivery_payment_section_title i {
-    margin-right: 7px;
-    color: #c6a15b;
-}
-
-.o_delivery_payment_method_radio {
-    width: 100%;
-}
-
-.o_delivery_payment_method_radio .o_radio_item {
-    display: inline-flex;
-    align-items: center;
-    min-width: 125px;
-    padding: 11px 15px;
-    margin: 0 8px 8px 0;
-    border: 1px solid #e1e7ee;
-    border-radius: 9px;
-    background: #f8fafc;
-    transition: all 0.2s ease;
-}
-
-.o_delivery_payment_method_radio .o_radio_item:hover {
-    border-color: #c6a15b;
-    background: #fffaf0;
-}
-
-.o_delivery_payment_method_radio .o_radio_item:has(input:checked) {
-    border: 1.5px solid #c6a15b;
-    background: #fff9ec;
-    box-shadow: 0 2px 8px rgba(38, 63, 91, 0.08);
-}
-
-.o_delivery_payment_method_radio .o_radio_item label {
-    margin: 0 0 0 7px;
-    color: #263f5b;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.o_delivery_payment_method_radio .o_radio_item:nth-child(1) label:before {
-    content: "\f0d6";
-    font-family: FontAwesome;
-    margin-right: 8px;
-    color: #27845b;
-    font-size: 15px;
-}
-
-.o_delivery_payment_method_radio .o_radio_item:nth-child(2) label:before {
-    content: "\f09d";
-    font-family: FontAwesome;
-    margin-right: 8px;
-    color: #315b91;
-    font-size: 15px;
-}
-
-.o_delivery_payment_method_radio .o_radio_item:nth-child(3) label:before {
-    content: "\f09d";
-    font-family: FontAwesome;
-    margin-right: 8px;
-    color: #7655a5;
-    font-size: 15px;
-}
-
-.o_delivery_payment_method_radio .o_radio_item:nth-child(4) label:before {
-    content: "\f10b";
-    font-family: FontAwesome;
-    margin-right: 8px;
-    color: #bd8c36;
-    font-size: 17px;
-}
-
-@media (max-width: 576px) {
     .o_delivery_payment_header {
-        flex-wrap: wrap;
-        padding: 14px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 23px 25px;
+        margin-bottom: 22px;
+        border-radius: 15px;
+        background: linear-gradient(115deg, #142d4d, #244b70);
+        border: 1px solid #c5a15b;
+        color: #fff;
+        box-shadow: 0 5px 16px rgba(20, 45, 77, .15);
+    }
+
+    .o_delivery_payment_header_icon {
+        width: 58px;
+        height: 58px;
+        flex: 0 0 58px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 13px;
+        background: rgba(255, 255, 255, .12);
+        border: 1px solid #d8b66d;
+        color: #e8c779;
+        font-size: 27px;
+    }
+
+    .o_delivery_payment_header_text {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .o_delivery_payment_title {
+        font-size: 23px;
+        font-weight: 800;
+        letter-spacing: .2px;
+        color: #fff;
+    }
+
+    .o_delivery_payment_subtitle {
+        margin-top: 5px;
+        font-size: 13px;
+        color: #d4e0ec;
     }
 
     .o_delivery_payment_header_badge {
-        margin-left: 64px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 15px;
+        border: 1px solid rgba(232, 199, 121, .65);
+        border-radius: 30px;
+        color: #f0d38c;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
     }
 
-    .o_delivery_payment_method_radio .o_radio_item {
-        min-width: 100%;
-        margin-right: 0;
+    .o_delivery_payment_header_badge i {
+        font-size: 17px;
+    }
+
+    // Separate cards
+    .o_delivery_payment_card,
+    .o_delivery_collection_card {
+        margin-bottom: 19px;
+        padding: 20px;
+        background: #fff;
+        border: 1px solid #e0e7ef;
+        border-radius: 14px;
+        box-shadow: 0 3px 12px rgba(25, 52, 83, .07);
+    }
+
+    // Section titles
+    .o_delivery_payment_section_header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        color: #193453;
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    .o_delivery_payment_section_icon {
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #193b60;
+        color: #e8c779;
+        border-radius: 10px;
+        font-size: 17px;
+    }
+
+    .o_delivery_payment_section_line {
+        height: 2px;
+        flex: 1;
+        background: linear-gradient(
+            90deg,
+            #d7b56d,
+            rgba(215, 181, 109, .08)
+        );
+    }
+
+    // Payment radio options
+    .o_delivery_payment_method_content {
+        padding: 4px 2px;
+    }
+
+    .o_delivery_payment_method_radio {
+        width: 100%;
+
+        .o_horizontal {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .form-check {
+            flex: 1 1 130px;
+            min-width: 115px;
+            margin: 0 !important;
+            padding: 15px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            background: #f8fafc;
+            border: 1px solid #dce4ed;
+            border-radius: 11px;
+            transition: all .2s ease;
+
+            &:hover {
+                background: #f0f5fb;
+                border-color: #c5a15b;
+                transform: translateY(-2px);
+            }
+
+            &:has(input:checked) {
+                background: #edf4fc;
+                border: 2px solid #244b70;
+                box-shadow: 0 3px 10px rgba(36, 75, 112, .12);
+            }
+
+            input {
+                accent-color: #244b70;
+                cursor: pointer;
+            }
+
+            label {
+                margin: 0;
+                color: #193453;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+            }
+        }
+    }
+
+    // Collection account
+    .o_delivery_collection_content {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+        background: #f7f9fc;
+        border: 1px solid #e2e9f1;
+        border-radius: 11px;
+    }
+
+    .o_delivery_collection_icon {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e5eef8;
+        border: 1px solid #c9d9eb;
+        border-radius: 10px;
+        color: #244b70;
+        font-size: 21px;
+    }
+
+    .o_delivery_collection_field {
+        flex: 1;
+        min-width: 0;
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #193453;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .o_field_widget {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .o_delivery_payment_wrapper {
+        .o_delivery_payment_header {
+            flex-wrap: wrap;
+            padding: 16px;
+        }
+
+        .o_delivery_payment_header_badge {
+            margin-left: 0;
+        }
+
+        .o_delivery_payment_title {
+            font-size: 19px;
+        }
+
+        .o_delivery_collection_content {
+            align-items: flex-start;
+        }
     }
 }
 
