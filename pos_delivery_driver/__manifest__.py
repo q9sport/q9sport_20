@@ -1,4 +1,3 @@
-
 {
     "name": "POS Delivery Driver Management",
     "version": "20.0.4.0.2",
