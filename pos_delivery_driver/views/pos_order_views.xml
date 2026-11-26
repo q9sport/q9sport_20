@@ -1359,7 +1359,7 @@
             </kanban>
         </field>
     </record>
-			     <record id="view_account_payment_register_form_delivery_styled"
+<record id="view_account_payment_register_form_delivery_styled"
             model="ir.ui.view">
 
         <field name="name">account.payment.register.form.delivery.styled</field>
@@ -1379,49 +1379,46 @@
                         display:flex;
                         align-items:center;
                         flex-wrap:wrap;
-                        gap:12px;
-                        padding:9px 12px;
-                        margin-bottom:8px;
-                        background:#e8edf3;
-                        border:1px solid #c5d0dc;
-                        border-radius:6px;
-                        color:#243b53;
+                        gap:14px;
+                        padding:8px 10px;
+                        margin-bottom:6px;
+                        background:#eaf0f5;
+                        border:1px solid #cbd5df;
+                        border-radius:5px;
+                        color:#263f59;
                     ">
 
-                        <!-- HEADER -->
+                        <!-- TITLE -->
                         <div style="
                             display:flex;
                             align-items:center;
                             gap:5px;
-                            padding-right:12px;
-                            border-right:1px solid #bdc9d6;
                             white-space:nowrap;
+                            font-weight:700;
+                            font-size:12px;
                         ">
-                            <span style="font-size:16px;">💰</span>
-                            <span style="font-size:12px;font-weight:700;">
-                                Payment Collection
-                            </span>
+                            <span>💰</span>
+                            <span>Payment Collection</span>
                         </div>
 
                         <!-- PAYMENT METHOD -->
                         <div style="
                             display:flex;
                             align-items:center;
-                            gap:8px;
-                            flex:1;
-                            min-width:280px;
+                            gap:7px;
+                            min-width:180px;
                         ">
-
-                            <span style="font-size:12px;font-weight:700;">
-                                Payment:
+                            <span style="
+                                font-size:11px;
+                                font-weight:700;
+                                white-space:nowrap;
+                            ">
+                                Payment Method
                             </span>
 
                             <field name="payment_method_type"
-                                   widget="radio"
                                    nolabel="1"
-                                   options="{'horizontal': true}"
-                                   class="o_delivery_payment_method_radio"/>
-
+                                   class="o_delivery_payment_select"/>
                         </div>
 
                         <!-- COLLECTION ACCOUNT -->
@@ -1429,12 +1426,12 @@
                             display:flex;
                             align-items:center;
                             gap:7px;
-                            min-width:230px;
                             flex:1;
+                            min-width:200px;
                             padding-left:10px;
-                            border-left:1px solid #bdc9d6;
+                            border-left:1px solid #c3ced9;
                         ">
-                            <span style="font-size:16px;">🏦</span>
+                            <span>🏦</span>
 
                             <field name="collection_account_id"
                                    nolabel="1"
