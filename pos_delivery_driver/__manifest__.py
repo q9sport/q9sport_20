@@ -12,6 +12,7 @@
         "base",
         "point_of_sale",
         "hr",
+        "account",
     ],
     "data": [
         # "security/ir.access.csv",

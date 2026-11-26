@@ -1359,7 +1359,117 @@
             </kanban>
         </field>
     </record>
-    
+   <record id="view_account_payment_register_form_delivery_styled"
+            model="ir.ui.view">
+
+        <field name="name">account.payment.register.form.delivery.styled</field>
+        <field name="model">account.payment.register</field>
+        <field name="inherit_id"
+               ref="account.view_account_payment_register_form"/>
+
+        <field name="arch" type="xml">
+
+            <!-- PAYMENT COLLECTION SECTION -->
+            <xpath expr="//group[@name='group1']" position="before">
+
+                <group colspan="2" col="1">
+
+                    <div style="
+                        width:100%;
+                        box-sizing:border-box;
+                        display:flex;
+                        align-items:center;
+                        flex-wrap:wrap;
+                        gap:12px;
+                        padding:8px 11px;
+                        margin-bottom:6px;
+                        background:rgba(35, 105, 70, 0.88);
+                        border:1px solid rgba(255,255,255,0.13);
+                        border-radius:6px;
+                        color:#ffffff;
+                    ">
+
+                        <!-- HEADER -->
+                        <div style="
+                            display:flex;
+                            align-items:center;
+                            gap:5px;
+                            padding-right:12px;
+                            border-right:1px solid rgba(255,255,255,0.25);
+                            white-space:nowrap;
+                        ">
+                            <span style="font-size:15px;">💰</span>
+
+                            <span style="
+                                font-size:12px;
+                                font-weight:700;
+                                color:#ffffff;
+                            ">
+                                Payment Collection
+                            </span>
+                        </div>
+
+                        <!-- PAYMENT METHOD -->
+                        <div style="
+                            display:flex;
+                            align-items:center;
+                            gap:8px;
+                            flex:1;
+                            min-width:200px;
+                            color:#ffffff;
+                        ">
+                            <span style="
+                                font-size:12px;
+                                font-weight:700;
+                                white-space:nowrap;
+                                color:#ffffff;
+                            ">
+                                💳 Payment
+                            </span>
+
+                            <field name="payment_method_type"
+                                   nolabel="1"
+                                   class="o_delivery_payment_select"/>
+                        </div>
+
+                        <!-- COLLECTION ACCOUNT -->
+                        <div style="
+                            display:flex;
+                            align-items:center;
+                            gap:8px;
+                            flex:1;
+                            min-width:220px;
+                            padding-left:10px;
+                            border-left:1px solid rgba(255,255,255,0.25);
+                            color:#ffffff;
+                        ">
+                            <span style="
+                                font-size:16px;
+                                color:#ffffff;
+                            ">
+                                🏦
+                            </span>
+
+                            <field name="collection_account_id"
+                                   nolabel="1"
+                                   placeholder="Collection Account"
+                                   options="{'no_create': True, 'no_open': True}"
+                                   class="o_delivery_collection_account"/>
+                        </div>
+
+                    </div>
+
+                </group>
+
+            </xpath>
+
+            <!-- JOURNAL READ ONLY -->
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
     
     <!-- ===================================================== -->
     <!-- MY CASHIER DELIVERY ORDERS -->
