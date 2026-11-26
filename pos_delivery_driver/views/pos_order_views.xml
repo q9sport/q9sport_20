@@ -1359,58 +1359,153 @@
             </kanban>
         </field>
     </record>
-  <record id="view_account_payment_register_form_delivery_styled"
-            model="ir.ui.view">
 
-        <field name="name">account.payment.register.form.delivery.styled</field>
-        <field name="model">account.payment.register</field>
-        <field name="inherit_id"
-               ref="account.view_account_payment_register_form"/>
+<record id="view_account_payment_register_form_delivery_styled"
+        model="ir.ui.view">
 
-        <field name="arch" type="xml">
+    <field name="name">account.payment.register.form.delivery.styled</field>
+    <field name="model">account.payment.register</field>
+    <field name="inherit_id"
+           ref="account.view_account_payment_register_form"/>
 
-            <!-- Main Payment Header -->
-            <xpath expr="//group[@name='group1']" position="before">
+    <field name="arch" type="xml">
 
-                <div class="o_delivery_payment_wrapper">
+        <xpath expr="//group[@name='group1']" position="before">
 
-                    <!-- Premium Header -->
-                    <div class="o_delivery_payment_header">
+            <!-- FULL WIDTH PAYMENT AREA -->
+            <group colspan="2" col="1"
+                   class="o_delivery_payment_full_width">
 
-                        <div class="o_delivery_payment_header_icon">
-                            <i class="fa fa-credit-card-alt"/>
+                <div class="o_delivery_payment_wrapper"
+                     style="width:100%; padding:12px 0 20px;">
+
+                    <!-- ================= HEADER ================= -->
+
+                    <div style="
+                        display:flex;
+                        align-items:center;
+                        gap:18px;
+                        padding:23px 25px;
+                        margin-bottom:20px;
+                        border:1px solid #c6a15b;
+                        border-radius:14px;
+                        background:linear-gradient(115deg,#17243b,#304b6b);
+                        color:#ffffff;
+                        box-shadow:0 5px 15px rgba(23,36,59,.14);
+                    ">
+
+                        <div style="
+                            width:58px;
+                            height:58px;
+                            min-width:58px;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            border-radius:13px;
+                            border:1px solid #c6a15b;
+                            background:rgba(255,255,255,.10);
+                            color:#e8c779;
+                            font-size:27px;
+                        ">
+                            <i class="fa fa-credit-card"/>
                         </div>
 
-                        <div class="o_delivery_payment_header_text">
-                            <div class="o_delivery_payment_title">
+                        <div style="flex:1; min-width:0;">
+
+                            <div style="
+                                color:#ffffff;
+                                font-size:23px;
+                                font-weight:800;
+                                line-height:1.4;
+                            ">
                                 Payment Collection
                             </div>
-                            <div class="o_delivery_payment_subtitle">
-                                Manage your payment method and collection account
+
+                            <div style="
+                                color:#d5e0ed;
+                                font-size:13px;
+                                margin-top:4px;
+                            ">
+                                Manage payment methods and collection accounts
                             </div>
+
                         </div>
 
-                        <div class="o_delivery_payment_header_badge">
+                        <div style="
+                            display:flex;
+                            align-items:center;
+                            gap:8px;
+                            padding:9px 13px;
+                            border:1px solid rgba(232,199,121,.65);
+                            border-radius:30px;
+                            color:#f0d38c;
+                            font-size:12px;
+                            font-weight:700;
+                            white-space:nowrap;
+                        ">
                             <i class="fa fa-shield"/>
-                            <span>Secure Payment</span>
+                            Secure Payment
                         </div>
 
                     </div>
 
-                    <!-- Payment Method Section -->
-                    <div class="o_delivery_payment_card">
 
-                        <div class="o_delivery_payment_section_header">
-                            <div class="o_delivery_payment_section_icon">
+                    <!-- ================= PAYMENT METHOD ================= -->
+
+                    <div style="
+                        padding:21px;
+                        margin-bottom:18px;
+                        border:1px solid #dce3ec;
+                        border-radius:14px;
+                        background:#ffffff;
+                        box-shadow:0 3px 12px rgba(23,36,59,.06);
+                    ">
+
+                        <div style="
+                            display:flex;
+                            align-items:center;
+                            gap:12px;
+                            padding-bottom:15px;
+                            margin-bottom:17px;
+                            border-bottom:1px solid #e8edf3;
+                        ">
+
+                            <div style="
+                                width:39px;
+                                height:39px;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                border-radius:10px;
+                                background:#172f4d;
+                                color:#e8c779;
+                                font-size:18px;
+                            ">
                                 <i class="fa fa-wallet"/>
                             </div>
 
-                            <span>Payment Method</span>
+                            <div style="
+                                color:#193453;
+                                font-size:16px;
+                                font-weight:800;
+                            ">
+                                Payment Method
+                            </div>
 
-                            <div class="o_delivery_payment_section_line"/>
+                            <div style="
+                                flex:1;
+                                height:2px;
+                                background:#e7d4ad;
+                            "/>
+
                         </div>
 
-                        <div class="o_delivery_payment_method_content">
+                        <div style="
+                            padding:12px;
+                            border:1px solid #e5eaf0;
+                            border-radius:11px;
+                            background:#f8fafc;
+                        ">
 
                             <field name="payment_method_type"
                                    widget="radio"
@@ -1422,33 +1517,98 @@
 
                     </div>
 
-                    <!-- Collection Account Section -->
-                    <div class="o_delivery_collection_card">
 
-                        <div class="o_delivery_payment_section_header">
-                            <div class="o_delivery_payment_section_icon">
+                    <!-- ================= COLLECTION ACCOUNT ================= -->
+
+                    <div style="
+                        padding:21px;
+                        margin-bottom:18px;
+                        border:1px solid #dce3ec;
+                        border-radius:14px;
+                        background:#ffffff;
+                        box-shadow:0 3px 12px rgba(23,36,59,.06);
+                    ">
+
+                        <div style="
+                            display:flex;
+                            align-items:center;
+                            gap:12px;
+                            padding-bottom:15px;
+                            margin-bottom:17px;
+                            border-bottom:1px solid #e8edf3;
+                        ">
+
+                            <div style="
+                                width:39px;
+                                height:39px;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                border-radius:10px;
+                                background:#172f4d;
+                                color:#e8c779;
+                                font-size:18px;
+                            ">
                                 <i class="fa fa-university"/>
                             </div>
 
-                            <span>Collection Account</span>
+                            <div style="
+                                color:#193453;
+                                font-size:16px;
+                                font-weight:800;
+                            ">
+                                Collection Account
+                            </div>
 
-                            <div class="o_delivery_payment_section_line"/>
+                            <div style="
+                                flex:1;
+                                height:2px;
+                                background:#e7d4ad;
+                            "/>
+
                         </div>
 
-                        <div class="o_delivery_collection_content">
+                        <div style="
+                            display:flex;
+                            align-items:center;
+                            gap:16px;
+                            padding:17px;
+                            border:1px solid #e2e8f0;
+                            border-radius:11px;
+                            background:#f8fafc;
+                        ">
 
-                            <div class="o_delivery_collection_icon">
+                            <div style="
+                                width:48px;
+                                height:48px;
+                                min-width:48px;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                border-radius:11px;
+                                background:#e8eff8;
+                                color:#294b70;
+                                font-size:22px;
+                            ">
                                 <i class="fa fa-bank"/>
                             </div>
 
-                            <div class="o_delivery_collection_field">
-                                <label for="collection_account_id"
-                                       string="Select Collection Account"/>
+                            <div style="flex:1; min-width:0;">
+
+                                <div style="
+                                    margin-bottom:8px;
+                                    color:#526176;
+                                    font-size:12px;
+                                    font-weight:800;
+                                ">
+                                    Select Collection Account
+                                </div>
 
                                 <field name="collection_account_id"
                                        nolabel="1"
                                        placeholder="Choose collection account..."
                                        options="{'no_create': True, 'no_open': True}"/>
+
                             </div>
 
                         </div>
@@ -1457,10 +1617,12 @@
 
                 </div>
 
-            </xpath>
+            </group>
 
-        </field>
-    </record>
+        </xpath>
+
+    </field>
+</record>
 
 	
  
