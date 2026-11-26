@@ -1359,52 +1359,73 @@
             </kanban>
         </field>
     </record>
-	
- <record id="view_account_payment_register_form_delivery_styled"
-            model="ir.ui.view">
-        <field name="name">account.payment.register.form.delivery.styled</field>
-        <field name="model">account.payment.register</field>
-        <field name="inherit_id" ref="account.view_account_payment_register_form"/>
-        <field name="arch" type="xml">
+	<record id="view_account_payment_register_form_delivery_styled"
+        model="ir.ui.view">
 
-            <xpath expr="//form/sheet" position="inside">
+    <field name="name">account.payment.register.form.delivery.styled</field>
+    <field name="model">account.payment.register</field>
+    <field name="inherit_id" ref="account.view_account_payment_register_form"/>
 
-                <div class="o_delivery_payment_panel">
+    <field name="arch" type="xml">
 
-                    <div class="o_delivery_payment_header">
-                        <div class="o_delivery_payment_header_icon">
-                            <i class="fa fa-credit-card"/>
-                        </div>
-                        <div>
-                            <h3>Payment Method</h3>
-                            <p>Select the method used to collect this payment.</p>
-                        </div>
-                    </div>
+        <!-- Professional Payment Header -->
+        <xpath expr="//group[@name='group1']" position="before">
 
-                    <div class="o_delivery_payment_choices">
-                        <field name="payment_method_type"
-                               widget="radio"
-                               options="{'horizontal': true}"
-                               nolabel="1"/>
-                    </div>
+            <div class="o_delivery_payment_header">
 
-                    <div class="o_delivery_collection_account">
-                        <div class="o_delivery_account_heading">
-                            <i class="fa fa-university"/>
-                            <span>Collection Account</span>
-                        </div>
-
-                        <field name="collection_account_id"
-                               options="{'no_create': True, 'no_open': True}"
-                               nolabel="1"/>
-                    </div>
-
+                <div class="o_delivery_payment_header_icon">
+                    <i class="fa fa-credit-card"/>
                 </div>
 
-            </xpath>
+                <div class="o_delivery_payment_header_text">
+                    <div class="o_delivery_payment_title">
+                        Payment Collection
+                    </div>
 
-        </field>
-    </record>
+                    <div class="o_delivery_payment_subtitle">
+                        Select your payment method and collection account
+                    </div>
+                </div>
+
+                <div class="o_delivery_payment_header_badge">
+                    <i class="fa fa-shield"/>
+                    Secure Payment
+                </div>
+
+            </div>
+
+            <div class="o_delivery_payment_methods">
+
+                <div class="o_delivery_payment_section_title">
+                    <i class="fa fa-wallet"/>
+                    Payment Method
+                </div>
+
+                <field name="payment_method_type"
+                       widget="radio"
+                       nolabel="1"
+                       options="{'horizontal': true}"
+                       class="o_delivery_payment_method_radio"/>
+
+            </div>
+
+        </xpath>
+
+        <!-- Collection Account -->
+        <xpath expr="//field[@name='payment_method_line_id']"
+               position="after">
+
+            <field name="collection_account_id"
+                   string="Collection Account"
+                   options="{'no_create': True, 'no_open': True}"/>
+
+        </xpath>
+
+    </field>
+</record>
+	
+ 
+
     
     <!-- ===================================================== -->
     <!-- MY CASHIER DELIVERY ORDERS -->
