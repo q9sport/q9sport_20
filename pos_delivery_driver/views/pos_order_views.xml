@@ -1359,7 +1359,7 @@
             </kanban>
         </field>
     </record>
-<record id="view_account_payment_register_form_delivery_styled"
+    <record id="view_account_payment_register_form_delivery_styled"
             model="ir.ui.view">
 
         <field name="name">account.payment.register.form.delivery.styled</field>
@@ -1379,64 +1379,83 @@
                         display:flex;
                         align-items:center;
                         flex-wrap:wrap;
-                        gap:14px;
-                        padding:8px 10px;
-                        margin-bottom:6px;
-                        background:#eaf0f5;
-                        border:1px solid #cbd5df;
-                        border-radius:5px;
-                        color:#263f59;
+                        gap:12px;
+                        padding:8px 12px;
+                        margin-bottom:7px;
+                        background:#DCEBE2;
+                        border:1px solid #B7D2C1;
+                        border-radius:6px;
+                        color:#244735;
                     ">
 
-                        <!-- TITLE -->
+                        <!-- HEADER -->
                         <div style="
                             display:flex;
                             align-items:center;
                             gap:5px;
+                            padding-right:12px;
+                            border-right:1px solid #B7D2C1;
                             white-space:nowrap;
-                            font-weight:700;
-                            font-size:12px;
                         ">
-                            <span>💰</span>
-                            <span>Payment Collection</span>
+                            <span style="font-size:16px;">💰</span>
+
+                            <span style="
+                                font-size:12px;
+                                font-weight:700;
+                                color:#244735;
+                            ">
+                                Payment Collection
+                            </span>
                         </div>
 
                         <!-- PAYMENT METHOD -->
                         <div style="
                             display:flex;
                             align-items:center;
-                            gap:7px;
-                            min-width:180px;
+                            gap:8px;
+                            flex:1;
+                            min-width:200px;
                         ">
+
                             <span style="
-                                font-size:11px;
+                                font-size:12px;
                                 font-weight:700;
                                 white-space:nowrap;
+                                color:#315c43;
                             ">
-                                Payment Method
+                                💳 Payment
                             </span>
 
                             <field name="payment_method_type"
                                    nolabel="1"
                                    class="o_delivery_payment_select"/>
+
                         </div>
 
                         <!-- COLLECTION ACCOUNT -->
                         <div style="
                             display:flex;
                             align-items:center;
-                            gap:7px;
+                            gap:8px;
                             flex:1;
-                            min-width:200px;
+                            min-width:220px;
                             padding-left:10px;
-                            border-left:1px solid #c3ced9;
+                            border-left:1px solid #B7D2C1;
                         ">
-                            <span>🏦</span>
+
+                            <span style="
+                                font-size:17px;
+                                color:#26734D;
+                            ">
+                                🏦
+                            </span>
 
                             <field name="collection_account_id"
                                    nolabel="1"
                                    placeholder="Collection Account"
-                                   options="{'no_create': True, 'no_open': True}"/>
+                                   options="{'no_create': True, 'no_open': True}"
+                                   class="o_delivery_collection_account"/>
+
                         </div>
 
                     </div>
