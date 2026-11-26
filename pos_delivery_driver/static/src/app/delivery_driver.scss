@@ -1078,236 +1078,418 @@
         transition: none;
     }
 }
-/* edit style of form view */
+
+/* =========================================================
+   ROYAL DELIVERY PAYMENT REGISTER
+   Odoo 20 - Single SCSS file
+   ========================================================= */
 
 .o_delivery_payment_wrapper {
-    padding: 12px 4px 18px;
-    font-family: inherit;
-    color: #193453;
+    --payment-navy: #17243b;
+    --payment-navy-light: #263f62;
+    --payment-gold: #c6a15b;
+    --payment-gold-light: #f7efdE;
+    --payment-border: #e2e8f0;
+    --payment-muted: #718096;
 
+    display: block;
+    width: 100%;
+    padding: 10px 4px 18px;
+    color: var(--payment-navy);
+
+    /* Main banner */
     .o_delivery_payment_header {
+        position: relative;
         display: flex;
         align-items: center;
         gap: 18px;
-        padding: 23px 25px;
-        margin-bottom: 22px;
+        overflow: hidden;
+        min-height: 112px;
+        padding: 22px 25px;
+        margin: 0 0 20px;
+        border: 1px solid rgba(198, 161, 91, .75);
         border-radius: 15px;
-        background: linear-gradient(115deg, #142d4d, #244b70);
-        border: 1px solid #c5a15b;
+        background: linear-gradient(120deg, #142944 0%, #1d3a5e 58%, #294b70 100%);
         color: #fff;
-        box-shadow: 0 5px 16px rgba(20, 45, 77, .15);
+        box-shadow: 0 7px 20px rgba(23, 36, 59, .14);
+
+        &::after {
+            position: absolute;
+            right: -55px;
+            bottom: -90px;
+            width: 250px;
+            height: 180px;
+            border: 1px solid rgba(231, 197, 128, .22);
+            border-radius: 50%;
+            box-shadow: 0 0 0 18px rgba(231, 197, 128, .045),
+                        0 0 0 38px rgba(231, 197, 128, .035);
+            content: "";
+            pointer-events: none;
+        }
     }
 
     .o_delivery_payment_header_icon {
-        width: 58px;
-        height: 58px;
-        flex: 0 0 58px;
+        z-index: 1;
         display: flex;
-        justify-content: center;
         align-items: center;
-        border-radius: 13px;
-        background: rgba(255, 255, 255, .12);
-        border: 1px solid #d8b66d;
-        color: #e8c779;
-        font-size: 27px;
+        justify-content: center;
+        width: 62px;
+        height: 62px;
+        flex: 0 0 62px;
+        border: 1px solid rgba(231, 197, 128, .85);
+        border-radius: 15px;
+        background: rgba(255, 255, 255, .09);
+        color: #f0d18d;
+        font-size: 28px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
     }
 
     .o_delivery_payment_header_text {
-        flex: 1;
+        z-index: 1;
+        flex: 1 1 auto;
         min-width: 0;
     }
 
     .o_delivery_payment_title {
-        font-size: 23px;
-        font-weight: 800;
-        letter-spacing: .2px;
         color: #fff;
+        font-size: 24px;
+        font-weight: 800;
+        line-height: 1.25;
+        letter-spacing: .2px;
     }
 
     .o_delivery_payment_subtitle {
-        margin-top: 5px;
+        margin-top: 6px;
+        color: #d7e1ed;
         font-size: 13px;
-        color: #d4e0ec;
+        line-height: 1.5;
     }
 
     .o_delivery_payment_header_badge {
-        display: flex;
+        z-index: 1;
+        display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 10px 15px;
-        border: 1px solid rgba(232, 199, 121, .65);
+        flex: 0 0 auto;
+        padding: 10px 14px;
+        border: 1px solid rgba(231, 197, 128, .65);
         border-radius: 30px;
-        color: #f0d38c;
+        background: rgba(9, 24, 43, .2);
+        color: #f1d595;
         font-size: 12px;
-        font-weight: 700;
+        font-weight: 800;
         white-space: nowrap;
+
+        i {
+            font-size: 16px;
+        }
     }
 
-    .o_delivery_payment_header_badge i {
-        font-size: 17px;
-    }
-
-    // Separate cards
+    /* Independent white sections */
     .o_delivery_payment_card,
     .o_delivery_collection_card {
-        margin-bottom: 19px;
-        padding: 20px;
-        background: #fff;
-        border: 1px solid #e0e7ef;
+        padding: 20px 21px;
+        margin: 0 0 17px;
+        border: 1px solid var(--payment-border);
         border-radius: 14px;
-        box-shadow: 0 3px 12px rgba(25, 52, 83, .07);
+        background: #fff;
+        box-shadow: 0 4px 15px rgba(23, 36, 59, .055);
     }
 
-    // Section titles
     .o_delivery_payment_section_header {
         display: flex;
         align-items: center;
-        gap: 12px;
-        margin-bottom: 20px;
-        color: #193453;
+        gap: 11px;
+        margin: 0 0 17px;
+        color: var(--payment-navy);
         font-size: 16px;
         font-weight: 800;
+        line-height: 1.3;
     }
 
     .o_delivery_payment_section_icon {
-        width: 38px;
-        height: 38px;
-        flex: 0 0 38px;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: #193b60;
-        color: #e8c779;
-        border-radius: 10px;
+        width: 39px;
+        height: 39px;
+        flex: 0 0 39px;
+        border: 1px solid rgba(198, 161, 91, .42);
+        border-radius: 11px;
+        background: linear-gradient(145deg, #17243b, #29496e);
+        color: #f0d18d;
         font-size: 17px;
     }
 
     .o_delivery_payment_section_line {
         height: 2px;
-        flex: 1;
-        background: linear-gradient(
-            90deg,
-            #d7b56d,
-            rgba(215, 181, 109, .08)
-        );
+        flex: 1 1 auto;
+        margin-left: 5px;
+        background: linear-gradient(90deg, var(--payment-gold), rgba(198, 161, 91, .08));
     }
 
-    // Payment radio options
+    /* Payment method radio widget: styled as selectable tiles */
     .o_delivery_payment_method_content {
-        padding: 4px 2px;
+        width: 100%;
+        padding: 2px 0;
     }
 
     .o_delivery_payment_method_radio {
+        display: block;
         width: 100%;
 
-        .o_horizontal {
-            display: flex;
-            flex-wrap: wrap;
+        .o_horizontal,
+        .o_vertical {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
             gap: 12px;
+            width: 100%;
         }
 
         .form-check {
-            flex: 1 1 130px;
-            min-width: 115px;
-            margin: 0 !important;
-            padding: 15px 12px;
-            display: flex;
+            position: relative;
+            display: flex !important;
             align-items: center;
-            justify-content: center;
-            gap: 9px;
-            background: #f8fafc;
-            border: 1px solid #dce4ed;
-            border-radius: 11px;
-            transition: all .2s ease;
+            justify-content: flex-start;
+            gap: 11px;
+            min-width: 0;
+            min-height: 76px;
+            padding: 14px 15px 14px 46px !important;
+            margin: 0 !important;
+            border: 1px solid #dce4ee;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #fff, #f9fbfd);
+            transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
 
             &:hover {
-                background: #f0f5fb;
-                border-color: #c5a15b;
                 transform: translateY(-2px);
+                border-color: rgba(198, 161, 91, .85);
+                background: #fffdf8;
+                box-shadow: 0 5px 13px rgba(23, 36, 59, .07);
             }
 
             &:has(input:checked) {
-                background: #edf4fc;
-                border: 2px solid #244b70;
-                box-shadow: 0 3px 10px rgba(36, 75, 112, .12);
+                border: 2px solid var(--payment-navy);
+                padding: 13px 14px 13px 45px !important;
+                background: linear-gradient(145deg, #f1f6fc, #fff);
+                box-shadow: 0 4px 13px rgba(23, 36, 59, .11), inset 0 0 0 1px rgba(198, 161, 91, .25);
             }
 
             input {
-                accent-color: #244b70;
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                width: 17px;
+                height: 17px;
+                margin: 0 !important;
+                transform: translateY(-50%);
+                accent-color: var(--payment-navy);
                 cursor: pointer;
             }
 
             label {
-                margin: 0;
-                color: #193453;
+                display: flex;
+                align-items: center;
+                min-width: 0;
+                margin: 0 !important;
+                color: var(--payment-navy);
                 font-size: 13px;
-                font-weight: 700;
+                font-weight: 750;
+                line-height: 1.4;
                 cursor: pointer;
+
+                &::before {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 34px;
+                    height: 34px;
+                    flex: 0 0 34px;
+                    margin-right: 10px;
+                    border-radius: 9px;
+                    background: #edf2f8;
+                    color: #294b70;
+                    font-family: FontAwesome;
+                    font-size: 17px;
+                    font-weight: 400;
+                    content: "\f09d";
+                }
+            }
+
+            &:has(input:checked) label::before {
+                background: #f6ecd7;
+                color: #9a7538;
             }
         }
     }
 
-    // Collection account
+    /* Collection account field */
     .o_delivery_collection_content {
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 14px;
         padding: 15px;
-        background: #f7f9fc;
-        border: 1px solid #e2e9f1;
-        border-radius: 11px;
+        border: 1px solid #e1e8f0;
+        border-radius: 12px;
+        background: #f8fafc;
     }
 
     .o_delivery_collection_icon {
-        width: 48px;
-        height: 48px;
-        flex: 0 0 48px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #e5eef8;
-        border: 1px solid #c9d9eb;
-        border-radius: 10px;
-        color: #244b70;
+        width: 49px;
+        height: 49px;
+        flex: 0 0 49px;
+        border: 1px solid #d5e0ed;
+        border-radius: 11px;
+        background: #eaf1f9;
+        color: #294b70;
         font-size: 21px;
     }
 
     .o_delivery_collection_field {
-        flex: 1;
+        flex: 1 1 auto;
         min-width: 0;
 
         label {
             display: block;
-            margin-bottom: 7px;
-            color: #193453;
+            margin: 0 0 7px;
+            color: #526176;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 750;
         }
 
-        .o_field_widget {
+        .o_field_widget,
+        .o_input {
             width: 100%;
+        }
+
+        .o_input,
+        input,
+        select {
+            min-height: 42px;
+            border: 1px solid #cfd9e5;
+            border-radius: 8px;
+            background-color: #fff;
+            color: var(--payment-navy);
+            box-shadow: none;
+
+            &:focus {
+                border-color: var(--payment-gold);
+                box-shadow: 0 0 0 3px rgba(198, 161, 91, .13);
+            }
+        }
+    }
+}
+
+/* Dialog spacing and footer polish */
+.modal:has(.o_delivery_payment_wrapper) {
+    .modal-header {
+        border-bottom: 1px solid #e8edf3;
+    }
+
+    .modal-footer {
+        padding-top: 14px;
+        border-top: 1px solid #e8edf3;
+
+        .btn-primary {
+            border-color: #17243b;
+            background: linear-gradient(135deg, #17243b, #294b70);
+            color: #fff;
+            font-weight: 750;
+            box-shadow: 0 3px 9px rgba(23, 36, 59, .16);
+
+            &:hover {
+                border-color: #c6a15b;
+                background: #294b70;
+            }
         }
     }
 }
 
 @media (max-width: 767px) {
     .o_delivery_payment_wrapper {
+        padding: 7px 0 12px;
+
         .o_delivery_payment_header {
             flex-wrap: wrap;
+            gap: 12px;
             padding: 16px;
         }
 
-        .o_delivery_payment_header_badge {
-            margin-left: 0;
+        .o_delivery_payment_header_icon {
+            width: 49px;
+            height: 49px;
+            flex-basis: 49px;
+            font-size: 22px;
         }
 
         .o_delivery_payment_title {
             font-size: 19px;
         }
 
+        .o_delivery_payment_subtitle {
+            font-size: 12px;
+        }
+
+        .o_delivery_payment_header_badge {
+            margin-left: 61px;
+            padding: 7px 11px;
+        }
+
+        .o_delivery_payment_card,
+        .o_delivery_collection_card {
+            padding: 15px;
+        }
+
+        .o_delivery_payment_method_radio {
+            .o_horizontal,
+            .o_vertical {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .form-check {
+                min-height: 68px;
+                padding: 11px 9px 11px 37px !important;
+
+                &:has(input:checked) {
+                    padding: 10px 8px 10px 36px !important;
+                }
+
+                input {
+                    left: 11px;
+                }
+
+                label {
+                    font-size: 12px;
+
+                    &::before {
+                        width: 29px;
+                        height: 29px;
+                        flex-basis: 29px;
+                        margin-right: 7px;
+                        font-size: 15px;
+                    }
+                }
+            }
+        }
+
         .o_delivery_collection_content {
             align-items: flex-start;
+            padding: 11px;
         }
     }
 }
 
+@media (max-width: 420px) {
+    .o_delivery_payment_wrapper {
+        .o_delivery_payment_method_radio {
+            .o_horizontal,
+            .o_vertical {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+    }
+}
