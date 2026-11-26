@@ -1359,6 +1359,37 @@
             </kanban>
         </field>
     </record>
+	
+	 <record id="view_account_payment_register_form_delivery"
+            model="ir.ui.view">
+
+        <field name="name">
+            account.payment.register.form.delivery
+        </field>
+
+        <field name="model">account.payment.register</field>
+
+        <field name="inherit_id"
+               ref="account.view_account_payment_register_form"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='payment_method_line_id']"
+                   position="after">
+
+                <field name="payment_method_type"
+                       string="Payment Method"/>
+
+                <field name="collection_account_id"
+                       string="Collection Account"
+                       readonly="1"
+                       options="{'no_create': True, 'no_open': True}"/>
+
+            </xpath>
+
+        </field>
+
+    </record>
     
     
     <!-- ===================================================== -->
