@@ -1,0 +1,28 @@
+.pui-color-field { display: flex; align-items: center; gap: 8px; }
+.pui-color-field input[type="color"] { width: 42px; height: 32px; border: 0; padding: 0; background: transparent; }
+.pui-color-field input[type="text"] { width: 100px; max-width: 100%; }
+.pui-preview-shell { border-radius: 16px; background: #080f25; padding: 16px; }
+.pui-preview-toolbar { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; padding: 0 0 14px; color: #dce7ff; border-bottom: 1px solid #273656; }
+.pui-preview-control, .pui-preview-swatches { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+.pui-segmented { display: flex; padding: 3px; gap: 2px; background: #18233f; border-radius: 9px; }
+.pui-segmented button { border: 0; border-radius: 7px; padding: 8px 14px; background: transparent; color: #b5c2dc; font-weight: 700; }
+.pui-segmented button.active { background: #4d7df3; color: #fff; box-shadow: 0 2px 7px rgb(0 0 0 / .25); }
+.pui-preview-swatches { margin-left: auto; }.pui-preview-swatches i { width: 16px; height: 16px; border-radius: 50%; border: 1px solid #8ea1c8; }
+.pui-preview-note { color: #b5c2dc; font-size: 12px; margin: 12px 2px; }
+.pui-preview-scroll { overflow: auto; padding: 20px; background: #030817; border-radius: 12px; }
+.pui-device { margin: auto; border: 8px solid #0e1831; border-radius: 16px; overflow: hidden; container-type: inline-size; box-shadow: 0 14px 34px rgb(0 0 0 / .35); }
+.pui-device-desktop { width: 1280px; }
+.pui-device-tablet { width: 820px; }
+.pui-device-mobile { width: 390px; }
+.pui-preview-header { display: flex; justify-content: space-between; background: #fff; color: #25324b; padding: 12px 16px; font-weight: 600; }.pui-preview-header b { padding: 4px 8px; border-radius: 5px; background: #4d7df3; color: #fff; }.pui-preview-header i { color: #16835a; font-style: normal; }
+.pui-preview-header span { font-weight: 400; }
+.pui-preview .pui-preview-register { height: 620px; min-height: 0; }
+.pui-preview .pui-preview-catalog { overflow: auto; min-height: 220px; }
+.pui-preview-products { display: grid; gap: var(--pui-gap); padding: var(--pui-gap); }
+.pui-preview-categories { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; border-bottom: 1px solid #CBD5E1; }.pui-preview-categories span, .pui-preview-categories b { padding: 6px 10px; border-radius: 16px; background: #fff; }.pui-preview-categories b { background: var(--pui-primary); color: var(--pui-on-primary); }
+.pui-preview .pui-preview-keys { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pui-preview .pui-actions { display: flex; }
+.pui-preview .pui-order span { float: right; }
+.pui-preview .pui-order small { display: block; color: #64748b; }.pui-preview .pui-order em { float: right; padding: 3px 8px; border-radius: 10px; background: #172033; color: #fff; font-size: 11px; font-style: normal; }.pui-order-tools { display: flex; gap: 6px; margin: 12px 0; }.pui-order-tools button { flex: 1; border: 1px solid #cbd5e1; background: #fff; border-radius: 5px; }.pui-preview-products .product { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; min-height: 96px; }.pui-preview-products .product small { align-self: flex-end; color: var(--pui-accent); font-weight: 700; }
+.pui-preview .payment-footer { display: flex; }
+@media (max-width: 700px) { .pui-preview-shell { padding: 10px; }.pui-preview-toolbar { gap: 10px; }.pui-preview-control { width: 100%; justify-content: space-between; }.pui-preview-swatches { margin-left: 0; }.pui-preview-scroll { padding: 8px; }.pui-device-mobile { width: 340px; }.pui-preview .pui-preview-register { height: 700px; } }

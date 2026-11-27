@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pui_profile_manager,POS UI profile manager,model_pos_ui_designer_profile,point_of_sale.group_pos_manager,1,1,1,1
+access_pui_action_manager,POS UI action manager,model_pos_ui_designer_action,point_of_sale.group_pos_manager,1,1,1,1

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pui_profile_company_rule" model="ir.rule">
+        <field name="name">POS UI profiles: allowed companies</field>
+        <field name="model_id" ref="model_pos_ui_designer_profile"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="pui_action_company_rule" model="ir.rule">
+        <field name="name">POS UI actions: allowed companies</field>
+        <field name="model_id" ref="model_pos_ui_designer_action"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

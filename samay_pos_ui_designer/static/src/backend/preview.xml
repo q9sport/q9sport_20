@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="pos_ui_designer.Color">
+        <div class="pui-color-field">
+            <input type="color" t-att-value="this.safeColor" t-att-disabled="this.props.readonly" t-on-change="this.onChange" aria-label="Choose color"/>
+            <input type="text" t-att-id="this.props.id" t-att-value="this.value" t-att-readonly="this.props.readonly" t-on-change="this.onChange" pattern="#[0-9A-Fa-f]{6}" maxlength="7" aria-label="Color in hexadecimal format"/>
+        </div>
+    </t>
+    <t t-name="pos_ui_designer.Preview">
+        <section class="pui-preview pui-preview-shell">
+            <div class="pui-preview-toolbar">
+                <div class="pui-preview-control"><span>Device simulation</span><div class="pui-segmented"><button t-att-class="{'active': this.state.device === 'desktop'}" t-on-click="() => this.setDevice('desktop')">Desktop</button><button t-att-class="{'active': this.state.device === 'tablet'}" t-on-click="() => this.setDevice('tablet')">Tablet</button><button t-att-class="{'active': this.state.device === 'mobile'}" t-on-click="() => this.setDevice('mobile')">Mobile</button></div></div>
+                <div class="pui-preview-control"><span>Screen view</span><div class="pui-segmented"><button t-att-class="{'active': this.state.screen === 'sales'}" t-on-click="() => this.setScreen('sales')">Sales screen</button><button t-att-class="{'active': this.state.screen === 'payment'}" t-on-click="() => this.setScreen('payment')">Payment screen</button></div></div>
+                <div class="pui-preview-swatches"><span>Active colours</span><i t-foreach="this.swatches" t-as="color" t-key="color" t-att-style="'background:' + color"/></div>
+            </div>
+            <p class="pui-preview-note">Interactive simulator using the current form values<t t-if="this.dirty"> (unsaved)</t>. It does not open a POS session or process payments.</p>
+            <div class="pui-preview-scroll">
+                <div t-attf-class="pui-device pui-device-{{this.state.device}}">
+                    <div class="pui-preview-header"><span><b>POS 20</b>&#160;Order #0042-001</span><span>Cashier: Alex&#160;<i>Online</i></span></div>
+                    <div class="pui-scope pui-grid pui-preview-register" t-att-class="{'pui-vertical': this.design.action_direction === 'vertical'}" t-att-style="this.rootStyle" t-att-data-keypad-position="this.state.screen === 'sales' ? this.design.sales_keypad_position : this.design.payment_keypad_position" t-att-data-methods-position="this.design.payment_methods_position">
+                        <section class="pui-slot pui-keypad" t-att-style="this.region('keypad')"><div class="numpad pui-preview-keys"><button t-foreach="this.keys" t-as="key" t-key="key" type="button" tabindex="-1" class="btn numpad-button" t-out="key"/></div></section>
+                        <t t-if="this.state.screen === 'sales'">
+                            <section class="pui-slot pui-order" t-att-style="this.region('order')"><strong>Current order <em>3 items</em></strong><div class="pui-order-tools"><button>Customer</button><button>Note</button><button>Discount</button></div><p>Nitro Cold Brew <span>9.00</span><small>2.00 Units @ 4.50</small></p><p>Artisan Croissant <span>3.50</span><small>1.00 Units @ 3.50</small></p><p>Organic Matcha Latte <span>12.00</span><small>2.00 Units @ 6.00</small></p><hr/><strong>Total due <span>24.50</span></strong></section>
+                            <section class="pui-slot pui-products" t-att-style="this.region('products')"><div class="pui-preview-catalog"><div class="pui-preview-categories"><b>All items</b><span>Beverages</span><span>Bakery</span><span>Desserts</span><span>Combos</span></div><div class="product-list pui-preview-products"><button t-foreach="this.products" t-as="product" t-key="product.name" type="button" tabindex="-1" class="btn product"><span class="product-name" t-out="product.name"/><small t-out="'$' + product.price"/></button></div></div></section>
+                            <section class="pui-slot pui-actions" t-att-style="this.region('actions')"><button t-foreach="this.actions" t-as="code" t-key="code" type="button" tabindex="-1" class="btn" t-out="this.actionLabels[code]"/><button type="button" tabindex="-1" class="btn">More</button></section>
+                        </t>
+                        <t t-else="">
+                            <section class="pui-slot pui-methods" t-att-style="this.region('methods')"><strong>Payment methods</strong><button type="button" tabindex="-1" class="btn btn-primary">Cash</button><button type="button" tabindex="-1" class="btn">Card</button><button type="button" tabindex="-1" class="btn">Customer Account</button></section>
+                            <section class="pui-slot pui-summary" t-att-style="this.region('summary')"><strong>Payment summary</strong><p>Total <span>24.50</span></p><p>Paid <span>25.00</span></p><p>Change <span>0.50</span></p></section>
+                            <section class="pui-slot pui-options" t-att-style="this.region('options')"><button type="button" tabindex="-1" class="btn">Customer</button><button type="button" tabindex="-1" class="btn">Invoice</button></section>
+                        </t>
+                        <section class="pui-slot pui-checkout payment-footer" t-att-style="this.region('checkout')"><button type="button" tabindex="-1" class="btn">Back</button><button type="button" tabindex="-1" class="btn btn-primary"><t t-if="this.state.screen === 'sales'">Payment · 210.00</t><t t-else="">Validate</t></button></section>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </t>
+</templates>
