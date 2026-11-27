@@ -1,0 +1,247 @@
+
+/* POS Fast Retail 20 - TIVA-inspired compact layout.
+   Odoo 20 native components and business logic are preserved. */
+
+$o-pfr-bg: #071321;
+$o-pfr-panel: #0d1a29;
+$o-pfr-panel-2: #132438;
+$o-pfr-border: rgba(170, 190, 210, .16);
+$o-pfr-gold: #d5a63d;
+$o-pfr-green: #159447;
+$o-pfr-text: #e8edf3;
+$o-pfr-muted: #9aa9b9;
+
+.pos, .o_pos {
+    background: $o-pfr-bg !important;
+    color: $o-pfr-text !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+}
+
+/* Main product screen: narrow cart + product area + category rail */
+.product-screen {
+    background: $o-pfr-bg !important;
+    color: $o-pfr-text !important;
+    min-height: 0;
+}
+
+.product-screen > .leftpane {
+    flex: 0 0 clamp(245px, 25vw, 320px) !important;
+    width: clamp(245px, 25vw, 320px) !important;
+    min-width: 230px !important;
+    background: $o-pfr-panel !important;
+    border-color: $o-pfr-border !important;
+    padding-bottom: 5px !important;
+}
+
+.product-screen > .rightpane {
+    min-width: 0 !important;
+    background: $o-pfr-bg !important;
+}
+
+/* The category selector is moved visually to a slim right rail.
+   ProductScreen in Odoo 20 renders CategorySelector and the product scroller
+   as siblings inside this relative wrapper. */
+.product-screen > .rightpane > .position-relative {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) clamp(112px, 12vw, 158px) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+    gap: 8px !important;
+    min-height: 0 !important;
+    padding: 8px !important;
+    background: $o-pfr-bg !important;
+}
+
+/* CategorySelector component */
+.product-screen .category-selector {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-content: stretch !important;
+    gap: 5px !important;
+    padding: 5px !important;
+    background: $o-pfr-panel !important;
+    border: 1px solid $o-pfr-border !important;
+    border-radius: 10px !important;
+}
+
+/* Category selector internals: support the common Odoo 20 category wrappers */
+.product-screen .category-selector :is(.category-list, .categories, .d-flex, .flex-wrap) {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    gap: 5px !important;
+    width: 100% !important;
+}
+.product-screen .category-selector :is(button, .category-button, .category-simple-button, .category-item) {
+    width: 100% !important;
+    min-height: 34px !important;
+    height: auto !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    padding: 7px 8px !important;
+    border: 1px solid $o-pfr-border !important;
+    border-radius: 7px !important;
+    background: $o-pfr-panel-2 !important;
+    color: $o-pfr-text !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+}
+.product-screen .category-selector :is(button, .category-button, .category-simple-button, .category-item).active,
+.product-screen .category-selector :is(button, .category-button, .category-simple-button, .category-item):hover {
+    border-color: $o-pfr-gold !important;
+    color: #fff !important;
+    background: #1a2b3e !important;
+}
+.product-screen .category-selector img {
+    max-width: 25px !important;
+    max-height: 25px !important;
+    object-fit: contain !important;
+}
+
+/* Product grid in the center */
+.product-screen > .rightpane > .position-relative > .overflow-y-auto {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    background: $o-pfr-bg !important;
+    border: 1px solid $o-pfr-border !important;
+    border-radius: 10px !important;
+    scrollbar-color: #34465a transparent;
+}
+.product-screen .product-list {
+    grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)) !important;
+    gap: 7px !important;
+    padding: 8px !important;
+}
+.product-screen .product-list > * {
+    min-width: 0 !important;
+}
+.product-screen .product-list .product-card,
+.product-screen .product-list .product {
+    min-height: 142px !important;
+    border: 1px solid $o-pfr-border !important;
+    border-radius: 9px !important;
+    background: linear-gradient(145deg, #142438, #0c1928) !important;
+    color: $o-pfr-text !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+}
+.product-screen .product-list :is(.product-name, .product-name.no-image) {
+    color: $o-pfr-text !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+    font-weight: 500 !important;
+    padding: 5px !important;
+}
+.product-screen .product-list :is(.product-price, .price-tag, .product-card-price) {
+    color: #fff !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+.product-screen .product-list img {
+    object-fit: contain !important;
+    max-height: 82px !important;
+}
+
+/* Header and search */
+.pos-topheader, .o_pos_navbar, .pos .navbar {
+    background: #081522 !important;
+    border-bottom: 1px solid $o-pfr-border !important;
+    box-shadow: none !important;
+}
+.pos-topheader :is(button, input, .btn),
+.o_pos_navbar :is(button, input, .btn) {
+    min-height: 31px !important;
+    border-radius: 7px !important;
+    font-size: 11px !important;
+    box-shadow: none !important;
+}
+.pos :is(input, .form-control, input.form-control) {
+    background: #101f30 !important;
+    color: $o-pfr-text !important;
+    border: 1px solid $o-pfr-border !important;
+    border-radius: 7px !important;
+    font-size: 11px !important;
+}
+
+/* Cart, summary and payment area */
+.product-screen .leftpane :is(.order-summary, .order-container, .orderline, .order-line) {
+    background: transparent !important;
+    color: $o-pfr-text !important;
+    border-color: $o-pfr-border !important;
+    box-shadow: none !important;
+}
+.product-screen .leftpane .orderline {
+    min-height: 31px !important;
+    padding: 5px 7px !important;
+    font-size: 11px !important;
+}
+.product-screen .leftpane :is(.total, .order-summary, .order-total) {
+    color: $o-pfr-text !important;
+    font-size: 12px !important;
+}
+.product-screen .leftpane :is(.pay-order-button, .pay-button, .btn-primary) {
+    background: $o-pfr-green !important;
+    border-color: $o-pfr-green !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+/* Small quiet controls - no oversized typography or heavy borders */
+.pos :is(button, .btn, .control-button, .actionpad button) {
+    border-radius: 7px !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+}
+.pos :is(.btn-secondary, .btn-light, .control-button, .actionpad button) {
+    background: $o-pfr-panel-2 !important;
+    color: $o-pfr-text !important;
+    border: 1px solid $o-pfr-border !important;
+}
+.pos :is(h1, h2, h3, h4, .h1, .h2, .h3, .h4) {
+    color: $o-pfr-text !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+}
+.pos :is(.text-muted, .text-secondary, small, .small) {
+    color: $o-pfr-muted !important;
+}
+
+/* Dialogs */
+.pos :is(.modal-content, .modal .modal-content, .o_dialog .modal-content) {
+    background: $o-pfr-panel !important;
+    color: $o-pfr-text !important;
+    border: 1px solid $o-pfr-border !important;
+    border-radius: 10px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,.3) !important;
+}
+
+/* Responsive: on smaller screens, keep Odoo's native pane switching. */
+@media (max-width: 900px) {
+    .product-screen > .leftpane {
+        flex-basis: 230px !important;
+        width: 230px !important;
+        min-width: 210px !important;
+    }
+    .product-screen > .rightpane > .position-relative {
+        grid-template-columns: minmax(0, 1fr) 105px !important;
+        gap: 5px !important;
+        padding: 5px !important;
+    }
+    .product-screen .product-list {
+        grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)) !important;
+        gap: 5px !important;
+    }
+}
