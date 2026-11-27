@@ -5,6 +5,10 @@ import { patch } from "@web/core/utils/patch";
 import { _t } from "@web/core/l10n/translation";
 import { fuzzyLookup } from "@web/core/utils/search";
 
+// =====================================================
+// CONFIGURATION
+// =====================================================
+
 const DELIVERY_PRODUCT_ID = 38;
 const DELIVERY_PRODUCT_BARCODE = "10002";
 
@@ -15,16 +19,30 @@ const DELIVERY_FILTERS = {
     CANCELLED: "DELIVERY_CANCELLED",
 };
 
+const DELIVERY_FILTER_OPTIONS = new Map([
+    [DELIVERY_FILTERS.ALL, { text: _t("All") }],
+    [DELIVERY_FILTERS.UNPAID, { text: _t("Unpaid") }],
+    [
+        DELIVERY_FILTERS.INVOICE_UNPAID,
+        { text: _t("Paid - Invoice Unpaid") },
+    ],
+    [DELIVERY_FILTERS.CANCELLED, { text: _t("Cancelled") }],
+]);
+
 // =====================================================
 // HELPERS
 // =====================================================
 
-function isDeliveryOrder(order) {
-    const lines = order.getOrderlines
-        ? order.getOrderlines()
-        : order.lines || [];
+function getOrderLines(order) {
+    if (typeof order.getOrderlines === "function") {
+        return order.getOrderlines();
+    }
 
-    return lines.some((line) => {
+    return order.lines || [];
+}
+
+function isDeliveryOrder(order) {
+    return getOrderLines(order).some((line) => {
         const product = line.product_id;
 
         return (
@@ -34,22 +52,32 @@ function isDeliveryOrder(order) {
     });
 }
 
-function isInvoiceUnpaid(order) {
-    const invoiceState =
+function getInvoicePaymentState(order) {
+    return (
         order.account_move_payment_state ||
-        order.account_move?.payment_state;
+        order.account_move?.payment_state ||
+        null
+    );
+}
+
+function isInvoiceUnpaid(order) {
+    const invoiceState = getInvoicePaymentState(order);
 
     return (
-        order.finalized &&
+        ["paid", "done"].includes(order.state) &&
         ["not_paid", "partial"].includes(invoiceState)
     );
 }
 
 function isUnpaidOrder(order) {
     return (
-        !order.finalized &&
-        order.state !== "cancel"
+        order.state === "draft" ||
+        order.state === "waiting"
     );
+}
+
+function isCancelledOrder(order) {
+    return order.state === "cancel";
 }
 
 // =====================================================
@@ -60,6 +88,7 @@ patch(Navbar.prototype, {
 
     onDeliveryOrdersClick() {
         this.pos.deliveryOrdersMode = true;
+        this.pos.deliveryOrdersFilter = DELIVERY_FILTERS.ALL;
 
         this.pos.navigate("TicketScreen");
     },
@@ -85,94 +114,77 @@ patch(Navbar.prototype, {
 patch(TicketScreen.prototype, {
 
     // -------------------------------------------------
-    // INITIALIZE DELIVERY FILTER
+    // FILTER INITIALIZATION
     // -------------------------------------------------
 
     setup() {
         super.setup(...arguments);
 
         if (this.pos.deliveryOrdersMode) {
-            this.state.filter = DELIVERY_FILTERS.ALL;
+            this.pos.deliveryOrdersFilter =
+                DELIVERY_FILTERS.ALL;
         }
     },
 
     // -------------------------------------------------
-    // REPLACE DROPDOWN OPTIONS
+    // DELIVERY FILTER OPTIONS
     // -------------------------------------------------
 
     _getOrderStates() {
-
         if (!this.pos.deliveryOrdersMode) {
             return super._getOrderStates(...arguments);
         }
 
-        return new Map([
-            [
-                DELIVERY_FILTERS.ALL,
-                { text: _t("All") },
-            ],
-            [
-                DELIVERY_FILTERS.UNPAID,
-                { text: _t("Unpaid") },
-            ],
-            [
-                DELIVERY_FILTERS.INVOICE_UNPAID,
-                { text: _t("Paid - Invoice Unpaid") },
-            ],
-            [
-                DELIVERY_FILTERS.CANCELLED,
-                { text: _t("Cancelled") },
-            ],
-        ]);
+        return DELIVERY_FILTER_OPTIONS;
     },
 
     _getFilterOptions() {
-
         if (!this.pos.deliveryOrdersMode) {
             return super._getFilterOptions(...arguments);
         }
 
-        return this._getOrderStates();
+        return DELIVERY_FILTER_OPTIONS;
     },
 
     // -------------------------------------------------
-    // FILTER SELECTION
+    // SELECT DELIVERY FILTER
     // -------------------------------------------------
 
     async onFilterSelected(selectedFilter) {
-
         if (!this.pos.deliveryOrdersMode) {
             return super.onFilterSelected(...arguments);
         }
 
-        this.state.filter =
-            Object.values(DELIVERY_FILTERS).includes(selectedFilter)
-                ? selectedFilter
-                : DELIVERY_FILTERS.ALL;
+        const validFilter = Object.values(DELIVERY_FILTERS)
+            .includes(selectedFilter);
 
-        this.state.page = 1;
+        this.pos.deliveryOrdersFilter = validFilter
+            ? selectedFilter
+            : DELIVERY_FILTERS.ALL;
 
-        this.pos.screenState.ticketSCreen.totalCount = 0;
-        this.pos.screenState.ticketSCreen.offsetByDomain = {};
+        if (this.state.page !== undefined) {
+            this.state.page = 1;
+        }
 
-        await this._fetchSyncedOrders();
+        if (typeof this._fetchSyncedOrders === "function") {
+            await this._fetchSyncedOrders();
+        }
     },
 
     // -------------------------------------------------
-    // SYNCED ORDERS DOMAIN
+    // SERVER DOMAIN
     // -------------------------------------------------
 
     _computeSyncedOrdersDomain() {
-
         const domain = super._computeSyncedOrdersDomain(...arguments);
 
         if (!this.pos.deliveryOrdersMode) {
             return domain;
         }
 
-        const filter = this.state.filter;
+        const filter =
+            this.pos.deliveryOrdersFilter || DELIVERY_FILTERS.ALL;
 
-        // Every result must contain the delivery product.
         const deliveryDomain = [
             "|",
             ["lines.product_id", "=", DELIVERY_PRODUCT_ID],
@@ -190,7 +202,11 @@ patch(TicketScreen.prototype, {
             return [
                 ...deliveryDomain,
                 ["state", "in", ["paid", "done"]],
-                ["account_move_payment_state", "in", ["not_paid", "partial"]],
+                [
+                    "account_move_payment_state",
+                    "in",
+                    ["not_paid", "partial"],
+                ],
             ];
         }
 
@@ -206,103 +222,41 @@ patch(TicketScreen.prototype, {
     },
 
     // -------------------------------------------------
-    // DISPLAY DELIVERY ORDERS
+    // FILTER LOADED ORDERS
     // -------------------------------------------------
 
     getFilteredOrderList() {
-
         if (!this.pos.deliveryOrdersMode) {
             return super.getFilteredOrderList(...arguments);
         }
 
-        const filter = this.state.filter;
+        const filter =
+            this.pos.deliveryOrdersFilter || DELIVERY_FILTERS.ALL;
 
-        // Use all orders currently available in the POS model.
-        let orders = this.pos.models["pos.order"].filter(
-            (order) => order.uiState?.displayed && isDeliveryOrder(order)
-        );
+        const orders = super.getFilteredOrderList(...arguments);
 
-        // Apply selected delivery filter.
+        let deliveryOrders = orders.filter(isDeliveryOrder);
+
         if (filter === DELIVERY_FILTERS.UNPAID) {
-
-            orders = orders.filter(isUnpaidOrder);
-
-        } else if (filter === DELIVERY_FILTERS.INVOICE_UNPAID) {
-
-            orders = orders.filter(isInvoiceUnpaid);
-
-        } else if (filter === DELIVERY_FILTERS.CANCELLED) {
-
-            orders = orders.filter(
-                (order) => order.state === "cancel"
-            );
-
+            deliveryOrders = deliveryOrders.filter(isUnpaidOrder);
         }
 
-        // Search bar.
-        if (this.state.search?.searchTerm) {
-
-            const searchField =
-                this._getSearchFields()[this.state.search.fieldName];
-
-            if (searchField) {
-                orders = fuzzyLookup(
-                    this.state.search.searchTerm,
-                    orders,
-                    searchField.repr
-                );
-            }
+        if (filter === DELIVERY_FILTERS.INVOICE_UNPAID) {
+            deliveryOrders = deliveryOrders.filter(isInvoiceUnpaid);
         }
 
-        // Customer filter.
-        if (
-            this.state.search?.partnerId &&
-            this.state.search.fieldName === "PARTNER"
-        ) {
-            orders = orders.filter(
-                (order) =>
-                    order.partner_id?.id === this.state.search.partnerId
-            );
+        if (filter === DELIVERY_FILTERS.CANCELLED) {
+            deliveryOrders = deliveryOrders.filter(isCancelledOrder);
         }
 
-        // Sort newest first.
-        orders.sort((a, b) => {
-            const dateA = a.date_order?.ts || 0;
-            const dateB = b.date_order?.ts || 0;
-
-            return dateB - dateA;
-        });
-
-        this.pos.screenState.ticketSCreen.totalCount = orders.length;
-
-        const start =
-            (this.state.page - 1) * this.state.nbrByPage;
-
-        return orders.slice(start, start + this.state.nbrByPage);
+        return deliveryOrders;
     },
 
     // -------------------------------------------------
-    // SEARCH - KEEP DELIVERY MODE
-    // -------------------------------------------------
-
-    async onSearch(search) {
-
-        if (!this.pos.deliveryOrdersMode) {
-            return super.onSearch(...arguments);
-        }
-
-        this.state.search = search;
-        this.state.page = 1;
-
-        await this._fetchSyncedOrders();
-    },
-
-    // -------------------------------------------------
-    // OPEN SELECTED DELIVERY ORDER
+    // OPEN DELIVERY ORDER IN BACKEND
     // -------------------------------------------------
 
     onOpenDeliveryOrderBackend(order) {
-
         if (!order) {
             this.env.services.notification.add(
                 "لم يتم تحديد الأوردر",
