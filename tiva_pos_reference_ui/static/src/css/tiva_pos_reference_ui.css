@@ -1,31 +1,25 @@
 /* =========================================================
-   Q9SPORT - ODOO 20 POS
-   MODERN ROYAL GLASS DESIGN
-   Products 65% | Order Panel 35%
+   Q9SPORT POS 20 - ROYAL GLASS
+   LEFT: PRODUCTS 65%
+   RIGHT: ORDER + SUMMARY 35%
    ========================================================= */
-
-/* ================= ROOT COLORS ================= */
 
 :root {
     --q9-bg: #e9eef5;
-    --q9-panel: #f3f6fa;
-    --q9-card: #ffffff;
-    --q9-card-soft: #f7f9fc;
-
+    --q9-panel: #f5f7fa;
+    --q9-white: #ffffff;
     --q9-navy: #304762;
     --q9-navy-dark: #243951;
     --q9-gold: #b99a65;
-    --q9-gold-light: #eee3cf;
-
-    --q9-text: #30445c;
-    --q9-muted: #8291a3;
-    --q9-border: #d9e1eb;
-
-    --q9-radius: 12px;
+    --q9-text: #354960;
+    --q9-muted: #8190a2;
+    --q9-border: #dce4ed;
     --q9-shadow: 0 3px 12px rgba(35, 55, 80, .06);
 }
 
-/* ================= MAIN SCREEN ================= */
+/* =========================================================
+   MAIN SCREEN
+   ========================================================= */
 
 .pos .product-screen {
     background: var(--q9-bg) !important;
@@ -34,16 +28,22 @@
 .pos .product-screen .screen-full-width {
     display: flex !important;
     flex-direction: row !important;
-    gap: 9px !important;
-    padding: 8px !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 9px !important;
     overflow: hidden !important;
     background: var(--q9-bg) !important;
     min-height: 0 !important;
 }
 
-/* ================= PRODUCTS AREA 65% ================= */
+/* =========================================================
+   PRODUCTS - LEFT SIDE 65%
+   ========================================================= */
 
 .pos .product-screen .rightpane {
+    order: 1 !important;
+    direction: ltr !important;
+
     flex: 0 0 65% !important;
     width: 65% !important;
     max-width: 65% !important;
@@ -54,98 +54,92 @@
 
     background: #e8edf4 !important;
     border: 1px solid var(--q9-border) !important;
-    border-radius: 14px !important;
+    border-radius: 15px !important;
 
-    padding: 8px !important;
+    padding: 9px !important;
     overflow: hidden !important;
 }
 
-/* ================= PRODUCT GRID ================= */
+/* Product list scrolling */
 
 .pos .product-screen .product-list-container {
     flex: 1 1 auto !important;
     min-height: 0 !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
-
-    background: transparent !important;
     padding: 8px !important;
+    background: transparent !important;
 }
+
+/* Product grid */
 
 .pos .product-screen .product-list {
     display: grid !important;
     grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-
-    background: transparent !important;
+    gap: 11px !important;
     padding: 4px !important;
+    background: transparent !important;
 }
 
-/* ================= PRODUCT CARDS ================= */
+/* =========================================================
+   PRODUCT CARDS
+   ========================================================= */
 
 .pos .product-screen .product,
 .pos .product-screen .product-card {
     position: relative !important;
     min-width: 0 !important;
+    overflow: hidden !important;
 
     background: linear-gradient(
         145deg,
         #ffffff 0%,
-        #f8fafd 60%,
+        #f8fafd 58%,
         #edf2f8 100%
     ) !important;
 
-    border: 1px solid #d8e1eb !important;
-    border-radius: 12px !important;
+    border: 1px solid #d9e2ec !important;
+    border-radius: 13px !important;
 
     box-shadow:
-        0 2px 6px rgba(36, 59, 86, .045),
+        0 2px 7px rgba(35, 55, 80, .055),
         inset 0 1px 0 rgba(255,255,255,.95) !important;
 
-    overflow: hidden !important;
-    transition: background .2s ease, border-color .2s ease,
-                box-shadow .2s ease, transform .2s ease !important;
+    transition: all .18s ease !important;
 }
 
 .pos .product-screen .product:hover,
 .pos .product-screen .product-card:hover {
     background: linear-gradient(
         145deg,
-        #ffffff 0%,
-        #f8f4ec 100%
+        #ffffff,
+        #f8f2e8
     ) !important;
 
-    border-color: #c3a675 !important;
-
-    box-shadow: 0 5px 14px rgba(36, 59, 86, .10) !important;
+    border-color: #c6a875 !important;
+    box-shadow: 0 5px 13px rgba(35, 55, 80, .10) !important;
     transform: translateY(-2px) !important;
 }
 
-/* ================= PRODUCT IMAGE ================= */
+/* Product image */
 
 .pos .product-screen .product img,
 .pos .product-screen .product-card img {
-    border-radius: 9px !important;
     object-fit: contain !important;
-}
-
-.pos .product-screen .product .product-img,
-.pos .product-screen .product .product-image {
-    background: #edf2f8 !important;
     border-radius: 9px !important;
 }
 
-/* ================= PRODUCT NAME ================= */
+/* Product name */
 
 .pos .product-screen .product .product-name,
 .pos .product-screen .product-card .product-name {
     color: var(--q9-text) !important;
     font-size: 12px !important;
     font-weight: 650 !important;
-    line-height: 1.35 !important;
+    line-height: 1.4 !important;
 }
 
-/* ================= PRODUCT PRICE ================= */
+/* Product price */
 
 .pos .product-screen .product .product-price,
 .pos .product-screen .product-card .product-price {
@@ -154,22 +148,24 @@
     font-weight: 750 !important;
 }
 
-/* ================= CATEGORY BAR ================= */
+/* =========================================================
+   CATEGORY BAR
+   ========================================================= */
 
 .pos .product-screen .category-list {
     background: #e8edf4 !important;
-    border-radius: 10px !important;
-    padding: 5px !important;
+    border-radius: 11px !important;
+    padding: 6px !important;
 }
 
 .pos .product-screen .category-list button {
-    background: #f7f9fc !important;
+    background: #f8fafc !important;
     color: var(--q9-navy) !important;
     border: 1px solid var(--q9-border) !important;
     border-radius: 8px !important;
     font-size: 11px !important;
-    padding: 6px 10px !important;
-    min-height: 29px !important;
+    min-height: 30px !important;
+    padding: 5px 10px !important;
 }
 
 .pos .product-screen .category-list .highlight {
@@ -178,9 +174,14 @@
     border-color: var(--q9-navy) !important;
 }
 
-/* ================= RIGHT PANEL 35% ================= */
+/* =========================================================
+   ORDER PANEL - RIGHT SIDE 35%
+   ========================================================= */
 
 .pos .product-screen .leftpane {
+    order: 2 !important;
+    direction: ltr !important;
+
     flex: 1 1 35% !important;
     width: 35% !important;
     max-width: 35% !important;
@@ -188,16 +189,15 @@
 
     display: flex !important;
     flex-direction: column !important;
-    gap: 8px !important;
+    gap: 9px !important;
 
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
-
     overflow: hidden !important;
 }
 
-/* ================= ORDER CONTAINER TOP HALF ================= */
+/* Order lines - upper half */
 
 .pos .product-screen .leftpane .order-container {
     flex: 1 1 50% !important;
@@ -210,14 +210,16 @@
     ) !important;
 
     border: 1px solid var(--q9-border) !important;
-    border-radius: 13px !important;
-
+    border-radius: 14px !important;
     box-shadow: var(--q9-shadow) !important;
+
     overflow-y: auto !important;
     overflow-x: hidden !important;
+
+    padding-bottom: 7px !important;
 }
 
-/* ================= ORDER SUMMARY BOTTOM HALF ================= */
+/* Order summary - lower half */
 
 .pos .product-screen .leftpane .order-summary {
     flex: 1 1 50% !important;
@@ -225,51 +227,57 @@
 
     background: linear-gradient(
         145deg,
-        #f9fbfd,
+        #fafbfd,
         #edf2f8
     ) !important;
 
     border: 1px solid var(--q9-border) !important;
-    border-radius: 13px !important;
-
+    border-radius: 14px !important;
     box-shadow: var(--q9-shadow) !important;
-    padding: 9px !important;
 
+    padding: 10px 10px 14px !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
 }
 
-/* ================= ORDER LINES ================= */
+/* =========================================================
+   ORDER LINES
+   ========================================================= */
 
 .pos .orderline {
     background: #ffffff !important;
-    border: 1px solid #e0e6ee !important;
-    border-radius: 9px !important;
+    border: 1px solid #e1e7ef !important;
+    border-radius: 10px !important;
 
-    margin: 4px 5px !important;
-    padding: 7px !important;
+    margin: 5px 6px !important;
+    padding: 9px 9px 11px !important;
 
-    box-shadow: 0 1px 4px rgba(35, 55, 80, .035) !important;
+    box-shadow: 0 2px 5px rgba(35, 55, 80, .035) !important;
+    transition: all .15s ease !important;
 }
 
 .pos .orderline.selected {
     background: linear-gradient(
         110deg,
-        #f8f1e5,
-        #fffdf9
+        #fbf6ed,
+        #ffffff
     ) !important;
 
-    border: 1px solid #c4a46d !important;
+    border-color: #c6a875 !important;
+    box-shadow: 0 2px 8px rgba(185, 154, 101, .10) !important;
 }
 
-/* ================= ORDER TEXT ================= */
+/* Product name in order */
 
 .pos .orderline .product-name,
 .pos .orderline .product-name span {
     color: var(--q9-text) !important;
     font-size: 11px !important;
     font-weight: 650 !important;
+    line-height: 1.5 !important;
 }
+
+/* Product details */
 
 .pos .orderline .price,
 .pos .orderline .info-list {
@@ -277,41 +285,66 @@
     font-size: 10px !important;
 }
 
-/* ================= QUANTITY CONTROLS ================= */
+/* =========================================================
+   QUANTITY - LOWER WITH MORE SPACE
+   ========================================================= */
+
+.pos .orderline .product-name {
+    margin-bottom: 5px !important;
+}
+
+.pos .orderline .info-list {
+    margin-top: 4px !important;
+    margin-bottom: 5px !important;
+}
+
+.pos .orderline .qty,
+.pos .orderline .quantity {
+    margin-top: 7px !important;
+    margin-bottom: 3px !important;
+}
+
+/* Quantity controls */
 
 .pos .orderline button {
-    min-width: 24px !important;
-    min-height: 24px !important;
-
-    width: 24px !important;
-    height: 24px !important;
+    min-width: 25px !important;
+    min-height: 25px !important;
+    width: 25px !important;
+    height: 25px !important;
 
     padding: 2px !important;
-    border-radius: 6px !important;
+    margin-top: 5px !important;
+    margin-bottom: 4px !important;
 
+    border-radius: 7px !important;
     font-size: 10px !important;
 }
 
-/* ================= GENERAL BUTTONS ================= */
+/* =========================================================
+   BUTTONS - SMALLER + BOTTOM SPACING
+   ========================================================= */
 
 .pos .product-screen button {
     border-radius: 8px !important;
     font-size: 11px !important;
     min-height: 29px !important;
     padding: 5px 9px !important;
+
+    margin-bottom: 4px !important;
 }
 
-/* ================= NAVBAR BUTTONS ================= */
+/* Navbar buttons */
 
 .pos .navbar button,
 .pos .product-screen .control-button {
-    min-height: 28px !important;
-    padding: 4px 9px !important;
+    min-height: 29px !important;
+    padding: 5px 9px !important;
     font-size: 10px !important;
+    margin-bottom: 5px !important;
     border-radius: 8px !important;
 }
 
-/* ================= PRIMARY BUTTONS ================= */
+/* Primary buttons */
 
 .pos .product-screen button.btn-primary,
 .pos .product-screen button.highlight {
@@ -320,7 +353,7 @@
     border: 1px solid var(--q9-navy) !important;
 }
 
-/* ================= SECONDARY BUTTONS ================= */
+/* Secondary buttons */
 
 .pos .product-screen button.btn-secondary {
     background: #f5f7fa !important;
@@ -328,7 +361,9 @@
     border: 1px solid var(--q9-border) !important;
 }
 
-/* ================= GOLD ACCENTS ================= */
+/* =========================================================
+   TOTALS
+   ========================================================= */
 
 .pos .product-screen .total,
 .pos .product-screen .order-summary .value {
@@ -336,7 +371,9 @@
     font-weight: 750 !important;
 }
 
-/* ================= SEARCH BAR ================= */
+/* =========================================================
+   SEARCH
+   ========================================================= */
 
 .pos .product-screen input,
 .pos .product-screen .search-bar input {
@@ -351,7 +388,9 @@
     padding: 6px 10px !important;
 }
 
-/* ================= SCROLLBARS ================= */
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
 
 .pos .product-screen .rightpane,
 .pos .product-screen .leftpane,
@@ -377,10 +416,12 @@
 }
 
 .pos .product-screen *::-webkit-scrollbar-thumb:hover {
-    background: #8397ad !important;
+    background: #8296ac !important;
 }
 
-/* ================= RESPONSIVE ================= */
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media (max-width: 1100px) {
     .pos .product-screen .product-list {
@@ -405,4 +446,6 @@
     }
 }
 
-/* ================= END Q9SPORT ROYAL DESIGN ================= */
+/* =========================================================
+   END Q9SPORT ROYAL GLASS
+   ========================================================= */
