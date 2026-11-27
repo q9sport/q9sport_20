@@ -49,12 +49,14 @@
 }
 
 /* =========================================================
-   3. MAIN LAYOUT - TWO ROWS
+   3. MAIN LAYOUT - TWO COLUMNS
+   PRODUCTS: 80% LEFT
+   ORDER AREA: 20% RIGHT (TWO STACKED SECTIONS)
 ========================================================= */
 
 .pos .product-screen .screen-full-width {
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
     flex-wrap: nowrap !important;
 
     width: 100% !important;
@@ -69,17 +71,18 @@
 }
 
 /* =========================================================
-   4. FIRST ROW - PRODUCTS FULL WIDTH
+   4. LEFT SIDE - PRODUCTS / PRODUCT CARDS (80%)
 ========================================================= */
 
 .pos .product-screen .rightpane {
     order: 1 !important;
 
-    flex: 0 0 52% !important;
-    width: 100% !important;
-    max-width: 100% !important;
+    flex: 0 0 80% !important;
+    width: 80% !important;
+    max-width: 80% !important;
     min-width: 0 !important;
     min-height: 0 !important;
+    height: 100% !important;
 
     display: flex !important;
     flex-direction: column !important;
@@ -90,6 +93,7 @@
     box-shadow: var(--q9-shadow) !important;
 
     overflow: auto !important;
+    box-sizing: border-box !important;
 }
 
 /* Product grid */
@@ -144,22 +148,23 @@
 }
 
 /* =========================================================
-   5. SECOND ROW - ORDER AREA
+   5. RIGHT SIDE - ORDER AREA (20%)
+   ORDER LINES ON TOP / ORDER SUMMARY BELOW
 ========================================================= */
 
 .pos .product-screen .leftpane {
     order: 2 !important;
 
-    flex: 1 1 48% !important;
-    width: 100% !important;
-    max-width: 100% !important;
-
+    flex: 0 0 20% !important;
+    width: 20% !important;
+    max-width: 20% !important;
     min-width: 0 !important;
     min-height: 0 !important;
+    height: 100% !important;
 
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-    grid-template-rows: minmax(0, 1fr) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: minmax(0, 1fr) minmax(150px, 0.65fr) !important;
 
     gap: 12px !important;
 
@@ -168,11 +173,10 @@
     box-shadow: none !important;
 
     overflow: hidden !important;
+    box-sizing: border-box !important;
 }
 
-/* -------------------------
-   ORDER LINES COLUMN
-------------------------- */
+/* ORDER LINES - TOP */
 
 .pos .product-screen .leftpane .order-container {
     grid-column: 1 !important;
@@ -192,6 +196,7 @@
     box-shadow: var(--q9-shadow) !important;
 
     overflow: auto !important;
+    box-sizing: border-box !important;
 }
 
 /* Order lines */
@@ -218,13 +223,11 @@
     font-weight: 600 !important;
 }
 
-/* -------------------------
-   ORDER SUMMARY COLUMN
-------------------------- */
+/* ORDER SUMMARY - BOTTOM */
 
 .pos .product-screen .leftpane .order-summary {
-    grid-column: 2 !important;
-    grid-row: 1 !important;
+    grid-column: 1 !important;
+    grid-row: 2 !important;
 
     width: 100% !important;
     min-width: 0 !important;
@@ -241,6 +244,7 @@
 
     padding: 14px !important;
     overflow: auto !important;
+    box-sizing: border-box !important;
 }
 
 /* Totals */
@@ -373,31 +377,41 @@
 }
 
 /* =========================================================
-   11. RESPONSIVE - SMALL SCREENS
+   11. RESPONSIVE - KEEP THE TWO-COLUMN POS LAYOUT
 ========================================================= */
 
 @media (max-width: 1000px) {
+    .pos .product-screen .rightpane {
+        flex-basis: 80% !important;
+        width: 80% !important;
+        max-width: 80% !important;
+    }
+
+    .pos .product-screen .leftpane {
+        flex-basis: 20% !important;
+        width: 20% !important;
+        max-width: 20% !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        grid-template-rows: minmax(0, 1fr) minmax(135px, 0.65fr) !important;
+    }
 
     .pos .product-screen .product-list,
     .pos .product-screen .products-widget,
     .pos .product-screen .product-list-container {
         grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     }
-
-    .pos .product-screen .leftpane {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-    }
 }
 
 @media (max-width: 700px) {
-
     .pos .product-screen .screen-full-width {
         gap: 8px !important;
         padding: 8px !important;
     }
 
     .pos .product-screen .rightpane {
-        flex-basis: 48% !important;
+        flex-basis: 80% !important;
+        width: 80% !important;
+        max-width: 80% !important;
     }
 
     .pos .product-screen .product-list,
@@ -409,13 +423,30 @@
     }
 
     .pos .product-screen .leftpane {
-        flex-basis: 52% !important;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+        flex-basis: 20% !important;
+        width: 20% !important;
+        max-width: 20% !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        grid-template-rows: minmax(0, 1fr) minmax(120px, 0.65fr) !important;
         gap: 7px !important;
     }
 
     .pos .product-screen .leftpane .order-container,
     .pos .product-screen .leftpane .order-summary {
         border-radius: 12px !important;
+        padding: 8px !important;
     }
+}
+
+/* =========================================================
+   12. OVAL PRODUCT CARDS
+========================================================= */
+
+.pos .product-screen .product {
+    border-radius: 50% !important;
+    overflow: hidden !important;
+}
+
+.pos .product-screen .product:hover {
+    border-radius: 50% !important;
 }
