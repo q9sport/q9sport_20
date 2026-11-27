@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+rule_tamadoo_pos_config_allowed_users,Point of Sale: only allowed users,pos.config,,crud,"['|', ('allowed_user_ids', '=', False), ('allowed_user_ids', 'in', user.id)] if user.has_group('point_of_sale.group_pos_user') and not user.has_group('point_of_sale.group_pos_manager') and not user.has_group('base.group_system') else [(1, '=', 1)]"
