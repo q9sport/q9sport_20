@@ -12,7 +12,7 @@
     'license': 'LGPL-3',
     'depends': ['point_of_sale'],
     'data': [
-	     'samay_pos_ui_designer/security/ir.model.access.csv,
+	    'samay_pos_ui_designer/security/ir.model.access.csv',
         # 'security/ir.access.csv',
 	    'security/designer_rules.xml',
         'views/profile_views.xml',
