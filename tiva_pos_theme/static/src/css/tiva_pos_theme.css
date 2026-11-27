@@ -1,149 +1,176 @@
-/* TIVA POS - visual theme for Odoo 20 POS. CSS-only: keeps native POS behavior. */
+/* TIVA POS - Odoo 20 | dark navy + restrained gold */
 :root {
-  --tiva-bg: #07111f;
-  --tiva-bg-2: #0b1727;
-  --tiva-panel: #101d2d;
-  --tiva-panel-2: #142236;
-  --tiva-border: #26384d;
-  --tiva-gold: #d8a634;
-  --tiva-gold-2: #f2c65d;
-  --tiva-text: #f2f5f9;
-  --tiva-muted: #9eafc3;
-  --tiva-green: #098b48;
+  --tiva-bg: #070f1b;
+  --tiva-bg-2: #0b1624;
+  --tiva-panel: #0d1a29;
+  --tiva-card: #111f30;
+  --tiva-card-2: #17283b;
+  --tiva-border: #293b50;
+  --tiva-gold: #d5a33a;
+  --tiva-gold-light: #f0c96a;
+  --tiva-text: #f3f6fa;
+  --tiva-muted: #9baabd;
+  --tiva-green: #078b49;
 }
 
-/* Main POS workspace */
-.pos, .pos .pos-content, .pos .product-screen, .pos-content {
+/* Main POS canvas */
+.pos, .pos-content, .pos .product-screen, .pos .screen,
+.pos .screen-full-width, .pos .rightpane, .pos .leftpane {
   background: var(--tiva-bg) !important;
   color: var(--tiva-text) !important;
 }
-.pos * { scrollbar-color: #344960 #0a1422; }
-.pos button, .pos .btn {
-  transition: background-color .14s ease, border-color .14s ease, transform .14s ease;
+.pos * { scrollbar-color: #34485f #091421; }
+.pos button, .pos .btn, .pos .control-button {
+  transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease, transform .16s ease;
 }
-.pos button:hover, .pos .btn:hover { border-color: var(--tiva-gold) !important; }
+.pos button:focus-visible, .pos .btn:focus-visible {
+  outline: 2px solid var(--tiva-gold) !important; outline-offset: 2px;
+}
 
-/* Header / search / top actions */
-.pos .navbar, .pos .pos-navbar, .pos .search-bar, .pos .search-box,
-.pos .product-screen .top-content, .pos .product-screen header {
+/* Header, search and top controls */
+.pos header, .pos .navbar, .pos .pos-navbar, .pos .top-content,
+.pos .search-bar, .pos .search-box, .pos .search-box input {
   background: var(--tiva-bg-2) !important;
+  color: var(--tiva-text) !important;
   border-color: var(--tiva-border) !important;
 }
-.pos input, .pos .form-control, .pos input[type="text"] {
-  background: #101d2d !important;
+.pos input, .pos input.form-control, .pos textarea, .pos select {
+  background: #0c1928 !important;
   color: var(--tiva-text) !important;
-  border: 1px solid #2a3c52 !important;
-  border-radius: 10px !important;
+  border: 1px solid var(--tiva-border) !important;
+  border-radius: 9px !important;
 }
-.pos input:focus, .pos .form-control:focus { border-color: var(--tiva-gold) !important; box-shadow: 0 0 0 2px #d8a63422 !important; }
+.pos input::placeholder, .pos textarea::placeholder { color: #8192a7 !important; }
+.pos input:focus, .pos textarea:focus, .pos select:focus {
+  border-color: var(--tiva-gold) !important;
+  box-shadow: 0 0 0 2px #d5a33a24 !important;
+}
 
-/* Order panel / cart */
-.pos .leftpane, .pos .order-container, .pos .order-list, .pos .order-summary,
-.pos .order-widget, .pos .orderlines, .pos .orderline {
-  background-color: var(--tiva-panel) !important;
+/* Cart / order panel */
+.pos .leftpane, .pos .order-container, .pos .order-list,
+.pos .orderlines, .pos .order-summary, .pos .order-widget {
+  background: var(--tiva-panel) !important;
   color: var(--tiva-text) !important;
   border-color: var(--tiva-border) !important;
 }
-.pos .leftpane, .pos .order-container { border-right: 1px solid var(--tiva-border) !important; }
-.pos .orderline, .pos .order-line {
-  border-bottom: 1px solid #1e3045 !important;
+.pos .leftpane { border-right: 1px solid var(--tiva-border) !important; }
+.pos .orderline, .pos .order-line, .pos .orderlines li {
+  background: transparent !important;
+  color: var(--tiva-text) !important;
+  border-bottom: 1px solid #1e3044 !important;
 }
-.pos .orderline.selected, .pos .orderline.highlight, .pos .orderline:hover {
-  background: #15263a !important;
+.pos .orderline:hover, .pos .orderline.selected, .pos .orderline.highlight,
+.pos .order-line.selected {
+  background: #15283d !important;
   box-shadow: inset 3px 0 0 var(--tiva-gold) !important;
 }
 .pos .total, .pos .order-summary .total, .pos .payment-summary .total {
-  color: #7faaff !important;
-  font-weight: 800 !important;
+  color: #8fb5ff !important; font-weight: 800 !important;
 }
 
-/* Product grid and cards */
-.pos .product-list, .pos .product-list-container, .pos .products-widget,
-.pos .product-screen .rightpane, .pos .product-screen .products {
-  background: #091523 !important;
-}
-.pos .product, .pos .product-card, .pos .product-item {
-  background: linear-gradient(145deg, #142236, #0c1726) !important;
+/* PRODUCT TILES: explicitly remove white/default Bootstrap surfaces */
+.pos .product,
+.pos .product-card,
+.pos .product-item,
+.pos .product-list .product,
+.pos .product-list .product-card,
+.pos .product-list-container .product,
+.pos .product-list-container .product-card,
+.pos .o_pos_product,
+.pos .product-card .card,
+.pos .product .card {
+  background: linear-gradient(155deg, #182a3e 0%, #101d2d 58%, #0c1725 100%) !important;
+  background-color: #122135 !important;
   color: var(--tiva-text) !important;
-  border: 1px solid #283b50 !important;
-  border-radius: 13px !important;
+  border: 1px solid #30445b !important;
+  border-radius: 12px !important;
+  box-shadow: 0 3px 10px #0005 !important;
   overflow: hidden !important;
-  box-shadow: 0 5px 14px #0004 !important;
 }
-.pos .product:hover, .pos .product-card:hover, .pos .product-item:hover {
+/* Some POS builds put the image and text on separate white backgrounds. */
+.pos .product .product-img,
+.pos .product-card .product-img,
+.pos .product-item .product-img,
+.pos .product .product-content,
+.pos .product-card .product-content,
+.pos .product .card-body,
+.pos .product-card .card-body,
+.pos .product .card-footer,
+.pos .product-card .card-footer,
+.pos .product .bg-white,
+.pos .product-card .bg-white,
+.pos .product-item .bg-white {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--tiva-text) !important;
+}
+.pos .product:hover, .pos .product-card:hover, .pos .product-item:hover,
+.pos .o_pos_product:hover {
   border-color: var(--tiva-gold) !important;
-  box-shadow: 0 0 0 1px #d8a63444, 0 7px 20px #0006 !important;
+  box-shadow: 0 0 0 1px #d5a33a35, 0 7px 16px #0007 !important;
   transform: translateY(-1px);
 }
-.pos .product .product-name, .pos .product-name, .pos .product-card .name {
-  color: #f3f6fa !important;
-  font-weight: 650 !important;
+.pos .product-name, .pos .product .product-name,
+.pos .product-card .product-name, .pos .product-card .name,
+.pos .product-item .product-name {
+  color: #f6f8fb !important; font-weight: 650 !important;
 }
-.pos .product .price, .pos .product-price, .pos .product-card .price {
-  color: #fff !important;
-  font-weight: 750 !important;
+.pos .product-price, .pos .product .price,
+.pos .product-card .price, .pos .product-item .price {
+  color: #fff !important; font-weight: 750 !important;
 }
 .pos .product img, .pos .product-card img, .pos .product-item img {
   object-fit: contain !important;
 }
-
-/* Category buttons */
-.pos .category-list, .pos .category-sidebar, .pos .categories, .pos .category-list-container {
-  background: #0b1727 !important;
-  border-color: var(--tiva-border) !important;
+.pos .product .badge, .pos .product-card .badge,
+.pos .product .stock-badge, .pos .product-card .stock-badge {
+  background: #081522 !important; color: #d9e3ee !important;
+  border: 1px solid #40536a !important; border-radius: 999px !important;
 }
-.pos .category-button, .pos .category, .pos .category-item, .pos .category-list button {
-  background: #142236 !important;
-  color: #dce5ef !important;
-  border: 1px solid #24374d !important;
-  border-radius: 10px !important;
-  margin-bottom: 5px !important;
+
+/* Category rail */
+.pos .category-list, .pos .category-sidebar, .pos .categories,
+.pos .category-list-container { background: #091522 !important; border-color: var(--tiva-border) !important; }
+.pos .category-button, .pos .category, .pos .category-item,
+.pos .category-list button, .pos .categories button {
+  background: #122135 !important; color: #dce5ef !important;
+  border: 1px solid #293d53 !important; border-radius: 9px !important;
 }
 .pos .category-button:hover, .pos .category:hover, .pos .category-item:hover,
 .pos .category-button.active, .pos .category.active, .pos .category-item.active,
 .pos .category-list button.active {
-  background: #182b42 !important;
-  border-color: var(--tiva-gold) !important;
-  color: #fff !important;
+  background: #1a2d43 !important; border-color: var(--tiva-gold) !important; color: #fff !important;
 }
 
-/* Control buttons and dialogs */
+/* Quiet, compact buttons */
 .pos .control-button, .pos .control-buttons button, .pos .btn-secondary,
-.pos .button, .pos .action-button {
-  background: linear-gradient(180deg, #17273b, #0e1a29) !important;
-  color: #edf3fa !important;
-  border: 1px solid #2b3e54 !important;
-  border-radius: 10px !important;
+.pos .button, .pos .action-button, .pos button.btn-light {
+  background: linear-gradient(180deg, #1a2a3d, #101c2b) !important;
+  color: #edf3fa !important; border: 1px solid #30445a !important;
+  border-radius: 9px !important; box-shadow: none !important;
 }
-.pos .modal, .pos .popup, .pos .modal-content, .pos .popup-content {
-  background: #101d2d !important;
-  color: var(--tiva-text) !important;
-  border: 1px solid #2c4057 !important;
+.pos .control-button:hover, .pos .control-buttons button:hover,
+.pos .btn-secondary:hover, .pos .button:hover, .pos .action-button:hover {
+  border-color: #647990 !important; background: #20344b !important;
 }
-.pos .modal-header, .pos .modal-footer { border-color: #2c4057 !important; }
-
-/* Checkout / prominent payment buttons */
 .pos .pay-button, .pos .payment-button, .pos .payment-screen .next-button,
 .pos .button-pay, .pos button[name*="Pay"] {
-  background: linear-gradient(135deg, #079448, #087239) !important;
-  color: white !important;
-  border: 1px solid #21b568 !important;
-  border-radius: 12px !important;
-  font-weight: 800 !important;
+  background: linear-gradient(135deg, #0b9b53, #08713d) !important;
+  color: #fff !important; border: 1px solid #24b86c !important;
+  border-radius: 11px !important; font-weight: 800 !important;
 }
-.pos .pay-button:hover, .pos .payment-button:hover, .pos .payment-screen .next-button:hover {
-  filter: brightness(1.1);
+
+/* Dialogs, dropdowns and popovers */
+.pos .modal, .pos .popup, .pos .modal-content, .pos .popup-content,
+.pos .dropdown-menu, .pos .popover {
+  background: #101e2e !important; color: var(--tiva-text) !important;
+  border: 1px solid #30465d !important;
 }
+.pos .modal-header, .pos .modal-footer { border-color: #30465d !important; }
 .pos .text-muted, .pos .text-secondary { color: var(--tiva-muted) !important; }
-.pos .badge, .pos .stock-badge { background: #0d1a28 !important; color: #cbd8e6 !important; border: 1px solid #2b4056 !important; }
+.pos .badge { background: #0b1927 !important; color: #d2deea !important; border: 1px solid #30465d !important; }
+.pos .active, .pos .selected { border-color: var(--tiva-gold) !important; }
 
-/* Gold accents for selected/focused UI */
-.pos .active, .pos .selected, .pos .btn-primary, .pos .primary-button {
-  border-color: var(--tiva-gold) !important;
-}
-.pos .btn-primary, .pos .primary-button { background: #17273b !important; color: #f5ca63 !important; }
-
-/* Responsive adjustments for smaller cashier displays */
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
   .pos .product, .pos .product-card, .pos .product-item { border-radius: 9px !important; }
 }

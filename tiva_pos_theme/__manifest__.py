@@ -1,9 +1,9 @@
 {
-    'name': 'TIVA POS Dark Theme',
-    'version': '20.0.1.0.0',
+    'name': 'TIVA POS - Elegant Dark UI',
+    'version': '20.0.1.1.0',
     'category': 'Point of Sale',
-    'summary': 'Modern dark navy and gold POS theme inspired by TIVA POS layout',
-    'description': 'Visual theme for Odoo 20 Point of Sale. Styles POS cards, category buttons, order panel, top controls and payment action with a dark navy/gold appearance.',
+    'summary': 'Elegant navy POS skin with subtle gold accents for Odoo 20',
+    'description': 'Visual styling for Odoo 20 POS. Keeps native POS behavior and uses a restrained navy/gold palette, refined product cards, buttons, panels, and checkout controls.',
     'depends': ['point_of_sale'],
     'assets': {
         'point_of_sale._assets_pos': [
