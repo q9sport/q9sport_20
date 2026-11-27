@@ -1,113 +1,93 @@
 /* =========================================================
    Q9SPORT - ROYAL GLASS POS
    Odoo 20 Enterprise
-   Premium Retail / Soft Navy / Champagne Gold
+   Horizontal Products + Split Bottom Panel
    ========================================================= */
 
 :root {
     --q9-bg: #edf1f6;
-    --q9-surface: rgba(255, 255, 255, 0.84);
-    --q9-surface-soft: rgba(247, 249, 252, 0.78);
+    --q9-white: rgba(255,255,255,.88);
+    --q9-glass: rgba(255,255,255,.72);
 
     --q9-navy: #293f5a;
-    --q9-navy-soft: #627991;
+    --q9-navy-light: #627991;
     --q9-gold: #b69a6a;
-    --q9-gold-soft: rgba(182, 154, 106, 0.12);
+    --q9-gold-hover: rgba(182,154,106,.17);
 
     --q9-text: #34465b;
     --q9-muted: #8492a3;
-
-    --q9-border: rgba(92, 112, 139, 0.14);
     --q9-green: #6b9b88;
 
-    --q9-shadow: 0 4px 18px rgba(38, 57, 82, 0.055);
+    --q9-border: rgba(92,112,139,.15);
+    --q9-shadow: 0 4px 18px rgba(38,57,82,.06);
     --q9-radius: 17px;
 }
 
 /* =========================================================
-   MAIN BACKGROUND
+   GLOBAL
    ========================================================= */
 
 .pos,
 .pos .product-screen,
 .pos .screen-full-width {
     background: var(--q9-bg) !important;
-    color: var(--q9-text);
-    font-family: "Inter", "Segoe UI", sans-serif;
+    color: var(--q9-text) !important;
+    font-family: "Inter","Segoe UI",sans-serif;
 }
 
 .pos * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(98, 121, 145, 0.25) transparent;
+    scrollbar-color: rgba(98,121,145,.25) transparent;
+}
+
+.pos .product-screen {
+    min-height: 0;
 }
 
 /* =========================================================
-   MAIN LAYOUT
-   PRODUCTS ABOVE / ORDER BELOW
+   MAIN SCREEN
+   PRODUCTS TOP / ORDER BOTTOM
    ========================================================= */
 
 .pos .product-screen .screen-full-width {
     display: flex !important;
     flex-direction: column !important;
-    gap: 12px;
+    gap: 12px !important;
     padding: 12px !important;
     overflow: auto !important;
     min-height: 0;
 }
 
 /* =========================================================
-   TOP SECTION - PRODUCTS
+   PRODUCT SECTION - FULL WIDTH TOP
    ========================================================= */
 
 .pos .product-screen .rightpane {
     order: 1 !important;
-
-    flex: 1 1 58% !important;
+    flex: 0 0 52% !important;
     width: 100% !important;
+    max-width: 100% !important;
     min-width: 0 !important;
-    min-height: 320px;
+    min-height: 300px;
 
+    background: var(--q9-white) !important;
     border: 1px solid var(--q9-border) !important;
-    border-radius: 20px !important;
-
-    background: var(--q9-surface) !important;
-    box-shadow: var(--q9-shadow);
-
-    overflow: hidden !important;
-}
-
-/* =========================================================
-   BOTTOM SECTION - ORDER
-   ========================================================= */
-
-.pos .product-screen .leftpane {
-    order: 2 !important;
-
-    flex: 0 0 40% !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    min-height: 240px;
-
-    border: 1px solid var(--q9-border) !important;
-    border-radius: 20px !important;
-
-    background: var(--q9-surface) !important;
+    border-radius: 21px !important;
     box-shadow: var(--q9-shadow);
 
     overflow: auto !important;
 }
 
 /* =========================================================
-   PRODUCT GRID - TWO COLUMNS
+   PRODUCT GRID - CARDS SIDE BY SIDE
    ========================================================= */
 
 .pos .product-screen .product-list,
 .pos .product-screen .products-widget,
 .pos .product-screen .product-list-container {
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 12px !important;
-
+    grid-template-columns: repeat(5, minmax(0,1fr)) !important;
+    gap: 11px !important;
     padding: 13px !important;
     background: transparent !important;
     align-content: start;
@@ -119,7 +99,6 @@
 
 .pos .product-screen .product {
     position: relative;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -128,52 +107,54 @@
     min-height: 125px;
 
     border: 1px solid var(--q9-border) !important;
-    border-radius: 17px !important;
+    border-radius: 18px !important;
 
-    background: rgba(255, 255, 255, 0.88) !important;
-
-    box-shadow: 0 3px 13px rgba(35, 59, 87, 0.045) !important;
+    background: rgba(255,255,255,.88) !important;
+    box-shadow: 0 3px 13px rgba(35,59,87,.045) !important;
 
     overflow: hidden !important;
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        border-color 0.2s ease;
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
 }
+
+/* Hover */
 
 .pos .product-screen .product:hover {
+    background: #f8f3e9 !important;
+    border-color: rgba(182,154,106,.65) !important;
+
+    box-shadow: 0 7px 20px rgba(35,59,87,.10) !important;
     transform: translateY(-2px);
-
-    border-color: rgba(182, 154, 106, 0.48) !important;
-
-    box-shadow: 0 7px 20px rgba(35, 59, 87, 0.09) !important;
 }
 
-/* Product name */
+/* Selected / highlighted */
+
+.pos .product-screen .product:active {
+    background: #eee4d2 !important;
+    border-color: var(--q9-gold) !important;
+    transform: scale(.985);
+}
+
+/* Product text */
 
 .pos .product-screen .product .product-name {
     color: var(--q9-navy) !important;
-
     font-size: 13px !important;
     font-weight: 650 !important;
-
     line-height: 1.4;
     padding: 8px 9px;
 }
 
-/* Product price */
-
 .pos .product-screen .product .product-price {
     color: var(--q9-gold) !important;
-
     font-size: 13px !important;
     font-weight: 750 !important;
-
     padding: 0 9px 9px;
 }
-
-/* Product image */
 
 .pos .product-screen .product .product-img {
     object-fit: contain !important;
@@ -188,9 +169,7 @@
 .pos .product-screen .category-list,
 .pos .product-screen .product-categories {
     background: transparent !important;
-
     border-bottom: 1px solid var(--q9-border) !important;
-
     padding: 10px 12px !important;
 }
 
@@ -198,20 +177,17 @@
 .pos .product-screen .category-list button {
     border: 1px solid var(--q9-border) !important;
     border-radius: 12px !important;
-
-    background: rgba(255, 255, 255, 0.72) !important;
+    background: rgba(255,255,255,.72) !important;
     color: var(--q9-navy) !important;
-
     margin: 3px !important;
     padding: 7px 13px !important;
-
-    transition: all 0.2s ease;
+    transition: all .2s ease;
 }
 
 .pos .product-screen .category-button:hover,
 .pos .product-screen .category-list button:hover {
-    background: var(--q9-gold-soft) !important;
-    border-color: rgba(182, 154, 106, 0.45) !important;
+    background: var(--q9-gold-hover) !important;
+    border-color: rgba(182,154,106,.5) !important;
 }
 
 .pos .product-screen .category-button.highlight,
@@ -222,41 +198,68 @@
 }
 
 /* =========================================================
-   ORDER PANEL
+   BOTTOM SECTION - FULL WIDTH
    ========================================================= */
 
-.pos .product-screen .leftpane,
-.pos .product-screen .order-container {
-    color: var(--q9-text);
+.pos .product-screen .leftpane {
+    order: 2 !important;
+    flex: 1 1 48% !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 250px;
+
+    background: var(--q9-white) !important;
+    border: 1px solid var(--q9-border) !important;
+    border-radius: 21px !important;
+    box-shadow: var(--q9-shadow);
+
+    overflow: auto !important;
 }
+
+/* =========================================================
+   ORDER AREA
+   ========================================================= */
 
 .pos .order-container {
     background: transparent !important;
+    color: var(--q9-text) !important;
 }
 
-/* Individual order line */
+/* Order lines */
 
 .pos .order-container .orderline {
     display: grid !important;
-
-    grid-template-columns: minmax(0, 1fr) auto auto !important;
-
-    align-items: center;
-    gap: 9px;
+    grid-template-columns: minmax(0,1fr) auto auto !important;
+    align-items: center !important;
+    gap: 10px !important;
 
     margin: 6px 9px !important;
-    padding: 11px 13px !important;
+    padding: 10px 13px !important;
 
     border: 1px solid var(--q9-border) !important;
     border-radius: 14px !important;
 
-    background: rgba(255, 255, 255, 0.78) !important;
+    background: rgba(255,255,255,.78) !important;
 
-    transition: background 0.18s ease;
+    transition: background .2s ease, border-color .2s ease;
 }
 
+/* Hover order line */
+
 .pos .order-container .orderline:hover {
-    background: rgba(255, 255, 255, 0.98) !important;
+    background: #f8f3e9 !important;
+    border-color: rgba(182,154,106,.55) !important;
+}
+
+/* Selected order line */
+
+.pos .order-container .orderline.selected,
+.pos .order-container .orderline.highlight {
+    background: #f2eadb !important;
+    border-color: rgba(182,154,106,.75) !important;
+    box-shadow: inset 3px 0 0 var(--q9-gold);
 }
 
 /* Product name */
@@ -264,18 +267,8 @@
 .pos .order-container .orderline .product-name,
 .pos .order-container .orderline .product-name span {
     color: var(--q9-navy) !important;
-
     font-size: 13px !important;
     font-weight: 650 !important;
-}
-
-/* Quantity and unit price */
-
-.pos .order-container .orderline .info-list,
-.pos .order-container .orderline .unit-price,
-.pos .order-container .orderline .price {
-    color: var(--q9-navy-soft) !important;
-    font-size: 12px !important;
 }
 
 /* Quantity */
@@ -283,11 +276,9 @@
 .pos .order-container .orderline .qty,
 .pos .order-container .orderline .quantity {
     display: inline-flex !important;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 5px;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
     white-space: nowrap;
 }
 
@@ -296,30 +287,59 @@
 .pos .order-container .orderline .price,
 .pos .order-container .orderline .product-price {
     color: var(--q9-gold) !important;
-
     font-size: 13px !important;
     font-weight: 750 !important;
-
     white-space: nowrap;
 }
 
-/* Quantity buttons */
+/* Quantity controls */
 
 .pos .order-container .orderline button {
     min-width: 27px;
     min-height: 27px;
-
     border-radius: 9px !important;
-
     border: 1px solid var(--q9-border) !important;
-
     background: #f1f4f8 !important;
     color: var(--q9-navy) !important;
+    transition: all .18s ease;
 }
 
 .pos .order-container .orderline button:hover {
-    background: var(--q9-gold-soft) !important;
-    border-color: rgba(182, 154, 106, 0.5) !important;
+    background: var(--q9-gold-hover) !important;
+    border-color: var(--q9-gold) !important;
+}
+
+/* =========================================================
+   LOWER AREA - SPLIT INTO TWO COLUMNS
+   ========================================================= */
+
+/* Order content and summary are arranged side by side
+   when both are direct children of the left pane. */
+
+.pos .product-screen .leftpane {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+}
+
+/* Order list side */
+
+.pos .product-screen .leftpane .order-container {
+    flex: 1 1 50% !important;
+    min-width: 0 !important;
+    overflow: auto !important;
+}
+
+/* Summary / payment side */
+
+.pos .product-screen .leftpane .order-summary {
+    flex: 1 1 50% !important;
+    min-width: 0 !important;
+    border-radius: 16px !important;
+    background: var(--q9-glass) !important;
+    border: 1px solid var(--q9-border) !important;
+    padding: 12px !important;
 }
 
 /* =========================================================
@@ -330,7 +350,7 @@
 .pos .total,
 .pos .order-summary,
 .pos .order-container .order-summary {
-    background: var(--q9-surface-soft) !important;
+    background: rgba(247,249,252,.8) !important;
     border-color: var(--q9-border) !important;
     border-radius: 14px !important;
 }
@@ -354,16 +374,15 @@
 
 .pos button,
 .pos .button {
-    transition: all 0.18s ease;
+    transition: all .18s ease;
+    border-radius: 11px !important;
 }
 
 .pos .btn-primary,
 .pos button.btn-primary {
     background: var(--q9-navy) !important;
     border-color: var(--q9-navy) !important;
-
     color: #fff !important;
-    border-radius: 11px !important;
 }
 
 .pos .btn-primary:hover,
@@ -375,9 +394,7 @@
 .pos button.btn-success {
     background: var(--q9-green) !important;
     border-color: var(--q9-green) !important;
-
-    color: #fff !important;
-    border-radius: 11px !important;
+    color: white !important;
 }
 
 /* =========================================================
@@ -389,21 +406,17 @@
 .pos select {
     border: 1px solid var(--q9-border) !important;
     border-radius: 10px !important;
-
-    background: rgba(255, 255, 255, 0.82) !important;
+    background: rgba(255,255,255,.82) !important;
     color: var(--q9-text) !important;
-
     box-shadow: none !important;
 }
 
 .pos input:focus,
 .pos textarea:focus,
 .pos select:focus {
-    border-color: rgba(182, 154, 106, 0.7) !important;
-
+    border-color: rgba(182,154,106,.7) !important;
     outline: none !important;
-
-    box-shadow: 0 0 0 3px rgba(182, 154, 106, 0.10) !important;
+    box-shadow: 0 0 0 3px rgba(182,154,106,.10) !important;
 }
 
 /* =========================================================
@@ -412,11 +425,9 @@
 
 .pos .pos-topheader,
 .pos .navbar {
-    background: rgba(255, 255, 255, 0.88) !important;
-
+    background: rgba(255,255,255,.88) !important;
     border-bottom: 1px solid var(--q9-border) !important;
-
-    box-shadow: 0 2px 12px rgba(35, 59, 87, 0.045);
+    box-shadow: 0 2px 12px rgba(35,59,87,.045);
 }
 
 .pos .pos-topheader button,
@@ -428,52 +439,64 @@
    RESPONSIVE
    ========================================================= */
 
-@media (max-width: 900px) {
-
-    .pos .product-screen .screen-full-width {
-        gap: 9px;
-        padding: 8px !important;
+@media (min-width: 1400px) {
+    .pos .product-screen .product-list,
+    .pos .product-screen .products-widget,
+    .pos .product-screen .product-list-container {
+        grid-template-columns: repeat(6,minmax(0,1fr)) !important;
     }
+}
 
+@media (max-width: 1100px) {
+    .pos .product-screen .product-list,
+    .pos .product-screen .products-widget,
+    .pos .product-screen .product-list-container {
+        grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+    }
+}
+
+@media (max-width: 800px) {
     .pos .product-screen .rightpane {
-        flex: 1 1 55% !important;
-        min-height: 260px;
+        flex-basis: 52% !important;
+        min-height: 240px;
     }
 
     .pos .product-screen .leftpane {
-        flex: 0 0 43% !important;
-        min-height: 210px;
+        flex-basis: 48% !important;
+        flex-direction: column !important;
+    }
+
+    .pos .product-screen .leftpane .order-container,
+    .pos .product-screen .leftpane .order-summary {
+        flex: 1 1 auto !important;
+        width: 100% !important;
     }
 
     .pos .product-screen .product-list,
     .pos .product-screen .products-widget,
     .pos .product-screen .product-list-container {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        gap: 8px !important;
-    }
-
-    .pos .order-container .orderline {
-        gap: 6px;
-        padding: 9px !important;
+        grid-template-columns: repeat(3,minmax(0,1fr)) !important;
     }
 }
 
 @media (max-width: 600px) {
-
     .pos .product-screen .rightpane {
-        min-height: 230px;
+        min-height: 220px;
+    }
+
+    .pos .product-screen .product-list,
+    .pos .product-screen .products-widget,
+    .pos .product-screen .product-list-container {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+        gap: 8px !important;
     }
 
     .pos .product-screen .leftpane {
-        min-height: 200px;
-    }
-
-    .pos .product-screen .product {
-        min-height: 110px;
+        flex-direction: column !important;
     }
 
     .pos .order-container .orderline {
-        grid-template-columns: minmax(0, 1fr) auto !important;
+        grid-template-columns: minmax(0,1fr) auto !important;
     }
 
     .pos .order-container .orderline .price {
