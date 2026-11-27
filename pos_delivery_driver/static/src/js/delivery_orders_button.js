@@ -1,4 +1,3 @@
-
 /** @odoo-module **/
 import { Navbar } from "@point_of_sale/app/components/navbar/navbar";
 import { TicketScreen } from "@point_of_sale/app/screens/ticket_screen/ticket_screen";
@@ -16,12 +15,9 @@ const DELIVERY_FILTERS = {
     CANCELLED: "CANCELLED",
 };
 
-function getRelationId(value) {
-    if (!value) {
-        return false;
-    }
-    return typeof value === "object" ? value.id : value;
-}
+// =====================================================
+// DELIVERY HELPERS
+// =====================================================
 
 function hasDeliveryProduct(order) {
     const lines =
@@ -33,14 +29,14 @@ function hasDeliveryProduct(order) {
         const product = line.product_id;
 
         return (
-            getRelationId(product) === DELIVERY_PRODUCT_ID ||
+            product?.id === DELIVERY_PRODUCT_ID ||
             product?.barcode === DELIVERY_PRODUCT_BARCODE
         );
     });
 }
 
 function isPaidOrder(order) {
-    return ["paid", "done"].includes(order.state);
+    return order.state === "paid" || order.state === "done";
 }
 
 function isCancelledOrder(order) {
@@ -54,22 +50,8 @@ function isInvoiceUnpaid(order) {
 
     return (
         isPaidOrder(order) &&
-        ["not_paid", "partial", "in_payment"].includes(invoiceState)
+        ["not_paid", "partial"].includes(invoiceState)
     );
-}
-
-function getOrderTimestamp(order) {
-    const date = order.date_order;
-
-    if (typeof date?.ts === "number") {
-        return date.ts;
-    }
-
-    if (date instanceof Date) {
-        return date.getTime();
-    }
-
-    return Date.parse(date || "") || 0;
 }
 
 // =====================================================
@@ -105,90 +87,47 @@ patch(Navbar.prototype, {
 
 patch(TicketScreen.prototype, {
     // -------------------------------------------------
-    // SETUP
+    // INITIALIZE DELIVERY FILTER
     // -------------------------------------------------
 
     setup() {
         super.setup(...arguments);
 
-        this.deliveryServerCounts = {
-            paid: 0,
-            cancelled: 0,
-        };
-
         if (this.pos.deliveryOrdersMode) {
             this.state.filter = DELIVERY_FILTERS.ALL;
-            this.state.page = 1;
             this.pos.deliveryOrdersFilter = DELIVERY_FILTERS.ALL;
-        } else if (
-            [
-                DELIVERY_FILTERS.ALL,
-                DELIVERY_FILTERS.INVOICE_UNPAID,
-            ].includes(this.state.filter)
-        ) {
-            // Never leave a custom filter selected
-            // when returning to the normal Orders screen.
-            this.state.filter = DELIVERY_FILTERS.ACTIVE;
         }
     },
 
     // -------------------------------------------------
-    // FILTER OPTIONS
+    // FILTER DROPDOWN OPTIONS
     // -------------------------------------------------
 
     _getOrderStates() {
-        const states = super._getOrderStates();
-
         if (!this.pos.deliveryOrdersMode) {
-            return states;
+            return super._getOrderStates(...arguments);
         }
 
-        states.set(DELIVERY_FILTERS.ALL, {
-            text: _t("All Delivery Orders"),
-        });
-
-        states.set(DELIVERY_FILTERS.INVOICE_UNPAID, {
-            text: _t("Not Paid Invoice"),
-        });
-
-        return states;
+        return new Map([
+            [DELIVERY_FILTERS.ALL, { text: _t("All") }],
+            [DELIVERY_FILTERS.ACTIVE, { text: _t("Active") }],
+            [
+                DELIVERY_FILTERS.INVOICE_UNPAID,
+                { text: _t("Not Paid Invoice") },
+            ],
+            [
+                DELIVERY_FILTERS.CANCELLED,
+                { text: _t("Cancelled") },
+            ],
+        ]);
     },
 
     _getFilterOptions() {
-        const originalOptions = super._getFilterOptions();
-
         if (!this.pos.deliveryOrdersMode) {
-            return originalOptions;
+            return super._getFilterOptions(...arguments);
         }
 
-        const options = new Map();
-
-        options.set(
-            DELIVERY_FILTERS.ALL,
-            originalOptions.get(DELIVERY_FILTERS.ALL) ||
-                { text: _t("All Delivery Orders") }
-        );
-
-        options.set(
-            DELIVERY_FILTERS.ACTIVE,
-            originalOptions.get(DELIVERY_FILTERS.ACTIVE) ||
-                { text: _t("Active") }
-        );
-
-        options.set(
-            DELIVERY_FILTERS.INVOICE_UNPAID,
-            {
-                text: _t("Not Paid Invoice"),
-            }
-        );
-
-        options.set(
-            DELIVERY_FILTERS.CANCELLED,
-            originalOptions.get(DELIVERY_FILTERS.CANCELLED) ||
-                { text: _t("Cancelled") }
-        );
-
-        return options;
+        return this._getOrderStates();
     },
 
     // -------------------------------------------------
@@ -200,63 +139,125 @@ patch(TicketScreen.prototype, {
             return super.onFilterSelected(...arguments);
         }
 
-        const validFilters = Object.values(DELIVERY_FILTERS);
-
-        this.state.filter = validFilters.includes(selectedFilter)
-            ? selectedFilter
-            : DELIVERY_FILTERS.ALL;
-
+        this.state.filter = selectedFilter || DELIVERY_FILTERS.ALL;
         this.state.page = 1;
 
         this.pos.deliveryOrdersFilter = this.state.filter;
 
         const screenState = this.pos.screenState.ticketScreen;
-
         screenState.totalCount = 0;
         screenState.offsetByDomain = {};
 
-        this.deliveryServerCounts = {
-            paid: 0,
-            cancelled: 0,
-        };
-
         await this._updateSyncedOrders();
-
         this.updateOrderTimers();
     },
 
     // -------------------------------------------------
-    // SERVER DOMAIN
+    // DELIVERY ORDERS LIST
+    // -------------------------------------------------
+
+    getFilteredOrderList() {
+        if (!this.pos.deliveryOrdersMode) {
+            return super.getFilteredOrderList(...arguments);
+        }
+
+        const filter = this.state.filter || DELIVERY_FILTERS.ALL;
+
+        let orders = this.pos.models["pos.order"].filter((order) => {
+            if (!hasDeliveryProduct(order)) {
+                return false;
+            }
+
+            switch (filter) {
+                case DELIVERY_FILTERS.ACTIVE:
+                    return (
+                        !isPaidOrder(order) &&
+                        !isCancelledOrder(order)
+                    );
+
+                case DELIVERY_FILTERS.INVOICE_UNPAID:
+                    return isInvoiceUnpaid(order);
+
+                case DELIVERY_FILTERS.CANCELLED:
+                    return isCancelledOrder(order);
+
+                case DELIVERY_FILTERS.ALL:
+                default:
+                    return true;
+            }
+        });
+
+        // Keep Odoo search input behavior.
+        if (this.state.search?.searchTerm) {
+            const searchField =
+                this._getSearchFields()[this.state.search.fieldName];
+
+            if (searchField?.repr) {
+                orders = fuzzyLookup(
+                    this.state.search.searchTerm,
+                    orders,
+                    searchField.repr
+                );
+            }
+        }
+
+        if (
+            this.state.search?.partnerId &&
+            this.state.search.fieldName === "PARTNER"
+        ) {
+            orders = orders.filter(
+                (order) =>
+                    order.partner_id?.id === this.state.search.partnerId
+            );
+        }
+
+        if (this.state.selectedPreset) {
+            orders = orders.filter(
+                (order) =>
+                    order.preset_id?.id === this.state.selectedPreset.id
+            );
+        }
+
+        // Keep Odoo's normal order sorting.
+        orders.sort((a, b) => {
+            const dateA = a.date_order;
+            const dateB = b.date_order;
+
+            if (!dateA.equals(dateB)) {
+                return dateB - dateA;
+            }
+
+            const nameA =
+                parseInt(a.pos_reference?.replace(/\D/g, "")) || 0;
+            const nameB =
+                parseInt(b.pos_reference?.replace(/\D/g, "")) || 0;
+
+            return nameB - nameA;
+        });
+
+        this.pos.screenState.ticketScreen.totalCount = orders.length;
+
+        const start = (this.state.page - 1) * this.state.nbrByPage;
+        const end = this.state.page * this.state.nbrByPage;
+
+        return orders.slice(start, end);
+    },
+
+    // -------------------------------------------------
+    // DELIVERY SEARCH DOMAIN
     // -------------------------------------------------
 
     _computeSyncedOrdersDomain() {
-        const domain = super._computeSyncedOrdersDomain();
+        const domain = super._computeSyncedOrdersDomain(...arguments);
 
         if (!this.pos.deliveryOrdersMode) {
             return domain;
         }
 
-        const sessionId = getRelationId(this.pos.session);
-
-        const deliveryDomain = [
+        return [
+            ...domain,
             ["lines.product_id", "=", DELIVERY_PRODUCT_ID],
         ];
-
-        if (sessionId) {
-            deliveryDomain.push(["session_id", "=", sessionId]);
-        }
-
-        if (
-            this.state.filter === DELIVERY_FILTERS.INVOICE_UNPAID
-        ) {
-            deliveryDomain.push([
-                "account_move.payment_state",
-                "in",
-                ["not_paid", "partial", "in_payment"],
-            ]);
-        }
-
-        return [...domain, ...deliveryDomain];
     },
 
     // -------------------------------------------------
@@ -281,46 +282,39 @@ patch(TicketScreen.prototype, {
         }
 
         if (!stateFilters.length) {
-            this.deliveryServerCounts = {
-                paid: 0,
-                cancelled: 0,
-            };
             return;
         }
 
         const screenState = this.pos.screenState.ticketScreen;
         const domain = this._computeSyncedOrdersDomain();
+        const config_id = this.pos.config.id;
 
-        const configId = this.pos.config.id;
-
-        // Load the corresponding page independently
-        // for paid and cancelled server orders.
-        const offset =
-            (this.state.page - 1) * this.state.nbrByPage;
-
-        const requests = stateFilters.map(async (stateFilter) => {
+        const requests = stateFilters.map(async (state_filter) => {
             const domainKey = JSON.stringify({
                 domain,
-                stateFilter,
+                state_filter,
             });
+
+            const offset =
+                screenState.offsetByDomain[domainKey] || 0;
 
             const result = await this.pos.data.call(
                 "pos.order",
                 "search_order_ids",
                 [],
                 {
-                    config_id: configId,
+                    config_id,
                     domain,
                     limit: this.state.nbrByPage,
                     offset,
-                    state_filter: stateFilter,
+                    state_filter,
                 }
             );
 
-            const ordersInfo = result?.ordersInfo || [];
+            const { ordersInfo = [] } = result;
 
-            this.deliveryServerCounts[stateFilter] =
-                result?.totalCount || 0;
+            screenState.offsetByDomain[domainKey] =
+                offset + ordersInfo.length;
 
             const idsToLoad = ordersInfo
                 .filter((orderInfo) => {
@@ -337,146 +331,16 @@ patch(TicketScreen.prototype, {
                 ]);
             }
 
-            screenState.offsetByDomain[domainKey] =
-                offset + ordersInfo.length;
+            return result.totalCount || 0;
         });
 
         await Promise.all(requests);
+
+        this.getFilteredOrderList();
     },
 
     // -------------------------------------------------
-    // DELIVERY ORDERS LIST
-    // -------------------------------------------------
-
-    getFilteredOrderList() {
-        if (!this.pos.deliveryOrdersMode) {
-            return super.getFilteredOrderList(...arguments);
-        }
-
-        const filter = this.state.filter || DELIVERY_FILTERS.ALL;
-
-        const sessionId = getRelationId(this.pos.session);
-
-        let orders = this.pos.models["pos.order"].filter((order) => {
-            if (!hasDeliveryProduct(order)) {
-                return false;
-            }
-
-            // Only orders belonging to the current POS session.
-            if (sessionId) {
-                const orderSessionId = getRelationId(order.session_id);
-
-                if (orderSessionId !== sessionId) {
-                    return false;
-                }
-            }
-
-            switch (filter) {
-                case DELIVERY_FILTERS.ACTIVE:
-                    return (
-                        !isPaidOrder(order) &&
-                        !isCancelledOrder(order)
-                    );
-
-                case DELIVERY_FILTERS.INVOICE_UNPAID:
-                    return isInvoiceUnpaid(order);
-
-                case DELIVERY_FILTERS.CANCELLED:
-                    return isCancelledOrder(order);
-
-                case DELIVERY_FILTERS.ALL:
-                default:
-                    return true;
-            }
-        });
-
-        // SEARCH
-        const search = this.state.search || {};
-
-        if (search.searchTerm && search.fieldName) {
-            const searchField =
-                this._getSearchFields()[search.fieldName];
-
-            if (searchField?.repr) {
-                orders = fuzzyLookup(
-                    search.searchTerm,
-                    orders,
-                    searchField.repr
-                );
-            }
-        }
-
-        if (
-            search.partnerId &&
-            search.fieldName === "PARTNER"
-        ) {
-            orders = orders.filter(
-                (order) =>
-                    getRelationId(order.partner_id) === search.partnerId
-            );
-        }
-
-        // PRESET
-        if (this.state.selectedPreset) {
-            orders = orders.filter(
-                (order) =>
-                    getRelationId(order.preset_id) ===
-                    this.state.selectedPreset.id
-            );
-        }
-
-        // SORT
-        orders.sort((a, b) => {
-            const dateA = getOrderTimestamp(a);
-            const dateB = getOrderTimestamp(b);
-
-            if (dateA !== dateB) {
-                return dateB - dateA;
-            }
-
-            const nameA =
-                parseInt((a.pos_reference || "").replace(/\D/g, "")) || 0;
-
-            const nameB =
-                parseInt((b.pos_reference || "").replace(/\D/g, "")) || 0;
-
-            return nameB - nameA;
-        });
-
-        // TOTAL COUNT
-        const activeCount = orders.filter(
-            (order) =>
-                !isPaidOrder(order) &&
-                !isCancelledOrder(order)
-        ).length;
-
-        if (filter === DELIVERY_FILTERS.ALL) {
-            this.pos.screenState.ticketScreen.totalCount =
-                this.deliveryServerCounts.paid +
-                this.deliveryServerCounts.cancelled +
-                activeCount;
-        } else if (filter === DELIVERY_FILTERS.ACTIVE) {
-            this.pos.screenState.ticketScreen.totalCount =
-                orders.length;
-        } else if (filter === DELIVERY_FILTERS.INVOICE_UNPAID) {
-            this.pos.screenState.ticketScreen.totalCount =
-                this.deliveryServerCounts.paid;
-        } else if (filter === DELIVERY_FILTERS.CANCELLED) {
-            this.pos.screenState.ticketScreen.totalCount =
-                this.deliveryServerCounts.cancelled;
-        }
-
-        const start =
-            (this.state.page - 1) * this.state.nbrByPage;
-
-        const end =
-            this.state.page * this.state.nbrByPage;
-
-        return orders.slice(start, end);
-    },
-
-    // -------------------------------------------------
-    // OPEN DELIVERY ORDER IN BACKEND
+    // OPEN ORDER IN BACKEND
     // -------------------------------------------------
 
     onOpenDeliveryOrderBackend(order) {
@@ -490,14 +354,9 @@ patch(TicketScreen.prototype, {
 
         const orderId = Number(order.id);
 
-        if (
-            !Number.isInteger(orderId) ||
-            orderId <= 0
-        ) {
+        if (!Number.isInteger(orderId) || orderId <= 0) {
             this.env.services.notification.add(
-                _t(
-                    "This order has not been saved or synchronized yet."
-                ),
+                _t("This order has not been saved or synchronized yet."),
                 { type: "warning" }
             );
             return;
