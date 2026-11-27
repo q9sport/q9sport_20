@@ -1,190 +1,381 @@
-/* TIVA POS Reference UI — dark-only palette. No white surfaces. */
+/* =========================================================
+   Q9SPORT FAST RETAIL POS
+   ODOO 20 ENTERPRISE
+   PRODUCTS TOP / ORDER & PAYMENT BOTTOM
+   ========================================================= */
+
 :root {
-  --tiva-bg: #050c16;
-  --tiva-bg-2: #081321;
-  --tiva-panel: #0b1726;
-  --tiva-panel-2: #101f30;
-  --tiva-card: #14263a;
-  --tiva-card-hover: #1a3048;
-  --tiva-border: #293d53;
-  --tiva-gold: #d8a83f;
-  --tiva-gold-soft: #f0c96a;
-  --tiva-text: #f3f6fa;
-  --tiva-muted: #a1afc0;
-  --tiva-green: #078b49;
+    --q9-bg: #071321;
+    --q9-panel: #0c1a2a;
+    --q9-panel-soft: #12263b;
+    --q9-card: #14283d;
+
+    --q9-gold: #d3ad62;
+    --q9-gold-dark: #a98546;
+
+    --q9-text: #f4f6f9;
+    --q9-muted: #a9b7c7;
+
+    --q9-line: rgba(193, 207, 222, .18);
+    --q9-green: #087d49;
+
+    --q9-radius: 12px;
 }
 
-/* Apply a dark canvas to all POS regions, including nested Bootstrap surfaces. */
-.pos, .pos * {
-  scrollbar-color: #34485f #081321;
-}
-.pos, .pos .o_pos, .pos .pos-content, .pos .o_pos_content,
-.pos .product-screen, .pos .screen, .pos .screen-full-width,
-.pos .leftpane, .pos .rightpane, .pos .main-content,
-.pos .o_pos_product_screen, .pos .o_pos_product_screen_content {
-  color: var(--tiva-text) !important;
-  background-color: var(--tiva-bg) !important;
-}
-.pos .bg-white, .pos .bg-light, .pos .bg-view, .pos .card,
-.pos .card-body, .pos .card-footer, .pos .list-group-item,
-.pos .dropdown-menu, .pos .modal-content, .pos .popover,
-.pos .o-dropdown--menu, .pos .o-mail-Chatter {
-  color: var(--tiva-text) !important;
-  background: var(--tiva-panel) !important;
-  border-color: var(--tiva-border) !important;
-}
-.pos .text-dark, .pos .text-black, .pos .text-body,
-.pos .form-label, .pos label, .pos .fw-bold { color: var(--tiva-text) !important; }
-.pos .text-muted, .pos .text-secondary, .pos small { color: var(--tiva-muted) !important; }
+/* =========================================================
+   GENERAL BACKGROUND
+   ========================================================= */
 
-/* Top bar and search controls */
-.pos header, .pos nav, .pos .navbar, .pos .pos-navbar,
-.pos .top-content, .pos .search-bar, .pos .search-bar-container,
-.pos .o_searchview, .pos .control-panel {
-  background: var(--tiva-bg-2) !important;
-  color: var(--tiva-text) !important;
-  border-color: var(--tiva-border) !important;
-}
-.pos input, .pos textarea, .pos select, .pos .form-control,
-.pos .o_input, .pos .o-autocomplete--input {
-  color: var(--tiva-text) !important;
-  background: #0b1929 !important;
-  border: 1px solid var(--tiva-border) !important;
-  border-radius: 8px !important;
-  box-shadow: none !important;
-}
-.pos input::placeholder, .pos textarea::placeholder { color: #8293a8 !important; }
-.pos input:focus, .pos textarea:focus, .pos select:focus {
-  border-color: var(--tiva-gold) !important;
-  box-shadow: 0 0 0 2px #d8a83f24 !important;
+.pos,
+.pos .pos-content,
+.pos .product-screen {
+    background: var(--q9-bg) !important;
+    color: var(--q9-text) !important;
 }
 
-/* Product cards: deep navy, subtle border, no white card body. */
-.pos .product, .pos .product-card, .pos .product-item,
-.pos .product-list .product, .pos .product-list-container .product,
-.pos .o_pos_product, .pos .product-card .card, .pos .product .card {
-  color: var(--tiva-text) !important;
-  background: linear-gradient(155deg, #192d43 0%, #122338 54%, #0c1929 100%) !important;
-  border: 1px solid #344b64 !important;
-  border-radius: 11px !important;
-  box-shadow: 0 4px 12px #0007 !important;
-  overflow: hidden !important;
-  transition: border-color .16s ease, transform .16s ease, box-shadow .16s ease;
-}
-.pos .product *, .pos .product-card *, .pos .product-item *, .pos .o_pos_product * {
-  color: inherit;
-}
-.pos .product .bg-white, .pos .product-card .bg-white,
-.pos .product-item .bg-white, .pos .product .card-body,
-.pos .product-card .card-body, .pos .product .card-footer,
-.pos .product-card .card-footer, .pos .product .product-content,
-.pos .product-card .product-content {
-  background: transparent !important;
-}
-.pos .product:hover, .pos .product-card:hover, .pos .product-item:hover,
-.pos .o_pos_product:hover, .pos .product.selected, .pos .product-card.selected {
-  border-color: var(--tiva-gold) !important;
-  box-shadow: 0 0 0 1px #d8a83f55, 0 7px 18px #0009 !important;
-  transform: translateY(-1px);
-}
-.pos .product-name, .pos .product .product-name, .pos .product-card .name,
-.pos .product-card .product-name, .pos .product-item .product-name {
-  color: #f5f7fb !important;
-  font-weight: 650 !important;
-}
-.pos .product-price, .pos .product .price, .pos .product-card .price,
-.pos .product-item .price { color: #ffffff !important; font-weight: 750 !important; }
-.pos .product img, .pos .product-card img, .pos .product-item img,
-.pos .o_pos_product img { object-fit: contain !important; }
-.pos .product .badge, .pos .product-card .badge, .pos .product-item .badge {
-  color: #dce6f1 !important; background: #071321 !important;
-  border: 1px solid #40566e !important; border-radius: 999px !important;
+.pos .product-screen {
+    display: flex !important;
+    flex-direction: column !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    overflow: hidden !important;
+    gap: 0 !important;
 }
 
-/* Cart / order list */
-.pos .leftpane, .pos .order-container, .pos .order-list,
-.pos .orderlines, .pos .order-summary, .pos .order-widget,
-.pos .order-container *, .pos .order-list * {
-  border-color: #263a50 !important;
-}
-.pos .leftpane, .pos .order-container, .pos .order-list,
-.pos .orderlines, .pos .order-summary, .pos .order-widget {
-  background: var(--tiva-panel) !important;
-  color: var(--tiva-text) !important;
-}
-.pos .orderline, .pos .order-line, .pos .orderlines li {
-  color: var(--tiva-text) !important;
-  background: transparent !important;
-  border-bottom: 1px solid #203349 !important;
-}
-.pos .orderline.selected, .pos .orderline.highlight, .pos .order-line.selected {
-  background: #172b40 !important;
-  box-shadow: inset 3px 0 0 var(--tiva-gold) !important;
-}
-.pos .total, .pos .order-summary .total, .pos .payment-summary .total {
-  color: #8fb5ff !important; font-weight: 800 !important;
+/* =========================================================
+   SUPPORT POS PANE CONTAINERS
+   ========================================================= */
+
+.pos .product-screen .screen-full-width {
+    display: grid !important;
+
+    grid-template-columns: minmax(0, 1fr) !important;
+
+    grid-template-rows:
+        minmax(0, 58fr)
+        minmax(210px, 42fr) !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    overflow: hidden !important;
+    gap: 0 !important;
 }
 
-/* Categories: compact vertical dark controls */
-.pos .category-list, .pos .category-sidebar, .pos .categories,
-.pos .category-list-container, .pos .category-selector {
-  background: #081523 !important;
-  border-color: var(--tiva-border) !important;
-}
-.pos .category-button, .pos .category, .pos .category-item,
-.pos .category-list button, .pos .categories button,
-.pos .category-selector button {
-  color: #dce5ef !important;
-  background: #14263a !important;
-  border: 1px solid #293f56 !important;
-  border-radius: 8px !important;
-}
-.pos .category-button:hover, .pos .category:hover, .pos .category-item:hover,
-.pos .category-button.active, .pos .category.active, .pos .category-item.active,
-.pos .category-list button.active, .pos .category-selector button.active {
-  color: #fff !important; background: #1b3048 !important;
-  border-color: var(--tiva-gold) !important;
+/* =========================================================
+   TOP SECTION - PRODUCTS
+   ========================================================= */
+
+.pos .product-screen > .rightpane,
+.pos .product-screen .screen-full-width > .rightpane {
+
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    width: 100% !important;
+    max-width: none !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    height: auto !important;
+    margin: 0 !important;
+
+    overflow: hidden !important;
+
+    background: var(--q9-bg) !important;
+
+    border: none !important;
+    border-bottom: 2px solid var(--q9-gold-dark) !important;
 }
 
-/* Buttons: elegant, simple, consistent */
-.pos button, .pos .btn, .pos .control-button,
-.pos .control-buttons button, .pos .action-button {
-  color: #edf3fa !important;
-  background: linear-gradient(180deg, #1a2b40, #101d2d) !important;
-  border: 1px solid #30465e !important;
-  border-radius: 8px !important;
-  box-shadow: none !important;
-  transition: background .15s ease, border-color .15s ease;
-}
-.pos button:hover, .pos .btn:hover, .pos .control-button:hover,
-.pos .control-buttons button:hover, .pos .action-button:hover {
-  background: #203750 !important; border-color: #627a94 !important;
-}
-.pos .btn-primary, .pos .pay-button, .pos .payment-button,
-.pos .button-pay, .pos .payment-screen .next-button,
-.pos button[name*="Pay"] {
-  color: #fff !important;
-  background: linear-gradient(135deg, #0b9d55, #08713e) !important;
-  border: 1px solid #20b86b !important;
-  border-radius: 10px !important;
-  font-weight: 800 !important;
-}
-.pos button:focus-visible, .pos .btn:focus-visible {
-  outline: 2px solid var(--tiva-gold) !important; outline-offset: 2px;
+/* =========================================================
+   BOTTOM SECTION - ORDER AND PAYMENT
+   ========================================================= */
+
+.pos .product-screen > .leftpane,
+.pos .product-screen .screen-full-width > .leftpane {
+
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    width: 100% !important;
+    max-width: none !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    height: auto !important;
+    margin: 0 !important;
+
+    overflow: hidden !important;
+
+    background: var(--q9-panel) !important;
+
+    border: none !important;
+    border-top: 2px solid var(--q9-gold) !important;
+
+    box-shadow: 0 -5px 22px rgba(0, 0, 0, .24) !important;
 }
 
-/* Popups, dialogs, keypad and dropdowns */
-.pos .modal, .pos .modal-dialog, .pos .modal-content,
-.pos .popup, .pos .popup-content, .pos .payment-screen,
-.pos .dropdown-menu, .pos .popover, .pos .o-dropdown--menu {
-  color: var(--tiva-text) !important;
-  background: #0e1d2d !important;
-  border: 1px solid #30465d !important;
-}
-.pos .modal-header, .pos .modal-footer { border-color: #30465d !important; }
-.pos .badge { color: #dce6f1 !important; background: #0b1928 !important; border: 1px solid #30465d !important; }
+/* =========================================================
+   PRODUCT AREA
+   ========================================================= */
 
-/* Mobile/tablet fallback: don't force a cramped three-column layout. */
-@media (max-width: 900px) {
-  .pos .product, .pos .product-card, .pos .product-item { border-radius: 8px !important; }
+.pos .rightpane,
+.pos .rightpane .products-widget,
+.pos .rightpane .product-list-container {
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+}
+
+.pos .rightpane .products-widget,
+.pos .rightpane .product-list-container {
+
+    overflow: auto !important;
+    overscroll-behavior: contain;
+
+    background: var(--q9-bg) !important;
+}
+
+/* =========================================================
+   PRODUCT CARDS
+   ========================================================= */
+
+.pos .rightpane .product,
+.pos .rightpane .product-list .product {
+
+    overflow: hidden !important;
+
+    background: linear-gradient(
+        145deg,
+        #172e45,
+        #0e1d2e
+    ) !important;
+
+    color: var(--q9-text) !important;
+
+    border: 1px solid var(--q9-line) !important;
+
+    border-radius: var(--q9-radius) !important;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, .20) !important;
+
+    transition:
+        border-color .15s ease,
+        transform .15s ease,
+        background .15s ease;
+}
+
+.pos .rightpane .product:active {
+    transform: scale(.985);
+
+    border-color: var(--q9-gold) !important;
+}
+
+/* Product names */
+
+.pos .rightpane .product .product-name,
+.pos .rightpane .product .product-content .product-name {
+
+    color: var(--q9-text) !important;
+
+    font-size: clamp(11px, .85vw, 14px) !important;
+
+    font-weight: 650 !important;
+
+    line-height: 1.3 !important;
+}
+
+/* Product prices */
+
+.pos .rightpane .product .product-price,
+.pos .rightpane .product .price-tag {
+
+    color: var(--q9-gold) !important;
+
+    font-weight: 800 !important;
+}
+
+/* Product images */
+
+.pos .rightpane .product img {
+    object-fit: contain !important;
+}
+
+/* =========================================================
+   CATEGORIES
+   ========================================================= */
+
+.pos .rightpane .category-button,
+.pos .rightpane .category-list .category-button {
+
+    background: var(--q9-panel-soft) !important;
+
+    color: var(--q9-text) !important;
+
+    border: 1px solid var(--q9-line) !important;
+
+    border-radius: 9px !important;
+}
+
+.pos .rightpane .category-button.active,
+.pos .rightpane .category-button.selected {
+
+    background: #263e57 !important;
+
+    color: var(--q9-gold) !important;
+
+    border-color: var(--q9-gold) !important;
+}
+
+/* =========================================================
+   ORDER AREA
+   ========================================================= */
+
+.pos .leftpane,
+.pos .leftpane .order-container,
+.pos .leftpane .order,
+.pos .leftpane .order-widget,
+.pos .leftpane .order-summary,
+.pos .leftpane .orderlines {
+
+    color: var(--q9-text) !important;
+}
+
+.pos .leftpane .order-container,
+.pos .leftpane .order,
+.pos .leftpane .order-widget,
+.pos .leftpane .order-summary {
+
+    background: transparent !important;
+}
+
+/* Order lines scrolling */
+
+.pos .leftpane .orderlines {
+
+    min-height: 0 !important;
+
+    overflow-y: auto !important;
+
+    overscroll-behavior: contain;
+}
+
+/* Individual order line */
+
+.pos .leftpane .orderline {
+
+    background: rgba(255, 255, 255, .025) !important;
+
+    color: var(--q9-text) !important;
+
+    border-bottom: 1px solid var(--q9-line) !important;
+}
+
+/* Selected order line */
+
+.pos .leftpane .orderline.selected {
+
+    background: rgba(211, 173, 98, .10) !important;
+
+    border-left: 3px solid var(--q9-gold) !important;
+}
+
+/* =========================================================
+   TOTALS
+   ========================================================= */
+
+.pos .leftpane .total,
+.pos .leftpane .total *,
+.pos .leftpane .order-summary .value {
+
+    color: var(--q9-gold) !important;
+
+    font-weight: 800 !important;
+}
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.pos .rightpane input,
+.pos .leftpane input,
+.pos .leftpane textarea,
+.pos .leftpane select {
+
+    background: #102238 !important;
+
+    color: var(--q9-text) !important;
+
+    border: 1px solid var(--q9-line) !important;
+
+    border-radius: 9px !important;
+}
+
+/* =========================================================
+   PAYMENT BUTTONS
+   ========================================================= */
+
+.pos .leftpane .payment-button,
+.pos .leftpane button.highlight,
+.pos .leftpane .btn-primary {
+
+    background: linear-gradient(
+        135deg,
+        #087746,
+        #079653
+    ) !important;
+
+    border-color: #168b55 !important;
+
+    color: #fff !important;
+
+    font-weight: 750 !important;
+
+    border-radius: 10px !important;
+}
+
+/* =========================================================
+   RESPONSIVE TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .pos .product-screen .screen-full-width {
+
+        grid-template-rows:
+            minmax(0, 55fr)
+            minmax(205px, 45fr) !important;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .pos .product-screen .screen-full-width {
+
+        grid-template-rows:
+            minmax(0, 52fr)
+            minmax(205px, 48fr) !important;
+    }
 }
