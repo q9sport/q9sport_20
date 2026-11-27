@@ -1,1 +1,1 @@
-# Q9SPORT Premium POS UI\n
+# Q9SPORT Premium POS UI

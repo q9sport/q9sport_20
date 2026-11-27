@@ -1,205 +1,290 @@
-/* Q9SPORT Premium POS UI — Odoo 20
-   Styling only: does not override order, stock, payment or delivery logic. */
+// Q9SPORT Premium POS UI — Odoo 20
+// Uses the Odoo 20 ProductScreen structure:
+// .product-screen > .leftpane (OrderSummary + pads)
+//                  > .rightpane (CategorySelector + product cards)
+//
+// The right pane is visually moved to the TOP and the left pane to the BOTTOM
+// using flex order. No POS business methods, payment logic, or order models
+// are overridden.
 
 :root {
-    --q9-navy: #172a43;
-    --q9-navy-2: #213b59;
-    --q9-gold: #c6a15b;
-    --q9-gold-dark: #a98442;
-    --q9-bg: #eef2f6;
-    --q9-card: #ffffff;
-    --q9-text: #26364a;
-    --q9-muted: #718096;
-    --q9-border: #dce3eb;
-    --q9-radius: 14px;
+    --q9pos-bg: #071321;
+    --q9pos-panel: #0d1b2a;
+    --q9pos-panel-2: #132438;
+    --q9pos-card: #101f30;
+    --q9pos-card-hover: #182c41;
+    --q9pos-gold: #c6a15b;
+    --q9pos-gold-light: #e0c27e;
+    --q9pos-green: #078044;
+    --q9pos-text: #f4f7fb;
+    --q9pos-muted: #aab8c8;
+    --q9pos-border: rgba(198, 161, 91, .30);
 }
 
-/* Main POS canvas */
-.pos,
-.pos .pos-content {
-    background: var(--q9-bg) !important;
-    color: var(--q9-text);
-}
-
-/* Split the product area and order/payment area vertically.
-   The selectors intentionally target the standard POS screen containers. */
-.pos .pos-content {
+/* Main screen: vertical split */
+.pos .product-screen {
     display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(36, 69, 99, .28), transparent 58%),
+        var(--q9pos-bg) !important;
+    color: var(--q9pos-text) !important;
+}
+
+/* TOP: products and categories (Odoo 20 rightpane) */
+.pos .product-screen > .rightpane {
+    order: 1 !important;
+    display: flex !important;
+    flex: 1 1 60% !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    border: 0 !important;
+}
+
+/* BOTTOM: current order, totals, numpad and payment (Odoo 20 leftpane) */
+.pos .product-screen > .leftpane {
+    order: 2 !important;
+    display: flex !important;
+    flex: 0 0 40% !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 190px !important;
+    overflow: hidden !important;
+    padding: 8px 12px 10px !important;
+    background: linear-gradient(180deg, #102136 0%, #091725 100%) !important;
+    border: 0 !important;
+    border-top: 2px solid var(--q9pos-gold) !important;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, .28) !important;
+}
+
+/* Products viewport */
+.pos .product-screen > .rightpane > .position-relative {
+    display: flex !important;
+    flex: 1 1 auto !important;
     flex-direction: column !important;
     min-height: 0 !important;
     overflow: hidden !important;
+    background: transparent !important;
 }
 
-.pos .product-screen {
-    display: flex !important;
-    flex: 1 1 58% !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    min-height: 220px !important;
-    max-height: 62% !important;
-    overflow: hidden !important;
-    background: var(--q9-bg) !important;
-}
-
-.pos .order-container {
-    display: flex !important;
-    flex: 0 0 42% !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    min-height: 230px !important;
-    margin: 0 !important;
-    overflow: hidden !important;
-    background: #fff !important;
-    border: 1px solid var(--q9-border) !important;
-    border-top: 3px solid var(--q9-gold) !important;
-    border-radius: var(--q9-radius) var(--q9-radius) 0 0 !important;
-    box-shadow: 0 -5px 22px rgba(23, 42, 67, .08) !important;
-}
-
-/* Product catalog header, category navigation and search */
-.pos .product-screen,
-.pos .product-screen .product-screen-content,
-.pos .product-screen .products-widget,
-.pos .product-screen .product-list {
-    background: var(--q9-bg) !important;
-}
-
-.pos .product-screen .product-list {
-    gap: 10px !important;
-    padding: 12px !important;
+/* Product list scroll region */
+.pos .product-screen > .rightpane [t-ref="productsRootRef"],
+.pos .product-screen > .rightpane .overflow-y-auto {
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--q9pos-gold) #102136;
+}
+
+/* Product grid: responsive cards, never a single horizontal strip */
+.pos .product-screen .product-list {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)) !important;
+    grid-auto-rows: minmax(150px, auto) !important;
     align-content: start !important;
+    gap: 10px !important;
+    width: 100% !important;
+    padding: 12px 14px 16px !important;
 }
 
 /* Product cards */
-.pos .product,
-.pos .product-list .product {
-    position: relative;
-    overflow: hidden;
-    min-width: 0;
-    background: var(--q9-card) !important;
-    border: 1px solid var(--q9-border) !important;
+.pos .product-screen .product-list > * {
+    min-width: 0 !important;
+}
+
+.pos .product-screen .product-list .product,
+.pos .product-screen .product-list .product-card {
+    min-width: 0 !important;
+    min-height: 145px !important;
+    overflow: hidden !important;
+    color: var(--q9pos-text) !important;
+    background: linear-gradient(145deg, #172a40 0%, #0c1928 100%) !important;
+    border: 1px solid rgba(151, 173, 198, .24) !important;
     border-radius: 13px !important;
-    box-shadow: 0 2px 8px rgba(23, 42, 67, .055) !important;
-    transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .22) !important;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
 
-.pos .product:active,
-.pos .product-list .product:active {
-    transform: scale(.985);
-    border-color: var(--q9-gold) !important;
+.pos .product-screen .product-list .product:hover,
+.pos .product-screen .product-list .product-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--q9pos-gold) !important;
+    box-shadow: 0 7px 18px rgba(0, 0, 0, .30) !important;
 }
 
-.pos .product .product-name,
-.pos .product .product-content .product-name {
-    color: var(--q9-text) !important;
+.pos .product-screen .product-list .product .product-name,
+.pos .product-screen .product-list .product-card .product-name {
+    color: #f7f9fc !important;
     font-size: clamp(11px, .85vw, 14px) !important;
     font-weight: 650 !important;
     line-height: 1.3 !important;
 }
 
-.pos .product .product-price,
-.pos .product .price-tag {
-    color: var(--q9-gold-dark) !important;
+.pos .product-screen .product-list .product .product-price,
+.pos .product-screen .product-list .product-card .product-price {
+    color: var(--q9pos-gold-light) !important;
     font-weight: 800 !important;
-    font-size: clamp(12px, .95vw, 15px) !important;
 }
 
-.pos .product img,
-.pos .product .product-img img {
+.pos .product-screen .product-list img {
     object-fit: contain !important;
 }
 
-/* Category buttons */
-.pos .category-button,
-.pos .category-button *,
-.pos .category-list .category-button {
-    border-radius: 10px !important;
+/* Category selector */
+.pos .product-screen .rightpane .category-selector,
+.pos .product-screen .rightpane .category-list,
+.pos .product-screen .rightpane .category-selector > * {
+    background: #0c1a29 !important;
+    color: var(--q9pos-text) !important;
 }
 
-.pos .category-button {
-    border: 1px solid var(--q9-border) !important;
-    background: #fff !important;
-    color: var(--q9-navy) !important;
-    font-weight: 650 !important;
+.pos .product-screen .rightpane .category-button,
+.pos .product-screen .rightpane .category-simple-button {
+    color: #eaf0f7 !important;
+    background: #17283b !important;
+    border: 1px solid rgba(151, 173, 198, .20) !important;
+    border-radius: 9px !important;
 }
 
-.pos .category-button.active,
-.pos .category-button.selected {
-    background: var(--q9-navy) !important;
+.pos .product-screen .rightpane .category-button.active,
+.pos .product-screen .rightpane .category-simple-button.active {
     color: #fff !important;
-    border-color: var(--q9-gold) !important;
+    background: #263b52 !important;
+    border-color: var(--q9pos-gold) !important;
 }
 
-/* Order header and lines */
-.pos .order-container .order,
-.pos .order-container .order-summary,
-.pos .order-container .orderlines {
-    min-height: 0;
+/* Bottom order summary: keep the native Odoo component and its interactions */
+.pos .product-screen > .leftpane .order-summary,
+.pos .product-screen > .leftpane .order-container,
+.pos .product-screen > .leftpane .order {
+    color: var(--q9pos-text) !important;
+    background: transparent !important;
 }
 
-.pos .order-container .orderline {
-    border-bottom: 1px solid #edf0f4 !important;
-}
-
-.pos .order-container .orderline.selected {
-    background: #f5f8fc !important;
-    border-left: 3px solid var(--q9-gold) !important;
-}
-
-.pos .order-container .orderline .product-name {
-    color: var(--q9-text) !important;
-    font-weight: 650 !important;
-}
-
-/* Totals and payment-related primary actions */
-.pos .order-container .total,
-.pos .order-container .order-summary {
-    color: var(--q9-navy) !important;
-}
-
-.pos button,
-.pos .btn {
-    border-radius: 9px;
-}
-
-.pos .btn-primary,
-.pos button.highlight,
-.pos .payment-button {
-    border-color: var(--q9-gold-dark) !important;
-}
-
-/* Keep independent scrolling areas */
-.pos .product-screen .products-widget,
-.pos .product-screen .product-list,
-.pos .order-container .orderlines {
+.pos .product-screen > .leftpane .order-summary {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
     overflow-y: auto !important;
-    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--q9pos-gold) #102136;
 }
 
-/* Medium screens */
-@media (max-width: 1100px) {
-    .pos .product-screen {
-        flex-basis: 55% !important;
-        max-height: 58% !important;
-    }
-    .pos .order-container {
-        flex-basis: 45% !important;
+.pos .product-screen > .leftpane .orderline {
+    color: #f1f5f9 !important;
+    background: rgba(18, 36, 55, .88) !important;
+    border-bottom: 1px solid rgba(180, 197, 216, .12) !important;
+}
+
+.pos .product-screen > .leftpane .orderline.selected {
+    background: #1b3048 !important;
+    border-left: 3px solid var(--q9pos-gold) !important;
+}
+
+.pos .product-screen > .leftpane .orderline .product-name,
+.pos .product-screen > .leftpane .orderline .product-name *,
+.pos .product-screen > .leftpane .orderline .price,
+.pos .product-screen > .leftpane .orderline .info-list {
+    color: #f1f5f9 !important;
+}
+
+/* Bottom controls and payment action */
+.pos .product-screen > .leftpane .pads {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    padding: 6px 0 0 !important;
+    background: transparent !important;
+}
+
+.pos .product-screen > .leftpane .control-buttons,
+.pos .product-screen > .leftpane .subpads {
+    background: transparent !important;
+}
+
+.pos .product-screen > .leftpane .control-buttons button,
+.pos .product-screen > .leftpane .subpads button,
+.pos .product-screen > .leftpane .actionpad button {
+    min-height: 42px;
+    color: #f4f7fb !important;
+    background: linear-gradient(180deg, #1b2e43, #122235) !important;
+    border: 1px solid rgba(198, 161, 91, .24) !important;
+    border-radius: 9px !important;
+}
+
+.pos .product-screen > .leftpane .actionpad .pay,
+.pos .product-screen > .leftpane .actionpad button.pay,
+.pos .product-screen > .leftpane .actionpad .button.pay {
+    color: #fff !important;
+    background: linear-gradient(135deg, #0b9953, #056b3b) !important;
+    border: 1px solid #20a968 !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 14px rgba(0, 128, 70, .25) !important;
+}
+
+/* Ensure totals are legible on the dark checkout surface */
+.pos .product-screen > .leftpane .total,
+.pos .product-screen > .leftpane .order-summary .total,
+.pos .product-screen > .leftpane .order-summary .value {
+    color: var(--q9pos-gold-light) !important;
+}
+
+/* Search controls */
+.pos .product-screen .rightpane input,
+.pos .product-screen .rightpane .form-control {
+    color: #f4f7fb !important;
+    background: #101f30 !important;
+    border: 1px solid rgba(151, 173, 198, .30) !important;
+    border-radius: 9px !important;
+}
+
+.pos .product-screen .rightpane input::placeholder {
+    color: #aab8c8 !important;
+}
+
+/* Responsive */
+@media (min-width: 1200px) {
+    .pos .product-screen .product-list {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
     }
 }
 
-/* Small POS screens */
-@media (max-width: 700px) {
-    .pos .product-screen {
-        flex-basis: 52% !important;
-        max-height: 55% !important;
-        min-height: 180px !important;
+@media (max-width: 900px) {
+    .pos .product-screen > .rightpane {
+        flex-basis: 56% !important;
     }
-    .pos .order-container {
-        flex-basis: 48% !important;
-        min-height: 210px !important;
+    .pos .product-screen > .leftpane {
+        flex-basis: 44% !important;
+        min-height: 175px !important;
+    }
+    .pos .product-screen .product-list {
+        grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)) !important;
+        grid-auto-rows: minmax(125px, auto) !important;
+        gap: 7px !important;
+        padding: 8px !important;
+    }
+}
+
+@media (max-height: 700px) {
+    .pos .product-screen > .leftpane {
+        flex-basis: 43% !important;
+    }
+    .pos .product-screen > .rightpane {
+        flex-basis: 57% !important;
+    }
+    .pos .product-screen .product-list {
+        grid-auto-rows: minmax(112px, auto) !important;
     }
 }

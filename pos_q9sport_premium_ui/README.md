@@ -1,32 +1,26 @@
 # Q9SPORT Premium POS UI — Odoo 20
 
-## Contents
-- `__manifest__.py`
-- `__init__.py`
-- `static/src/scss/premium_pos.scss`
+A standalone visual addon inspired by the supplied TIVA POS reference.
 
-## What it changes
-This addon adds a visual theme and attempts a vertical split layout:
-- Product/catalog region on top.
-- Current order region below.
-- Navy, soft gray and gold styling.
-- Product cards, category buttons and order lines receive cleaner styling.
+## Layout
+- Product catalog and categories occupy the TOP area.
+- Current order, order lines, totals, numpad and native payment action occupy the BOTTOM area.
+- Dark navy surfaces, gold accents, product-card grid and green payment action.
 
-## What it deliberately does NOT change
-- Product selection logic
-- Order-line quantity logic
-- Taxes, discounts or pricing
-- Payment validation or payment methods
-- Delivery module logic
-- Receipt printing or synchronization
+## Technical approach
+The addon targets the Odoo 20 `point_of_sale.ProductScreen` DOM:
+- `.product-screen`
+- `.leftpane` (native OrderSummary + pads)
+- `.rightpane` (native CategorySelector + ProductCard grid)
 
-## Installation
-1. Copy `pos_q9sport_premium_ui` into a custom addons directory.
-2. Restart/update the Apps list.
-3. Install **Q9SPORT Premium POS UI**.
-4. Open POS with `?debug=assets` for the first test, then hard-refresh the browser.
+CSS flex ordering places `.rightpane` first and `.leftpane` second. The native OWL components remain mounted and their original click handlers, order logic, payment validation, barcode handling, and delivery extensions are not replaced.
 
-## Important Odoo 20 note
-Odoo 20 Enterprise builds may have customized POS DOM structure. This package uses standard POS container selectors and is a styling-only first pass. Test it on the staging database before production. If the split does not apply exactly, send the POS screen's DOM/classes or a screenshot with browser inspector and the selectors can be aligned to the exact Enterprise build.
+## Install / upgrade
+1. Remove the earlier broken `pos_q9sport_premium_ui` version if it is installed.
+2. Replace its module folder with this version.
+3. Restart the Odoo.sh staging build.
+4. Update Apps List, then Upgrade the module.
+5. Open POS using `?debug=assets` once and hard refresh with Ctrl+Shift+R.
 
-The addon does not claim to be runtime-tested against your private Odoo.sh build.
+## Important
+This is built against the publicly available Odoo 20 Community ProductScreen template structure. Your Enterprise database may include additional custom POS modules that alter the same screen. Test on `stage1` first. The addon is styling/layout only and has not been executed against your private Odoo.sh database.
