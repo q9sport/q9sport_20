@@ -1,0 +1,149 @@
+/* TIVA POS - visual theme for Odoo 20 POS. CSS-only: keeps native POS behavior. */
+:root {
+  --tiva-bg: #07111f;
+  --tiva-bg-2: #0b1727;
+  --tiva-panel: #101d2d;
+  --tiva-panel-2: #142236;
+  --tiva-border: #26384d;
+  --tiva-gold: #d8a634;
+  --tiva-gold-2: #f2c65d;
+  --tiva-text: #f2f5f9;
+  --tiva-muted: #9eafc3;
+  --tiva-green: #098b48;
+}
+
+/* Main POS workspace */
+.pos, .pos .pos-content, .pos .product-screen, .pos-content {
+  background: var(--tiva-bg) !important;
+  color: var(--tiva-text) !important;
+}
+.pos * { scrollbar-color: #344960 #0a1422; }
+.pos button, .pos .btn {
+  transition: background-color .14s ease, border-color .14s ease, transform .14s ease;
+}
+.pos button:hover, .pos .btn:hover { border-color: var(--tiva-gold) !important; }
+
+/* Header / search / top actions */
+.pos .navbar, .pos .pos-navbar, .pos .search-bar, .pos .search-box,
+.pos .product-screen .top-content, .pos .product-screen header {
+  background: var(--tiva-bg-2) !important;
+  border-color: var(--tiva-border) !important;
+}
+.pos input, .pos .form-control, .pos input[type="text"] {
+  background: #101d2d !important;
+  color: var(--tiva-text) !important;
+  border: 1px solid #2a3c52 !important;
+  border-radius: 10px !important;
+}
+.pos input:focus, .pos .form-control:focus { border-color: var(--tiva-gold) !important; box-shadow: 0 0 0 2px #d8a63422 !important; }
+
+/* Order panel / cart */
+.pos .leftpane, .pos .order-container, .pos .order-list, .pos .order-summary,
+.pos .order-widget, .pos .orderlines, .pos .orderline {
+  background-color: var(--tiva-panel) !important;
+  color: var(--tiva-text) !important;
+  border-color: var(--tiva-border) !important;
+}
+.pos .leftpane, .pos .order-container { border-right: 1px solid var(--tiva-border) !important; }
+.pos .orderline, .pos .order-line {
+  border-bottom: 1px solid #1e3045 !important;
+}
+.pos .orderline.selected, .pos .orderline.highlight, .pos .orderline:hover {
+  background: #15263a !important;
+  box-shadow: inset 3px 0 0 var(--tiva-gold) !important;
+}
+.pos .total, .pos .order-summary .total, .pos .payment-summary .total {
+  color: #7faaff !important;
+  font-weight: 800 !important;
+}
+
+/* Product grid and cards */
+.pos .product-list, .pos .product-list-container, .pos .products-widget,
+.pos .product-screen .rightpane, .pos .product-screen .products {
+  background: #091523 !important;
+}
+.pos .product, .pos .product-card, .pos .product-item {
+  background: linear-gradient(145deg, #142236, #0c1726) !important;
+  color: var(--tiva-text) !important;
+  border: 1px solid #283b50 !important;
+  border-radius: 13px !important;
+  overflow: hidden !important;
+  box-shadow: 0 5px 14px #0004 !important;
+}
+.pos .product:hover, .pos .product-card:hover, .pos .product-item:hover {
+  border-color: var(--tiva-gold) !important;
+  box-shadow: 0 0 0 1px #d8a63444, 0 7px 20px #0006 !important;
+  transform: translateY(-1px);
+}
+.pos .product .product-name, .pos .product-name, .pos .product-card .name {
+  color: #f3f6fa !important;
+  font-weight: 650 !important;
+}
+.pos .product .price, .pos .product-price, .pos .product-card .price {
+  color: #fff !important;
+  font-weight: 750 !important;
+}
+.pos .product img, .pos .product-card img, .pos .product-item img {
+  object-fit: contain !important;
+}
+
+/* Category buttons */
+.pos .category-list, .pos .category-sidebar, .pos .categories, .pos .category-list-container {
+  background: #0b1727 !important;
+  border-color: var(--tiva-border) !important;
+}
+.pos .category-button, .pos .category, .pos .category-item, .pos .category-list button {
+  background: #142236 !important;
+  color: #dce5ef !important;
+  border: 1px solid #24374d !important;
+  border-radius: 10px !important;
+  margin-bottom: 5px !important;
+}
+.pos .category-button:hover, .pos .category:hover, .pos .category-item:hover,
+.pos .category-button.active, .pos .category.active, .pos .category-item.active,
+.pos .category-list button.active {
+  background: #182b42 !important;
+  border-color: var(--tiva-gold) !important;
+  color: #fff !important;
+}
+
+/* Control buttons and dialogs */
+.pos .control-button, .pos .control-buttons button, .pos .btn-secondary,
+.pos .button, .pos .action-button {
+  background: linear-gradient(180deg, #17273b, #0e1a29) !important;
+  color: #edf3fa !important;
+  border: 1px solid #2b3e54 !important;
+  border-radius: 10px !important;
+}
+.pos .modal, .pos .popup, .pos .modal-content, .pos .popup-content {
+  background: #101d2d !important;
+  color: var(--tiva-text) !important;
+  border: 1px solid #2c4057 !important;
+}
+.pos .modal-header, .pos .modal-footer { border-color: #2c4057 !important; }
+
+/* Checkout / prominent payment buttons */
+.pos .pay-button, .pos .payment-button, .pos .payment-screen .next-button,
+.pos .button-pay, .pos button[name*="Pay"] {
+  background: linear-gradient(135deg, #079448, #087239) !important;
+  color: white !important;
+  border: 1px solid #21b568 !important;
+  border-radius: 12px !important;
+  font-weight: 800 !important;
+}
+.pos .pay-button:hover, .pos .payment-button:hover, .pos .payment-screen .next-button:hover {
+  filter: brightness(1.1);
+}
+.pos .text-muted, .pos .text-secondary { color: var(--tiva-muted) !important; }
+.pos .badge, .pos .stock-badge { background: #0d1a28 !important; color: #cbd8e6 !important; border: 1px solid #2b4056 !important; }
+
+/* Gold accents for selected/focused UI */
+.pos .active, .pos .selected, .pos .btn-primary, .pos .primary-button {
+  border-color: var(--tiva-gold) !important;
+}
+.pos .btn-primary, .pos .primary-button { background: #17273b !important; color: #f5ca63 !important; }
+
+/* Responsive adjustments for smaller cashier displays */
+@media (max-width: 1100px) {
+  .pos .product, .pos .product-card, .pos .product-item { border-radius: 9px !important; }
+}
