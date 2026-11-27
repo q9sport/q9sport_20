@@ -7,7 +7,6 @@
 
     <t t-name="pos_delivery_driver.DeliveryButtonStyles">
         <style>
-
             .delivery-orders-royal-btn {
                 display: inline-flex !important;
                 align-items: center !important;
@@ -82,10 +81,8 @@
             .delivery-follow-btn:hover .delivery-svg-icon {
                 stroke: #ffffff !important;
             }
-
         </style>
     </t>
-
 
     <!-- ================================================= -->
     <!-- NAVBAR                                             -->
@@ -104,7 +101,7 @@
             <button
                 type="button"
                 class="btn delivery-orders-royal-btn"
-                t-on-click="() => this.onDeliveryOrdersClick()"
+                t-on-click="onDeliveryOrdersClick"
                 title="Delivery Orders"
                 aria-label="Delivery Orders">
 
@@ -118,6 +115,7 @@
                     <circle cx="7.5" cy="19" r="2"/>
                     <circle cx="17.5" cy="19" r="2"/>
                     <path d="M5 7l1-3h7l1 3"/>
+
                 </svg>
 
             </button>
@@ -125,7 +123,6 @@
         </xpath>
 
     </t>
-
 
     <!-- ================================================= -->
     <!-- TICKET SCREEN                                      -->
@@ -157,12 +154,12 @@
                     <circle cx="7.5" cy="19" r="2"/>
                     <circle cx="17.5" cy="19" r="2"/>
                     <path d="M5 7l1-3h7l1 3"/>
+
                 </svg>
 
             </button>
 
         </xpath>
-
 
         <!-- MOBILE -->
 
@@ -187,6 +184,7 @@
                     <circle cx="7.5" cy="19" r="2"/>
                     <circle cx="17.5" cy="19" r="2"/>
                     <path d="M5 7l1-3h7l1 3"/>
+
                 </svg>
 
             </button>
