@@ -1,25 +1,37 @@
+
 /* =========================================================
-   Q9SPORT POS 20 - ROYAL GLASS
-   LEFT: PRODUCTS 65%
-   RIGHT: ORDER + SUMMARY 35%
+   Q9SPORT POS 20
+   ROYAL CHAMPAGNE GLASS DESIGN
+   PRODUCTS LEFT 65% | ORDER RIGHT 35%
    ========================================================= */
+
+/* =========================
+   01. ROYAL COLOR SYSTEM
+   ========================= */
 
 :root {
-    --q9-bg: #e9eef5;
-    --q9-panel: #f5f7fa;
-    --q9-white: #ffffff;
-    --q9-navy: #304762;
-    --q9-navy-dark: #243951;
-    --q9-gold: #b99a65;
-    --q9-text: #354960;
-    --q9-muted: #8190a2;
-    --q9-border: #dce4ed;
-    --q9-shadow: 0 3px 12px rgba(35, 55, 80, .06);
+    --q9-bg: #eee9e0;
+    --q9-bg-soft: #f3efe7;
+    --q9-panel: #f8f5ef;
+    --q9-card: #fffdf9;
+    --q9-card-hover: #f6efe3;
+
+    --q9-navy: #34445a;
+    --q9-navy-dark: #26364b;
+    --q9-gold: #b39768;
+    --q9-gold-light: #e9dcc4;
+
+    --q9-text: #414b58;
+    --q9-muted: #89909a;
+    --q9-border: #e2d8c8;
+
+    --q9-radius: 13px;
+    --q9-shadow: 0 3px 12px rgba(67, 54, 35, .055);
 }
 
-/* =========================================================
-   MAIN SCREEN
-   ========================================================= */
+/* =========================
+   02. MAIN POS SCREEN
+   ========================= */
 
 .pos .product-screen {
     background: var(--q9-bg) !important;
@@ -30,15 +42,17 @@
     flex-direction: row !important;
     align-items: stretch !important;
     gap: 10px !important;
+
     padding: 9px !important;
-    overflow: hidden !important;
-    background: var(--q9-bg) !important;
     min-height: 0 !important;
+    overflow: hidden !important;
+
+    background: var(--q9-bg) !important;
 }
 
-/* =========================================================
-   PRODUCTS - LEFT SIDE 65%
-   ========================================================= */
+/* =========================
+   03. PRODUCTS LEFT - 65%
+   ========================= */
 
 .pos .product-screen .rightpane {
     order: 1 !important;
@@ -52,7 +66,7 @@
     display: flex !important;
     flex-direction: column !important;
 
-    background: #e8edf4 !important;
+    background: #eee9e0 !important;
     border: 1px solid var(--q9-border) !important;
     border-radius: 15px !important;
 
@@ -60,13 +74,15 @@
     overflow: hidden !important;
 }
 
-/* Product list scrolling */
+/* Product list scrolling area */
 
 .pos .product-screen .product-list-container {
     flex: 1 1 auto !important;
     min-height: 0 !important;
+
     overflow-y: auto !important;
     overflow-x: hidden !important;
+
     padding: 8px !important;
     background: transparent !important;
 }
@@ -76,14 +92,16 @@
 .pos .product-screen .product-list {
     display: grid !important;
     grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+
     gap: 11px !important;
     padding: 4px !important;
+
     background: transparent !important;
 }
 
-/* =========================================================
-   PRODUCT CARDS
-   ========================================================= */
+/* =========================
+   04. PRODUCT CARDS
+   ========================= */
 
 .pos .product-screen .product,
 .pos .product-screen .product-card {
@@ -93,31 +111,40 @@
 
     background: linear-gradient(
         145deg,
-        #ffffff 0%,
-        #f8fafd 58%,
-        #edf2f8 100%
+        #fffefa 0%,
+        #faf7f0 58%,
+        #f3ede2 100%
     ) !important;
 
-    border: 1px solid #d9e2ec !important;
+    border: 1px solid #e5dccd !important;
     border-radius: 13px !important;
 
     box-shadow:
-        0 2px 7px rgba(35, 55, 80, .055),
+        0 2px 7px rgba(72, 59, 39, .055),
         inset 0 1px 0 rgba(255,255,255,.95) !important;
 
-    transition: all .18s ease !important;
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        box-shadow .18s ease,
+        transform .18s ease !important;
 }
+
+/* Product card hover */
 
 .pos .product-screen .product:hover,
 .pos .product-screen .product-card:hover {
     background: linear-gradient(
         145deg,
-        #ffffff,
-        #f8f2e8
+        #ffffff 0%,
+        #f5ecdc 100%
     ) !important;
 
-    border-color: #c6a875 !important;
-    box-shadow: 0 5px 13px rgba(35, 55, 80, .10) !important;
+    border-color: var(--q9-gold) !important;
+
+    box-shadow:
+        0 5px 14px rgba(91, 72, 42, .10) !important;
+
     transform: translateY(-2px) !important;
 }
 
@@ -133,7 +160,7 @@
 
 .pos .product-screen .product .product-name,
 .pos .product-screen .product-card .product-name {
-    color: var(--q9-text) !important;
+    color: var(--q9-navy) !important;
     font-size: 12px !important;
     font-weight: 650 !important;
     line-height: 1.4 !important;
@@ -143,26 +170,28 @@
 
 .pos .product-screen .product .product-price,
 .pos .product-screen .product-card .product-price {
-    color: #a78348 !important;
+    color: #9c7c47 !important;
     font-size: 12px !important;
     font-weight: 750 !important;
 }
 
-/* =========================================================
-   CATEGORY BAR
-   ========================================================= */
+/* =========================
+   05. CATEGORY BAR
+   ========================= */
 
 .pos .product-screen .category-list {
-    background: #e8edf4 !important;
+    background: transparent !important;
     border-radius: 11px !important;
     padding: 6px !important;
 }
 
 .pos .product-screen .category-list button {
-    background: #f8fafc !important;
+    background: #faf7f1 !important;
     color: var(--q9-navy) !important;
+
     border: 1px solid var(--q9-border) !important;
     border-radius: 8px !important;
+
     font-size: 11px !important;
     min-height: 30px !important;
     padding: 5px 10px !important;
@@ -174,9 +203,9 @@
     border-color: var(--q9-navy) !important;
 }
 
-/* =========================================================
-   ORDER PANEL - RIGHT SIDE 35%
-   ========================================================= */
+/* =========================
+   06. ORDER PANEL RIGHT - 35%
+   ========================= */
 
 .pos .product-screen .leftpane {
     order: 2 !important;
@@ -189,85 +218,111 @@
 
     display: flex !important;
     flex-direction: column !important;
-    gap: 9px !important;
+    gap: 8px !important;
 
     background: transparent !important;
     border: none !important;
+
     padding: 0 !important;
     overflow: hidden !important;
 }
 
-/* Order lines - upper half */
+/* =========================
+   07. SELECTED ORDER ITEMS
+   USE THE AVAILABLE SPACE
+   ========================= */
 
 .pos .product-screen .leftpane .order-container {
-    flex: 1 1 50% !important;
+    order: 1 !important;
+
+    flex: 1 1 0% !important;
     min-height: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
 
     background: linear-gradient(
         145deg,
-        #ffffff,
-        #f4f7fb
+        #fffefa 0%,
+        #f8f4ec 100%
     ) !important;
 
     border: 1px solid var(--q9-border) !important;
     border-radius: 14px !important;
+
     box-shadow: var(--q9-shadow) !important;
 
     overflow-y: auto !important;
     overflow-x: hidden !important;
 
-    padding-bottom: 7px !important;
+    padding: 5px 4px 10px !important;
 }
 
-/* Order summary - lower half */
+/* =========================
+   08. ORDER SUMMARY
+   COMPACT TOTAL AREA
+   ========================= */
 
 .pos .product-screen .leftpane .order-summary {
-    flex: 1 1 50% !important;
-    min-height: 0 !important;
+    order: 2 !important;
+
+    flex: 0 0 auto !important;
+    min-height: auto !important;
 
     background: linear-gradient(
         145deg,
-        #fafbfd,
-        #edf2f8
+        #faf7f1 0%,
+        #f1e9dc 100%
     ) !important;
 
     border: 1px solid var(--q9-border) !important;
-    border-radius: 14px !important;
+    border-radius: 13px !important;
+
     box-shadow: var(--q9-shadow) !important;
 
-    padding: 10px 10px 14px !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
+    padding: 8px 10px 10px !important;
+
+    overflow: visible !important;
 }
 
-/* =========================================================
-   ORDER LINES
-   ========================================================= */
+/* =========================
+   09. ORDER LINE CARDS
+   ========================= */
 
 .pos .orderline {
-    background: #ffffff !important;
-    border: 1px solid #e1e7ef !important;
-    border-radius: 10px !important;
+    background: #fffefa !important;
 
-    margin: 5px 6px !important;
-    padding: 9px 9px 11px !important;
+    border: 1px solid #e8dfd1 !important;
+    border-radius: 11px !important;
 
-    box-shadow: 0 2px 5px rgba(35, 55, 80, .035) !important;
-    transition: all .15s ease !important;
+    margin: 6px 7px !important;
+    padding: 10px 10px 13px !important;
+
+    box-shadow:
+        0 2px 6px rgba(70, 55, 32, .045) !important;
+
+    transition:
+        background .15s ease,
+        border-color .15s ease,
+        box-shadow .15s ease !important;
 }
+
+/* Selected order line */
 
 .pos .orderline.selected {
     background: linear-gradient(
         110deg,
-        #fbf6ed,
-        #ffffff
+        #f3eadb 0%,
+        #fffdf8 100%
     ) !important;
 
-    border-color: #c6a875 !important;
-    box-shadow: 0 2px 8px rgba(185, 154, 101, .10) !important;
+    border: 1px solid #c6a875 !important;
+
+    box-shadow:
+        0 3px 9px rgba(179, 151, 104, .12) !important;
 }
 
-/* Product name in order */
+/* Product name inside order */
 
 .pos .orderline .product-name,
 .pos .orderline .product-name span {
@@ -277,7 +332,7 @@
     line-height: 1.5 !important;
 }
 
-/* Product details */
+/* Order line details */
 
 .pos .orderline .price,
 .pos .orderline .info-list {
@@ -285,52 +340,55 @@
     font-size: 10px !important;
 }
 
-/* =========================================================
-   QUANTITY - LOWER WITH MORE SPACE
-   ========================================================= */
+/* =========================
+   10. QUANTITY POSITION
+   ========================= */
 
 .pos .orderline .product-name {
     margin-bottom: 5px !important;
 }
 
 .pos .orderline .info-list {
-    margin-top: 4px !important;
+    margin-top: 5px !important;
     margin-bottom: 5px !important;
 }
 
 .pos .orderline .qty,
 .pos .orderline .quantity {
-    margin-top: 7px !important;
-    margin-bottom: 3px !important;
+    margin-top: 9px !important;
+    margin-bottom: 5px !important;
 }
 
-/* Quantity controls */
+/* Quantity buttons */
 
 .pos .orderline button {
     min-width: 25px !important;
     min-height: 25px !important;
+
     width: 25px !important;
     height: 25px !important;
 
     padding: 2px !important;
+
     margin-top: 5px !important;
-    margin-bottom: 4px !important;
+    margin-bottom: 5px !important;
 
     border-radius: 7px !important;
     font-size: 10px !important;
 }
 
-/* =========================================================
-   BUTTONS - SMALLER + BOTTOM SPACING
-   ========================================================= */
+/* =========================
+   11. GENERAL BUTTONS
+   ========================= */
 
 .pos .product-screen button {
+    min-height: 29px !important;
+
+    padding: 5px 9px !important;
+    margin-bottom: 5px !important;
+
     border-radius: 8px !important;
     font-size: 11px !important;
-    min-height: 29px !important;
-    padding: 5px 9px !important;
-
-    margin-bottom: 4px !important;
 }
 
 /* Navbar buttons */
@@ -338,9 +396,11 @@
 .pos .navbar button,
 .pos .product-screen .control-button {
     min-height: 29px !important;
+
     padding: 5px 9px !important;
-    font-size: 10px !important;
     margin-bottom: 5px !important;
+
+    font-size: 10px !important;
     border-radius: 8px !important;
 }
 
@@ -356,28 +416,28 @@
 /* Secondary buttons */
 
 .pos .product-screen button.btn-secondary {
-    background: #f5f7fa !important;
+    background: #faf7f1 !important;
     color: var(--q9-navy) !important;
     border: 1px solid var(--q9-border) !important;
 }
 
-/* =========================================================
-   TOTALS
-   ========================================================= */
+/* =========================
+   12. TOTAL AND AMOUNTS
+   ========================= */
 
 .pos .product-screen .total,
 .pos .product-screen .order-summary .value {
-    color: #a78348 !important;
-    font-weight: 750 !important;
+    color: #987746 !important;
+    font-weight: 800 !important;
 }
 
-/* =========================================================
-   SEARCH
-   ========================================================= */
+/* =========================
+   13. SEARCH INPUT
+   ========================= */
 
 .pos .product-screen input,
 .pos .product-screen .search-bar input {
-    background: #ffffff !important;
+    background: #fffefa !important;
     color: var(--q9-text) !important;
 
     border: 1px solid var(--q9-border) !important;
@@ -385,12 +445,13 @@
 
     font-size: 12px !important;
     min-height: 32px !important;
+
     padding: 6px 10px !important;
 }
 
-/* =========================================================
-   SCROLLBARS
-   ========================================================= */
+/* =========================
+   14. SCROLLBARS
+   ========================= */
 
 .pos .product-screen .rightpane,
 .pos .product-screen .leftpane,
@@ -398,7 +459,7 @@
 .pos .product-screen .order-container,
 .pos .product-screen .order-summary {
     scrollbar-width: thin !important;
-    scrollbar-color: #aebdce transparent !important;
+    scrollbar-color: #c4b69e transparent !important;
 }
 
 .pos .product-screen *::-webkit-scrollbar {
@@ -411,17 +472,17 @@
 }
 
 .pos .product-screen *::-webkit-scrollbar-thumb {
-    background: #aebdce !important;
+    background: #c4b69e !important;
     border-radius: 10px !important;
 }
 
 .pos .product-screen *::-webkit-scrollbar-thumb:hover {
-    background: #8296ac !important;
+    background: #a9916b !important;
 }
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+/* =========================
+   15. RESPONSIVE
+   ========================= */
 
 @media (max-width: 1100px) {
     .pos .product-screen .product-list {
@@ -446,6 +507,6 @@
     }
 }
 
-/* =========================================================
-   END Q9SPORT ROYAL GLASS
-   ========================================================= */
+/* =========================
+   END Q9SPORT ROYAL DESIGN
+   ========================= */
