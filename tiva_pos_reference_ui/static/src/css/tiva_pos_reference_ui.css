@@ -1,99 +1,421 @@
 /* =========================================================
-   Q9SPORT - BOTTOM ROW
-   SELECTED ITEMS | TOTALS & NUMBERS
+   Q9SPORT - ROYAL GLASS POS
+   ODOO 20 ENTERPRISE
+   LAYOUT: TWO ROWS ONLY
+   ROW 1: PRODUCTS - FULL WIDTH
+   ROW 2: ORDER LINES | ORDER SUMMARY
    ========================================================= */
 
-/* الصف الثاني بالكامل */
-.pos .product-screen .leftpane {
-    order: 2 !important;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: stretch !important;
-    gap: 12px !important;
+/* -------------------------
+   1. ROYAL GLASS COLORS
+------------------------- */
 
+:root {
+    --q9-bg: #edf1f6;
+    --q9-surface: rgba(255, 255, 255, 0.88);
+    --q9-surface-soft: rgba(247, 249, 252, 0.82);
+
+    --q9-navy: #293f5a;
+    --q9-navy-soft: #627991;
+
+    --q9-gold: #b69a6a;
+    --q9-gold-soft: rgba(182, 154, 106, 0.12);
+
+    --q9-text: #34465b;
+    --q9-muted: #8492a3;
+
+    --q9-border: rgba(92, 112, 139, 0.14);
+    --q9-green: #6b9b88;
+
+    --q9-shadow: 0 4px 18px rgba(38, 57, 82, 0.055);
+    --q9-radius: 17px;
+}
+
+/* -------------------------
+   2. MAIN POS BACKGROUND
+------------------------- */
+
+.pos {
+    background: var(--q9-bg) !important;
+    color: var(--q9-text) !important;
+}
+
+.pos .product-screen {
+    background: var(--q9-bg) !important;
+}
+
+.pos .screen-full-width {
+    background: transparent !important;
+}
+
+/* =========================================================
+   3. MAIN LAYOUT - TWO ROWS
+========================================================= */
+
+.pos .product-screen .screen-full-width {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+
+    gap: 12px !important;
+    padding: 12px !important;
+
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+/* =========================================================
+   4. FIRST ROW - PRODUCTS FULL WIDTH
+========================================================= */
+
+.pos .product-screen .rightpane {
+    order: 1 !important;
+
+    flex: 0 0 52% !important;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
-    min-height: 260px;
+    min-height: 0 !important;
 
-    flex: 1 1 48% !important;
+    display: flex !important;
+    flex-direction: column !important;
 
-    border-radius: 20px !important;
-    background: rgba(255,255,255,.84) !important;
+    background: var(--q9-surface) !important;
     border: 1px solid var(--q9-border) !important;
+    border-radius: 19px !important;
     box-shadow: var(--q9-shadow) !important;
 
+    overflow: auto !important;
+}
+
+/* Product grid */
+
+.pos .product-screen .product-list,
+.pos .product-screen .products-widget,
+.pos .product-screen .product-list-container {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+
+    gap: 10px !important;
+    padding: 12px !important;
+
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Product cards */
+
+.pos .product-screen .product {
+    min-width: 0 !important;
+
+    background: rgba(255, 255, 255, 0.82) !important;
+    border: 1px solid rgba(92, 112, 139, 0.12) !important;
+    border-radius: 14px !important;
+
+    box-shadow: 0 2px 9px rgba(38, 57, 82, 0.035) !important;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease !important;
+
     overflow: hidden !important;
-    padding: 10px !important;
 }
 
-/* العمود الأول: العناصر المختارة */
+.pos .product-screen .product:hover {
+    transform: translateY(-2px) !important;
+
+    border-color: rgba(182, 154, 106, 0.48) !important;
+    box-shadow: 0 6px 16px rgba(38, 57, 82, 0.09) !important;
+}
+
+.pos .product-screen .product .product-name {
+    color: var(--q9-navy) !important;
+    font-weight: 600 !important;
+}
+
+.pos .product-screen .product .product-price {
+    color: var(--q9-gold) !important;
+    font-weight: 700 !important;
+}
+
+/* =========================================================
+   5. SECOND ROW - ORDER AREA
+========================================================= */
+
+.pos .product-screen .leftpane {
+    order: 2 !important;
+
+    flex: 1 1 48% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+
+    gap: 12px !important;
+
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    overflow: hidden !important;
+}
+
+/* -------------------------
+   ORDER LINES COLUMN
+------------------------- */
+
 .pos .product-screen .leftpane .order-container {
-    flex: 1 1 50% !important;
-    width: 50% !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+
+    width: 100% !important;
     min-width: 0 !important;
-    height: 100% !important;
+    min-height: 0 !important;
 
-    overflow-y: auto !important;
-    background: rgba(255,255,255,.65) !important;
+    display: flex !important;
+    flex-direction: column !important;
 
+    background: var(--q9-surface) !important;
     border: 1px solid var(--q9-border) !important;
-    border-radius: 16px !important;
+    border-radius: var(--q9-radius) !important;
+
+    box-shadow: var(--q9-shadow) !important;
+
+    overflow: auto !important;
 }
 
-/* العمود الثاني: الأرقام والإجماليات */
+/* Order lines */
+
+.pos .product-screen .order-container .orderline {
+    background: rgba(255, 255, 255, 0.72) !important;
+
+    border: 1px solid rgba(92, 112, 139, 0.10) !important;
+    border-radius: 12px !important;
+
+    margin: 5px 8px !important;
+    padding: 9px !important;
+
+    color: var(--q9-text) !important;
+}
+
+.pos .product-screen .order-container .orderline.selected {
+    background: var(--q9-gold-soft) !important;
+    border-color: rgba(182, 154, 106, 0.45) !important;
+}
+
+.pos .product-screen .order-container .orderline .product-name {
+    color: var(--q9-navy) !important;
+    font-weight: 600 !important;
+}
+
+/* -------------------------
+   ORDER SUMMARY COLUMN
+------------------------- */
+
 .pos .product-screen .leftpane .order-summary {
-    flex: 1 1 50% !important;
-    width: 50% !important;
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+
+    width: 100% !important;
     min-width: 0 !important;
-    height: 100% !important;
+    min-height: 0 !important;
 
-    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
 
-    background: rgba(247,249,252,.88) !important;
+    background: var(--q9-surface) !important;
     border: 1px solid var(--q9-border) !important;
-    border-radius: 16px !important;
+    border-radius: var(--q9-radius) !important;
+
+    box-shadow: var(--q9-shadow) !important;
 
     padding: 14px !important;
+    overflow: auto !important;
 }
 
-/* سطور العناصر */
-.pos .order-container .orderline {
-    border-radius: 13px !important;
-    margin: 5px 7px !important;
-    background: rgba(255,255,255,.85) !important;
-    transition: all .2s ease;
+/* Totals */
+
+.pos .order-summary,
+.pos .order-container .order-summary {
+    color: var(--q9-text) !important;
 }
 
-/* تأثير المرور والتحديد */
-.pos .order-container .orderline:hover {
-    background: #f8f1e5 !important;
-    border-color: rgba(182,154,106,.65) !important;
-}
-
-.pos .order-container .orderline.selected,
-.pos .order-container .orderline.highlight {
-    background: #efe5d3 !important;
-    border-color: var(--q9-gold) !important;
-}
-
-/* أرقام الإجماليات */
 .pos .order-summary .total,
-.pos .order-summary .value,
-.pos .order-summary .amount {
-    color: var(--q9-gold) !important;
-    font-weight: 800 !important;
+.pos .order-summary .total-value {
+    color: var(--q9-navy) !important;
+    font-weight: 700 !important;
 }
 
-/* الشاشات الصغيرة */
-@media (max-width: 800px) {
+/* =========================================================
+   6. CATEGORY BAR
+========================================================= */
+
+.pos .product-screen .category-list {
+    background: transparent !important;
+    border: none !important;
+    padding: 8px 12px !important;
+}
+
+.pos .product-screen .category-list .category-button {
+    background: rgba(255, 255, 255, 0.78) !important;
+    color: var(--q9-navy) !important;
+
+    border: 1px solid var(--q9-border) !important;
+    border-radius: 11px !important;
+
+    margin: 3px !important;
+    transition: all 0.18s ease !important;
+}
+
+.pos .product-screen .category-list .category-button:hover,
+.pos .product-screen .category-list .category-button.highlight {
+    background: var(--q9-gold-soft) !important;
+    border-color: var(--q9-gold) !important;
+    color: var(--q9-navy) !important;
+}
+
+/* =========================================================
+   7. NAVBAR
+========================================================= */
+
+.pos .navbar {
+    background: rgba(255, 255, 255, 0.91) !important;
+    border-bottom: 1px solid var(--q9-border) !important;
+    box-shadow: 0 2px 12px rgba(38, 57, 82, 0.035) !important;
+}
+
+.pos .navbar button {
+    border-radius: 10px !important;
+    transition: all 0.18s ease !important;
+}
+
+.pos .navbar button:hover {
+    background: var(--q9-gold-soft) !important;
+}
+
+/* =========================================================
+   8. BUTTONS
+========================================================= */
+
+.pos button,
+.pos .button {
+    border-radius: 10px !important;
+    transition: all 0.18s ease !important;
+}
+
+.pos button.highlight,
+.pos .button.highlight {
+    background: var(--q9-navy) !important;
+    border-color: var(--q9-navy) !important;
+    color: #fff !important;
+}
+
+.pos button.highlight:hover,
+.pos .button.highlight:hover {
+    background: #354f70 !important;
+}
+
+/* =========================================================
+   9. INPUTS
+========================================================= */
+
+.pos input,
+.pos textarea,
+.pos select {
+    background: rgba(255, 255, 255, 0.88) !important;
+    color: var(--q9-text) !important;
+
+    border: 1px solid var(--q9-border) !important;
+    border-radius: 9px !important;
+
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.pos input:focus,
+.pos textarea:focus,
+.pos select:focus {
+    border-color: rgba(182, 154, 106, 0.65) !important;
+    box-shadow: 0 0 0 3px var(--q9-gold-soft) !important;
+}
+
+/* =========================================================
+   10. SCROLLBARS
+========================================================= */
+
+.pos * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(98, 121, 145, 0.28) transparent;
+}
+
+.pos *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.pos *::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.pos *::-webkit-scrollbar-thumb {
+    background: rgba(98, 121, 145, 0.28);
+    border-radius: 10px;
+}
+
+/* =========================================================
+   11. RESPONSIVE - SMALL SCREENS
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .pos .product-screen .product-list,
+    .pos .product-screen .products-widget,
+    .pos .product-screen .product-list-container {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+
     .pos .product-screen .leftpane {
-        flex-direction: column !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .pos .product-screen .screen-full-width {
+        gap: 8px !important;
+        padding: 8px !important;
+    }
+
+    .pos .product-screen .rightpane {
+        flex-basis: 48% !important;
+    }
+
+    .pos .product-screen .product-list,
+    .pos .product-screen .products-widget,
+    .pos .product-screen .product-list-container {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 7px !important;
+        padding: 8px !important;
+    }
+
+    .pos .product-screen .leftpane {
+        flex-basis: 52% !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+        gap: 7px !important;
     }
 
     .pos .product-screen .leftpane .order-container,
     .pos .product-screen .leftpane .order-summary {
-        width: 100% !important;
-        flex: 1 1 auto !important;
+        border-radius: 12px !important;
     }
 }
