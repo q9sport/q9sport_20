@@ -11,23 +11,23 @@
 ------------------------- */
 
 :root {
-    --q9-bg: #edf1f6;
-    --q9-surface: rgba(255, 255, 255, 0.88);
-    --q9-surface-soft: rgba(247, 249, 252, 0.82);
+    --q9-bg: #f3f6f8;
+    --q9-surface: #ffffff;
+    --q9-surface-soft: #f8fafb;
 
-    --q9-navy: #293f5a;
-    --q9-navy-soft: #627991;
+    --q9-navy: #29465b;
+    --q9-navy-soft: #71899a;
 
-    --q9-gold: #b69a6a;
-    --q9-gold-soft: rgba(182, 154, 106, 0.12);
+    --q9-gold: #278b83;
+    --q9-gold-soft: rgba(39, 139, 131, 0.10);
 
-    --q9-text: #34465b;
-    --q9-muted: #8492a3;
+    --q9-text: #344b5a;
+    --q9-muted: #7e909b;
 
-    --q9-border: rgba(92, 112, 139, 0.14);
-    --q9-green: #6b9b88;
+    --q9-border: rgba(73, 111, 128, 0.16);
+    --q9-green: #278b83;
 
-    --q9-shadow: 0 4px 18px rgba(38, 57, 82, 0.055);
+    --q9-shadow: 0 4px 16px rgba(38, 68, 82, 0.06);
     --q9-radius: 17px;
 }
 
@@ -77,9 +77,9 @@
 .pos .product-screen .rightpane {
     order: 1 !important;
 
-    flex: 0 0 80% !important;
-    width: 80% !important;
-    max-width: 80% !important;
+    flex: 0 0 70% !important;
+    width: 70% !important;
+    max-width: 70% !important;
     min-width: 0 !important;
     min-height: 0 !important;
     height: 100% !important;
@@ -102,10 +102,10 @@
 .pos .product-screen .products-widget,
 .pos .product-screen .product-list-container {
     display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
 
-    gap: 10px !important;
-    padding: 12px !important;
+    gap: 8px !important;
+    padding: 10px !important;
 
     width: 100% !important;
     box-sizing: border-box !important;
@@ -155,9 +155,9 @@
 .pos .product-screen .leftpane {
     order: 2 !important;
 
-    flex: 0 0 20% !important;
-    width: 20% !important;
-    max-width: 20% !important;
+    flex: 0 0 30% !important;
+    width: 30% !important;
+    max-width: 30% !important;
     min-width: 0 !important;
     min-height: 0 !important;
     height: 100% !important;
@@ -382,15 +382,15 @@
 
 @media (max-width: 1000px) {
     .pos .product-screen .rightpane {
-        flex-basis: 80% !important;
-        width: 80% !important;
-        max-width: 80% !important;
+        flex-basis: 70% !important;
+        width: 70% !important;
+        max-width: 70% !important;
     }
 
     .pos .product-screen .leftpane {
-        flex-basis: 20% !important;
-        width: 20% !important;
-        max-width: 20% !important;
+        flex-basis: 30% !important;
+        width: 30% !important;
+        max-width: 30% !important;
         grid-template-columns: minmax(0, 1fr) !important;
         grid-template-rows: minmax(0, 1fr) minmax(135px, 0.65fr) !important;
     }
@@ -398,7 +398,7 @@
     .pos .product-screen .product-list,
     .pos .product-screen .products-widget,
     .pos .product-screen .product-list-container {
-        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
     }
 }
 
@@ -409,9 +409,9 @@
     }
 
     .pos .product-screen .rightpane {
-        flex-basis: 80% !important;
-        width: 80% !important;
-        max-width: 80% !important;
+        flex-basis: 70% !important;
+        width: 70% !important;
+        max-width: 70% !important;
     }
 
     .pos .product-screen .product-list,
@@ -423,9 +423,9 @@
     }
 
     .pos .product-screen .leftpane {
-        flex-basis: 20% !important;
-        width: 20% !important;
-        max-width: 20% !important;
+        flex-basis: 30% !important;
+        width: 30% !important;
+        max-width: 30% !important;
         grid-template-columns: minmax(0, 1fr) !important;
         grid-template-rows: minmax(0, 1fr) minmax(120px, 0.65fr) !important;
         gap: 7px !important;
@@ -438,15 +438,121 @@
     }
 }
 
+
 /* =========================================================
-   12. OVAL PRODUCT CARDS
+   12. REFINED COMPACT PRODUCT CARDS + CLEAR PRICE NUMBERS
 ========================================================= */
 
 .pos .product-screen .product {
-    border-radius: 50% !important;
+    height: 128px !important;
+    min-height: 112px !important;
+    max-height: 136px !important;
+    border-radius: 12px !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f7fafb 100%) !important;
+    border: 1px solid rgba(73, 111, 128, 0.14) !important;
+    box-shadow: 0 2px 8px rgba(37, 70, 83, 0.045) !important;
     overflow: hidden !important;
 }
 
 .pos .product-screen .product:hover {
-    border-radius: 50% !important;
+    border-radius: 12px !important;
+    border-color: rgba(39, 139, 131, 0.42) !important;
+    box-shadow: 0 5px 13px rgba(37, 90, 94, 0.10) !important;
+    transform: translateY(-1px) !important;
+}
+
+.pos .product-screen .product .product-name {
+    color: #29465b !important;
+    font-size: 12px !important;
+    line-height: 1.25 !important;
+    font-weight: 600 !important;
+}
+
+.pos .product-screen .product .product-price {
+    color: #087f73 !important;
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+    font-variant-numeric: tabular-nums !important;
+}
+
+/* Keep product pictures fully visible inside compact cards. */
+.pos .product-screen .product img,
+.pos .product-screen .product .product-img {
+    max-height: 72px !important;
+    object-fit: contain !important;
+}
+
+/* Calm, readable order and summary panels. */
+.pos .product-screen .leftpane .order-container,
+.pos .product-screen .leftpane .order-summary {
+    background: #ffffff !important;
+    border-color: rgba(73, 111, 128, 0.15) !important;
+    box-shadow: 0 4px 16px rgba(38, 68, 82, 0.055) !important;
+}
+
+.pos .product-screen .order-container .orderline {
+    background: #f7fafb !important;
+    border-color: rgba(73, 111, 128, 0.12) !important;
+}
+
+.pos .product-screen .order-container .orderline.selected {
+    background: #eaf5f3 !important;
+    border-color: #65aaa2 !important;
+}
+
+/* Totals and numeric values: strong contrast and aligned digits. */
+.pos .order-summary,
+.pos .order-summary .total,
+.pos .order-summary .total-value,
+.pos .order-summary .value,
+.pos .order-summary .amount {
+    color: #23475a !important;
+    font-weight: 700 !important;
+    font-variant-numeric: tabular-nums !important;
+}
+
+.pos .order-summary .total .value,
+.pos .order-summary .total-value {
+    color: #087f73 !important;
+    font-size: 1.12em !important;
+}
+
+.pos .product-screen .category-list .category-button.highlight,
+.pos .product-screen .category-list .category-button:hover {
+    background: #e7f3f1 !important;
+    border-color: #69aaa2 !important;
+    color: #245b5b !important;
+}
+
+.pos button.highlight,
+.pos .button.highlight {
+    background: #287f7b !important;
+    border-color: #287f7b !important;
+    color: #ffffff !important;
+}
+
+.pos button.highlight:hover,
+.pos .button.highlight:hover {
+    background: #216d69 !important;
+}
+
+@media (max-width: 1000px) {
+    .pos .product-screen .product {
+        height: 120px !important;
+        min-height: 105px !important;
+    }
+}
+
+@media (max-width: 700px) {
+    .pos .product-screen .product {
+        height: 108px !important;
+        min-height: 96px !important;
+    }
+    .pos .product-screen .product .product-name {
+        font-size: 11px !important;
+    }
+    .pos .product-screen .product .product-price {
+        font-size: 12px !important;
+    }
 }
