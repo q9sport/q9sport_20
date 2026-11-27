@@ -1,0 +1,187 @@
+/* POS Fast Retail - Minimal Dark UI
+   Presentation-only layer. It deliberately keeps Odoo's native POS layout,
+   widgets, payment flow, order model and business logic untouched. */
+
+:root {
+    --pfr-bg: #071321;
+    --pfr-panel: #0d1b2b;
+    --pfr-panel-2: #132438;
+    --pfr-border: rgba(169, 190, 211, .15);
+    --pfr-gold: #d5a63d;
+    --pfr-green: #159447;
+    --pfr-text: #e8edf3;
+    --pfr-muted: #9aa9b9;
+}
+
+.o_pos, .o_pos * {
+    scrollbar-color: #34465a transparent;
+}
+
+.o_pos {
+    color: var(--pfr-text);
+    background: var(--pfr-bg) !important;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.o_pos :is(button, input, select, textarea) {
+    font: inherit;
+}
+
+/* Main surfaces */
+.o_pos :is(.o_pos_content, .o_product_screen, .product-screen,
+    .payment-screen, .ticket-screen, .o_pos_ui) {
+    background: var(--pfr-bg) !important;
+    color: var(--pfr-text);
+}
+
+.o_pos :is(.leftpane, .rightpane, .o_leftpane, .o_rightpane,
+    .order-container, .order-summary, .o_order_widget, .paymentlines,
+    .payment-methods, .control-buttons, .actionpad) {
+    background: var(--pfr-panel) !important;
+    border-color: var(--pfr-border) !important;
+    box-shadow: none !important;
+}
+
+/* Header and search */
+.o_pos :is(.pos-topheader, .o_pos_navbar, .navbar, .header) {
+    background: #081522 !important;
+    border-bottom: 1px solid var(--pfr-border) !important;
+    box-shadow: none !important;
+}
+
+.o_pos :is(input, .form-control, .o_searchview_input, .search-bar) {
+    min-height: 34px;
+    color: var(--pfr-text) !important;
+    background: #101f30 !important;
+    border: 1px solid var(--pfr-border) !important;
+    border-radius: 7px !important;
+    box-shadow: none !important;
+    font-size: 12px !important;
+}
+
+/* Product tiles: compact, quiet cards */
+.o_pos :is(.product, .product-card, .o_product_item, .product-item) {
+    background: linear-gradient(145deg, #142438, #0d1a29) !important;
+    border: 1px solid var(--pfr-border) !important;
+    border-radius: 9px !important;
+    box-shadow: none !important;
+    color: var(--pfr-text) !important;
+    transition: border-color .12s ease, background .12s ease;
+}
+.o_pos :is(.product, .product-card, .o_product_item, .product-item):hover {
+    border-color: rgba(213, 166, 61, .65) !important;
+    background: #17283b !important;
+    box-shadow: none !important;
+}
+.o_pos :is(.product-name, .product .product-name, .product-card .product-name) {
+    color: #e8edf3 !important;
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+    font-weight: 500 !important;
+}
+.o_pos :is(.price-tag, .product-price, .price) {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+}
+.o_pos :is(.product img, .product-card img, .o_product_item img) {
+    border-radius: 6px;
+}
+
+/* Order lines and totals */
+.o_pos :is(.orderline, .order-line, .orderline-row) {
+    min-height: 34px !important;
+    padding: 6px 8px !important;
+    border-bottom: 1px solid rgba(169, 190, 211, .10) !important;
+    background: transparent !important;
+    color: var(--pfr-text) !important;
+    font-size: 12px !important;
+    box-shadow: none !important;
+}
+.o_pos :is(.orderline.selected, .orderline.highlight, .order-line.selected) {
+    background: rgba(213, 166, 61, .10) !important;
+    border-color: rgba(213, 166, 61, .35) !important;
+}
+.o_pos :is(.order-summary, .order-total, .total, .payment-summary) {
+    border-color: var(--pfr-border) !important;
+    color: var(--pfr-text) !important;
+    font-size: 13px !important;
+}
+.o_pos :is(.order-total .value, .total .value, .total-amount) {
+    color: #fff !important;
+    font-size: 19px !important;
+    font-weight: 600 !important;
+}
+
+/* Buttons: compact and consistent */
+.o_pos button, .o_pos .button {
+    border-radius: 7px !important;
+    box-shadow: none !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    min-height: 32px;
+}
+.o_pos :is(.btn-secondary, .btn-light, .button, .control-button) {
+    color: #dce5ee !important;
+    background: #142438 !important;
+    border: 1px solid var(--pfr-border) !important;
+}
+.o_pos :is(.btn-secondary, .btn-light, .button, .control-button):hover {
+    background: #1b3048 !important;
+    border-color: rgba(213, 166, 61, .45) !important;
+}
+.o_pos :is(.pay, .pay-button, .validation-button, .button.pay, .o_payment_button) {
+    color: #fff !important;
+    background: var(--pfr-green) !important;
+    border: 1px solid #1ba653 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+.o_pos :is(.pay, .pay-button, .validation-button, .button.pay, .o_payment_button):hover {
+    background: #117c3b !important;
+}
+
+/* Categories and small utility controls */
+.o_pos :is(.category-button, .category-simple-button, .category-item,
+    .o_search_panel_category) {
+    color: #dce5ee !important;
+    background: #132438 !important;
+    border: 1px solid var(--pfr-border) !important;
+    border-radius: 7px !important;
+    box-shadow: none !important;
+    font-size: 12px !important;
+}
+.o_pos :is(.category-button, .category-simple-button, .category-item).active,
+.o_pos :is(.category-button, .category-simple-button, .category-item):hover {
+    border-color: var(--pfr-gold) !important;
+    color: #fff !important;
+}
+
+/* Typography: avoid oversized, heavy labels throughout POS */
+.o_pos :is(h1, h2, h3, h4, .h1, .h2, .h3, .h4) {
+    color: var(--pfr-text) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+}
+.o_pos :is(.btn-lg, .btn-xl, .btn-large) {
+    font-size: 13px !important;
+}
+.o_pos :is(.text-muted, .text-secondary, small, .small) {
+    color: var(--pfr-muted) !important;
+}
+
+/* Popups and dialogs */
+.o_pos :is(.modal-content, .popup, .o_dialog .modal-content) {
+    color: var(--pfr-text) !important;
+    background: var(--pfr-panel) !important;
+    border: 1px solid var(--pfr-border) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, .35) !important;
+}
+
+/* Keep touch targets usable while avoiding oversized controls. */
+@media (max-width: 900px) {
+    .o_pos button, .o_pos .button { min-height: 36px; }
+    .o_pos { font-size: 12px; }
+}
