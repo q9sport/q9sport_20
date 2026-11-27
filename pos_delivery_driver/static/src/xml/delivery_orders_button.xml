@@ -1,122 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
-    <!-- ================================================= -->
-    <!-- DELIVERY BUTTON STYLES                             -->
-    <!-- ================================================= -->
+    <!-- =====================================================
+         DELIVERY BUTTON STYLES
+    ====================================================== -->
 
     <t t-name="pos_delivery_driver.DeliveryButtonStyles">
         <style>
             .delivery-orders-royal-btn {
-                display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
                 width: 38px !important;
                 min-width: 38px !important;
                 height: 38px !important;
-                min-height: 38px !important;
                 padding: 0 !important;
                 margin: 0 4px !important;
-                box-sizing: border-box !important;
-                flex: 0 0 38px !important;
-                border: 1px solid #c6a15b !important;
-                border-radius: 8px !important;
-                background: #304b6b !important;
-                color: #e5c17e !important;
-                cursor: pointer !important;
-            }
 
-            .delivery-orders-royal-btn:hover {
-                background: #243a55 !important;
-                border-color: #e5c17e !important;
-            }
-
-            .delivery-follow-btn {
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                width: 32px !important;
-                min-width: 32px !important;
-                height: 32px !important;
-                min-height: 32px !important;
-                padding: 0 !important;
-                margin: 0 auto !important;
-                box-sizing: border-box !important;
-                flex: 0 0 32px !important;
-                border: 1px solid #c6a15b !important;
-                border-radius: 7px !important;
+
+                overflow: hidden !important;
+                flex-shrink: 0 !important;
+
                 background: #304b6b !important;
-                color: #e5c17e !important;
-                cursor: pointer !important;
+                border: 1px solid #c6a15b !important;
+                border-radius: 9px !important;
+
+                color: #ffffff !important;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+                transition: all 0.2s ease-in-out;
             }
 
-            .delivery-follow-btn:hover {
-                background: #243a55 !important;
+            .delivery-orders-royal-btn:hover {
+                background: #243b56 !important;
+                border-color: #e0bd78 !important;
+                transform: translateY(-1px);
             }
 
-            .delivery-svg-icon {
-                display: block !important;
-                width: 22px !important;
-                height: 22px !important;
-                min-width: 22px !important;
-                min-height: 22px !important;
-                fill: none !important;
-                stroke: #e5c17e !important;
-                stroke-width: 1.8 !important;
-                stroke-linecap: round !important;
-                stroke-linejoin: round !important;
-                opacity: 1 !important;
-                visibility: visible !important;
+            .delivery-orders-royal-btn i {
+                font-size: 17px !important;
+                line-height: 1 !important;
+                color: #ffffff !important;
+            }
+
+            .delivery-orders-royal-btn svg {
+                width: 19px !important;
+                height: 19px !important;
+                max-width: 19px !important;
+                max-height: 19px !important;
                 flex-shrink: 0 !important;
             }
 
-            .delivery-follow-btn .delivery-svg-icon {
-                width: 19px !important;
-                height: 19px !important;
-                min-width: 19px !important;
-                min-height: 19px !important;
+            .delivery-follow-btn {
+                min-width: 32px !important;
+                height: 32px !important;
+                padding: 4px 9px !important;
+
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 5px !important;
+
+                background: #304b6b !important;
+                border: 1px solid #c6a15b !important;
+                border-radius: 7px !important;
+
+                color: #ffffff !important;
+                font-size: 12px !important;
+                font-weight: 600 !important;
+                white-space: nowrap !important;
             }
 
-            .delivery-orders-royal-btn:hover .delivery-svg-icon,
-            .delivery-follow-btn:hover .delivery-svg-icon {
-                stroke: #ffffff !important;
+            .delivery-follow-btn:hover {
+                background: #243b56 !important;
+                color: #ffffff !important;
+            }
+
+            .delivery-follow-btn i {
+                color: #e5c47e !important;
+                font-size: 13px !important;
             }
         </style>
     </t>
 
-    <!-- ================================================= -->
-    <!-- NAVBAR                                             -->
-    <!-- ================================================= -->
+    <!-- =====================================================
+         NAVBAR BUTTON
+    ====================================================== -->
 
-    <t t-inherit="point_of_sale.Navbar"
-       t-inherit-mode="extension">
+    <t t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
 
-        <xpath expr="." position="inside">
+        <xpath expr="//button[hasclass('orders-button')]" position="after">
+
             <t t-call="pos_delivery_driver.DeliveryButtonStyles"/>
-        </xpath>
-
-        <xpath expr="//button[hasclass('orders-button')]"
-               position="after">
 
             <button
                 type="button"
                 class="btn delivery-orders-royal-btn"
-                t-on-click="onDeliveryOrdersClick"
                 title="Delivery Orders"
-                aria-label="Delivery Orders">
+                aria-label="Delivery Orders"
+                t-on-click="() => this.onDeliveryOrdersClick()">
 
-                <svg class="delivery-svg-icon"
-                     viewBox="0 0 24 24"
-                     xmlns="http://www.w3.org/2000/svg"
-                     aria-hidden="true">
-
-                    <path d="M3 7h11v11H3z"/>
-                    <path d="M14 11h4l3 3v4h-7z"/>
-                    <circle cx="7.5" cy="19" r="2"/>
-                    <circle cx="17.5" cy="19" r="2"/>
-                    <path d="M5 7l1-3h7l1 3"/>
-
-                </svg>
+                <i class="fa fa-truck" aria-hidden="true"/>
 
             </button>
 
@@ -124,70 +107,51 @@
 
     </t>
 
-    <!-- ================================================= -->
-    <!-- TICKET SCREEN                                      -->
-    <!-- ================================================= -->
+    <!-- =====================================================
+         TICKET SCREEN - DESKTOP FOLLOW BUTTON
+    ====================================================== -->
 
-    <t t-inherit="point_of_sale.TicketScreen"
-       t-inherit-mode="extension">
+    <t t-inherit="point_of_sale.TicketScreen" t-inherit-mode="extension">
 
-        <!-- DESKTOP -->
+        <xpath expr="//td[@name='delete-column']" position="before">
 
-        <xpath expr="//td[@name='delete-column']"
-               position="inside">
+            <td class="text-center delivery-follow-column">
 
-            <button
-                t-if="this.pos.deliveryOrdersMode"
-                type="button"
-                class="btn delivery-follow-btn"
-                title="Manage Delivery"
-                aria-label="Manage Delivery"
-                t-on-click.stop="() => this.onOpenDeliveryOrderBackend(order)">
+                <button
+                    type="button"
+                    class="btn delivery-follow-btn"
+                    title="Follow Delivery Order"
+                    t-on-click.stop="() => this.onOpenDeliveryOrderBackend(order)">
 
-                <svg class="delivery-svg-icon"
-                     viewBox="0 0 24 24"
-                     xmlns="http://www.w3.org/2000/svg"
-                     aria-hidden="true">
+                    <i class="fa fa-truck" aria-hidden="true"/>
+                    <span>Follow</span>
 
-                    <path d="M3 7h11v11H3z"/>
-                    <path d="M14 11h4l3 3v4h-7z"/>
-                    <circle cx="7.5" cy="19" r="2"/>
-                    <circle cx="17.5" cy="19" r="2"/>
-                    <path d="M5 7l1-3h7l1 3"/>
+                </button>
 
-                </svg>
-
-            </button>
+            </td>
 
         </xpath>
 
-        <!-- MOBILE -->
+        <!-- =================================================
+             TICKET SCREEN - MOBILE FOLLOW BUTTON
+        ================================================== -->
 
-        <xpath expr="//div[@name='delete-column']"
-               position="inside">
+        <xpath expr="//div[@name='delete-column']" position="before">
 
-            <button
-                t-if="this.pos.deliveryOrdersMode"
-                type="button"
-                class="btn delivery-follow-btn"
-                title="Manage Delivery"
-                aria-label="Manage Delivery"
-                t-on-click.stop="() => this.onOpenDeliveryOrderBackend(order)">
+            <div class="delivery-follow-column">
 
-                <svg class="delivery-svg-icon"
-                     viewBox="0 0 24 24"
-                     xmlns="http://www.w3.org/2000/svg"
-                     aria-hidden="true">
+                <button
+                    type="button"
+                    class="btn delivery-follow-btn"
+                    title="Follow Delivery Order"
+                    t-on-click.stop="() => this.onOpenDeliveryOrderBackend(order)">
 
-                    <path d="M3 7h11v11H3z"/>
-                    <path d="M14 11h4l3 3v4h-7z"/>
-                    <circle cx="7.5" cy="19" r="2"/>
-                    <circle cx="17.5" cy="19" r="2"/>
-                    <path d="M5 7l1-3h7l1 3"/>
+                    <i class="fa fa-truck" aria-hidden="true"/>
+                    <span>Follow</span>
 
-                </svg>
+                </button>
 
-            </button>
+            </div>
 
         </xpath>
 
