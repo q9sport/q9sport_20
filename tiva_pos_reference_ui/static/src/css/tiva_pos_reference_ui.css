@@ -1,558 +1,350 @@
 /* =========================================================
-   Q9SPORT - ROYAL GLASS POS
-   ODOO 20 ENTERPRISE
-   LAYOUT: TWO ROWS ONLY
-   ROW 1: PRODUCTS - FULL WIDTH
-   ROW 2: ORDER LINES | ORDER SUMMARY
+   Q9SPORT - ROYAL GLASS POS | ODOO 20 ENTERPRISE
+   FINAL UI: PRODUCTS 70% | ORDER 30%
+   Clean rectangular product cards, readable order lines,
+   reliable independent scrolling, compact circular numpad.
    ========================================================= */
 
-/* -------------------------
-   1. ROYAL GLASS COLORS
-------------------------- */
-
 :root {
-    --q9-bg: #f3f6f8;
-    --q9-surface: #ffffff;
-    --q9-surface-soft: #f8fafb;
-
-    --q9-navy: #29465b;
-    --q9-navy-soft: #71899a;
-
-    --q9-gold: #278b83;
-    --q9-gold-soft: rgba(39, 139, 131, 0.10);
-
-    --q9-text: #344b5a;
-    --q9-muted: #7e909b;
-
-    --q9-border: rgba(73, 111, 128, 0.16);
-    --q9-green: #278b83;
-
-    --q9-shadow: 0 4px 16px rgba(38, 68, 82, 0.06);
-    --q9-radius: 17px;
+    --q9-bg: #f4f7fa;
+    --q9-panel: #ffffff;
+    --q9-card: #ffffff;
+    --q9-card-hover: #f7fbff;
+    --q9-navy: #24445c;
+    --q9-blue: #397da5;
+    --q9-teal: #16877d;
+    --q9-teal-soft: #e8f5f2;
+    --q9-text: #304657;
+    --q9-muted: #7b8c99;
+    --q9-border: #e1e9ef;
+    --q9-shadow: 0 3px 14px rgba(36, 68, 92, .07);
+    --q9-radius: 14px;
 }
 
-/* -------------------------
-   2. MAIN POS BACKGROUND
-------------------------- */
-
-.pos {
+/* Base */
+.pos,
+.pos .product-screen {
     background: var(--q9-bg) !important;
     color: var(--q9-text) !important;
 }
+.pos .screen-full-width { background: transparent !important; }
+.pos * { box-sizing: border-box; }
 
-.pos .product-screen {
-    background: var(--q9-bg) !important;
-}
-
-.pos .screen-full-width {
-    background: transparent !important;
-}
-
-/* =========================================================
-   3. MAIN LAYOUT - TWO COLUMNS
-   PRODUCTS: 80% LEFT
-   ORDER AREA: 20% RIGHT (TWO STACKED SECTIONS)
-========================================================= */
-
+/* Main two-column layout: 70 / 30 */
 .pos .product-screen .screen-full-width {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
-
+    align-items: stretch !important;
+    gap: 10px !important;
     width: 100% !important;
     height: 100% !important;
     min-height: 0 !important;
-
-    gap: 12px !important;
-    padding: 12px !important;
-
+    padding: 10px !important;
     overflow: hidden !important;
-    box-sizing: border-box !important;
 }
 
-/* =========================================================
-   4. LEFT SIDE - PRODUCTS / PRODUCT CARDS (80%)
-========================================================= */
-
+/* Products panel - 70% */
 .pos .product-screen .rightpane {
     order: 1 !important;
-
     flex: 0 0 70% !important;
     width: 70% !important;
     max-width: 70% !important;
     min-width: 0 !important;
     min-height: 0 !important;
     height: 100% !important;
-
     display: flex !important;
     flex-direction: column !important;
-
-    background: var(--q9-surface) !important;
+    background: var(--q9-panel) !important;
     border: 1px solid var(--q9-border) !important;
-    border-radius: 19px !important;
+    border-radius: 16px !important;
     box-shadow: var(--q9-shadow) !important;
-
-    overflow: auto !important;
-    box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
-/* Product grid */
+/* Let the actual product area scroll instead of clipping the last row */
+.pos .product-screen .rightpane .product-list,
+.pos .product-screen .rightpane .products-widget,
+.pos .product-screen .rightpane .product-list-container {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
 
+/* Product grid: compact but readable */
 .pos .product-screen .product-list,
 .pos .product-screen .products-widget,
 .pos .product-screen .product-list-container {
     display: grid !important;
-    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-
-    gap: 8px !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(112px, auto) !important;
+    align-content: start !important;
+    align-items: stretch !important;
+    gap: 9px !important;
     padding: 10px !important;
-
     width: 100% !important;
-    box-sizing: border-box !important;
+    min-width: 0 !important;
 }
 
-/* Product cards */
-
+/* Product cards: restore normal rectangular shape; never ellipse */
 .pos .product-screen .product {
     min-width: 0 !important;
-
-    background: rgba(255, 255, 255, 0.82) !important;
-    border: 1px solid rgba(92, 112, 139, 0.12) !important;
-    border-radius: 14px !important;
-
-    box-shadow: 0 2px 9px rgba(38, 57, 82, 0.035) !important;
-
-    transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        border-color 0.18s ease !important;
-
-    overflow: hidden !important;
+    min-height: 112px !important;
+    height: auto !important;
+    border-radius: 11px !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f9fcfe 100%) !important;
+    border: 1px solid #e3ebf1 !important;
+    box-shadow: 0 2px 7px rgba(36, 68, 92, .045) !important;
+    overflow: visible !important;
+    transition: background .16s ease, border-color .16s ease, box-shadow .16s ease !important;
 }
-
 .pos .product-screen .product:hover {
-    transform: translateY(-2px) !important;
-
-    border-color: rgba(182, 154, 106, 0.48) !important;
-    box-shadow: 0 6px 16px rgba(38, 57, 82, 0.09) !important;
+    background: var(--q9-card-hover) !important;
+    border-color: #a9c9dc !important;
+    box-shadow: 0 5px 13px rgba(36, 68, 92, .10) !important;
+    transform: none !important;
 }
-
 .pos .product-screen .product .product-name {
     color: var(--q9-navy) !important;
     font-weight: 600 !important;
+    line-height: 1.25 !important;
+    overflow-wrap: anywhere !important;
 }
-
 .pos .product-screen .product .product-price {
-    color: var(--q9-gold) !important;
-    font-weight: 700 !important;
+    color: var(--q9-teal) !important;
+    font-weight: 750 !important;
+}
+.pos .product-screen .product img {
+    max-width: 100% !important;
+    object-fit: contain !important;
 }
 
-/* =========================================================
-   5. RIGHT SIDE - ORDER AREA (20%)
-   ORDER LINES ON TOP / ORDER SUMMARY BELOW
-========================================================= */
-
+/* Right order panel - 30%, two stacked areas */
 .pos .product-screen .leftpane {
     order: 2 !important;
-
     flex: 0 0 30% !important;
     width: 30% !important;
     max-width: 30% !important;
     min-width: 0 !important;
     min-height: 0 !important;
     height: 100% !important;
-
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-rows: minmax(0, 1fr) minmax(150px, 0.65fr) !important;
-
-    gap: 12px !important;
-
+    grid-template-rows: minmax(0, 1fr) auto !important;
+    gap: 10px !important;
     background: transparent !important;
-    border: none !important;
+    border: 0 !important;
     box-shadow: none !important;
-
     overflow: hidden !important;
-    box-sizing: border-box !important;
 }
 
-/* ORDER LINES - TOP */
-
+/* Order lines area */
 .pos .product-screen .leftpane .order-container {
     grid-column: 1 !important;
     grid-row: 1 !important;
-
+    display: flex !important;
+    flex-direction: column !important;
     width: 100% !important;
     min-width: 0 !important;
     min-height: 0 !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-
-    background: var(--q9-surface) !important;
+    background: var(--q9-panel) !important;
     border: 1px solid var(--q9-border) !important;
-    border-radius: var(--q9-radius) !important;
-
+    border-radius: 14px !important;
     box-shadow: var(--q9-shadow) !important;
-
-    overflow: auto !important;
-    box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
-/* Order lines */
-
+/* Scroll the order-lines list itself so all added products remain reachable */
+.pos .product-screen .order-container .orderlines,
+.pos .product-screen .order-container .order-lines,
+.pos .product-screen .order-container .orderline-list,
+.pos .product-screen .order-container .orderlines-list {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
 .pos .product-screen .order-container .orderline {
-    background: rgba(255, 255, 255, 0.72) !important;
-
-    border: 1px solid rgba(92, 112, 139, 0.10) !important;
-    border-radius: 12px !important;
-
-    margin: 5px 8px !important;
-    padding: 9px !important;
-
+    background: #fbfdfe !important;
+    border: 1px solid #e8eef3 !important;
+    border-radius: 10px !important;
+    margin: 4px 7px !important;
+    padding: 8px !important;
     color: var(--q9-text) !important;
 }
-
 .pos .product-screen .order-container .orderline.selected {
-    background: var(--q9-gold-soft) !important;
-    border-color: rgba(182, 154, 106, 0.45) !important;
+    background: #edf7f6 !important;
+    border-color: #9bcfc7 !important;
 }
-
 .pos .product-screen .order-container .orderline .product-name {
     color: var(--q9-navy) !important;
-    font-weight: 600 !important;
+    font-weight: 650 !important;
 }
 
-/* ORDER SUMMARY - BOTTOM */
-
+/* Summary below order lines */
 .pos .product-screen .leftpane .order-summary {
     grid-column: 1 !important;
     grid-row: 2 !important;
-
     width: 100% !important;
     min-width: 0 !important;
-    min-height: 0 !important;
-
+    min-height: 125px !important;
     display: flex !important;
     flex-direction: column !important;
-
-    background: var(--q9-surface) !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f5fafb 100%) !important;
     border: 1px solid var(--q9-border) !important;
-    border-radius: var(--q9-radius) !important;
-
+    border-radius: 14px !important;
     box-shadow: var(--q9-shadow) !important;
-
-    padding: 14px !important;
-    overflow: auto !important;
-    box-sizing: border-box !important;
+    padding: 11px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
 }
-
-/* Totals */
-
 .pos .order-summary,
-.pos .order-container .order-summary {
-    color: var(--q9-text) !important;
-}
-
+.pos .order-container .order-summary { color: var(--q9-text) !important; }
 .pos .order-summary .total,
-.pos .order-summary .total-value {
-    color: var(--q9-navy) !important;
-    font-weight: 700 !important;
+.pos .order-summary .total-value,
+.pos .order-summary .value {
+    color: var(--q9-teal) !important;
+    font-weight: 750 !important;
 }
 
-/* =========================================================
-   6. CATEGORY BAR
-========================================================= */
+/* Quantity / numeric keypad buttons: compact circles, scoped to numpad */
+.pos .numpad {
+    gap: 5px !important;
+    padding: 5px !important;
+}
+.pos .numpad button,
+.pos .numpad .button {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #edf5f8 !important;
+    border: 1px solid #d7e6ed !important;
+    color: var(--q9-navy) !important;
+    font-size: 14px !important;
+    font-weight: 650 !important;
+    box-shadow: 0 1px 3px rgba(36, 68, 92, .06) !important;
+    transition: background .15s ease, border-color .15s ease, transform .15s ease !important;
+}
+.pos .numpad button:hover,
+.pos .numpad .button:hover {
+    background: #dff1ed !important;
+    border-color: #9bcfc7 !important;
+    color: #126e67 !important;
+}
+.pos .numpad button:active,
+.pos .numpad .button:active { transform: scale(.96) !important; }
+.pos .numpad button.highlight,
+.pos .numpad .button.highlight {
+    background: var(--q9-teal) !important;
+    border-color: var(--q9-teal) !important;
+    color: #ffffff !important;
+}
 
+/* Category chips */
 .pos .product-screen .category-list {
     background: transparent !important;
-    border: none !important;
-    padding: 8px 12px !important;
+    border: 0 !important;
+    padding: 7px 10px !important;
 }
-
 .pos .product-screen .category-list .category-button {
-    background: rgba(255, 255, 255, 0.78) !important;
+    background: #ffffff !important;
     color: var(--q9-navy) !important;
-
-    border: 1px solid var(--q9-border) !important;
-    border-radius: 11px !important;
-
-    margin: 3px !important;
-    transition: all 0.18s ease !important;
-}
-
-.pos .product-screen .category-list .category-button:hover,
-.pos .product-screen .category-list .category-button.highlight {
-    background: var(--q9-gold-soft) !important;
-    border-color: var(--q9-gold) !important;
-    color: var(--q9-navy) !important;
-}
-
-/* =========================================================
-   7. NAVBAR
-========================================================= */
-
-.pos .navbar {
-    background: rgba(255, 255, 255, 0.91) !important;
-    border-bottom: 1px solid var(--q9-border) !important;
-    box-shadow: 0 2px 12px rgba(38, 57, 82, 0.035) !important;
-}
-
-.pos .navbar button {
-    border-radius: 10px !important;
-    transition: all 0.18s ease !important;
-}
-
-.pos .navbar button:hover {
-    background: var(--q9-gold-soft) !important;
-}
-
-/* =========================================================
-   8. BUTTONS
-========================================================= */
-
-.pos button,
-.pos .button {
-    border-radius: 10px !important;
-    transition: all 0.18s ease !important;
-}
-
-.pos button.highlight,
-.pos .button.highlight {
-    background: var(--q9-navy) !important;
-    border-color: var(--q9-navy) !important;
-    color: #fff !important;
-}
-
-.pos button.highlight:hover,
-.pos .button.highlight:hover {
-    background: #354f70 !important;
-}
-
-/* =========================================================
-   9. INPUTS
-========================================================= */
-
-.pos input,
-.pos textarea,
-.pos select {
-    background: rgba(255, 255, 255, 0.88) !important;
-    color: var(--q9-text) !important;
-
     border: 1px solid var(--q9-border) !important;
     border-radius: 9px !important;
+    margin: 3px !important;
+}
+.pos .product-screen .category-list .category-button:hover,
+.pos .product-screen .category-list .category-button.highlight {
+    background: var(--q9-teal-soft) !important;
+    border-color: #a8d5ce !important;
+    color: #126e67 !important;
+}
 
-    outline: none !important;
+/* Navbar and general controls */
+.pos .navbar {
+    background: #ffffff !important;
+    border-bottom: 1px solid var(--q9-border) !important;
+    box-shadow: 0 2px 10px rgba(36, 68, 92, .04) !important;
+}
+.pos button, .pos .button {
+    border-radius: 9px !important;
+    transition: background .15s ease, border-color .15s ease !important;
+}
+.pos button.highlight, .pos .button.highlight {
+    background: var(--q9-navy) !important;
+    border-color: var(--q9-navy) !important;
+    color: #ffffff !important;
+}
+.pos input, .pos textarea, .pos select {
+    background: #ffffff !important;
+    color: var(--q9-text) !important;
+    border: 1px solid var(--q9-border) !important;
+    border-radius: 8px !important;
     box-shadow: none !important;
 }
-
-.pos input:focus,
-.pos textarea:focus,
-.pos select:focus {
-    border-color: rgba(182, 154, 106, 0.65) !important;
-    box-shadow: 0 0 0 3px var(--q9-gold-soft) !important;
+.pos input:focus, .pos textarea:focus, .pos select:focus {
+    border-color: #8bb9ce !important;
+    box-shadow: 0 0 0 2px rgba(57, 125, 165, .10) !important;
 }
 
-/* =========================================================
-   10. SCROLLBARS
-========================================================= */
-
+/* Visible, slim scrollbars; no content hidden behind scrollbar */
 .pos * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(98, 121, 145, 0.28) transparent;
+    scrollbar-color: #b8cbd5 #f2f6f8;
 }
+.pos *::-webkit-scrollbar { width: 9px; height: 9px; }
+.pos *::-webkit-scrollbar-track { background: #f2f6f8; border-radius: 8px; }
+.pos *::-webkit-scrollbar-thumb { background: #b8cbd5; border: 2px solid #f2f6f8; border-radius: 8px; }
+.pos *::-webkit-scrollbar-thumb:hover { background: #8faebb; }
 
-.pos *::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-.pos *::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.pos *::-webkit-scrollbar-thumb {
-    background: rgba(98, 121, 145, 0.28);
-    border-radius: 10px;
-}
-
-/* =========================================================
-   11. RESPONSIVE - KEEP THE TWO-COLUMN POS LAYOUT
-========================================================= */
-
-@media (max-width: 1000px) {
-    .pos .product-screen .rightpane {
-        flex-basis: 70% !important;
-        width: 70% !important;
-        max-width: 70% !important;
-    }
-
-    .pos .product-screen .leftpane {
-        flex-basis: 30% !important;
-        width: 30% !important;
-        max-width: 30% !important;
-        grid-template-columns: minmax(0, 1fr) !important;
-        grid-template-rows: minmax(0, 1fr) minmax(135px, 0.65fr) !important;
-    }
-
+/* Responsive: keep the same proportions on medium screens; stack on phones */
+@media (max-width: 1100px) and (min-width: 701px) {
     .pos .product-screen .product-list,
     .pos .product-screen .products-widget,
     .pos .product-screen .product-list-container {
-        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+    .pos .numpad button, .pos .numpad .button {
+        width: 34px !important; min-width: 34px !important;
+        height: 34px !important; min-height: 34px !important;
     }
 }
-
 @media (max-width: 700px) {
     .pos .product-screen .screen-full-width {
+        flex-direction: column !important;
         gap: 8px !important;
         padding: 8px !important;
+        overflow-y: auto !important;
     }
-
-    .pos .product-screen .rightpane {
-        flex-basis: 70% !important;
-        width: 70% !important;
-        max-width: 70% !important;
+    .pos .product-screen .rightpane,
+    .pos .product-screen .leftpane {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
-
+    .pos .product-screen .rightpane { min-height: 48vh !important; }
+    .pos .product-screen .leftpane {
+        min-height: 48vh !important;
+        grid-template-rows: minmax(180px, 1fr) auto !important;
+    }
     .pos .product-screen .product-list,
     .pos .product-screen .products-widget,
     .pos .product-screen .product-list-container {
         grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        grid-auto-rows: minmax(100px, auto) !important;
         gap: 7px !important;
         padding: 8px !important;
-    }
-
-    .pos .product-screen .leftpane {
-        flex-basis: 30% !important;
-        width: 30% !important;
-        max-width: 30% !important;
-        grid-template-columns: minmax(0, 1fr) !important;
-        grid-template-rows: minmax(0, 1fr) minmax(120px, 0.65fr) !important;
-        gap: 7px !important;
-    }
-
-    .pos .product-screen .leftpane .order-container,
-    .pos .product-screen .leftpane .order-summary {
-        border-radius: 12px !important;
-        padding: 8px !important;
-    }
-}
-
-
-/* =========================================================
-   12. REFINED COMPACT PRODUCT CARDS + CLEAR PRICE NUMBERS
-========================================================= */
-
-.pos .product-screen .product {
-    height: 128px !important;
-    min-height: 112px !important;
-    max-height: 136px !important;
-    border-radius: 12px !important;
-    background: linear-gradient(180deg, #ffffff 0%, #f7fafb 100%) !important;
-    border: 1px solid rgba(73, 111, 128, 0.14) !important;
-    box-shadow: 0 2px 8px rgba(37, 70, 83, 0.045) !important;
-    overflow: hidden !important;
-}
-
-.pos .product-screen .product:hover {
-    border-radius: 12px !important;
-    border-color: rgba(39, 139, 131, 0.42) !important;
-    box-shadow: 0 5px 13px rgba(37, 90, 94, 0.10) !important;
-    transform: translateY(-1px) !important;
-}
-
-.pos .product-screen .product .product-name {
-    color: #29465b !important;
-    font-size: 12px !important;
-    line-height: 1.25 !important;
-    font-weight: 600 !important;
-}
-
-.pos .product-screen .product .product-price {
-    color: #087f73 !important;
-    font-size: 13px !important;
-    line-height: 1.2 !important;
-    font-weight: 800 !important;
-    font-variant-numeric: tabular-nums !important;
-}
-
-/* Keep product pictures fully visible inside compact cards. */
-.pos .product-screen .product img,
-.pos .product-screen .product .product-img {
-    max-height: 72px !important;
-    object-fit: contain !important;
-}
-
-/* Calm, readable order and summary panels. */
-.pos .product-screen .leftpane .order-container,
-.pos .product-screen .leftpane .order-summary {
-    background: #ffffff !important;
-    border-color: rgba(73, 111, 128, 0.15) !important;
-    box-shadow: 0 4px 16px rgba(38, 68, 82, 0.055) !important;
-}
-
-.pos .product-screen .order-container .orderline {
-    background: #f7fafb !important;
-    border-color: rgba(73, 111, 128, 0.12) !important;
-}
-
-.pos .product-screen .order-container .orderline.selected {
-    background: #eaf5f3 !important;
-    border-color: #65aaa2 !important;
-}
-
-/* Totals and numeric values: strong contrast and aligned digits. */
-.pos .order-summary,
-.pos .order-summary .total,
-.pos .order-summary .total-value,
-.pos .order-summary .value,
-.pos .order-summary .amount {
-    color: #23475a !important;
-    font-weight: 700 !important;
-    font-variant-numeric: tabular-nums !important;
-}
-
-.pos .order-summary .total .value,
-.pos .order-summary .total-value {
-    color: #087f73 !important;
-    font-size: 1.12em !important;
-}
-
-.pos .product-screen .category-list .category-button.highlight,
-.pos .product-screen .category-list .category-button:hover {
-    background: #e7f3f1 !important;
-    border-color: #69aaa2 !important;
-    color: #245b5b !important;
-}
-
-.pos button.highlight,
-.pos .button.highlight {
-    background: #287f7b !important;
-    border-color: #287f7b !important;
-    color: #ffffff !important;
-}
-
-.pos button.highlight:hover,
-.pos .button.highlight:hover {
-    background: #216d69 !important;
-}
-
-@media (max-width: 1000px) {
-    .pos .product-screen .product {
-        height: 120px !important;
-        min-height: 105px !important;
-    }
-}
-
-@media (max-width: 700px) {
-    .pos .product-screen .product {
-        height: 108px !important;
-        min-height: 96px !important;
-    }
-    .pos .product-screen .product .product-name {
-        font-size: 11px !important;
-    }
-    .pos .product-screen .product .product-price {
-        font-size: 12px !important;
     }
 }
