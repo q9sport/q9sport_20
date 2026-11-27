@@ -1,505 +1,99 @@
 /* =========================================================
-   Q9SPORT - ROYAL GLASS POS
-   Odoo 20 Enterprise
-   Horizontal Products + Split Bottom Panel
+   Q9SPORT - BOTTOM ROW
+   SELECTED ITEMS | TOTALS & NUMBERS
    ========================================================= */
 
-:root {
-    --q9-bg: #edf1f6;
-    --q9-white: rgba(255,255,255,.88);
-    --q9-glass: rgba(255,255,255,.72);
-
-    --q9-navy: #293f5a;
-    --q9-navy-light: #627991;
-    --q9-gold: #b69a6a;
-    --q9-gold-hover: rgba(182,154,106,.17);
-
-    --q9-text: #34465b;
-    --q9-muted: #8492a3;
-    --q9-green: #6b9b88;
-
-    --q9-border: rgba(92,112,139,.15);
-    --q9-shadow: 0 4px 18px rgba(38,57,82,.06);
-    --q9-radius: 17px;
-}
-
-/* =========================================================
-   GLOBAL
-   ========================================================= */
-
-.pos,
-.pos .product-screen,
-.pos .screen-full-width {
-    background: var(--q9-bg) !important;
-    color: var(--q9-text) !important;
-    font-family: "Inter","Segoe UI",sans-serif;
-}
-
-.pos * {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(98,121,145,.25) transparent;
-}
-
-.pos .product-screen {
-    min-height: 0;
-}
-
-/* =========================================================
-   MAIN SCREEN
-   PRODUCTS TOP / ORDER BOTTOM
-   ========================================================= */
-
-.pos .product-screen .screen-full-width {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    padding: 12px !important;
-    overflow: auto !important;
-    min-height: 0;
-}
-
-/* =========================================================
-   PRODUCT SECTION - FULL WIDTH TOP
-   ========================================================= */
-
-.pos .product-screen .rightpane {
-    order: 1 !important;
-    flex: 0 0 52% !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    min-height: 300px;
-
-    background: var(--q9-white) !important;
-    border: 1px solid var(--q9-border) !important;
-    border-radius: 21px !important;
-    box-shadow: var(--q9-shadow);
-
-    overflow: auto !important;
-}
-
-/* =========================================================
-   PRODUCT GRID - CARDS SIDE BY SIDE
-   ========================================================= */
-
-.pos .product-screen .product-list,
-.pos .product-screen .products-widget,
-.pos .product-screen .product-list-container {
-    display: grid !important;
-    grid-template-columns: repeat(5, minmax(0,1fr)) !important;
-    gap: 11px !important;
-    padding: 13px !important;
-    background: transparent !important;
-    align-content: start;
-}
-
-/* =========================================================
-   PRODUCT CARDS
-   ========================================================= */
-
-.pos .product-screen .product {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    min-width: 0;
-    min-height: 125px;
-
-    border: 1px solid var(--q9-border) !important;
-    border-radius: 18px !important;
-
-    background: rgba(255,255,255,.88) !important;
-    box-shadow: 0 3px 13px rgba(35,59,87,.045) !important;
-
-    overflow: hidden !important;
-
-    transition:
-        background .2s ease,
-        border-color .2s ease,
-        box-shadow .2s ease,
-        transform .2s ease;
-}
-
-/* Hover */
-
-.pos .product-screen .product:hover {
-    background: #f8f3e9 !important;
-    border-color: rgba(182,154,106,.65) !important;
-
-    box-shadow: 0 7px 20px rgba(35,59,87,.10) !important;
-    transform: translateY(-2px);
-}
-
-/* Selected / highlighted */
-
-.pos .product-screen .product:active {
-    background: #eee4d2 !important;
-    border-color: var(--q9-gold) !important;
-    transform: scale(.985);
-}
-
-/* Product text */
-
-.pos .product-screen .product .product-name {
-    color: var(--q9-navy) !important;
-    font-size: 13px !important;
-    font-weight: 650 !important;
-    line-height: 1.4;
-    padding: 8px 9px;
-}
-
-.pos .product-screen .product .product-price {
-    color: var(--q9-gold) !important;
-    font-size: 13px !important;
-    font-weight: 750 !important;
-    padding: 0 9px 9px;
-}
-
-.pos .product-screen .product .product-img {
-    object-fit: contain !important;
-    border-radius: 12px !important;
-    padding: 5px;
-}
-
-/* =========================================================
-   CATEGORY BAR
-   ========================================================= */
-
-.pos .product-screen .category-list,
-.pos .product-screen .product-categories {
-    background: transparent !important;
-    border-bottom: 1px solid var(--q9-border) !important;
-    padding: 10px 12px !important;
-}
-
-.pos .product-screen .category-button,
-.pos .product-screen .category-list button {
-    border: 1px solid var(--q9-border) !important;
-    border-radius: 12px !important;
-    background: rgba(255,255,255,.72) !important;
-    color: var(--q9-navy) !important;
-    margin: 3px !important;
-    padding: 7px 13px !important;
-    transition: all .2s ease;
-}
-
-.pos .product-screen .category-button:hover,
-.pos .product-screen .category-list button:hover {
-    background: var(--q9-gold-hover) !important;
-    border-color: rgba(182,154,106,.5) !important;
-}
-
-.pos .product-screen .category-button.highlight,
-.pos .product-screen .category-button.active {
-    background: var(--q9-navy) !important;
-    color: white !important;
-    border-color: var(--q9-navy) !important;
-}
-
-/* =========================================================
-   BOTTOM SECTION - FULL WIDTH
-   ========================================================= */
-
+/* الصف الثاني بالكامل */
 .pos .product-screen .leftpane {
     order: 2 !important;
-    flex: 1 1 48% !important;
-
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    min-height: 250px;
-
-    background: var(--q9-white) !important;
-    border: 1px solid var(--q9-border) !important;
-    border-radius: 21px !important;
-    box-shadow: var(--q9-shadow);
-
-    overflow: auto !important;
-}
-
-/* =========================================================
-   ORDER AREA
-   ========================================================= */
-
-.pos .order-container {
-    background: transparent !important;
-    color: var(--q9-text) !important;
-}
-
-/* Order lines */
-
-.pos .order-container .orderline {
-    display: grid !important;
-    grid-template-columns: minmax(0,1fr) auto auto !important;
-    align-items: center !important;
-    gap: 10px !important;
-
-    margin: 6px 9px !important;
-    padding: 10px 13px !important;
-
-    border: 1px solid var(--q9-border) !important;
-    border-radius: 14px !important;
-
-    background: rgba(255,255,255,.78) !important;
-
-    transition: background .2s ease, border-color .2s ease;
-}
-
-/* Hover order line */
-
-.pos .order-container .orderline:hover {
-    background: #f8f3e9 !important;
-    border-color: rgba(182,154,106,.55) !important;
-}
-
-/* Selected order line */
-
-.pos .order-container .orderline.selected,
-.pos .order-container .orderline.highlight {
-    background: #f2eadb !important;
-    border-color: rgba(182,154,106,.75) !important;
-    box-shadow: inset 3px 0 0 var(--q9-gold);
-}
-
-/* Product name */
-
-.pos .order-container .orderline .product-name,
-.pos .order-container .orderline .product-name span {
-    color: var(--q9-navy) !important;
-    font-size: 13px !important;
-    font-weight: 650 !important;
-}
-
-/* Quantity */
-
-.pos .order-container .orderline .qty,
-.pos .order-container .orderline .quantity {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 5px !important;
-    white-space: nowrap;
-}
-
-/* Price */
-
-.pos .order-container .orderline .price,
-.pos .order-container .orderline .product-price {
-    color: var(--q9-gold) !important;
-    font-size: 13px !important;
-    font-weight: 750 !important;
-    white-space: nowrap;
-}
-
-/* Quantity controls */
-
-.pos .order-container .orderline button {
-    min-width: 27px;
-    min-height: 27px;
-    border-radius: 9px !important;
-    border: 1px solid var(--q9-border) !important;
-    background: #f1f4f8 !important;
-    color: var(--q9-navy) !important;
-    transition: all .18s ease;
-}
-
-.pos .order-container .orderline button:hover {
-    background: var(--q9-gold-hover) !important;
-    border-color: var(--q9-gold) !important;
-}
-
-/* =========================================================
-   LOWER AREA - SPLIT INTO TWO COLUMNS
-   ========================================================= */
-
-/* Order content and summary are arranged side by side
-   when both are direct children of the left pane. */
-
-.pos .product-screen .leftpane {
     display: flex !important;
     flex-direction: row !important;
     align-items: stretch !important;
     gap: 12px !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 260px;
+
+    flex: 1 1 48% !important;
+
+    border-radius: 20px !important;
+    background: rgba(255,255,255,.84) !important;
+    border: 1px solid var(--q9-border) !important;
+    box-shadow: var(--q9-shadow) !important;
+
+    overflow: hidden !important;
+    padding: 10px !important;
 }
 
-/* Order list side */
-
+/* العمود الأول: العناصر المختارة */
 .pos .product-screen .leftpane .order-container {
     flex: 1 1 50% !important;
+    width: 50% !important;
     min-width: 0 !important;
-    overflow: auto !important;
+    height: 100% !important;
+
+    overflow-y: auto !important;
+    background: rgba(255,255,255,.65) !important;
+
+    border: 1px solid var(--q9-border) !important;
+    border-radius: 16px !important;
 }
 
-/* Summary / payment side */
-
+/* العمود الثاني: الأرقام والإجماليات */
 .pos .product-screen .leftpane .order-summary {
     flex: 1 1 50% !important;
+    width: 50% !important;
     min-width: 0 !important;
-    border-radius: 16px !important;
-    background: var(--q9-glass) !important;
+    height: 100% !important;
+
+    overflow-y: auto !important;
+
+    background: rgba(247,249,252,.88) !important;
     border: 1px solid var(--q9-border) !important;
-    padding: 12px !important;
+    border-radius: 16px !important;
+
+    padding: 14px !important;
 }
 
-/* =========================================================
-   TOTALS
-   ========================================================= */
-
-.pos .paymentlines,
-.pos .total,
-.pos .order-summary,
-.pos .order-container .order-summary {
-    background: rgba(247,249,252,.8) !important;
-    border-color: var(--q9-border) !important;
-    border-radius: 14px !important;
+/* سطور العناصر */
+.pos .order-container .orderline {
+    border-radius: 13px !important;
+    margin: 5px 7px !important;
+    background: rgba(255,255,255,.85) !important;
+    transition: all .2s ease;
 }
 
-.pos .order-container .total,
-.pos .order-container .total .value,
-.pos .order-container .total .amount {
-    color: var(--q9-navy) !important;
+/* تأثير المرور والتحديد */
+.pos .order-container .orderline:hover {
+    background: #f8f1e5 !important;
+    border-color: rgba(182,154,106,.65) !important;
+}
+
+.pos .order-container .orderline.selected,
+.pos .order-container .orderline.highlight {
+    background: #efe5d3 !important;
+    border-color: var(--q9-gold) !important;
+}
+
+/* أرقام الإجماليات */
+.pos .order-summary .total,
+.pos .order-summary .value,
+.pos .order-summary .amount {
+    color: var(--q9-gold) !important;
     font-weight: 800 !important;
 }
 
-.pos .order-container .total .value,
-.pos .order-container .total .amount {
-    color: var(--q9-gold) !important;
-    font-size: 19px !important;
-}
-
-/* =========================================================
-   BUTTONS
-   ========================================================= */
-
-.pos button,
-.pos .button {
-    transition: all .18s ease;
-    border-radius: 11px !important;
-}
-
-.pos .btn-primary,
-.pos button.btn-primary {
-    background: var(--q9-navy) !important;
-    border-color: var(--q9-navy) !important;
-    color: #fff !important;
-}
-
-.pos .btn-primary:hover,
-.pos button.btn-primary:hover {
-    background: #354f6c !important;
-}
-
-.pos .btn-success,
-.pos button.btn-success {
-    background: var(--q9-green) !important;
-    border-color: var(--q9-green) !important;
-    color: white !important;
-}
-
-/* =========================================================
-   INPUTS
-   ========================================================= */
-
-.pos input,
-.pos textarea,
-.pos select {
-    border: 1px solid var(--q9-border) !important;
-    border-radius: 10px !important;
-    background: rgba(255,255,255,.82) !important;
-    color: var(--q9-text) !important;
-    box-shadow: none !important;
-}
-
-.pos input:focus,
-.pos textarea:focus,
-.pos select:focus {
-    border-color: rgba(182,154,106,.7) !important;
-    outline: none !important;
-    box-shadow: 0 0 0 3px rgba(182,154,106,.10) !important;
-}
-
-/* =========================================================
-   NAVBAR
-   ========================================================= */
-
-.pos .pos-topheader,
-.pos .navbar {
-    background: rgba(255,255,255,.88) !important;
-    border-bottom: 1px solid var(--q9-border) !important;
-    box-shadow: 0 2px 12px rgba(35,59,87,.045);
-}
-
-.pos .pos-topheader button,
-.pos .navbar button {
-    border-radius: 10px !important;
-}
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (min-width: 1400px) {
-    .pos .product-screen .product-list,
-    .pos .product-screen .products-widget,
-    .pos .product-screen .product-list-container {
-        grid-template-columns: repeat(6,minmax(0,1fr)) !important;
-    }
-}
-
-@media (max-width: 1100px) {
-    .pos .product-screen .product-list,
-    .pos .product-screen .products-widget,
-    .pos .product-screen .product-list-container {
-        grid-template-columns: repeat(4,minmax(0,1fr)) !important;
-    }
-}
-
+/* الشاشات الصغيرة */
 @media (max-width: 800px) {
-    .pos .product-screen .rightpane {
-        flex-basis: 52% !important;
-        min-height: 240px;
-    }
-
     .pos .product-screen .leftpane {
-        flex-basis: 48% !important;
         flex-direction: column !important;
     }
 
     .pos .product-screen .leftpane .order-container,
     .pos .product-screen .leftpane .order-summary {
-        flex: 1 1 auto !important;
         width: 100% !important;
-    }
-
-    .pos .product-screen .product-list,
-    .pos .product-screen .products-widget,
-    .pos .product-screen .product-list-container {
-        grid-template-columns: repeat(3,minmax(0,1fr)) !important;
-    }
-}
-
-@media (max-width: 600px) {
-    .pos .product-screen .rightpane {
-        min-height: 220px;
-    }
-
-    .pos .product-screen .product-list,
-    .pos .product-screen .products-widget,
-    .pos .product-screen .product-list-container {
-        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
-        gap: 8px !important;
-    }
-
-    .pos .product-screen .leftpane {
-        flex-direction: column !important;
-    }
-
-    .pos .order-container .orderline {
-        grid-template-columns: minmax(0,1fr) auto !important;
-    }
-
-    .pos .order-container .orderline .price {
-        grid-column: 2;
+        flex: 1 1 auto !important;
     }
 }
