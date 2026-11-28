@@ -513,90 +513,43 @@
     }
 }
 
-
 /* =========================================================
    Q9SPORT POS 20
-   COLORFUL MINIMAL ACTIONS + COMPACT QTY / PRICE
+   CLEAN PAYMENT BUTTONS + COMPACT PRICE & QUANTITY
    ========================================================= */
 
-/* -----------------------------------------
-   01. ACTION BUTTONS AREA
-   ----------------------------------------- */
+/* 1. PAYMENT BUTTONS */
 
 .pos .leftpane .actionpad {
     gap: 7px !important;
-    padding: 3px 2px 9px !important;
-    margin-bottom: 7px !important;
+    padding: 3px 2px 10px !important;
+    margin-bottom: 6px !important;
 }
-
-/* -----------------------------------------
-   02. CUSTOMER / NOTE BUTTONS
-   ----------------------------------------- */
-
-.pos .leftpane .control-buttons button,
-.pos .leftpane .control-buttons .button {
-    min-height: 39px !important;
-    padding: 6px 11px !important;
-    border-radius: 9px !important;
-
-    background: #f5f7fa !important;
-    color: #506176 !important;
-
-    border: 1px solid #e0e6ed !important;
-    font-size: 12px !important;
-    font-weight: 650 !important;
-
-    box-shadow: 0 2px 5px rgba(50, 70, 90, .04) !important;
-    transition: all .18s ease !important;
-}
-
-.pos .leftpane .control-buttons button:hover {
-    background: #eaf0f6 !important;
-    border-color: #cbd8e5 !important;
-}
-
-/* -----------------------------------------
-   03. PAYMENT / CARD / CASH
-   ----------------------------------------- */
 
 .pos .leftpane .actionpad button,
 .pos .leftpane .actionpad .button {
-    position: relative !important;
-
-    min-height: 49px !important;
-    padding: 7px 8px !important;
-    margin-bottom: 5px !important;
-
-    border-radius: 10px 10px 7px 10px !important;
-    border: 1px solid transparent !important;
-
+    min-height: 48px !important;
+    padding: 6px 8px !important;
+    margin-bottom: 4px !important;
+    border-radius: 10px !important;
     font-size: 12px !important;
     font-weight: 700 !important;
-    line-height: 1.3 !important;
-
-    box-shadow: 0 2px 5px rgba(50, 70, 90, .06) !important;
+    box-shadow: 0 2px 5px rgba(45, 60, 80, .06) !important;
     transition: all .18s ease !important;
 }
 
-/* PAYMENT - Blue / Purple */
+/* PAYMENT - Lavender blue */
 
-.pos .leftpane .actionpad button.pay,
-.pos .leftpane .actionpad .pay {
-    background: linear-gradient(
-        135deg,
-        #e9eafa,
-        #dcdff7
-    ) !important;
-
-    color: #505b9b !important;
-    border-color: #d2d5f0 !important;
+.pos .leftpane .actionpad button:first-child {
+    background: linear-gradient(135deg, #e9eafa, #dce2f7) !important;
+    color: #4f6094 !important;
+    border: 1px solid #d1d8ef !important;
 }
 
 /* Payment icon */
 
-.pos .leftpane .actionpad button.pay::before,
-.pos .leftpane .actionpad .pay::before {
-    content: "💳";
+.pos .leftpane .actionpad button:first-child::before {
+    content: "👛";
     display: inline-block;
     font-size: 19px;
     margin-right: 7px;
@@ -606,14 +559,9 @@
 /* CARD - Light blue */
 
 .pos .leftpane .actionpad button:nth-child(2) {
-    background: linear-gradient(
-        135deg,
-        #e8f4fc,
-        #d9edf9
-    ) !important;
-
-    color: #39749a !important;
-    border-color: #c9e3f2 !important;
+    background: linear-gradient(135deg, #e8f3fb, #dcecf8) !important;
+    color: #397398 !important;
+    border: 1px solid #cbdfee !important;
 }
 
 /* Card icon */
@@ -626,17 +574,12 @@
     vertical-align: middle;
 }
 
-/* CASH - Light mint */
+/* CASH - Soft green */
 
 .pos .leftpane .actionpad button:nth-child(3) {
-    background: linear-gradient(
-        135deg,
-        #e9f5eb,
-        #d9eddd
-    ) !important;
-
-    color: #3e7955 !important;
-    border-color: #c8e3ce !important;
+    background: linear-gradient(135deg, #eaf4e9, #dceedd) !important;
+    color: #477653 !important;
+    border: 1px solid #cfe2ce !important;
 }
 
 /* Cash icon */
@@ -649,155 +592,128 @@
     vertical-align: middle;
 }
 
-/* Soft curved corner accent */
-
-.pos .leftpane .actionpad button::after {
-    content: "";
-    position: absolute;
-    width: 28px;
-    height: 28px;
-    right: -13px;
-    bottom: -16px;
-
-    border: 1px solid currentColor;
-    border-radius: 50%;
-    opacity: .12;
-    pointer-events: none;
-}
-
-/* Hover and click */
+/* Payment hover */
 
 .pos .leftpane .actionpad button:hover {
     transform: translateY(-1px) !important;
     filter: brightness(.98) !important;
-    box-shadow: 0 4px 9px rgba(50, 70, 90, .10) !important;
+    box-shadow: 0 4px 9px rgba(45, 60, 80, .09) !important;
 }
 
 .pos .leftpane .actionpad button:active {
-    transform: scale(.98) !important;
+    transform: scale(.985) !important;
 }
 
-/* -----------------------------------------
-   04. ORDER LINE - PRICE / QUANTITY
-   ----------------------------------------- */
+/* 2. PRICE AND QUANTITY - NUMBERS ONLY */
 
-/* Compact order line */
+/* Remove any previously added icons from price and quantity */
 
-.pos .orderline {
-    padding: 7px 8px 9px !important;
-    margin: 4px 6px !important;
-    border-radius: 9px !important;
-}
-
-/* Product name */
-
-.pos .orderline .product-name,
-.pos .orderline .product-name span {
-    font-size: 10.5px !important;
-    line-height: 1.35 !important;
-    font-weight: 650 !important;
+.pos .orderline .price::before,
+.pos .orderline .price::after,
+.pos .orderline .qty::before,
+.pos .orderline .qty::after,
+.pos .orderline .quantity::before,
+.pos .orderline .quantity::after {
+    content: none !important;
+    display: none !important;
 }
 
 /* Price */
 
 .pos .orderline .price {
-    display: inline-flex !important;
-    align-items: center !important;
-
-    padding: 3px 7px !important;
-    margin: 3px 2px !important;
-
-    border-radius: 6px !important;
-    background: #edf3fa !important;
-    color: #52718f !important;
+    display: inline-block !important;
+    background: #edf2f8 !important;
+    color: #506b89 !important;
 
     font-size: 10px !important;
-    font-weight: 750 !important;
+    font-weight: 700 !important;
+
+    padding: 2px 6px !important;
+    margin: 2px !important;
+    border: 1px solid #e0e8f0 !important;
+    border-radius: 5px !important;
 }
 
 /* Quantity */
 
 .pos .orderline .qty,
 .pos .orderline .quantity {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    min-width: 25px !important;
-    min-height: 21px !important;
-
-    padding: 2px 7px !important;
-    margin: 3px 2px !important;
-
-    border-radius: 6px !important;
-    background: #eaf4ec !important;
-    color: #477b55 !important;
+    display: inline-block !important;
+    background: #edf4ed !important;
+    color: #52765a !important;
 
     font-size: 10px !important;
-    font-weight: 800 !important;
+    font-weight: 750 !important;
+
+    padding: 2px 6px !important;
+    margin: 2px !important;
+    border: 1px solid #dce9dc !important;
+    border-radius: 5px !important;
 }
 
-/* Details */
-
-.pos .orderline .info-list {
-    margin-top: 3px !important;
-    margin-bottom: 3px !important;
-
-    color: #8a96a3 !important;
-    font-size: 9px !important;
-    line-height: 1.3 !important;
-}
-
-/* -----------------------------------------
-   05. QUANTITY CONTROL BUTTONS
-   ----------------------------------------- */
+/* 3. PLUS / MINUS AND LINE CONTROL BUTTONS */
 
 .pos .orderline button {
-    min-width: 23px !important;
-    min-height: 23px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
 
     padding: 2px 5px !important;
-    border-radius: 6px !important;
+    margin: 1px !important;
 
-    background: #f0f3f7 !important;
+    background: #f0f3f6 !important;
     color: #60758a !important;
 
     border: 1px solid #e1e7ed !important;
-    font-size: 11px !important;
+    border-radius: 5px !important;
 
+    font-size: 10px !important;
     box-shadow: none !important;
 }
 
 .pos .orderline button:hover {
-    background: #e2ebf3 !important;
+    background: #e4ebf2 !important;
     color: #405d78 !important;
 }
 
-/* -----------------------------------------
-   06. RESPONSIVE
-   ----------------------------------------- */
+/* 4. COMPACT ORDER LINES */
+
+.pos .orderline {
+    padding: 7px 8px 8px !important;
+    margin: 4px 6px !important;
+    border-radius: 9px !important;
+}
+
+.pos .orderline .product-name,
+.pos .orderline .product-name span {
+    font-size: 10.5px !important;
+    line-height: 1.35 !important;
+}
+
+.pos .orderline .info-list {
+    font-size: 9px !important;
+    margin: 3px 0 !important;
+}
+
+/* 5. RESPONSIVE */
 
 @media (max-width: 800px) {
     .pos .leftpane .actionpad button,
     .pos .leftpane .actionpad .button {
-        min-height: 44px !important;
-        padding: 6px !important;
+        min-height: 43px !important;
         font-size: 11px !important;
+        padding: 5px !important;
     }
 
     .pos .leftpane .actionpad button::before {
         font-size: 16px !important;
         margin-right: 4px !important;
     }
-
-    .pos .orderline .product-name {
-        font-size: 10px !important;
-    }
 }
 
 /* =========================================================
-   END COLORFUL MINIMAL POS CONTROLS
+   END
    ========================================================= */
+
 
 /* =========================================================
    END Q9SPORT ROYAL CHAMPAGNE DESIGN
