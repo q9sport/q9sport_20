@@ -18,9 +18,7 @@
                 --q9-border: #dce5ef;
             }
 
-            /* =================================================
-               01 - REGISTER BUTTON
-               ================================================= */
+            /* 01 - REGISTER BUTTON */
 
             .pos .q9-register-btn {
                 height: 40px !important;
@@ -52,9 +50,7 @@
                 border-color: #8dc9bb !important;
             }
 
-            /* =================================================
-               02 - ORDERS BUTTON
-               ================================================= */
+            /* 02 - ORDERS BUTTON */
 
             .pos .pos-leftheader button.orders-button {
                 height: 40px !important;
@@ -86,9 +82,7 @@
                 border-color: #b5c9df !important;
             }
 
-            /* =================================================
-               03 - ONLINE ORDERS
-               ================================================= */
+            /* 03 - ONLINE ORDERS */
 
             .delivery-orders-royal-btn {
                 display: inline-flex !important;
@@ -140,9 +134,7 @@
                 display: none !important;
             }
 
-            /* =================================================
-               04 - NEW ORDER PLUS BUTTON
-               ================================================= */
+            /* 04 - NEW ORDER PLUS BUTTON */
 
             .pos button.list-plus-btn {
                 display: inline-flex !important;
@@ -186,9 +178,7 @@
                 transform: scale(.96) !important;
             }
 
-            /* =================================================
-               05 - ORDER LINE CONTROLS
-               ================================================= */
+            /* 05 - ORDER LINE CONTROLS */
 
             .pos .orderline button,
             .pos .orderline .control-button,
@@ -241,9 +231,7 @@
                 color: #718397 !important;
             }
 
-            /* =================================================
-               06 - ORDER LINE DELETE BUTTON
-               ================================================= */
+            /* 06 - ORDER LINE DELETE BUTTON */
 
             .q9-orderline-wrapper {
                 position: relative !important;
@@ -286,9 +274,7 @@
                 transform: scale(1.06) !important;
             }
 
-            /* =================================================
-               07 - CURRENT ORDER BUTTON
-               ================================================= */
+            /* 07 - CURRENT ORDER BUTTON */
 
             .pos .floating-order-container {
                 display: inline-flex !important;
@@ -336,9 +322,7 @@
                 transform: translateY(-1px);
             }
 
-            /* =================================================
-               08 - CUSTOMER NAME
-               ================================================= */
+            /* 08 - CUSTOMER NAME */
 
             .q9-current-customer {
                 display: inline-flex !important;
@@ -363,9 +347,7 @@
                 text-overflow: ellipsis !important;
             }
 
-            /* =================================================
-               09 - CANCEL CURRENT ORDER BUTTON
-               ================================================= */
+            /* 09 - CANCEL CURRENT ORDER NEXT TO NOTES */
 
             .q9-cancel-current-order {
                 display: inline-flex !important;
@@ -386,6 +368,7 @@
                 cursor: pointer !important;
                 box-shadow: 0 2px 5px rgba(180,70,60,.07) !important;
                 transition: all .2s ease !important;
+                flex: 0 0 auto !important;
             }
 
             .q9-cancel-current-order:hover {
@@ -399,37 +382,67 @@
                 transform: scale(.96) !important;
             }
 
-            /* =================================================
-               10 - CLEAR PRODUCT SEARCH BUTTON
-               ================================================= */
-
-            .q9-search-clear {
+            .q9-cancel-icon {
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                width: 30px !important;
-                min-width: 30px !important;
-                height: 30px !important;
-                min-height: 30px !important;
+                font-size: 15px !important;
+                line-height: 1 !important;
+            }
+
+            /* 10 - SEARCH CLEAR BUTTON INSIDE SEARCH AREA */
+
+            .pos .search-bar {
+                position: relative !important;
+            }
+
+            .pos .q9-search-clear {
+                position: absolute !important;
+                right: 9px !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+
+                width: 25px !important;
+                min-width: 25px !important;
+                height: 25px !important;
+                min-height: 25px !important;
+
                 padding: 0 !important;
-                margin: 0 4px !important;
-                border: 1px solid #e6c9c5 !important;
+                margin: 0 !important;
+
+                border: 1px solid #efcfca !important;
                 border-radius: 50% !important;
-                background: #fff1ef !important;
-                color: #c65b51 !important;
+
+                background: linear-gradient(135deg, #fff5f2, #ffe5e0) !important;
+                color: #c45b50 !important;
+
                 font-size: 17px !important;
                 font-weight: 800 !important;
+                line-height: 1 !important;
+
                 cursor: pointer !important;
+                z-index: 10 !important;
+
+                box-shadow: 0 1px 4px rgba(190,75,65,.10) !important;
             }
 
-            .q9-search-clear:hover {
-                background: #ffe0dc !important;
+            .pos .q9-search-clear:hover {
+                background: #f8d9d3 !important;
                 border-color: #d99c95 !important;
+                color: #a83d35 !important;
+                transform: translateY(-50%) scale(1.08) !important;
             }
 
-            /* =================================================
-               11 - DELIVERY FOLLOW BUTTON
-               ================================================= */
+            .pos .search-bar input {
+                padding-right: 39px !important;
+                box-sizing: border-box !important;
+            }
+
+            /* 11 - DELIVERY FOLLOW BUTTON */
 
             .delivery-follow-btn {
                 display: inline-flex !important;
@@ -465,9 +478,7 @@
                 flex-shrink: 0 !important;
             }
 
-            /* =================================================
-               12 - COMMON BUTTON HOVER
-               ================================================= */
+            /* 12 - COMMON BUTTON HOVER */
 
             .pos .pos-leftheader button,
             .pos .pos-rightheader button {
@@ -477,9 +488,7 @@
                     box-shadow .2s ease !important;
             }
 
-            /* =================================================
-               13 - RESPONSIVE
-               ================================================= */
+            /* 13 - RESPONSIVE */
 
             @media (max-width: 800px) {
                 .pos .leftpane .actionpad button,
@@ -560,10 +569,12 @@
                     display: none !important;
                 }
 
-                .q9-search-clear {
-                    width: 27px !important;
-                    min-width: 27px !important;
-                    height: 27px !important;
+                .pos .q9-search-clear {
+                    width: 24px !important;
+                    min-width: 24px !important;
+                    height: 24px !important;
+                    min-height: 24px !important;
+                    right: 7px !important;
                 }
             }
 
@@ -629,7 +640,7 @@
                 aria-label="Clear product search"
                 t-on-click="() => this.onClearProductSearch()">
 
-                ×
+                ✕
 
             </button>
 
@@ -651,7 +662,12 @@
 
             </div>
 
-            <!-- CANCEL CURRENT ORDER -->
+        </xpath>
+
+        <!-- CANCEL CURRENT ORDER NEXT TO NOTES -->
+
+        <xpath expr="//button[contains(@class, 'notes-button')]"
+               position="after">
 
             <button
                 t-if="this.pos.getOrder() and !this.pos.getOrder().finalized"
@@ -661,7 +677,7 @@
                 aria-label="Cancel Current Order"
                 t-on-click="() => this.onCancelCurrentOrder()">
 
-                <span>✖</span>
+                <span class="q9-cancel-icon">✖</span>
 
                 <span class="q9-cancel-text">
                     Cancel Order
@@ -733,10 +749,8 @@
 
                     <path d="M3 7h11v11H3z"/>
                     <path d="M14 11h4l3 3v4h-7z"/>
-
                     <circle cx="7.5" cy="19" r="2"/>
                     <circle cx="17.5" cy="19" r="2"/>
-
                     <path d="M5 7l1-3h7l1 3"/>
 
                 </svg>
@@ -765,10 +779,8 @@
 
                     <path d="M3 7h11v11H3z"/>
                     <path d="M14 11h4l3 3v4h-7z"/>
-
                     <circle cx="7.5" cy="19" r="2"/>
                     <circle cx="17.5" cy="19" r="2"/>
-
                     <path d="M5 7l1-3h7l1 3"/>
 
                 </svg>
