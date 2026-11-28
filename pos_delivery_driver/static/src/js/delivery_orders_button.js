@@ -1,6 +1,7 @@
 /** @odoo-module **/
 import { Navbar } from "@point_of_sale/app/components/navbar/navbar";
 import { TicketScreen } from "@point_of_sale/app/screens/ticket_screen/ticket_screen";
+import { OrderSummary } from "@point_of_sale/app/screens/product_screen/order_summary/order_summary";
 import { patch } from "@web/core/utils/patch";
 
 const DELIVERY_PRODUCT_ID = 38;
@@ -20,25 +21,108 @@ const DELIVERY_ORDER_STATES = [
 patch(Navbar.prototype, {
 
     onDeliveryOrdersClick() {
-        // Activate delivery-only mode
         this.pos.deliveryOrdersMode = true;
-
-        // Open the original Odoo Orders screen
         this.pos.navigate("TicketScreen");
     },
 
     onTicketButtonClick() {
-        // Restore normal Orders screen
         this.pos.deliveryOrdersMode = false;
-
         return super.onTicketButtonClick(...arguments);
     },
 
     onClickRegister() {
-        // Restore normal Register screen
         this.pos.deliveryOrdersMode = false;
-
         return super.onClickRegister(...arguments);
+    },
+
+    // -------------------------------------------------
+    // CLEAR PRODUCT SEARCH
+    // -------------------------------------------------
+
+    clearProductSearch() {
+        this.pos.searchProductWord = "";
+        this.pos.searchProductDBState = null;
+
+        if (this.inputRef && this.inputRef()) {
+            this.inputRef().value = "";
+        }
+    },
+
+});
+
+// =====================================================
+// ORDER SUMMARY - CURRENT ORDER ACTIONS
+// =====================================================
+
+patch(OrderSummary.prototype, {
+
+    // -------------------------------------------------
+    // DELETE ONE PRODUCT LINE
+    // -------------------------------------------------
+
+    onRemoveOrderLine(line) {
+        const order = this.pos.getOrder();
+
+        if (!order || !line) {
+            return;
+        }
+
+        try {
+            order.assertEditable();
+
+            // Delete the complete combo when a combo child is selected.
+            const targetLine = line.combo_parent_id || line;
+
+            order.removeOrderline(targetLine);
+
+            this.numberBuffer.reset();
+
+            this.pos.numpadMode = "quantity";
+
+        } catch (error) {
+            console.error(
+                "Q9SPORT: Unable to remove order line",
+                error
+            );
+
+            this.pos.notification.add(
+                "تعذر حذف المنتج من الطلب",
+                { type: "warning" }
+            );
+        }
+    },
+
+    // -------------------------------------------------
+    // CANCEL CURRENT WORKING ORDER
+    // -------------------------------------------------
+
+    async onCancelCurrentOrder() {
+        const order = this.pos.getOrder();
+
+        if (!order) {
+            return;
+        }
+
+        try {
+            order.assertEditable();
+
+            // Native Odoo 20 confirmation and deletion workflow.
+            // A new empty order is selected after successful deletion.
+            await this.pos.onDeleteOrder(order);
+
+            this.numberBuffer.reset();
+
+        } catch (error) {
+            console.error(
+                "Q9SPORT: Unable to cancel current order",
+                error
+            );
+
+            this.pos.notification.add(
+                "تعذر إلغاء الطلب الحالي",
+                { type: "warning" }
+            );
+        }
     },
 
 });
@@ -62,14 +146,12 @@ patch(TicketScreen.prototype, {
 
         return orders.filter((order) => {
 
-            // Check order state
             const orderState = order.state;
 
             if (!DELIVERY_ORDER_STATES.includes(orderState)) {
                 return false;
             }
 
-            // Check delivery product
             const lines = order.lines || [];
 
             const hasDeliveryProduct = lines.some((line) => {
@@ -96,7 +178,6 @@ patch(TicketScreen.prototype, {
             return domain;
         }
 
-        // Remove the default state condition
         const filteredDomain = domain.filter((condition) => {
             return !(
                 Array.isArray(condition) &&
@@ -104,7 +185,6 @@ patch(TicketScreen.prototype, {
             );
         });
 
-        // Include all requested states and delivery product
         return [
             ...filteredDomain,
 
@@ -130,7 +210,6 @@ patch(TicketScreen.prototype, {
             return;
         }
 
-        // Diagnostic information
         console.log("DELIVERY ROW ORDER", {
             id: order?.id,
             uuid: order?.uuid,
@@ -148,7 +227,6 @@ patch(TicketScreen.prototype, {
             return;
         }
 
-        // Open the exact selected POS order in backend
         const url = `/web#id=${orderId}&model=pos.order&view_type=form`;
 
         window.open(url, "_blank");
@@ -156,4 +234,5 @@ patch(TicketScreen.prototype, {
 
 });
 
-console.log("POS Delivery Orders: Loaded Successfully");
+console.log("Q9SPORT POS Delivery Orders: Loaded Successfully");
+console.log("Q9SPORT POS Order Actions: Loaded Successfully");
