@@ -347,7 +347,7 @@
                 text-overflow: ellipsis !important;
             }
 
-            /* 09 - CANCEL CURRENT ORDER NEXT TO NOTES */
+            /* 09 - CANCEL CURRENT ORDER NEXT TO CUSTOMER */
 
             .q9-cancel-current-order {
                 display: inline-flex !important;
@@ -390,7 +390,7 @@
                 line-height: 1 !important;
             }
 
-            /* 10 - SEARCH CLEAR BUTTON INSIDE SEARCH AREA */
+            /* 10 - SEARCH CLEAR BUTTON */
 
             .pos .search-bar {
                 position: relative !important;
@@ -401,32 +401,24 @@
                 right: 9px !important;
                 top: 50% !important;
                 transform: translateY(-50%) !important;
-
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-
                 width: 25px !important;
                 min-width: 25px !important;
                 height: 25px !important;
                 min-height: 25px !important;
-
                 padding: 0 !important;
                 margin: 0 !important;
-
                 border: 1px solid #efcfca !important;
                 border-radius: 50% !important;
-
                 background: linear-gradient(135deg, #fff5f2, #ffe5e0) !important;
                 color: #c45b50 !important;
-
                 font-size: 17px !important;
                 font-weight: 800 !important;
                 line-height: 1 !important;
-
                 cursor: pointer !important;
                 z-index: 10 !important;
-
                 box-shadow: 0 1px 4px rgba(190,75,65,.10) !important;
             }
 
@@ -646,9 +638,11 @@
 
         </xpath>
 
-        <!-- CURRENT CUSTOMER NAME -->
+        <!-- CUSTOMER + CANCEL ORDER -->
 
         <xpath expr="//CashierName" position="after">
+
+            <!-- CURRENT CUSTOMER -->
 
             <div
                 t-if="this.pos.getOrder()?.getPartner()"
@@ -662,12 +656,7 @@
 
             </div>
 
-        </xpath>
-
-        <!-- CANCEL CURRENT ORDER NEXT TO NOTES -->
-
-        <xpath expr="//button[contains(@class, 'notes-button')]"
-               position="after">
+            <!-- CANCEL CURRENT ORDER -->
 
             <button
                 t-if="this.pos.getOrder() and !this.pos.getOrder().finalized"
