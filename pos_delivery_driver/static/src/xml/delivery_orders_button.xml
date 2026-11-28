@@ -144,40 +144,26 @@
 
             /* =================================================
                04 - NEW ORDER PLUS BUTTON
-               FIXED SIZE: 44 x 40
                ================================================= */
 
             .pos button.list-plus-btn {
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-
                 width: 44px !important;
                 min-width: 44px !important;
                 max-width: 44px !important;
-
                 height: 40px !important;
                 min-height: 40px !important;
                 max-height: 40px !important;
-
                 padding: 0 !important;
                 margin: 0 3px !important;
-
                 box-sizing: border-box !important;
-
                 border: 1px solid #c5e2cd !important;
                 border-radius: 10px !important;
-
-                background: linear-gradient(
-                    135deg,
-                    #eff8f1,
-                    #dcefe2
-                ) !important;
-
+                background: linear-gradient(135deg, #eff8f1, #dcefe2) !important;
                 color: #29945e !important;
-
                 box-shadow: 0 2px 7px rgba(40,130,80,.09) !important;
-
                 transition: all .2s ease !important;
             }
 
@@ -191,12 +177,7 @@
             }
 
             .pos button.list-plus-btn:hover {
-                background: linear-gradient(
-                    135deg,
-                    #dff2e4,
-                    #cce9d5
-                ) !important;
-
+                background: linear-gradient(135deg, #dff2e4, #cce9d5) !important;
                 border-color: #85c59a !important;
                 color: #237b4c !important;
                 box-shadow: 0 3px 9px rgba(40,130,80,.14) !important;
@@ -211,8 +192,6 @@
                05 - ORDER LINE CONTROLS
                ================================================= */
 
-            /* QUANTITY PLUS / MINUS */
-
             .pos .orderline button,
             .pos .orderline .control-button,
             .pos .orderline .btn {
@@ -220,20 +199,15 @@
                 min-width: 25px !important;
                 height: 25px !important;
                 min-height: 25px !important;
-
                 padding: 0 !important;
                 margin: 2px !important;
-
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-
                 background: rgba(224,233,241,.85) !important;
                 color: #36536d !important;
-
                 border: 1px solid #d4e0e9 !important;
                 border-radius: 7px !important;
-
                 font-size: 11px !important;
                 line-height: 1 !important;
                 box-shadow: none !important;
@@ -245,8 +219,6 @@
                 color: #183b59 !important;
             }
 
-            /* ORDER LINE CARD */
-
             .pos .orderline {
                 padding: 8px 9px !important;
                 margin: 4px 6px !important;
@@ -256,8 +228,6 @@
                 box-shadow: none !important;
             }
 
-            /* PRODUCT NAME */
-
             .pos .orderline .product-name,
             .pos .orderline .product-name span {
                 font-size: 11px !important;
@@ -265,8 +235,6 @@
                 font-weight: 600 !important;
                 color: #29445d !important;
             }
-
-            /* PRODUCT DETAILS */
 
             .pos .orderline .info-list {
                 font-size: 9px !important;
@@ -277,8 +245,6 @@
 
             /* =================================================
                06 - CURRENT ORDER BUTTON
-               DYNAMIC ORDER NUMBER
-               FIXED HEIGHT: 40
                ================================================= */
 
             .pos .floating-order-container {
@@ -290,45 +256,27 @@
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-
                 gap: 7px !important;
-
                 height: 40px !important;
                 min-height: 40px !important;
                 max-height: 40px !important;
-
                 min-width: 90px !important;
                 width: auto !important;
-
                 padding: 0 12px !important;
                 margin: 0 3px !important;
-
                 box-sizing: border-box !important;
-
                 border: 1px solid #a9d9ce !important;
                 border-radius: 10px !important;
-
-                background: linear-gradient(
-                    135deg,
-                    #e8f6f1,
-                    #d5ece4
-                ) !important;
-
+                background: linear-gradient(135deg, #e8f6f1, #d5ece4) !important;
                 color: #246d65 !important;
-
                 font-size: 14px !important;
                 font-weight: 800 !important;
-
                 box-shadow: 0 2px 7px rgba(35,100,75,.08) !important;
-
                 transition: all .2s ease !important;
-
                 white-space: nowrap !important;
                 overflow: visible !important;
                 text-overflow: clip !important;
             }
-
-            /* SHOPPING BAG ICON */
 
             .pos .floating-order-container > button::before {
                 content: "🛒" !important;
@@ -338,15 +286,8 @@
                 flex-shrink: 0 !important;
             }
 
-            /* CURRENT ORDER HOVER */
-
             .pos .floating-order-container > button:hover {
-                background: linear-gradient(
-                    135deg,
-                    #d9f0e7,
-                    #cce9df
-                ) !important;
-
+                background: linear-gradient(135deg, #d9f0e7, #cce9df) !important;
                 border-color: #86c7b4 !important;
                 color: #1d6358 !important;
                 box-shadow: 0 3px 9px rgba(35,100,75,.12) !important;
@@ -377,22 +318,16 @@
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-
                 width: 34px !important;
                 min-width: 34px !important;
-
                 height: 34px !important;
                 min-height: 34px !important;
-
                 padding: 0 !important;
                 margin: 0 auto !important;
-
                 border: 1px solid #d1dce9 !important;
                 border-radius: 9px !important;
-
                 background: #edf3fa !important;
                 color: #31577f !important;
-
                 cursor: pointer !important;
             }
 
@@ -414,7 +349,145 @@
             }
 
             /* =================================================
-               09 - RESPONSIVE
+               09 - DELETE ORDER LINE BUTTON
+               ================================================= */
+
+            .q9-orderline-delete {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                flex: 0 0 29px !important;
+                width: 29px !important;
+                min-width: 29px !important;
+                height: 29px !important;
+                min-height: 29px !important;
+                padding: 0 !important;
+                margin: 0 4px !important;
+                border: 1px solid #f0d5d2 !important;
+                border-radius: 8px !important;
+                background: #fff0ed !important;
+                color: #c45b50 !important;
+                font-size: 15px !important;
+                cursor: pointer !important;
+                transition: all .2s ease !important;
+            }
+
+            .q9-orderline-delete:hover {
+                background: #ffe0dc !important;
+                border-color: #e9aaa2 !important;
+                transform: scale(1.06);
+            }
+
+            .q9-orderline-delete:active {
+                transform: scale(.94);
+            }
+
+            .q9-orderline-row {
+                display: flex !important;
+                align-items: center !important;
+                width: 100% !important;
+                gap: 2px !important;
+            }
+
+            .q9-orderline-row > Orderline {
+                flex: 1 1 auto !important;
+                min-width: 0 !important;
+            }
+
+            /* =================================================
+               10 - CANCEL CURRENT ORDER BUTTON
+               ================================================= */
+
+            .q9-current-order-actions {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: flex-end !important;
+                padding: 6px 9px !important;
+                border-top: 1px solid rgba(204,218,230,.5) !important;
+            }
+
+            .q9-cancel-current-order {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 7px !important;
+                min-height: 34px !important;
+                padding: 0 13px !important;
+                border: 1px solid #edc5c1 !important;
+                border-radius: 9px !important;
+                background: linear-gradient(135deg, #fff3f0, #ffe8e4) !important;
+                color: #b64d45 !important;
+                font-size: 11px !important;
+                font-weight: 750 !important;
+                cursor: pointer !important;
+                transition: all .2s ease !important;
+            }
+
+            .q9-cancel-current-order:hover {
+                background: #ffded9 !important;
+                border-color: #e6a49c !important;
+                color: #963c35 !important;
+            }
+
+            /* =================================================
+               11 - SEARCH CLEAR BUTTON
+               ================================================= */
+
+            .q9-search-clear {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                flex: 0 0 29px !important;
+                width: 29px !important;
+                min-width: 29px !important;
+                height: 29px !important;
+                padding: 0 !important;
+                margin: 0 3px !important;
+                border: 1px solid #ead3d0 !important;
+                border-radius: 8px !important;
+                background: #fff1ef !important;
+                color: #bd5b51 !important;
+                font-size: 16px !important;
+                font-weight: 800 !important;
+                cursor: pointer !important;
+            }
+
+            .q9-search-clear:hover {
+                background: #ffe0dc !important;
+                border-color: #e8aaa2 !important;
+            }
+
+            /* =================================================
+               12 - CURRENT CUSTOMER DISPLAY
+               ================================================= */
+
+            .q9-current-customer {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 6px !important;
+                max-width: 180px !important;
+                min-height: 34px !important;
+                padding: 0 10px !important;
+                margin: 0 4px !important;
+                border: 1px solid #c7e1d8 !important;
+                border-radius: 9px !important;
+                background: linear-gradient(135deg, #edf8f3, #e0f1e9) !important;
+                color: #286d59 !important;
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+            }
+
+            .q9-current-customer-name {
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                white-space: nowrap !important;
+            }
+
+            /* =================================================
+               13 - RESPONSIVE
                ================================================= */
 
             @media (max-width: 800px) {
@@ -452,8 +525,6 @@
                     font-size: 11px !important;
                 }
 
-                /* PLUS BUTTON MOBILE */
-
                 .pos button.list-plus-btn {
                     width: 44px !important;
                     min-width: 44px !important;
@@ -468,8 +539,6 @@
                     font-size: 21px !important;
                 }
 
-                /* CURRENT ORDER MOBILE */
-
                 .pos .floating-order-container > button {
                     height: 40px !important;
                     min-height: 40px !important;
@@ -481,6 +550,16 @@
 
                 .pos .floating-order-container > button::before {
                     font-size: 17px !important;
+                }
+
+                .q9-current-customer {
+                    max-width: 110px !important;
+                    padding: 0 6px !important;
+                    font-size: 10px !important;
+                }
+
+                .q9-current-order-actions {
+                    padding: 4px 6px !important;
                 }
             }
 
@@ -531,6 +610,85 @@
                 </span>
 
             </button>
+
+        </xpath>
+
+        <!-- CLEAR SEARCH + CURRENT CUSTOMER -->
+
+        <xpath expr="//Input" position="after">
+
+            <button
+                t-if="this.pos.searchProductWord"
+                type="button"
+                class="q9-search-clear"
+                title="Clear product search"
+                aria-label="Clear product search"
+                t-on-click="this.clearProductSearch">
+
+                ×
+
+            </button>
+
+            <div
+                t-if="this.pos.getOrder()?.getPartner()"
+                class="q9-current-customer"
+                title="Current order customer">
+
+                <span>👤</span>
+
+                <span class="q9-current-customer-name"
+                      t-out="this.pos.getOrder().getPartner().name"/>
+
+            </div>
+
+        </xpath>
+
+    </t>
+
+    <!-- =====================================================
+         ORDER SUMMARY - CURRENT ORDER
+         ===================================================== -->
+
+    <t t-inherit="point_of_sale.OrderSummary"
+       t-inherit-mode="extension">
+
+        <!-- DELETE BUTTON NEXT TO EVERY PRODUCT -->
+
+        <xpath expr="//Orderline" position="after">
+
+            <button
+                type="button"
+                class="q9-orderline-delete"
+                title="Delete product"
+                aria-label="Delete product"
+                t-on-click.stop="() => this.onRemoveOrderLine(line)">
+
+                🗑️
+
+            </button>
+
+        </xpath>
+
+        <!-- CANCEL CURRENT ORDER -->
+
+        <xpath expr="//OrderDisplay" position="after">
+
+            <div
+                t-if="this.currentOrder and !this.currentOrder.isEmpty()"
+                class="q9-current-order-actions">
+
+                <button
+                    type="button"
+                    class="q9-cancel-current-order"
+                    title="Cancel current order"
+                    t-on-click="this.onCancelCurrentOrder">
+
+                    <span>✖</span>
+                    <span>Cancel Order</span>
+
+                </button>
+
+            </div>
 
         </xpath>
 
