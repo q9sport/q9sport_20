@@ -7,12 +7,7 @@
          ===================================================== -->
 
     <t t-name="pos_delivery_driver.DeliveryButtonStyles">
-
         <style>
-
-            /* =================================================
-               01 - COLOR SYSTEM
-               ================================================= */
 
             :root {
                 --q9-navy: #344f70;
@@ -23,9 +18,8 @@
                 --q9-border: #dce5ef;
             }
 
-
             /* =================================================
-               02 - REGISTER BUTTON
+               01 - REGISTER BUTTON
                ================================================= */
 
             .pos .q9-register-btn {
@@ -35,8 +29,8 @@
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-
                 gap: 7px !important;
+
                 padding: 0 13px !important;
                 margin: 0 3px !important;
 
@@ -70,7 +64,7 @@
 
 
             /* =================================================
-               03 - ORDERS BUTTON
+               02 - ORDERS BUTTON
                ================================================= */
 
             .pos .pos-leftheader button.orders-button {
@@ -80,8 +74,8 @@
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-
                 gap: 7px !important;
+
                 padding: 0 13px !important;
                 margin: 0 3px !important;
 
@@ -115,15 +109,13 @@
 
 
             /* =================================================
-               04 - ONLINE ORDERS BUTTON
+               03 - ONLINE ORDERS BUTTON
                ================================================= */
 
             .delivery-orders-royal-btn {
-
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-
                 gap: 7px !important;
 
                 height: 40px !important;
@@ -152,11 +144,9 @@
                 font-size: 12px !important;
                 font-weight: 750 !important;
 
-                box-shadow:
-                    0 2px 7px rgba(43,69,100,.07) !important;
+                box-shadow: 0 2px 7px rgba(43,69,100,.07) !important;
 
                 cursor: pointer !important;
-
                 transition: all .2s ease !important;
             }
 
@@ -173,11 +163,8 @@
                 transform: translateY(-1px);
             }
 
-            /* Actual colorful emoji elements */
-
             .delivery-orders-royal-btn .q9-online-emoji {
                 display: inline-block !important;
-
                 font-size: 18px !important;
                 line-height: 1 !important;
 
@@ -189,15 +176,11 @@
 
             .delivery-online-text {
                 display: inline-block !important;
-
                 font-size: 12px !important;
                 font-weight: 750 !important;
-
                 white-space: nowrap !important;
                 line-height: 1 !important;
             }
-
-            /* Hide only the unused SVG */
 
             .delivery-orders-royal-btn .delivery-online-icon {
                 display: none !important;
@@ -205,23 +188,26 @@
 
 
             /* =================================================
-               05 - NEW ORDER PLUS BUTTON
+               04 - NEW ORDER PLUS BUTTON
+               ONLY TARGET PLUS ICON
                ================================================= */
 
+            .pos .order-selector button:has(.fa-plus),
+            .pos .order-selector button:has(.fa-plus-circle),
             .pos .pos-leftheader button:has(.fa-plus),
             .pos .pos-leftheader button:has(.fa-plus-circle),
             .pos .pos-rightheader button:has(.fa-plus),
             .pos .pos-rightheader button:has(.fa-plus-circle) {
+
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
 
                 width: 44px !important;
                 min-width: 44px !important;
 
                 height: 40px !important;
                 min-height: 40px !important;
-
-                display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
 
                 padding: 0 !important;
 
@@ -235,40 +221,58 @@
                 ) !important;
 
                 color: #29945e !important;
+
+                box-shadow: 0 2px 6px rgba(40,130,80,.07) !important;
             }
 
+            .pos .order-selector button:has(.fa-plus) i,
+            .pos .order-selector button:has(.fa-plus-circle) i,
             .pos .pos-leftheader button:has(.fa-plus) i,
-            .pos .pos-leftheader button:has(.fa-plus-circle) i,
-            .pos .pos-rightheader button:has(.fa-plus) i,
-            .pos .pos-rightheader button:has(.fa-plus-circle) i {
+            .pos .pos-rightheader button:has(.fa-plus) i {
 
                 color: #29945e !important;
                 font-size: 21px !important;
             }
 
+            .pos .order-selector button:has(.fa-plus) svg,
             .pos .pos-leftheader button:has(.fa-plus) svg,
             .pos .pos-rightheader button:has(.fa-plus) svg {
+
+                width: 20px !important;
+                height: 20px !important;
 
                 color: #29945e !important;
                 stroke: #29945e !important;
             }
 
+            .pos .order-selector button:has(.fa-plus):hover,
+            .pos .pos-leftheader button:has(.fa-plus):hover,
+            .pos .pos-rightheader button:has(.fa-plus):hover {
+                background: #d8efdf !important;
+                border-color: #8bc79e !important;
+            }
+
 
             /* =================================================
-               06 - CURRENT ORDER
-               ODOO ORDER SELECTOR
+               05 - CURRENT ORDER
+               DYNAMIC ORDER NUMBER
+               NO FIXED NUMBER
                ================================================= */
 
-            .pos .order-selector button {
+            /* Current order button identified by its sequence */
 
-                height: 40px !important;
-                min-height: 40px !important;
+            .pos .order-selector button:has(.order-sequence) {
 
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-
                 gap: 7px !important;
+
+                height: 40px !important;
+                min-height: 40px !important;
+
+                min-width: 88px !important;
+                width: auto !important;
 
                 padding: 0 13px !important;
 
@@ -286,14 +290,14 @@
                 font-size: 13px !important;
                 font-weight: 750 !important;
 
-                box-shadow:
-                    0 2px 6px rgba(35,100,75,.06) !important;
+                box-shadow: 0 2px 6px rgba(35,100,75,.06) !important;
+
+                transition: all .2s ease !important;
             }
 
-            /* Current order icon */
+            /* Colorful shopping icon */
 
-            .pos .order-selector button::before {
-
+            .pos .order-selector button:has(.order-sequence)::before {
                 content: "🛍️" !important;
 
                 display: inline-block !important;
@@ -304,21 +308,21 @@
                 flex-shrink: 0 !important;
             }
 
-            .pos .order-selector button:hover {
-                background: #d4ece2 !important;
-                border-color: #92cbb4 !important;
-            }
-
-            /* Order number */
+            /* Dynamic order number */
 
             .pos .order-selector button .order-sequence {
                 color: #246d56 !important;
                 font-weight: 800 !important;
             }
 
+            .pos .order-selector button:has(.order-sequence):hover {
+                background: #d4ece2 !important;
+                border-color: #92cbb4 !important;
+            }
+
 
             /* =================================================
-               07 - COMMON BUTTON HOVER
+               06 - COMMON BUTTON HOVER
                ================================================= */
 
             .pos .pos-leftheader button,
@@ -331,11 +335,10 @@
 
 
             /* =================================================
-               08 - DELIVERY FOLLOW BUTTON
+               07 - DELIVERY FOLLOW BUTTON
                ================================================= */
 
             .delivery-follow-btn {
-
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
@@ -364,7 +367,6 @@
             }
 
             .delivery-svg-icon {
-
                 display: block !important;
 
                 width: 19px !important;
@@ -382,7 +384,7 @@
 
 
             /* =================================================
-               09 - RESPONSIVE
+               08 - RESPONSIVE
                ================================================= */
 
             @media (max-width: 768px) {
@@ -407,10 +409,14 @@
                     font-size: 11px !important;
                 }
 
+                .pos .order-selector button:has(.order-sequence) {
+                    height: 36px !important;
+                    min-height: 36px !important;
+                }
+
             }
 
         </style>
-
     </t>
 
 
@@ -473,7 +479,6 @@
 
     <t t-inherit="point_of_sale.TicketScreen"
        t-inherit-mode="extension">
-
 
         <!-- DESKTOP -->
 
