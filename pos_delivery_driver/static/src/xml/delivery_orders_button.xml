@@ -142,34 +142,33 @@
                 display: none !important;
             }
 
+
             /* =================================================
                04 - NEW ORDER PLUS BUTTON
-               GREEN ROYAL STYLE
+               EXACT ODOO 20 HTML SELECTOR
                ================================================= */
 
-            .pos .order-selector button:has(.fa-plus),
-            .pos .order-selector button:has(.fa-plus-circle),
-            .pos .pos-leftheader button:has(.fa-plus),
-            .pos .pos-leftheader button:has(.fa-plus-circle),
-            .pos .pos-rightheader button:has(.fa-plus),
-            .pos .pos-rightheader button:has(.fa-plus-circle) {
+            .pos button.list-plus-btn {
 
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
 
-                width: 44px !important;
-                min-width: 44px !important;
-                height: 40px !important;
-                min-height: 40px !important;
+                width: 60px !important;
+                min-width: 60px !important;
+                max-width: 60px !important;
+
+                height: 54px !important;
+                min-height: 54px !important;
+                max-height: 54px !important;
 
                 padding: 0 !important;
-                margin: 0 5px !important;
+                margin: 0 8px !important;
 
                 box-sizing: border-box !important;
 
-                border: 1px solid #b9dfc5 !important;
-                border-radius: 10px !important;
+                border: 1px solid #c5e2cd !important;
+                border-radius: 11px !important;
 
                 background: linear-gradient(
                     135deg,
@@ -179,49 +178,49 @@
 
                 color: #29945e !important;
 
-                box-shadow: 0 2px 6px rgba(40,130,80,.08) !important;
+                box-shadow: 0 2px 7px rgba(40,130,80,.09) !important;
 
                 transition: all .2s ease !important;
             }
 
             /* PLUS ICON */
 
-            .pos .order-selector button:has(.fa-plus) i,
-            .pos .order-selector button:has(.fa-plus-circle) i,
-            .pos .pos-leftheader button:has(.fa-plus) i,
-            .pos .pos-leftheader button:has(.fa-plus-circle) i,
-            .pos .pos-rightheader button:has(.fa-plus) i,
-            .pos .pos-rightheader button:has(.fa-plus-circle) i {
+            .pos button.list-plus-btn i.oi[data-icon="add_circle"] {
 
-                color: #29945e !important;
-                font-size: 21px !important;
+                display: inline-block !important;
+
+                font-size: 25px !important;
                 line-height: 1 !important;
-            }
 
-            .pos .order-selector button:has(.fa-plus) svg,
-            .pos .order-selector button:has(.fa-plus-circle) svg,
-            .pos .pos-leftheader button:has(.fa-plus) svg,
-            .pos .pos-leftheader button:has(.fa-plus-circle) svg,
-            .pos .pos-rightheader button:has(.fa-plus) svg {
-
-                width: 21px !important;
-                height: 21px !important;
                 color: #29945e !important;
-                stroke: #29945e !important;
+
+                opacity: 1 !important;
+                visibility: visible !important;
             }
 
             /* PLUS HOVER */
 
-            .pos .order-selector button:has(.fa-plus):hover,
-            .pos .order-selector button:has(.fa-plus-circle):hover,
-            .pos .pos-leftheader button:has(.fa-plus):hover,
-            .pos .pos-leftheader button:has(.fa-plus-circle):hover,
-            .pos .pos-rightheader button:has(.fa-plus):hover {
+            .pos button.list-plus-btn:hover {
 
-                background: #d5eddd !important;
+                background: linear-gradient(
+                    135deg,
+                    #dff2e4,
+                    #cce9d5
+                ) !important;
+
                 border-color: #85c59a !important;
+
+                color: #237b4c !important;
+
+                box-shadow: 0 3px 9px rgba(40,130,80,.14) !important;
+
                 transform: translateY(-1px);
             }
+
+            .pos button.list-plus-btn:active {
+                transform: scale(.96) !important;
+            }
+
 
             /* =================================================
                05 - ORDER LINE CONTROLS
@@ -292,22 +291,25 @@
                 color: #718397 !important;
             }
 
+
             /* =================================================
                06 - CURRENT ORDER BUTTON
+               EXACT ODOO 20 HTML SELECTOR
                DYNAMIC ORDER NUMBER
                ================================================= */
 
-            .pos .order-selector button:has(.order-sequence) {
+            .pos .floating-order-container > button {
 
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                gap: 8px !important;
 
-                height: 40px !important;
-                min-height: 40px !important;
+                gap: 9px !important;
 
-                min-width: 90px !important;
+                height: 54px !important;
+                min-height: 54px !important;
+
+                min-width: 105px !important;
                 width: auto !important;
 
                 padding: 0 15px !important;
@@ -316,7 +318,7 @@
                 box-sizing: border-box !important;
 
                 border: 1px solid #a9d9ce !important;
-                border-radius: 10px !important;
+                border-radius: 11px !important;
 
                 background: linear-gradient(
                     135deg,
@@ -326,7 +328,7 @@
 
                 color: #246d65 !important;
 
-                font-size: 15px !important;
+                font-size: 16px !important;
                 font-weight: 800 !important;
 
                 box-shadow: 0 2px 7px rgba(35,100,75,.08) !important;
@@ -334,36 +336,54 @@
                 transition: all .2s ease !important;
             }
 
-            /* SHOPPING ICON */
+            /* SHOPPING BAG ICON */
 
-            .pos .order-selector button:has(.order-sequence)::before {
+            .pos .floating-order-container > button::before {
 
                 content: "🛍️" !important;
 
                 display: inline-block !important;
 
-                font-size: 19px !important;
+                font-size: 20px !important;
                 line-height: 1 !important;
 
                 flex-shrink: 0 !important;
             }
 
-            /* DYNAMIC ORDER NUMBER */
+            /* DYNAMIC ORDER NUMBER
+               DO NOT CHANGE BUTTON TEXT */
 
-            .pos .order-selector button .order-sequence {
-                color: #246d65 !important;
-                font-size: 15px !important;
-                font-weight: 800 !important;
+            .pos .floating-order-container > button {
+
+                white-space: nowrap !important;
+                overflow: visible !important;
+                text-overflow: clip !important;
+
             }
 
             /* CURRENT ORDER HOVER */
 
-            .pos .order-selector button:has(.order-sequence):hover {
-                background: #cce9df !important;
+            .pos .floating-order-container > button:hover {
+
+                background: linear-gradient(
+                    135deg,
+                    #d9f0e7,
+                    #cce9df
+                ) !important;
+
                 border-color: #86c7b4 !important;
+
+                color: #1d6358 !important;
+
                 box-shadow: 0 3px 9px rgba(35,100,75,.12) !important;
+
                 transform: translateY(-1px);
             }
+
+            .pos .floating-order-container > button:active {
+                transform: scale(.97) !important;
+            }
+
 
             /* =================================================
                07 - COMMON BUTTON HOVER
@@ -376,6 +396,7 @@
                     border-color .2s ease,
                     box-shadow .2s ease !important;
             }
+
 
             /* =================================================
                08 - DELIVERY FOLLOW BUTTON
@@ -422,6 +443,7 @@
                 flex-shrink: 0 !important;
             }
 
+
             /* =================================================
                09 - RESPONSIVE
                ================================================= */
@@ -463,18 +485,32 @@
                     font-size: 11px !important;
                 }
 
-                .pos .order-selector button:has(.order-sequence) {
-                    height: 36px !important;
-                    min-height: 36px !important;
-                    padding: 0 10px !important;
+                /* PLUS BUTTON MOBILE */
+
+                .pos button.list-plus-btn {
+                    width: 44px !important;
+                    min-width: 44px !important;
+                    height: 40px !important;
+                    min-height: 40px !important;
+                    margin: 0 4px !important;
                 }
 
-                .pos .order-selector button:has(.fa-plus),
-                .pos .order-selector button:has(.fa-plus-circle),
-                .pos .pos-leftheader button:has(.fa-plus),
-                .pos .pos-leftheader button:has(.fa-plus-circle) {
-                    height: 36px !important;
-                    min-height: 36px !important;
+                .pos button.list-plus-btn i.oi[data-icon="add_circle"] {
+                    font-size: 21px !important;
+                }
+
+                /* CURRENT ORDER MOBILE */
+
+                .pos .floating-order-container > button {
+                    height: 40px !important;
+                    min-height: 40px !important;
+                    min-width: 90px !important;
+                    padding: 0 10px !important;
+                    font-size: 14px !important;
+                }
+
+                .pos .floating-order-container > button::before {
+                    font-size: 17px !important;
                 }
             }
 
@@ -495,6 +531,7 @@
             <t t-call="pos_delivery_driver.DeliveryButtonStyles"/>
         </xpath>
 
+
         <!-- REGISTER BUTTON -->
 
         <xpath expr="//button[hasclass('orders-button')]/preceding-sibling::button[1]"
@@ -505,6 +542,7 @@
                        separator=" "/>
 
         </xpath>
+
 
         <!-- ONLINE ORDERS -->
 
@@ -519,6 +557,7 @@
                 aria-label="Online Orders">
 
                 <span class="q9-online-emoji">🌐</span>
+
                 <span class="q9-online-emoji">🛍️</span>
 
                 <span class="delivery-online-text">
@@ -570,6 +609,7 @@
             </button>
 
         </xpath>
+
 
         <!-- MOBILE -->
 
