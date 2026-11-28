@@ -1,0 +1,68 @@
+<section style="font-family:'Roboto',sans-serif;color:#282F33;">
+  <div style="text-align:center;padding:24px 0;border-bottom:1px solid #e5e5e5;">
+    <h1 style="color:#714B67;font-weight:700;margin:0;">POS Shop Access per User - Restrict Point of Sale by User</h1>
+    <p style="font-size:1.1rem;color:#5a5a5a;margin:8px 0 0;">
+      Each cashier sees and opens only the Point of Sale shops you allow. Administrators keep every shop.
+    </p>
+    <div style="margin-top:10px;">
+      <span style="background:#714B67;color:#fff;padding:4px 12px;border-radius:3px;font-weight:600;">Odoo 20</span>
+      <span style="background:#875A7B;color:#fff;padding:4px 12px;border-radius:3px;font-weight:600;">Point of Sale</span>
+      <span style="background:#25d366;color:#fff;padding:4px 12px;border-radius:3px;font-weight:600;">Free</span>
+    </div>
+  </div>
+
+  <div style="padding:28px 16px;">
+    <h2 style="color:#714B67;font-weight:600;border-bottom:1px solid #e5e5e5;padding-bottom:8px;">What it does</h2>
+    <p>
+      In standard Odoo every Point of Sale user sees every shop on the dashboard and can open any
+      register. With several branches or counters that is a mess, and a risk. This module adds an
+      <strong>Allowed Users</strong> list to each shop.
+    </p>
+    <ul style="line-height:1.8;">
+      <li><strong>Cashiers see only their shops</strong>: the ones that list them, plus shops with an empty list.</li>
+      <li><strong>No back door</strong>: a direct link to another shop's register sends the cashier back to the dashboard, no session is opened.</li>
+      <li><strong>Administrators see everything</strong>: Point of Sale administrators and Settings administrators always see every shop.</li>
+      <li>Empty list = open to every Point of Sale user, so nothing changes until you fill it in.</li>
+      <li>Selling, payments and closing the register work as usual for the allowed cashier (tested as a Point of Sale user without any other rights).</li>
+    </ul>
+  </div>
+
+  <div style="padding:8px 16px 28px;">
+    <h2 style="color:#714B67;font-weight:600;border-bottom:1px solid #e5e5e5;padding-bottom:8px;">How to use</h2>
+    <h3 style="color:#875A7B;">1. Choose who may open a shop</h3>
+    <p><em>Point of Sale &rsaquo; Configuration &rsaquo; Settings</em>: pick the shop at the top, then fill in <em>Allowed Users</em> and save.</p>
+    <img src="assets/screenshots/1_settings_allowed_users.png" style="width:100%;border:1px solid #ddd;border-radius:4px;"/>
+    <h3 style="color:#875A7B;margin-top:24px;">2. See all shops and their users at a glance</h3>
+    <p><em>Point of Sale &rsaquo; Configuration &rsaquo; Point of Sales</em> shows an <em>Allowed Users</em> column.</p>
+    <img src="assets/screenshots/2_shop_list.png" style="width:100%;border:1px solid #ddd;border-radius:4px;"/>
+    <h3 style="color:#875A7B;margin-top:24px;">3. The cashier only sees the allowed shops</h3>
+    <p>Anna is allowed in the Furniture Shop; the Bakery Shop is open to everyone; the Clothes Shop is Ben's and does not appear.</p>
+    <img src="assets/screenshots/3_dashboard_cashier.png" style="width:100%;border:1px solid #ddd;border-radius:4px;"/>
+    <h3 style="color:#875A7B;margin-top:24px;">4. She sells as usual</h3>
+    <img src="assets/screenshots/4_cashier_pos.png" style="width:100%;border:1px solid #ddd;border-radius:4px;"/>
+    <h3 style="color:#875A7B;margin-top:24px;">5. The manager still sees every shop</h3>
+    <img src="assets/screenshots/5_dashboard_admin.png" style="width:100%;border:1px solid #ddd;border-radius:4px;"/>
+  </div>
+
+  <div style="padding:8px 16px 28px;">
+    <h2 style="color:#714B67;font-weight:600;border-bottom:1px solid #e5e5e5;padding-bottom:8px;">Requirements</h2>
+    <ul style="line-height:1.8;">
+      <li>Odoo 20 Community or Enterprise &#8212; Point of Sale (<code>point_of_sale</code>).</li>
+      <li>Cashiers must be <em>Point of Sale / User</em>, not <em>Administrator</em>: administrators always see every shop.</li>
+      <li>The list controls which shops a user can see and open. Orders and reports already recorded stay visible as before.</li>
+    </ul>
+  </div>
+
+  <div style="padding:8px 16px 28px;">
+    <h2 style="color:#714B67;font-weight:600;border-bottom:1px solid #e5e5e5;padding-bottom:8px;">Related apps</h2>
+    <ul style="line-height:1.8;">
+      <li><a href="https://apps.odoo.com/apps/modules/20.0/tamadoo_pos_void_approval" target="_blank"><strong>POS Void Approval - Manager PIN to Delete Order Line</strong></a>: a cashier cannot remove a line without the manager's PIN.</li>
+      <li><a href="https://apps.odoo.com/apps/modules/20.0/tamadoo_pos_shift_handover" target="_blank"><strong>POS Shift Handover - Cashier Shift Cash Count</strong></a>: count and hand over the cash drawer between cashiers.</li>
+      <li><a href="https://apps.odoo.com/apps/modules/20.0/tamadoo_pos_manager_dashboard" target="_blank"><strong>POS Dashboard for Managers - Today's Sales per Shop</strong></a>: today's sales of every shop on one screen.</li>
+    </ul>
+  </div>
+
+  <div style="text-align:center;padding:20px;background:#f7f4f6;border-top:1px solid #e5e5e5;">
+    <p style="margin:0;color:#714B67;font-weight:600;">Tamadoo &middot; tama.odoo@gmail.com</p>
+  </div>
+</section>

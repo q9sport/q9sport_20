@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_pos_user_restrict" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.pos.user.restrict</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='restaurant_section']" position="inside">
+                <setting id="tamadoo_pos_allowed_users" string="Allowed Users"
+                         help="Only these users see and open this shop. Empty: every Point of Sale user. Administrators always see every shop.">
+                    <field name="pos_allowed_user_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="Every Point of Sale user"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_pos_config_tree_pos_user_restrict" model="ir.ui.view">
+        <field name="name">pos.config.list.pos.user.restrict</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_config_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="allowed_user_ids" widget="many2many_tags" optional="show"/>
+            </field>
+        </field>
+    </record>
+</odoo>

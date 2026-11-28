@@ -1,0 +1,890 @@
+/* =========================================================
+   Q9SPORT POS 20
+   ROYAL CHAMPAGNE - COMPLETE DESIGN
+   PRODUCTS LEFT 65% | ORDER RIGHT 35%
+   ========================================================= */
+
+/* =========================
+   01. ROYAL COLOR SYSTEM
+   ========================= */
+
+:root {
+    --q9-bg: #eee9e0;
+    --q9-bg-soft: #f4f0e8;
+    --q9-panel: #faf7f1;
+    --q9-card: #fffefa;
+    --q9-card-hover: #f5eddf;
+    --q9-navy: #34445a;
+    --q9-navy-dark: #26364b;
+    --q9-gold: #b39768;
+    --q9-gold-light: #e9dcc4;
+    --q9-text: #414b58;
+    --q9-muted: #89909a;
+    --q9-border: #e2d8c8;
+    --q9-shadow: 0 3px 12px rgba(67,54,35,.055);
+}
+
+/* =========================
+   02. MAIN POS SCREEN
+   ========================= */
+
+.pos .product-screen {
+    background: var(--q9-bg) !important;
+}
+
+.pos .product-screen .screen-full-width {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 9px !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background: var(--q9-bg) !important;
+}
+
+/* =========================
+   03. PRODUCTS LEFT - 65%
+   ========================= */
+
+.pos .product-screen .rightpane {
+    order: 1 !important;
+    direction: ltr !important;
+    flex: 0 0 65% !important;
+    width: 65% !important;
+    max-width: 65% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: #eee9e0 !important;
+    border: 1px solid var(--q9-border) !important;
+    border-radius: 15px !important;
+    padding: 9px !important;
+    overflow: hidden !important;
+}
+
+/* =========================
+   04. PRODUCT GRID
+   ========================= */
+
+.pos .product-screen .product-list-container {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 8px !important;
+    background: transparent !important;
+}
+
+.pos .product-screen .product-list {
+    display: grid !important;
+    grid-template-columns: repeat(5,minmax(0,1fr)) !important;
+    gap: 12px !important;
+    padding: 5px !important;
+    background: transparent !important;
+    align-items: stretch !important;
+}
+
+/* =========================
+   05. PRODUCT CARDS
+   ========================= */
+
+.pos .product-screen .product,
+.pos .product-screen .product-card {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    min-width: 0 !important;
+    min-height: 190px !important;
+    overflow: hidden !important;
+    background: linear-gradient(
+        155deg,#fffefa 0%,#faf6ee 65%,#f1e9dc 100%
+    ) !important;
+    border: 1px solid #e3d9c9 !important;
+    border-radius: 14px !important;
+    box-shadow:
+        0 3px 9px rgba(72,59,39,.055),
+        inset 0 1px 0 rgba(255,255,255,.95) !important;
+    transition: all .2s ease !important;
+}
+
+.pos .product-screen .product:hover,
+.pos .product-screen .product-card:hover {
+    background: linear-gradient(145deg,#fff,#f5ecdc) !important;
+    border-color: var(--q9-gold) !important;
+    box-shadow: 0 6px 16px rgba(91,72,42,.11) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* =========================
+   06. LARGE PRODUCT IMAGES
+   ========================= */
+
+.pos .product-screen .product .product-img,
+.pos .product-screen .product .product-image,
+.pos .product-screen .product .product-img-container,
+.pos .product-screen .product-card .product-img,
+.pos .product-screen .product-card .product-image {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 175px !important;
+    min-height: 175px !important;
+    padding: 7px !important;
+    margin: 0 !important;
+    background: linear-gradient(145deg,#fff,#f7f2e9) !important;
+    border-radius: 11px !important;
+    overflow: hidden !important;
+}
+
+.pos .product-screen .product img,
+.pos .product-screen .product-card img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    padding: 2px !important;
+    margin: auto !important;
+    border-radius: 9px !important;
+}
+
+.pos .product-screen .product .product-img img,
+.pos .product-screen .product .product-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+}
+
+/* =========================
+   07. PRODUCT INFORMATION
+   ========================= */
+
+.pos .product-screen .product .product-name,
+.pos .product-screen .product-card .product-name {
+    color: var(--q9-navy) !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    padding: 7px 7px 2px !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+.pos .product-screen .product .product-price,
+.pos .product-screen .product-card .product-price {
+    color: #987746 !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    padding: 3px 7px 8px !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+/* =========================
+   08. CATEGORY BAR
+   ========================= */
+
+.pos .product-screen .category-list {
+    background: transparent !important;
+    border-radius: 11px !important;
+    padding: 6px !important;
+}
+
+.pos .product-screen .category-list button {
+    background: #faf7f1 !important;
+    color: var(--q9-navy) !important;
+    border: 1px solid var(--q9-border) !important;
+    border-radius: 8px !important;
+}
+
+.pos .product-screen .category-list .highlight {
+    background: var(--q9-navy) !important;
+    color: #fff !important;
+    border-color: var(--q9-navy) !important;
+}
+
+/* =========================
+   09. ORDER PANEL RIGHT - 35%
+   ========================= */
+
+.pos .product-screen .leftpane {
+    order: 2 !important;
+    direction: ltr !important;
+    flex: 1 1 35% !important;
+    width: 35% !important;
+    max-width: 35% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+/* =========================
+   10. ORDER CONTAINER
+   ========================= */
+
+.pos .product-screen .leftpane .order-container {
+    order: 1 !important;
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: linear-gradient(145deg,#fffefa,#f8f4ec) !important;
+    border: 1px solid var(--q9-border) !important;
+    border-radius: 14px !important;
+    box-shadow: var(--q9-shadow) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 5px 4px 10px !important;
+}
+
+/* =========================
+   11. ORDER SUMMARY
+   ========================= */
+
+.pos .product-screen .leftpane .order-summary {
+    order: 2 !important;
+    flex: 0 0 auto !important;
+    min-height: auto !important;
+    background: linear-gradient(145deg,#faf7f1,#f1e9dc) !important;
+    border: 1px solid var(--q9-border) !important;
+    border-radius: 13px !important;
+    box-shadow: var(--q9-shadow) !important;
+    padding: 8px 10px 10px !important;
+    overflow: visible !important;
+}
+
+/* =========================
+   12. ORDER LINE CARDS
+   ========================= */
+
+.pos .orderline {
+    background: #fffefa !important;
+    border: 1px solid #e8dfd1 !important;
+    border-radius: 11px !important;
+    margin: 4px 6px !important;
+    padding: 7px 8px 8px !important;
+    box-shadow: 0 2px 6px rgba(70,55,32,.045) !important;
+}
+
+.pos .orderline.selected {
+    background: linear-gradient(110deg,#f3eadb,#fffdf8) !important;
+    border: 1px solid #c6a875 !important;
+    box-shadow: 0 3px 9px rgba(179,151,104,.12) !important;
+}
+
+.pos .orderline .product-name,
+.pos .orderline .product-name span {
+    color: var(--q9-text) !important;
+    font-size: 10.5px !important;
+    font-weight: 650 !important;
+    line-height: 1.35 !important;
+}
+
+.pos .orderline .product-name {
+    margin-bottom: 5px !important;
+}
+
+.pos .orderline .price,
+.pos .orderline .info-list {
+    color: var(--q9-muted) !important;
+    font-size: 9px !important;
+}
+
+.pos .orderline .info-list {
+    margin: 3px 0 !important;
+}
+
+.pos .orderline .qty,
+.pos .orderline .quantity {
+    margin-top: 9px !important;
+    margin-bottom: 5px !important;
+}
+
+/* =========================
+   13. TOTAL AND AMOUNTS
+   ========================= */
+
+.pos .product-screen .total,
+.pos .product-screen .order-summary .value {
+    color: #987746 !important;
+    font-weight: 800 !important;
+}
+
+/* =========================
+   14. SEARCH INPUT
+   ========================= */
+
+.pos .product-screen input,
+.pos .product-screen .search-bar input {
+    background: #fffefa !important;
+    color: var(--q9-text) !important;
+    border: 1px solid var(--q9-border) !important;
+    border-radius: 9px !important;
+    font-size: 12px !important;
+    min-height: 32px !important;
+    padding: 6px 10px !important;
+}
+
+/* =========================
+   15. SCROLLBARS
+   ========================= */
+
+.pos .product-screen .rightpane,
+.pos .product-screen .leftpane,
+.pos .product-screen .product-list-container,
+.pos .product-screen .order-container,
+.pos .product-screen .order-summary {
+    scrollbar-width: thin !important;
+    scrollbar-color: #c4b69e transparent !important;
+}
+
+.pos .product-screen *::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+}
+
+.pos .product-screen *::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+.pos .product-screen *::-webkit-scrollbar-thumb {
+    background: #c4b69e !important;
+    border-radius: 10px !important;
+}
+
+/* =========================
+   16. PAYMENT BUTTONS
+   ========================= */
+
+.pos .leftpane .actionpad {
+    gap: 7px !important;
+    padding: 3px 2px 10px !important;
+    margin-bottom: 6px !important;
+}
+
+.pos .leftpane .actionpad button,
+.pos .leftpane .actionpad .button {
+    min-height: 48px !important;
+    padding: 6px 8px !important;
+    margin-bottom: 4px !important;
+    border-radius: 10px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 5px rgba(45,60,80,.06) !important;
+    transition: all .18s ease !important;
+}
+
+/* PAYMENT */
+
+.pos .leftpane .actionpad button:first-child {
+    background: linear-gradient(135deg,#e9eafa,#dce2f7) !important;
+    color: #4f6094 !important;
+    border: 1px solid #d1d8ef !important;
+}
+
+.pos .leftpane .actionpad button:first-child::before {
+    content: "🏦";
+    display: inline-block;
+    font-size: 19px;
+    margin-right: 7px;
+    vertical-align: middle;
+}
+
+/* CARD */
+
+.pos .leftpane .actionpad button:nth-child(2) {
+    background: linear-gradient(135deg,#e8f3fb,#dcecf8) !important;
+    color: #397398 !important;
+    border: 1px solid #cbdfee !important;
+}
+
+.pos .leftpane .actionpad button:nth-child(2)::before {
+    content: "💳";
+    display: inline-block;
+    font-size: 19px;
+    margin-right: 7px;
+    vertical-align: middle;
+}
+
+/* CASH */
+
+.pos .leftpane .actionpad button:nth-child(3) {
+    background: linear-gradient(135deg,#eaf4e9,#dceedd) !important;
+    color: #477653 !important;
+    border: 1px solid #cfe2ce !important;
+}
+
+.pos .leftpane .actionpad button:nth-child(3)::before {
+    content: "💵";
+    display: inline-block;
+    font-size: 19px;
+    margin-right: 7px;
+    vertical-align: middle;
+}
+
+.pos .leftpane .actionpad button:hover {
+    transform: translateY(-1px) !important;
+    filter: brightness(.98) !important;
+    box-shadow: 0 4px 9px rgba(45,60,80,.09) !important;
+}
+
+.pos .leftpane .actionpad button:active {
+    transform: scale(.985) !important;
+}
+
+/* =========================
+   17. PRICE AND QUANTITY
+   ========================= */
+
+.pos .orderline .price::before,
+.pos .orderline .price::after,
+.pos .orderline .qty::before,
+.pos .orderline .qty::after,
+.pos .orderline .quantity::before,
+.pos .orderline .quantity::after {
+    content: none !important;
+    display: none !important;
+}
+
+.pos .orderline .price {
+    display: inline-block !important;
+    background: #edf2f8 !important;
+    color: #506b89 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    padding: 2px 6px !important;
+    margin: 2px !important;
+    border: 1px solid #e0e8f0 !important;
+    border-radius: 5px !important;
+}
+
+.pos .orderline .qty,
+.pos .orderline .quantity {
+    display: inline-block !important;
+    background: #edf4ed !important;
+    color: #52765a !important;
+    font-size: 10px !important;
+    font-weight: 750 !important;
+    padding: 2px 6px !important;
+    margin: 2px !important;
+    border: 1px solid #dce9dc !important;
+    border-radius: 5px !important;
+}
+
+/* =========================
+   18. ORDER LINE CONTROL BUTTONS
+   ========================= */
+
+.pos .orderline button {
+    min-width: 22px !important;
+    min-height: 22px !important;
+    padding: 2px 5px !important;
+    margin: 1px !important;
+    background: #f0f3f6 !important;
+    color: #60758a !important;
+    border: 1px solid #e1e7ed !important;
+    border-radius: 5px !important;
+    font-size: 10px !important;
+    box-shadow: none !important;
+}
+
+.pos .orderline button:hover {
+    background: #e4ebf2 !important;
+    color: #405d78 !important;
+}
+
+/* =========================================================
+   19. ROYAL COMPACT NUMPAD
+   CLEAR NUMBER ICONS + FUNCTION ICONS
+   ========================================================= */
+
+.pos .numpad {
+    display: grid !important;
+    grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+    gap: 3px !important;
+    padding: 4px !important;
+    margin: 0 0 8px 0 !important;
+    background: #f4f0e8 !important;
+    border: 1px solid #e5ddd0 !important;
+    border-radius: 10px !important;
+}
+
+/* ALL NUMPAD BUTTONS */
+
+.pos .numpad button,
+.pos .numpad .numpad-button {
+    min-width: 0 !important;
+    min-height: 39px !important;
+    height: 39px !important;
+    padding: 3px 4px !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    border: 1px solid #e0e5e9 !important;
+    border-radius: 7px !important;
+    background: linear-gradient(145deg,#fff,#f3f5f7) !important;
+    color: #45566a !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 3px rgba(45,60,80,.045) !important;
+    transition: all .15s ease !important;
+}
+
+/* Clear any inherited pseudo icons */
+
+.pos .numpad button::before {
+    content: none;
+}
+
+/* NUMBER BUTTONS ONLY
+   Odoo numpad layout assumed:
+   1 2 3 Qty
+   4 5 6 Discount
+   7 8 9 Price
+   +/- 0 . Backspace
+*/
+
+.pos .numpad button:nth-child(1)::before { content: "①"; }
+.pos .numpad button:nth-child(2)::before { content: "②"; }
+.pos .numpad button:nth-child(3)::before { content: "③"; }
+
+.pos .numpad button:nth-child(5)::before { content: "④"; }
+.pos .numpad button:nth-child(6)::before { content: "⑤"; }
+.pos .numpad button:nth-child(7)::before { content: "⑥"; }
+
+.pos .numpad button:nth-child(9)::before { content: "⑦"; }
+.pos .numpad button:nth-child(10)::before { content: "⑧"; }
+.pos .numpad button:nth-child(11)::before { content: "⑨"; }
+
+.pos .numpad button:nth-child(14)::before { content: "⓪"; }
+
+/* Number icon appearance */
+
+.pos .numpad button:nth-child(1)::before,
+.pos .numpad button:nth-child(2)::before,
+.pos .numpad button:nth-child(3)::before,
+.pos .numpad button:nth-child(5)::before,
+.pos .numpad button:nth-child(6)::before,
+.pos .numpad button:nth-child(7)::before,
+.pos .numpad button:nth-child(9)::before,
+.pos .numpad button:nth-child(10)::before,
+.pos .numpad button:nth-child(11)::before,
+.pos .numpad button:nth-child(14)::before {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+    border-radius: 50% !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+}
+
+/* Individual number colors */
+
+.pos .numpad button:nth-child(1)::before {
+    color: #fff !important;
+    background: #bd7771 !important;
+}
+
+.pos .numpad button:nth-child(2)::before {
+    color: #fff !important;
+    background: #c78c59 !important;
+}
+
+.pos .numpad button:nth-child(3)::before {
+    color: #fff !important;
+    background: #b69a4e !important;
+}
+
+.pos .numpad button:nth-child(5)::before {
+    color: #fff !important;
+    background: #739b78 !important;
+}
+
+.pos .numpad button:nth-child(6)::before {
+    color: #fff !important;
+    background: #648cae !important;
+}
+
+.pos .numpad button:nth-child(7)::before {
+    color: #fff !important;
+    background: #9278a8 !important;
+}
+
+.pos .numpad button:nth-child(9)::before {
+    color: #fff !important;
+    background: #a47d64 !important;
+}
+
+.pos .numpad button:nth-child(10)::before {
+    color: #fff !important;
+    background: #648f9b !important;
+}
+
+.pos .numpad button:nth-child(11)::before {
+    color: #fff !important;
+    background: #729d9a !important;
+}
+
+.pos .numpad button:nth-child(14)::before {
+    color: #fff !important;
+    background: #8994a5 !important;
+}
+
+/* QTY */
+
+.pos .numpad button:nth-child(4)::before {
+    content: "📦";
+}
+
+/* DISCOUNT */
+
+.pos .numpad button:nth-child(8)::before {
+    content: "🏷️";
+}
+
+/* PRICE */
+
+.pos .numpad button:nth-child(12)::before {
+    content: "💰";
+}
+
+.pos .numpad button:nth-child(4),
+.pos .numpad button:nth-child(8),
+.pos .numpad button:nth-child(12) {
+    background: linear-gradient(145deg,#eaf1f8,#dfeaf4) !important;
+    color: #456d91 !important;
+    border-color: #d0dfeb !important;
+    font-size: 11px !important;
+    font-weight: 750 !important;
+}
+
+.pos .numpad button:nth-child(4)::before,
+.pos .numpad button:nth-child(8)::before,
+.pos .numpad button:nth-child(12)::before {
+    display: inline-block !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+}
+
+/* REFUND / PLUS MINUS */
+
+.pos .numpad button:nth-child(13)::before {
+    content: "↩️";
+    font-size: 15px !important;
+}
+
+.pos .numpad button:nth-child(13) {
+    background: linear-gradient(145deg,#fff1d1,#f8e4ae) !important;
+    color: #98743b !important;
+    border-color: #ead39b !important;
+    font-size: 13px !important;
+    font-weight: 750 !important;
+}
+
+/* DECIMAL */
+
+.pos .numpad button:nth-child(15)::before {
+    content: "🔢";
+    font-size: 13px !important;
+}
+
+.pos .numpad button:nth-child(15) {
+    background: linear-gradient(145deg,#f8eee8,#f2e2d8) !important;
+    color: #a66d50 !important;
+    border-color: #ead8cc !important;
+}
+
+/* DELETE / BACKSPACE - BASKET */
+
+.pos .numpad button:nth-child(16)::before {
+    content: "🗑️";
+    font-size: 14px !important;
+}
+
+.pos .numpad button:nth-child(16) {
+    background: linear-gradient(145deg,#f9e6e6,#f3dada) !important;
+    color: #b45d63 !important;
+    border-color: #ebcaca !important;
+    font-size: 13px !important;
+}
+
+/* NUMPAD HOVER */
+
+.pos .numpad button:hover {
+    filter: brightness(.97) !important;
+    border-color: #c5d1dc !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 7px rgba(45,60,80,.08) !important;
+}
+
+.pos .numpad button:active {
+    transform: scale(.97) !important;
+    box-shadow: none !important;
+}
+
+/* SELECTED MODE */
+
+.pos .numpad button.active,
+.pos .numpad button.selected {
+    background: #dce9f4 !important;
+    color: #345b7c !important;
+    border-color: #a9c4da !important;
+}
+
+/* =========================================================
+   20. CUSTOMER BUTTON - ICON
+   ========================================================= */
+
+.pos .customer-button::before,
+.pos .button.customer-button::before,
+.pos button.set-partner::before,
+.pos .set-partner::before {
+    content: "👥" !important;
+    display: inline-block !important;
+    font-size: 18px !important;
+    margin-right: 7px !important;
+    vertical-align: middle !important;
+}
+
+.pos .customer-button,
+.pos .button.customer-button,
+.pos button.set-partner,
+.pos .set-partner {
+    border-radius: 9px !important;
+}
+
+/* =========================================================
+   21. NOTES BUTTON - NOTEBOOK ICON
+   ========================================================= */
+
+.pos .set-note::before,
+.pos .button.set-note::before,
+.pos button.set-note::before {
+    content: "📝" !important;
+    display: inline-block !important;
+    font-size: 18px !important;
+    margin-right: 7px !important;
+    vertical-align: middle !important;
+}
+
+.pos .set-note,
+.pos .button.set-note,
+.pos button.set-note {
+    border-radius: 9px !important;
+}
+
+.pos .customer-button,
+.pos .set-partner,
+.pos .set-note {
+    align-items: center !important;
+}
+
+/* =========================================================
+   22. RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 1100px) {
+    .pos .product-screen .product-list {
+        grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+    }
+
+    .pos .product-screen .product .product-img,
+    .pos .product-screen .product .product-image,
+    .pos .product-screen .product .product-img-container {
+        height: 145px !important;
+        min-height: 145px !important;
+    }
+}
+
+@media (max-width: 800px) {
+    .pos .product-screen .screen-full-width {
+        flex-direction: column !important;
+    }
+
+    .pos .product-screen .rightpane,
+    .pos .product-screen .leftpane {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 50% !important;
+    }
+
+    .pos .product-screen .product-list {
+        grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+    }
+
+    .pos .product-screen .product .product-img,
+    .pos .product-screen .product .product-image,
+    .pos .product-screen .product .product-img-container {
+        height: 130px !important;
+        min-height: 130px !important;
+    }
+
+    .pos .leftpane .actionpad button,
+    .pos .leftpane .actionpad .button {
+        min-height: 43px !important;
+        font-size: 11px !important;
+        padding: 5px !important;
+    }
+
+    .pos .leftpane .actionpad button::before {
+        font-size: 16px !important;
+        margin-right: 4px !important;
+    }
+
+    .pos .numpad {
+        gap: 2px !important;
+        padding: 3px !important;
+    }
+
+    .pos .numpad button,
+    .pos .numpad .numpad-button {
+        min-height: 35px !important;
+        height: 35px !important;
+        font-size: 12px !important;
+        gap: 3px !important;
+    }
+
+    .pos .numpad button:nth-child(1)::before,
+    .pos .numpad button:nth-child(2)::before,
+    .pos .numpad button:nth-child(3)::before,
+    .pos .numpad button:nth-child(5)::before,
+    .pos .numpad button:nth-child(6)::before,
+    .pos .numpad button:nth-child(7)::before,
+    .pos .numpad button:nth-child(9)::before,
+    .pos .numpad button:nth-child(10)::before,
+    .pos .numpad button:nth-child(11)::before,
+    .pos .numpad button:nth-child(14)::before {
+        width: 15px !important;
+        height: 15px !important;
+        flex-basis: 15px !important;
+        font-size: 9px !important;
+    }
+
+    .pos .numpad button:nth-child(4),
+    .pos .numpad button:nth-child(8),
+    .pos .numpad button:nth-child(12) {
+        font-size: 11px !important;
+    }
+}
+
+/* =========================================================
+   END Q9SPORT POS 20
+   ROYAL CHAMPAGNE COMPLETE DESIGN
+   ========================================================= */
