@@ -1,0 +1,40 @@
+<odoo>
+    <record id="eg_pos_login_background_res_config_settings_view_form_demo" model="ir.ui.view">
+        <field name="name">eg.pos.login.background.res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="100"/>
+        <field name="inherit_id" ref="eg_app_base.eg_app_base_res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='eg_app_base']" position="after">
+                <block title="POS Login Background" id="eg_pos_login_background">
+                    <setting help="eg_pos_login_background" id="eg_pos_login_background_enable">
+                        <field name="eg_pos_login_background_enable"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+    <record id="res_config_settings_form_view_for_pos_login_background" model="ir.ui.view">
+        <field name="name">res.config.settings.form.pos.login.background</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pos_interface_section']" position="before">
+                <block title="POS Login Background" id="pos_interface" invisible="not eg_pos_login_background_enable">
+                    <setting id="allow_login_background" title="Allow Login Background" string="Allow Login Background">
+                        <field name="allow_login_background"/>
+                        <div class="content-group mt16">
+                            <div class="text-muted">
+                                It will to Change Allow Login Background.
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="pos_login_background" title="POS Login Background" string="POS Login Background"
+                             invisible="not allow_login_background">
+                        <field name="pos_login_background" widget="image" style="width:200px;height:200px;"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

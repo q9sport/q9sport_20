@@ -1,0 +1,29 @@
+<odoo>
+    <record model="ir.ui.view" id="import_apps_form_view">
+        <field name="name">import.apps.form.view</field>
+        <field name="model">import.apps</field>
+        <field name="arch" type="xml">
+            <form>
+                <div>
+                    <h5>
+                        Click on Update below to start the process...
+                    </h5>
+                </div>
+                <footer>
+                    <button name="import_all_apps_from_json" string="Update"
+                            type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_import_apps">
+        <field name="name">Inkerp App Data</field>
+        <field name="res_model">import.apps</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem name="Update Apps List" id="sub_menu_import_apps" action="action_import_apps"
+              parent="eg_app_base.main_menu_apps_inkerp" sequence="10"/>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_apps_data_inkerp,app.data.inkerp,app.data.inkerp,base.group_user,crud,
+access_import_apps,import.apps,import.apps,base.group_user,crud,
+access_special_category,special.category,special.category,base.group_user,crud,
+

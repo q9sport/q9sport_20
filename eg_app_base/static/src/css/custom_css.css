@@ -1,0 +1,29 @@
+.eg_custom_kanban_card_ribbon {
+    align-items: start !important;
+    .ribbon {
+        &::before, &::after {
+            display: none;
+        }
+        span {
+            background-color: red !important;
+            font-size: small;
+            z-index: 0;
+        }
+    }
+}
+.eg_base_app_blink{
+    font-size: 1.05em;
+    font-family: cursive;
+    color: Red !important;
+    animation: eg_base_app_blink 1s linear infinite;
+}
+@keyframes eg_base_app_blink{
+0%{opacity: 0;}
+50%{opacity: .5;}
+100%{opacity: 1;}
+}
+.text-success{
+    code {
+        color: green !important;
+    }
+}

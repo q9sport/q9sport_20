@@ -1,0 +1,34 @@
+<odoo>
+    <record id="eg_app_base_res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">eg.apps.inkerp.res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="100"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="INKERP" string="INKERP" name="eg_app_base">
+                    <block title="INKERP" id="eg_app_base">
+                        <setting help="Auto fetch all apps" id="is_auto_fetch_apps_setting">
+                            <field name="is_auto_fetch_apps"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+<!--    <record id="app_name_res_config_settings_view_form" model="ir.ui.view">-->
+<!--        <field name="name">app.name.res.config.settings.view.form.inherit</field>-->
+<!--        <field name="model">res.config.settings</field>-->
+<!--        <field name="priority" eval="100"/>-->
+<!--        <field name="inherit_id" ref="eg_app_base.eg_app_base_res_config_settings_view_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//block[@id='eg_app_base']" position="after">-->
+<!--                <block title="INKERP app base" id="eg_app_base">-->
+<!--                    <setting help="Auto fetch all apps" id="is_auto_fetch_apps_setting">-->
+<!--                        <field name="is_auto_fetch_apps"/>-->
+<!--                    </setting>-->
+<!--                </block>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>
