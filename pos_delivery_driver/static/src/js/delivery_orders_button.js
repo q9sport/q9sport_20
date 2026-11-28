@@ -15,7 +15,7 @@ const DELIVERY_ORDER_STATES = [
 ];
 
 // =====================================================
-// NAVBAR - DELIVERY ORDERS BUTTON
+// NAVBAR - DELIVERY + CURRENT ORDER ACTIONS
 // =====================================================
 
 patch(Navbar.prototype, {
@@ -39,29 +39,66 @@ patch(Navbar.prototype, {
     // CLEAR PRODUCT SEARCH
     // -------------------------------------------------
 
-    clearProductSearch() {
+    onClearProductSearch() {
         this.pos.searchProductWord = "";
-        this.pos.searchProductDBState = null;
 
-        if (this.inputRef && this.inputRef()) {
-            this.inputRef().value = "";
+        if (this.inputRef) {
+            const input = this.inputRef();
+            if (input) {
+                input.focus();
+            }
+        }
+    },
+
+    // -------------------------------------------------
+    // CANCEL CURRENT ACTIVE ORDER
+    // Uses Odoo 20 native delete confirmation/workflow
+    // -------------------------------------------------
+
+    async onCancelCurrentOrder() {
+        const order = this.pos.getOrder();
+
+        if (!order) {
+            this.notification.add(
+                "لا يوجد طلب حالي لإلغائه",
+                { type: "warning" }
+            );
+            return;
+        }
+
+        if (order.finalized) {
+            this.notification.add(
+                "لا يمكن إلغاء طلب مدفوع أو مغلق من هنا",
+                { type: "warning" }
+            );
+            return;
+        }
+
+        try {
+            await this.pos.onDeleteOrder(order);
+        } catch (error) {
+            console.error(
+                "Q9SPORT: Current order cancellation failed",
+                error
+            );
+
+            this.notification.add(
+                "تعذر إلغاء الطلب الحالي",
+                { type: "danger" }
+            );
         }
     },
 
 });
 
 // =====================================================
-// ORDER SUMMARY - CURRENT ORDER ACTIONS
+// ORDER SUMMARY - DELETE INDIVIDUAL PRODUCT LINE
 // =====================================================
 
 patch(OrderSummary.prototype, {
 
-    // -------------------------------------------------
-    // DELETE ONE PRODUCT LINE
-    // -------------------------------------------------
-
     onRemoveOrderLine(line) {
-        const order = this.pos.getOrder();
+        const order = this.currentOrder;
 
         if (!order || !line) {
             return;
@@ -70,14 +107,12 @@ patch(OrderSummary.prototype, {
         try {
             order.assertEditable();
 
-            // Delete the complete combo when a combo child is selected.
+            // If this is a combo child, remove its parent.
             const targetLine = line.combo_parent_id || line;
 
             order.removeOrderline(targetLine);
 
             this.numberBuffer.reset();
-
-            this.pos.numpadMode = "quantity";
 
         } catch (error) {
             console.error(
@@ -85,41 +120,8 @@ patch(OrderSummary.prototype, {
                 error
             );
 
-            this.pos.notification.add(
-                "تعذر حذف المنتج من الطلب",
-                { type: "warning" }
-            );
-        }
-    },
-
-    // -------------------------------------------------
-    // CANCEL CURRENT WORKING ORDER
-    // -------------------------------------------------
-
-    async onCancelCurrentOrder() {
-        const order = this.pos.getOrder();
-
-        if (!order) {
-            return;
-        }
-
-        try {
-            order.assertEditable();
-
-            // Native Odoo 20 confirmation and deletion workflow.
-            // A new empty order is selected after successful deletion.
-            await this.pos.onDeleteOrder(order);
-
-            this.numberBuffer.reset();
-
-        } catch (error) {
-            console.error(
-                "Q9SPORT: Unable to cancel current order",
-                error
-            );
-
-            this.pos.notification.add(
-                "تعذر إلغاء الطلب الحالي",
+            this.env.services.notification.add(
+                "لا يمكن حذف هذا المنتج",
                 { type: "warning" }
             );
         }
@@ -127,8 +129,9 @@ patch(OrderSummary.prototype, {
 
 });
 
+
 // =====================================================
-// TICKET SCREEN - FILTER DELIVERY ORDERS
+// TICKET SCREEN - DELIVERY ORDERS
 // =====================================================
 
 patch(TicketScreen.prototype, {
@@ -227,7 +230,8 @@ patch(TicketScreen.prototype, {
             return;
         }
 
-        const url = `/web#id=${orderId}&model=pos.order&view_type=form`;
+        const url =
+            `/web#id=${orderId}&model=pos.order&view_type=form`;
 
         window.open(url, "_blank");
     },
