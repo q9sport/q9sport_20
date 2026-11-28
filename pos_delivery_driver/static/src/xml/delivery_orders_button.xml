@@ -190,7 +190,7 @@
             /* =================================================
                04 - NEW ORDER PLUS BUTTON
                ONLY TARGET PLUS ICON
-               ================================================= */
+               ================================================= 
 
             .pos .order-selector button:has(.fa-plus),
             .pos .order-selector button:has(.fa-plus-circle),
@@ -250,7 +250,91 @@
             .pos .pos-rightheader button:has(.fa-plus):hover {
                 background: #d8efdf !important;
                 border-color: #8bc79e !important;
-            }
+            }*/
+            
+/* =========================================================
+   Q9SPORT POS 20 — ORDER LINE CONTROLS
+   Compact buttons + clean order lines
+   ========================================================= */
+
+/* 1. QUANTITY PLUS / MINUS / CONTROL BUTTONS */
+.pos .orderline button,
+.pos .orderline .control-button,
+.pos .orderline .btn {
+    width: 25px !important;
+    min-width: 25px !important;
+    height: 25px !important;
+    min-height: 25px !important;
+
+    padding: 0 !important;
+    margin: 2px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: rgba(224, 233, 241, 0.85) !important;
+    color: #36536d !important;
+
+    border: 1px solid #d4e0e9 !important;
+    border-radius: 7px !important;
+
+    font-size: 11px !important;
+    line-height: 1 !important;
+    box-shadow: none !important;
+}
+
+/* Button hover */
+.pos .orderline button:hover,
+.pos .orderline .control-button:hover {
+    background: #d7e5ef !important;
+    color: #183b59 !important;
+}
+
+/* 2. ORDER LINE CARD */
+.pos .orderline {
+    padding: 8px 9px !important;
+    margin: 4px 6px !important;
+
+    background: rgba(239, 244, 248, 0.72) !important;
+    border: 1px solid rgba(204, 218, 230, 0.8) !important;
+    border-radius: 9px !important;
+
+    box-shadow: none !important;
+}
+
+/* 3. PRODUCT NAME */
+.pos .orderline .product-name,
+.pos .orderline .product-name span {
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+    font-weight: 600 !important;
+    color: #29445d !important;
+}
+
+/* 4. PRODUCT DETAILS */
+.pos .orderline .info-list {
+    font-size: 9px !important;
+    line-height: 1.4 !important;
+    margin: 3px 0 !important;
+    color: #718397 !important;
+}
+
+/* 5. RESPONSIVE */
+@media (max-width: 800px) {
+    .pos .leftpane .actionpad button,
+    .pos .leftpane .actionpad .button {
+        min-height: 43px !important;
+        font-size: 11px !important;
+        padding: 5px !important;
+    }
+
+    .pos .leftpane .actionpad button::before {
+        font-size: 16px !important;
+        margin-right: 4px !important;
+    }
+}
+
 
 
             /* =================================================
