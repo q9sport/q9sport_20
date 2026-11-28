@@ -1,6 +1,6 @@
 /* =========================================================
    Q9SPORT POS 20
-   ROYAL CHAMPAGNE - LARGE PRODUCT IMAGE DESIGN
+   ROYAL CHAMPAGNE - COMPLETE DESIGN
    PRODUCTS LEFT 65% | ORDER RIGHT 35%
    ========================================================= */
 
@@ -12,21 +12,16 @@
     --q9-bg: #eee9e0;
     --q9-bg-soft: #f4f0e8;
     --q9-panel: #faf7f1;
-
     --q9-card: #fffefa;
     --q9-card-hover: #f5eddf;
-
     --q9-navy: #34445a;
     --q9-navy-dark: #26364b;
-
     --q9-gold: #b39768;
     --q9-gold-light: #e9dcc4;
-
     --q9-text: #414b58;
     --q9-muted: #89909a;
-
     --q9-border: #e2d8c8;
-    --q9-shadow: 0 3px 12px rgba(67, 54, 35, .055);
+    --q9-shadow: 0 3px 12px rgba(67,54,35,.055);
 }
 
 /* =========================
@@ -55,19 +50,15 @@
 .pos .product-screen .rightpane {
     order: 1 !important;
     direction: ltr !important;
-
     flex: 0 0 65% !important;
     width: 65% !important;
     max-width: 65% !important;
     min-width: 0 !important;
-
     display: flex !important;
     flex-direction: column !important;
-
     background: #eee9e0 !important;
     border: 1px solid var(--q9-border) !important;
     border-radius: 15px !important;
-
     padding: 9px !important;
     overflow: hidden !important;
 }
@@ -81,14 +72,13 @@
     min-height: 0 !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
-
     padding: 8px !important;
     background: transparent !important;
 }
 
 .pos .product-screen .product-list {
     display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(5,minmax(0,1fr)) !important;
     gap: 12px !important;
     padding: 5px !important;
     background: transparent !important;
@@ -105,56 +95,35 @@
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-
     min-width: 0 !important;
     min-height: 190px !important;
     overflow: hidden !important;
 
     background: linear-gradient(
-        155deg,
-        #fffefa 0%,
-        #faf6ee 65%,
-        #f1e9dc 100%
+        155deg,#fffefa 0%,#faf6ee 65%,#f1e9dc 100%
     ) !important;
 
     border: 1px solid #e3d9c9 !important;
     border-radius: 14px !important;
 
     box-shadow:
-        0 3px 9px rgba(72, 59, 39, .055),
+        0 3px 9px rgba(72,59,39,.055),
         inset 0 1px 0 rgba(255,255,255,.95) !important;
 
-    transition:
-        background .2s ease,
-        border-color .2s ease,
-        box-shadow .2s ease,
-        transform .2s ease !important;
+    transition: all .2s ease !important;
 }
-
-/* Card hover */
 
 .pos .product-screen .product:hover,
 .pos .product-screen .product-card:hover {
-    background: linear-gradient(
-        145deg,
-        #ffffff 0%,
-        #f5ecdc 100%
-    ) !important;
-
+    background: linear-gradient(145deg,#fff,#f5ecdc) !important;
     border-color: var(--q9-gold) !important;
-
-    box-shadow:
-        0 6px 16px rgba(91, 72, 42, .11) !important;
-
+    box-shadow: 0 6px 16px rgba(91,72,42,.11) !important;
     transform: translateY(-2px) !important;
 }
 
 /* =========================
    06. LARGE PRODUCT IMAGES
-   تعديل حجم الصورة فقط
    ========================= */
-
-/* Odoo product image containers */
 
 .pos .product-screen .product .product-img,
 .pos .product-screen .product .product-image,
@@ -164,46 +133,33 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-
     width: 100% !important;
     height: 175px !important;
     min-height: 175px !important;
-
     padding: 7px !important;
     margin: 0 !important;
 
     background: linear-gradient(
-        145deg,
-        #ffffff 0%,
-        #f7f2e9 100%
+        145deg,#fff,#f7f2e9
     ) !important;
 
     border-radius: 11px !important;
     overflow: hidden !important;
 }
 
-/* Actual product image */
-
 .pos .product-screen .product img,
 .pos .product-screen .product-card img {
     display: block !important;
-
     width: 100% !important;
     height: 100% !important;
-
     max-width: 100% !important;
     max-height: 100% !important;
-
     object-fit: contain !important;
-    object-position: center center !important;
-
+    object-position: center !important;
     padding: 2px !important;
     margin: auto !important;
-
     border-radius: 9px !important;
 }
-
-/* Image area without unnecessary gaps */
 
 .pos .product-screen .product .product-img img,
 .pos .product-screen .product .product-image img {
@@ -220,29 +176,21 @@
 .pos .product-screen .product .product-name,
 .pos .product-screen .product-card .product-name {
     color: var(--q9-navy) !important;
-
     font-size: 12px !important;
     font-weight: 700 !important;
     line-height: 1.4 !important;
-
     padding: 7px 7px 2px !important;
     margin: 0 !important;
-
     text-align: center !important;
 }
-
-/* Product price */
 
 .pos .product-screen .product .product-price,
 .pos .product-screen .product-card .product-price {
     color: #987746 !important;
-
     font-size: 12px !important;
     font-weight: 800 !important;
-
     padding: 3px 7px 8px !important;
     margin: 0 !important;
-
     text-align: center !important;
 }
 
@@ -259,16 +207,13 @@
 .pos .product-screen .category-list button {
     background: #faf7f1 !important;
     color: var(--q9-navy) !important;
-
     border: 1px solid var(--q9-border) !important;
     border-radius: 8px !important;
 }
 
-/* Active category */
-
 .pos .product-screen .category-list .highlight {
     background: var(--q9-navy) !important;
-    color: #ffffff !important;
+    color: #fff !important;
     border-color: var(--q9-navy) !important;
 }
 
@@ -279,16 +224,13 @@
 .pos .product-screen .leftpane {
     order: 2 !important;
     direction: ltr !important;
-
     flex: 1 1 35% !important;
     width: 35% !important;
     max-width: 35% !important;
     min-width: 0 !important;
-
     display: flex !important;
     flex-direction: column !important;
     gap: 8px !important;
-
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
@@ -296,32 +238,25 @@
 }
 
 /* =========================
-   10. SELECTED ORDER ITEMS
+   10. ORDER CONTAINER
    ========================= */
 
 .pos .product-screen .leftpane .order-container {
     order: 1 !important;
-
     flex: 1 1 0% !important;
     min-height: 0 !important;
-
     display: flex !important;
     flex-direction: column !important;
 
     background: linear-gradient(
-        145deg,
-        #fffefa 0%,
-        #f8f4ec 100%
+        145deg,#fffefa,#f8f4ec
     ) !important;
 
     border: 1px solid var(--q9-border) !important;
     border-radius: 14px !important;
-
     box-shadow: var(--q9-shadow) !important;
-
     overflow-y: auto !important;
     overflow-x: hidden !important;
-
     padding: 5px 4px 10px !important;
 }
 
@@ -331,23 +266,17 @@
 
 .pos .product-screen .leftpane .order-summary {
     order: 2 !important;
-
     flex: 0 0 auto !important;
     min-height: auto !important;
 
     background: linear-gradient(
-        145deg,
-        #faf7f1 0%,
-        #f1e9dc 100%
+        145deg,#faf7f1,#f1e9dc
     ) !important;
 
     border: 1px solid var(--q9-border) !important;
     border-radius: 13px !important;
-
     box-shadow: var(--q9-shadow) !important;
-
     padding: 8px 10px 10px !important;
-
     overflow: visible !important;
 }
 
@@ -357,59 +286,41 @@
 
 .pos .orderline {
     background: #fffefa !important;
-
     border: 1px solid #e8dfd1 !important;
     border-radius: 11px !important;
-
-    margin: 6px 7px !important;
-    padding: 10px 10px 13px !important;
-
-    box-shadow:
-        0 2px 6px rgba(70, 55, 32, .045) !important;
+    margin: 4px 6px !important;
+    padding: 7px 8px 8px !important;
+    box-shadow: 0 2px 6px rgba(70,55,32,.045) !important;
 }
-
-/* Selected order line */
 
 .pos .orderline.selected {
     background: linear-gradient(
-        110deg,
-        #f3eadb 0%,
-        #fffdf8 100%
+        110deg,#f3eadb,#fffdf8
     ) !important;
-
     border: 1px solid #c6a875 !important;
-
-    box-shadow:
-        0 3px 9px rgba(179, 151, 104, .12) !important;
+    box-shadow: 0 3px 9px rgba(179,151,104,.12) !important;
 }
-
-/* Product name in order */
 
 .pos .orderline .product-name,
 .pos .orderline .product-name span {
     color: var(--q9-text) !important;
-    font-size: 11px !important;
+    font-size: 10.5px !important;
     font-weight: 650 !important;
-    line-height: 1.5 !important;
+    line-height: 1.35 !important;
 }
-
-/* Order line details */
-
-.pos .orderline .price,
-.pos .orderline .info-list {
-    color: var(--q9-muted) !important;
-    font-size: 10px !important;
-}
-
-/* Quantity spacing */
 
 .pos .orderline .product-name {
     margin-bottom: 5px !important;
 }
 
+.pos .orderline .price,
 .pos .orderline .info-list {
-    margin-top: 5px !important;
-    margin-bottom: 5px !important;
+    color: var(--q9-muted) !important;
+    font-size: 9px !important;
+}
+
+.pos .orderline .info-list {
+    margin: 3px 0 !important;
 }
 
 .pos .orderline .qty,
@@ -436,10 +347,8 @@
 .pos .product-screen .search-bar input {
     background: #fffefa !important;
     color: var(--q9-text) !important;
-
     border: 1px solid var(--q9-border) !important;
     border-radius: 9px !important;
-
     font-size: 12px !important;
     min-height: 32px !important;
     padding: 6px 10px !important;
@@ -473,12 +382,377 @@
 }
 
 /* =========================
-   16. RESPONSIVE
+   16. PAYMENT BUTTONS
    ========================= */
+
+.pos .leftpane .actionpad {
+    gap: 7px !important;
+    padding: 3px 2px 10px !important;
+    margin-bottom: 6px !important;
+}
+
+.pos .leftpane .actionpad button,
+.pos .leftpane .actionpad .button {
+    min-height: 48px !important;
+    padding: 6px 8px !important;
+    margin-bottom: 4px !important;
+    border-radius: 10px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 5px rgba(45,60,80,.06) !important;
+    transition: all .18s ease !important;
+}
+
+/* PAYMENT */
+
+.pos .leftpane .actionpad button:first-child {
+    background: linear-gradient(135deg,#e9eafa,#dce2f7) !important;
+    color: #4f6094 !important;
+    border: 1px solid #d1d8ef !important;
+}
+
+.pos .leftpane .actionpad button:first-child::before {
+    content: "🏦";
+    display: inline-block;
+    font-size: 19px;
+    margin-right: 7px;
+    vertical-align: middle;
+}
+
+/* CARD */
+
+.pos .leftpane .actionpad button:nth-child(2) {
+    background: linear-gradient(135deg,#e8f3fb,#dcecf8) !important;
+    color: #397398 !important;
+    border: 1px solid #cbdfee !important;
+}
+
+.pos .leftpane .actionpad button:nth-child(2)::before {
+    content: "💳";
+    display: inline-block;
+    font-size: 19px;
+    margin-right: 7px;
+    vertical-align: middle;
+}
+
+/* CASH */
+
+.pos .leftpane .actionpad button:nth-child(3) {
+    background: linear-gradient(135deg,#eaf4e9,#dceedd) !important;
+    color: #477653 !important;
+    border: 1px solid #cfe2ce !important;
+}
+
+.pos .leftpane .actionpad button:nth-child(3)::before {
+    content: "💵";
+    display: inline-block;
+    font-size: 19px;
+    margin-right: 7px;
+    vertical-align: middle;
+}
+
+.pos .leftpane .actionpad button:hover {
+    transform: translateY(-1px) !important;
+    filter: brightness(.98) !important;
+    box-shadow: 0 4px 9px rgba(45,60,80,.09) !important;
+}
+
+.pos .leftpane .actionpad button:active {
+    transform: scale(.985) !important;
+}
+
+/* =========================
+   17. PRICE AND QUANTITY
+   ========================= */
+
+.pos .orderline .price::before,
+.pos .orderline .price::after,
+.pos .orderline .qty::before,
+.pos .orderline .qty::after,
+.pos .orderline .quantity::before,
+.pos .orderline .quantity::after {
+    content: none !important;
+    display: none !important;
+}
+
+.pos .orderline .price {
+    display: inline-block !important;
+    background: #edf2f8 !important;
+    color: #506b89 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    padding: 2px 6px !important;
+    margin: 2px !important;
+    border: 1px solid #e0e8f0 !important;
+    border-radius: 5px !important;
+}
+
+.pos .orderline .qty,
+.pos .orderline .quantity {
+    display: inline-block !important;
+    background: #edf4ed !important;
+    color: #52765a !important;
+    font-size: 10px !important;
+    font-weight: 750 !important;
+    padding: 2px 6px !important;
+    margin: 2px !important;
+    border: 1px solid #dce9dc !important;
+    border-radius: 5px !important;
+}
+
+/* =========================
+   18. ORDER LINE CONTROL BUTTONS
+   ========================= */
+
+.pos .orderline button {
+    min-width: 22px !important;
+    min-height: 22px !important;
+    padding: 2px 5px !important;
+    margin: 1px !important;
+    background: #f0f3f6 !important;
+    color: #60758a !important;
+    border: 1px solid #e1e7ed !important;
+    border-radius: 5px !important;
+    font-size: 10px !important;
+    box-shadow: none !important;
+}
+
+.pos .orderline button:hover {
+    background: #e4ebf2 !important;
+    color: #405d78 !important;
+}
+
+/* =========================================================
+   19. ROYAL COMPACT NUMPAD
+   SMALLER BUTTONS + COLORFUL ICONS
+   ========================================================= */
+
+.pos .numpad {
+    display: grid !important;
+    grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+    gap: 3px !important;
+    padding: 4px !important;
+    margin: 0 0 8px 0 !important;
+    background: #f4f0e8 !important;
+    border: 1px solid #e5ddd0 !important;
+    border-radius: 10px !important;
+}
+
+/* ALL NUMPAD BUTTONS */
+
+.pos .numpad button,
+.pos .numpad .numpad-button {
+    min-width: 0 !important;
+    min-height: 39px !important;
+    height: 39px !important;
+    padding: 3px 4px !important;
+    margin: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+
+    border: 1px solid #e0e5e9 !important;
+    border-radius: 7px !important;
+
+    background: linear-gradient(
+        145deg,#fff,#f3f5f7
+    ) !important;
+
+    color: #45566a !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+
+    box-shadow: 0 1px 3px rgba(45,60,80,.045) !important;
+    transition: all .15s ease !important;
+}
+
+/* NUMBER ICONS */
+
+.pos .numpad button:nth-child(1)::before { content: "🔴"; }
+.pos .numpad button:nth-child(2)::before { content: "🟠"; }
+.pos .numpad button:nth-child(3)::before { content: "🟡"; }
+
+.pos .numpad button:nth-child(5)::before { content: "🟢"; }
+.pos .numpad button:nth-child(6)::before { content: "🔵"; }
+.pos .numpad button:nth-child(7)::before { content: "🟣"; }
+
+.pos .numpad button:nth-child(9)::before { content: "🟤"; }
+.pos .numpad button:nth-child(10)::before { content: "🔷"; }
+.pos .numpad button:nth-child(11)::before { content: "💠"; }
+
+.pos .numpad button:nth-child(14)::before { content: "⚪"; }
+
+/* NUMBER ICON SIZE */
+
+.pos .numpad button::before {
+    font-size: 9px !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+}
+
+/* QTY */
+
+.pos .numpad button:nth-child(4)::before {
+    content: "📦";
+}
+
+/* DISCOUNT */
+
+.pos .numpad button:nth-child(8)::before {
+    content: "🏷️";
+}
+
+/* PRICE */
+
+.pos .numpad button:nth-child(12)::before {
+    content: "💰";
+}
+
+.pos .numpad button:nth-child(4),
+.pos .numpad button:nth-child(8),
+.pos .numpad button:nth-child(12) {
+    background: linear-gradient(
+        145deg,#eaf1f8,#dfeaf4
+    ) !important;
+    color: #456d91 !important;
+    border-color: #d0dfeb !important;
+    font-size: 11px !important;
+    font-weight: 750 !important;
+}
+
+/* REFUND / PLUS MINUS */
+
+.pos .numpad button:nth-child(13)::before {
+    content: "↩️";
+    font-size: 15px !important;
+}
+
+.pos .numpad button:nth-child(13) {
+    background: linear-gradient(
+        145deg,#fff1d1,#f8e4ae
+    ) !important;
+    color: #98743b !important;
+    border-color: #ead39b !important;
+    font-size: 13px !important;
+    font-weight: 750 !important;
+}
+
+/* DECIMAL */
+
+.pos .numpad button:nth-child(15)::before {
+    content: "🔢";
+}
+
+.pos .numpad button:nth-child(15) {
+    background: linear-gradient(
+        145deg,#f8eee8,#f2e2d8
+    ) !important;
+    color: #a66d50 !important;
+    border-color: #ead8cc !important;
+}
+
+/* BACKSPACE */
+
+.pos .numpad button:nth-child(16)::before {
+    content: "⌫";
+    font-size: 16px !important;
+}
+
+.pos .numpad button:nth-child(16) {
+    background: linear-gradient(
+        145deg,#f9e6e6,#f3dada
+    ) !important;
+    color: #b45d63 !important;
+    border-color: #ebcaca !important;
+    font-size: 16px !important;
+}
+
+/* NUMPAD HOVER */
+
+.pos .numpad button:hover {
+    filter: brightness(.97) !important;
+    border-color: #c5d1dc !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 7px rgba(45,60,80,.08) !important;
+}
+
+.pos .numpad button:active {
+    transform: scale(.97) !important;
+    box-shadow: none !important;
+}
+
+/* SELECTED MODE */
+
+.pos .numpad button.active,
+.pos .numpad button.selected {
+    background: #dce9f4 !important;
+    color: #345b7c !important;
+    border-color: #a9c4da !important;
+}
+
+/* =========================================================
+   20. CUSTOMER BUTTON - COLORFUL ICON
+   ========================================================= */
+
+.pos .customer-button::before,
+.pos .button.customer-button::before,
+.pos button.set-partner::before,
+.pos .set-partner::before {
+    content: "👥" !important;
+    display: inline-block !important;
+    font-size: 18px !important;
+    margin-right: 7px !important;
+    vertical-align: middle !important;
+}
+
+/* CUSTOMER BUTTON */
+
+.pos .customer-button,
+.pos .button.customer-button,
+.pos button.set-partner,
+.pos .set-partner {
+    border-radius: 9px !important;
+}
+
+/* =========================================================
+   21. NOTES BUTTON - COLORFUL ICON
+   ========================================================= */
+
+.pos .set-note::before,
+.pos .button.set-note::before,
+.pos button.set-note::before {
+    content: "📝" !important;
+    display: inline-block !important;
+    font-size: 18px !important;
+    margin-right: 7px !important;
+    vertical-align: middle !important;
+}
+
+/* NOTES BUTTON */
+
+.pos .set-note,
+.pos .button.set-note,
+.pos button.set-note {
+    border-radius: 9px !important;
+}
+
+/* CUSTOMER & NOTES ALIGNMENT */
+
+.pos .customer-button,
+.pos .set-partner,
+.pos .set-note {
+    align-items: center !important;
+}
+
+/* =========================================================
+   22. RESPONSIVE DESIGN
+   ========================================================= */
 
 @media (max-width: 1100px) {
     .pos .product-screen .product-list {
-        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        grid-template-columns: repeat(4,minmax(0,1fr)) !important;
     }
 
     .pos .product-screen .product .product-img,
@@ -502,7 +776,7 @@
     }
 
     .pos .product-screen .product-list {
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        grid-template-columns: repeat(3,minmax(0,1fr)) !important;
     }
 
     .pos .product-screen .product .product-img,
@@ -511,192 +785,7 @@
         height: 130px !important;
         min-height: 130px !important;
     }
-}
 
-/* =========================================================
-   Q9SPORT POS 20
-   CLEAN PAYMENT BUTTONS + COMPACT PRICE & QUANTITY
-   ========================================================= */
-
-/* 1. PAYMENT BUTTONS */
-
-.pos .leftpane .actionpad {
-    gap: 7px !important;
-    padding: 3px 2px 10px !important;
-    margin-bottom: 6px !important;
-}
-
-.pos .leftpane .actionpad button,
-.pos .leftpane .actionpad .button {
-    min-height: 48px !important;
-    padding: 6px 8px !important;
-    margin-bottom: 4px !important;
-    border-radius: 10px !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-    box-shadow: 0 2px 5px rgba(45, 60, 80, .06) !important;
-    transition: all .18s ease !important;
-}
-
-/* PAYMENT - Lavender blue */
-
-.pos .leftpane .actionpad button:first-child {
-    background: linear-gradient(135deg, #e9eafa, #dce2f7) !important;
-    color: #4f6094 !important;
-    border: 1px solid #d1d8ef !important;
-}
-
-/* Payment icon */
-
-.pos .leftpane .actionpad button:first-child::before {
-    content: "🏦";
-    display: inline-block;
-    font-size: 19px;
-    margin-right: 7px;
-    vertical-align: middle;
-}
-
-/* CARD - Light blue */
-
-.pos .leftpane .actionpad button:nth-child(2) {
-    background: linear-gradient(135deg, #e8f3fb, #dcecf8) !important;
-    color: #397398 !important;
-    border: 1px solid #cbdfee !important;
-}
-
-/* Card icon */
-
-.pos .leftpane .actionpad button:nth-child(2)::before {
-    content: "💳";
-    display: inline-block;
-    font-size: 19px;
-    margin-right: 7px;
-    vertical-align: middle;
-}
-
-/* CASH - Soft green */
-
-.pos .leftpane .actionpad button:nth-child(3) {
-    background: linear-gradient(135deg, #eaf4e9, #dceedd) !important;
-    color: #477653 !important;
-    border: 1px solid #cfe2ce !important;
-}
-
-/* Cash icon */
-
-.pos .leftpane .actionpad button:nth-child(3)::before {
-    content: "💵";
-    display: inline-block;
-    font-size: 19px;
-    margin-right: 7px;
-    vertical-align: middle;
-}
-
-/* Payment hover */
-
-.pos .leftpane .actionpad button:hover {
-    transform: translateY(-1px) !important;
-    filter: brightness(.98) !important;
-    box-shadow: 0 4px 9px rgba(45, 60, 80, .09) !important;
-}
-
-.pos .leftpane .actionpad button:active {
-    transform: scale(.985) !important;
-}
-
-/* 2. PRICE AND QUANTITY - NUMBERS ONLY */
-
-/* Remove any previously added icons from price and quantity */
-
-.pos .orderline .price::before,
-.pos .orderline .price::after,
-.pos .orderline .qty::before,
-.pos .orderline .qty::after,
-.pos .orderline .quantity::before,
-.pos .orderline .quantity::after {
-    content: none !important;
-    display: none !important;
-}
-
-/* Price */
-
-.pos .orderline .price {
-    display: inline-block !important;
-    background: #edf2f8 !important;
-    color: #506b89 !important;
-
-    font-size: 10px !important;
-    font-weight: 700 !important;
-
-    padding: 2px 6px !important;
-    margin: 2px !important;
-    border: 1px solid #e0e8f0 !important;
-    border-radius: 5px !important;
-}
-
-/* Quantity */
-
-.pos .orderline .qty,
-.pos .orderline .quantity {
-    display: inline-block !important;
-    background: #edf4ed !important;
-    color: #52765a !important;
-
-    font-size: 10px !important;
-    font-weight: 750 !important;
-
-    padding: 2px 6px !important;
-    margin: 2px !important;
-    border: 1px solid #dce9dc !important;
-    border-radius: 5px !important;
-}
-
-/* 3. PLUS / MINUS AND LINE CONTROL BUTTONS */
-
-.pos .orderline button {
-    min-width: 22px !important;
-    min-height: 22px !important;
-
-    padding: 2px 5px !important;
-    margin: 1px !important;
-
-    background: #f0f3f6 !important;
-    color: #60758a !important;
-
-    border: 1px solid #e1e7ed !important;
-    border-radius: 5px !important;
-
-    font-size: 10px !important;
-    box-shadow: none !important;
-}
-
-.pos .orderline button:hover {
-    background: #e4ebf2 !important;
-    color: #405d78 !important;
-}
-
-/* 4. COMPACT ORDER LINES */
-
-.pos .orderline {
-    padding: 7px 8px 8px !important;
-    margin: 4px 6px !important;
-    border-radius: 9px !important;
-}
-
-.pos .orderline .product-name,
-.pos .orderline .product-name span {
-    font-size: 10.5px !important;
-    line-height: 1.35 !important;
-}
-
-.pos .orderline .info-list {
-    font-size: 9px !important;
-    margin: 3px 0 !important;
-}
-
-/* 5. RESPONSIVE */
-
-@media (max-width: 800px) {
     .pos .leftpane .actionpad button,
     .pos .leftpane .actionpad .button {
         min-height: 43px !important;
@@ -708,203 +797,32 @@
         font-size: 16px !important;
         margin-right: 4px !important;
     }
-}
 
-/* =========================================================
-   END
-   ========================================================= */
-
-/* =========================================================
-   Q9SPORT POS 20 - ROYAL COMPACT NUMPAD
-   NUMBERS / QTY / PRICE / +/- / BACKSPACE
-   ========================================================= */
-
-/* NUMPAD CONTAINER */
-
-.pos .numpad {
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 3px !important;
-
-    padding: 5px !important;
-    margin: 0 0 9px 0 !important;
-
-    background: #f4f0e8 !important;
-    border: 1px solid #e5ddd0 !important;
-    border-radius: 10px !important;
-}
-
-/* ALL NUMPAD BUTTONS */
-
-.pos .numpad button,
-.pos .numpad .numpad-button {
-    min-width: 0 !important;
-    min-height: 47px !important;
-    height: 47px !important;
-
-    padding: 4px !important;
-    margin: 0 !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    border: 1px solid #e0e5e9 !important;
-    border-radius: 7px !important;
-
-    background: linear-gradient(
-        145deg,
-        #ffffff,
-        #f3f5f7
-    ) !important;
-
-    color: #45566a !important;
-
-    font-size: 16px !important;
-    font-weight: 650 !important;
-
-    box-shadow: 0 1px 3px rgba(45, 60, 80, .045) !important;
-
-    transition: background .15s ease,
-                border-color .15s ease,
-                transform .15s ease !important;
-}
-
-/* NUMBER BUTTONS */
-
-.pos .numpad button:nth-child(1),
-.pos .numpad button:nth-child(2),
-.pos .numpad button:nth-child(3),
-.pos .numpad button:nth-child(5),
-.pos .numpad button:nth-child(6),
-.pos .numpad button:nth-child(7),
-.pos .numpad button:nth-child(9),
-.pos .numpad button:nth-child(10),
-.pos .numpad button:nth-child(11),
-.pos .numpad button:nth-child(14) {
-    background: linear-gradient(
-        145deg,
-        #ffffff,
-        #f1f4f7
-    ) !important;
-
-    color: #344b62 !important;
-}
-
-/* QTY / % / PRICE MODE BUTTONS */
-
-.pos .numpad button:nth-child(4),
-.pos .numpad button:nth-child(8),
-.pos .numpad button:nth-child(12) {
-    background: linear-gradient(
-        145deg,
-        #eaf1f8,
-        #dfeaf4
-    ) !important;
-
-    color: #456d91 !important;
-    border-color: #d0dfeb !important;
-
-    font-size: 13px !important;
-    font-weight: 750 !important;
-}
-
-/* +/- BUTTON */
-
-.pos .numpad button:nth-child(13) {
-    background: linear-gradient(
-        145deg,
-        #fff1d1,
-        #f8e4ae
-    ) !important;
-
-    color: #98743b !important;
-    border-color: #ead39b !important;
-
-    font-size: 15px !important;
-    font-weight: 750 !important;
-}
-
-/* DECIMAL BUTTON */
-
-.pos .numpad button:nth-child(15) {
-    background: linear-gradient(
-        145deg,
-        #f8eee8,
-        #f2e2d8
-    ) !important;
-
-    color: #a66d50 !important;
-    border-color: #ead8cc !important;
-}
-
-/* BACKSPACE BUTTON */
-
-.pos .numpad button:nth-child(16) {
-    background: linear-gradient(
-        145deg,
-        #f9e6e6,
-        #f3dada
-    ) !important;
-
-    color: #b45d63 !important;
-    border-color: #ebcaca !important;
-
-    font-size: 17px !important;
-}
-
-/* HOVER */
-
-.pos .numpad button:hover {
-    filter: brightness(.97) !important;
-    border-color: #c5d1dc !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 3px 7px rgba(45, 60, 80, .08) !important;
-}
-
-/* CLICK */
-
-.pos .numpad button:active {
-    transform: scale(.97) !important;
-    box-shadow: none !important;
-}
-
-/* SELECTED MODE */
-
-.pos .numpad button.active,
-.pos .numpad button.selected {
-    background: #dce9f4 !important;
-    color: #345b7c !important;
-    border-color: #a9c4da !important;
-}
-
-/* SMALL SCREEN */
-
-@media (max-width: 800px) {
     .pos .numpad {
         gap: 2px !important;
-        padding: 4px !important;
+        padding: 3px !important;
     }
 
     .pos .numpad button,
     .pos .numpad .numpad-button {
-        min-height: 40px !important;
-        height: 40px !important;
-        font-size: 14px !important;
+        min-height: 35px !important;
+        height: 35px !important;
+        font-size: 12px !important;
+        gap: 3px !important;
+    }
+
+    .pos .numpad button::before {
+        font-size: 9px !important;
     }
 
     .pos .numpad button:nth-child(4),
     .pos .numpad button:nth-child(8),
     .pos .numpad button:nth-child(12) {
-        font-size: 12px !important;
+        font-size: 11px !important;
     }
 }
 
 /* =========================================================
-   END ROYAL COMPACT NUMPAD
-   ========================================================= */
-
-
-/* =========================================================
-   END Q9SPORT ROYAL CHAMPAGNE DESIGN
+   END Q9SPORT POS 20
+   ROYAL CHAMPAGNE COMPLETE DESIGN
    ========================================================= */
