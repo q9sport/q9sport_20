@@ -514,5 +514,151 @@
 }
 
 /* =========================================================
+   17. ROYAL PAYMENT / CASH / CARD BUTTONS
+   Q9SPORT POS 20
+   ========================================================= */
+
+/* Common payment button style */
+
+.pos .leftpane .payment-buttons button,
+.pos .leftpane .payment-methods button,
+.pos .leftpane .paymentmethods button,
+.pos .leftpane button.pay,
+.pos .leftpane button.pay-order-button,
+.pos .leftpane .pay-order-button {
+    min-height: 68px !important;
+    border-radius: 13px !important;
+
+    border: 1px solid rgba(255,255,255,.65) !important;
+
+    font-size: 15px !important;
+    font-weight: 750 !important;
+    line-height: 1.35 !important;
+
+    padding: 10px 12px !important;
+
+    box-shadow:
+        0 4px 10px rgba(38, 54, 75, .09),
+        inset 0 1px 0 rgba(255,255,255,.35) !important;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease !important;
+}
+
+/* PAYMENT - Royal Navy & Champagne */
+
+.pos .leftpane button.pay,
+.pos .leftpane button.pay-order-button,
+.pos .leftpane .pay-order-button {
+    background: linear-gradient(
+        135deg,
+        #344b66 0%,
+        #26364b 100%
+    ) !important;
+
+    color: #fffaf0 !important;
+    border: 1px solid #b39768 !important;
+
+    box-shadow:
+        0 4px 12px rgba(38, 54, 75, .20),
+        inset 0 1px 0 rgba(255,255,255,.16) !important;
+}
+
+/* CARD - Soft Blue */
+
+.pos .leftpane .payment-buttons button:nth-child(2),
+.pos .leftpane .payment-methods button:nth-child(2),
+.pos .leftpane .paymentmethods button:nth-child(2) {
+    background: linear-gradient(
+        135deg,
+        #edf2f7 0%,
+        #dce6f0 100%
+    ) !important;
+
+    color: #344b66 !important;
+    border: 1px solid #c4d1df !important;
+
+    box-shadow:
+        0 3px 9px rgba(52, 75, 102, .09),
+        inset 0 1px 0 rgba(255,255,255,.85) !important;
+}
+
+/* CASH - Elegant Sage Green */
+
+.pos .leftpane .payment-buttons button:nth-child(3),
+.pos .leftpane .payment-methods button:nth-child(3),
+.pos .leftpane .paymentmethods button:nth-child(3) {
+    background: linear-gradient(
+        135deg,
+        #e8f0e9 0%,
+        #d7e6da 100%
+    ) !important;
+
+    color: #365b46 !important;
+    border: 1px solid #b9d0bd !important;
+
+    box-shadow:
+        0 3px 9px rgba(54, 91, 70, .09),
+        inset 0 1px 0 rgba(255,255,255,.85) !important;
+}
+
+/* Hover */
+
+.pos .leftpane .payment-buttons button:hover,
+.pos .leftpane .payment-methods button:hover,
+.pos .leftpane .paymentmethods button:hover,
+.pos .leftpane button.pay:hover,
+.pos .leftpane button.pay-order-button:hover {
+    transform: translateY(-2px) !important;
+
+    box-shadow:
+        0 7px 15px rgba(38, 54, 75, .14) !important;
+
+    filter: brightness(1.025) !important;
+}
+
+/* Active / Pressed */
+
+.pos .leftpane .payment-buttons button:active,
+.pos .leftpane .payment-methods button:active,
+.pos .leftpane .paymentmethods button:active,
+.pos .leftpane button.pay:active,
+.pos .leftpane button.pay-order-button:active {
+    transform: translateY(0) scale(.985) !important;
+}
+
+/* Button text */
+
+.pos .leftpane .payment-buttons button span,
+.pos .leftpane .payment-methods button span,
+.pos .leftpane .paymentmethods button span {
+    font-weight: 750 !important;
+    letter-spacing: .1px !important;
+}
+
+/* Responsive */
+
+@media (max-width: 800px) {
+    .pos .leftpane .payment-buttons button,
+    .pos .leftpane .payment-methods button,
+    .pos .leftpane .paymentmethods button,
+    .pos .leftpane button.pay,
+    .pos .leftpane button.pay-order-button {
+        min-height: 56px !important;
+        font-size: 13px !important;
+        padding: 8px !important;
+        border-radius: 11px !important;
+    }
+}
+
+/* =========================================================
+   END ROYAL PAYMENT BUTTONS
+   ========================================================= */
+
+
+/* =========================================================
    END Q9SPORT ROYAL CHAMPAGNE DESIGN
    ========================================================= */
