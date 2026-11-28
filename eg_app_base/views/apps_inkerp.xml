@@ -1,0 +1,179 @@
+<odoo>
+    <record id="app_data_inkerp_list_view" model="ir.ui.view">
+        <field name="name">app.data.inkerp.list.view</field>
+        <field name="model">app.data.inkerp</field>
+        <field name="arch" type="xml">
+            <list create="false">
+                <field name="name"/>
+                <field name="technical_name"/>
+                <field name="icon"/>
+                <field name="app_status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="app_data_inkerp_form_view" model="ir.ui.view">
+        <field name="name">app.data.inkerp.form.view</field>
+        <field name="model">app.data.inkerp</field>
+        <field name="arch" type="xml">
+            <form string="Guest" create="0" edit="0">
+                <sheet>
+                    <field name="id" invisible="True"/>
+                    <field name="app_status" invisible="True"/>
+                    <field name="icon" widget="image" class="oe_avatar" options="{'preview_image': 'icon'}"/>
+                    <div class="oe_title">
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="name"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <div>
+                        <button invisible="app_status in ['installed', 'need_buy']"
+                                type="object"
+                                class="mx-2 btn btn-primary"
+                                name="button_install">Install
+                        </button>
+                        <button invisible="app_status in ['installable', 'need_buy']"
+                                type="object"
+                                class="mx-2 btn btn-primary"
+                                name="button_uninstall">Uninstall
+                        </button>
+                        <button invisible="app_status in ['installed', 'installable']"
+                                type="object"
+                                class="mx-2 btn btn-primary"
+                                name="button_buy">Buy App
+                        </button>
+                        <button type="object" class="btn btn-secondary"
+                                name="button_contact_us" title="Contact us to build app in 50%">Contact us
+                        </button>
+                    </div>
+                    <notebook>
+                        <page string="Information" name="information">
+                            <group>
+                                <!--                        <field name="name"/>-->
+                                <field name="is_odoo" invisible="True"/>
+                                <field name="app_url" widget="url"/>
+                                <field name="category_id"
+                                       options="{'no_create': True,'no_open': True,'no_create_edit' : True}"
+                                       domain="[('parent_id', '=', False)]"/>
+                                <field name="technical_name"/>
+                                <field name="icon_name" invisible="1"/>
+                                <field name="is_free"/>
+                                <field name="offer_end"/>
+                            </group>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="app_data_inkerp_kanban_view" model="ir.ui.view">
+        <field name="name">rating.app.data.inkerp.kanban.view</field>
+        <field name="model">app.data.inkerp</field>
+        <field name="arch" type="xml">
+            <kanban create="false" can_open="0" class="o_modules_kanban">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="technical_name"/>
+                <field name="icon"/>
+                <field name="app_status"/>
+                <field name="offer_end"/>
+                <field name="is_offer"/>
+                <templates>
+                    <t t-name="menu">
+                        <a t-if="record.app_status.raw_value == 'installed'" name="button_upgrade"
+                           type="object" role="menuitem" class="dropdown-item">Upgrade
+                        </a>
+                        <a type="open" class="dropdown-item">Module Info</a>
+                        <a name="button_contact_us" type="object"
+                           role="menuitem" class="dropdown-item">Contact us
+                        </a>
+                    </t>
+                    <t t-name="card" class="p-2 flex-row align-items-center">
+                        <div class="oe_kanban_card_ribbon eg_custom_kanban_card_ribbon">
+                            <div groups="base.group_no_one" t-if="record.is_offer.raw_value"
+                                 class="ribbon ribbon-top-right">
+                                <field name="offer_price"/>
+                            </div>
+                        </div>
+                        <aside class="m-2 pt-2">
+                            <field name="icon" widget="image"/>
+                            <div t-if="record.is_offer.raw_value">
+                                <span class="eg_base_app_blink my-2" groups="base.group_no_one">
+                                    <s>
+                                        <field name="actual_price"/>
+                                    </s>
+                                </span>
+                            </div>
+                            <div t-else="" class="mt-1 mb-1" groups="base.group_no_one">
+                                <field name="offer_price"/>
+                            </div>
+                        </aside>
+                        <main class="mx-2 py-2" t-att-title="record.name.value">
+                            <field class="fw-bold fs-5" name="name"/>
+                            <p class="text-muted small my-0 lh-sm text-success">
+                                <code groups="base.group_no_one">
+                                    <field name="technical_name"/>
+                                </code>
+                            </p>
+                            <div class="text-danger mb-1"
+                                 t-if="record.is_offer.raw_value and record.offer_end.raw_value">
+                                Offer End Date :
+                                <field name="offer_end"/>
+                            </div>
+                            <footer class="w-100 justify-content-between">
+                                <button t-if="record.app_status.raw_value == 'installable'" type="object"
+                                        class="btn btn-sm btn-primary" groups="base.group_system"
+                                        name="button_install">Install
+                                </button>
+                                <button t-if="record.app_status.raw_value == 'installed'" type="object"
+                                        class="btn btn-sm btn-primary" groups="base.group_system"
+                                        name="button_uninstall">Uninstall
+                                </button>
+                                <button t-if="record.app_status.raw_value == 'need_buy'" type="object"
+                                        class="btn btn-sm btn-primary" name="button_buy">Buy Now
+                                </button>
+                                <button type="object" class="btn btn-sm btn-secondary"
+                                        name="button_contact_us" title="Contact us to build app in 50%">Contact us
+                                </button>
+                            </footer>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_module_filter_inkerp_apps" model="ir.ui.view">
+        <field name="name">view.module.filter.inkerp.apps</field>
+        <field name="model">app.data.inkerp</field>
+        <field name="arch" type="xml">
+            <search string="Search modules">
+                <field name="name" string="Module"
+                       filter_domain="['|','|',('summary', 'ilike', self),('name', 'ilike', self),('technical_name', 'ilike', self)]"/>
+                <separator/>
+                <filter string="Installed" name="installed" domain="[('app_status', '=', 'installed')]"/>
+                <filter string="Available" name="installable" domain="[('app_status', '=', 'installable')]"/>
+                <filter string="Buy" name="buy" domain="[('app_status', '=', 'need_buy')]"/>
+                <field name="category_id"/>
+                <field name="special_category_id"/>
+                <searchpanel>
+                    <field name="category_id" string="Categories" enable_counters="1"/>
+                    <field name="special_category_id" string="Special Category" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+    <record id="action_app_data_inkerp" model="ir.actions.act_window">
+        <field name="name">INKERP Apps</field>
+        <field name="res_model">app.data.inkerp</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_module_filter_inkerp_apps"/>
+    </record>
+    <menuitem id="main_menu_apps_inkerp" name="INKERP Apps" parent="base.menu_management"
+              action="action_app_data_inkerp" groups="base.group_user" sequence="50"/>
+    <menuitem id="menu_apps_inkerp" name="INKERP Apps" sequence="1"
+              parent="main_menu_apps_inkerp" action="action_app_data_inkerp"/>
+</odoo>
