@@ -1,102 +1,517 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
-    <!-- ================================================= -->
-    <!-- DELIVERY BUTTON STYLES                             -->
-    <!-- ================================================= -->
+    <!-- =====================================================
+         Q9SPORT POS 20
+         ROYAL SOFT GLASS - COLORFUL NAVBAR
+         ===================================================== -->
 
     <t t-name="pos_delivery_driver.DeliveryButtonStyles">
         <style>
+
+            :root {
+                --q9-navy: #344f70;
+                --q9-blue: #527fae;
+                --q9-green: #398d68;
+                --q9-teal: #287d78;
+                --q9-gold: #c6a15b;
+                --q9-border: #dce5ef;
+            }
+
+            /* =================================================
+               01 - REGISTER BUTTON
+               ================================================= */
+
+            .pos .q9-register-btn {
+                height: 40px !important;
+                min-height: 40px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 7px !important;
+                padding: 0 13px !important;
+                margin: 0 3px !important;
+                border: 1px solid #b8ddd5 !important;
+                border-radius: 10px !important;
+                background: linear-gradient(135deg, #e9f7f3, #d9eee8) !important;
+                color: #246d65 !important;
+                font-size: 13px !important;
+                font-weight: 700 !important;
+                box-shadow: 0 2px 6px rgba(35,100,90,.06) !important;
+            }
+
+            .pos .q9-register-btn::before {
+                content: "🏪" !important;
+                display: inline-block !important;
+                font-size: 19px !important;
+                line-height: 1 !important;
+            }
+
+            .pos .q9-register-btn:hover {
+                background: #d3ece4 !important;
+                border-color: #8dc9bb !important;
+            }
+
+            /* =================================================
+               02 - ORDERS BUTTON
+               ================================================= */
+
+            .pos .pos-leftheader button.orders-button {
+                height: 40px !important;
+                min-height: 40px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 7px !important;
+                padding: 0 13px !important;
+                margin: 0 3px !important;
+                border: 1px solid #d0dbea !important;
+                border-radius: 10px !important;
+                background: linear-gradient(135deg, #f0f4fa, #e5ecf6) !important;
+                color: #344f70 !important;
+                font-size: 13px !important;
+                font-weight: 700 !important;
+                box-shadow: 0 2px 6px rgba(45,70,100,.05) !important;
+            }
+
+            .pos .pos-leftheader button.orders-button::before {
+                content: "📦" !important;
+                display: inline-block !important;
+                font-size: 18px !important;
+                line-height: 1 !important;
+            }
+
+            .pos .pos-leftheader button.orders-button:hover {
+                background: #dce8f5 !important;
+                border-color: #b5c9df !important;
+            }
+
+            /* =================================================
+               03 - ONLINE ORDERS BUTTON
+               ================================================= */
 
             .delivery-orders-royal-btn {
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                width: 38px !important;
-                min-width: 38px !important;
-                height: 38px !important;
-                min-height: 38px !important;
-                padding: 0 !important;
-                margin: 0 4px !important;
+                gap: 7px !important;
+                height: 40px !important;
+                min-height: 40px !important;
+                min-width: 155px !important;
+                width: auto !important;
+                padding: 0 13px !important;
+                margin: 0 5px !important;
                 box-sizing: border-box !important;
-                flex: 0 0 38px !important;
-                border: 1px solid #c6a15b !important;
-                border-radius: 8px !important;
-                background: #304b6b !important;
-                color: #e5c17e !important;
+                flex: 0 0 auto !important;
+                border: 1px solid #cbd9e9 !important;
+                border-radius: 10px !important;
+                background: linear-gradient(135deg, #edf5fd, #dceafa) !important;
+                color: #344f70 !important;
+                font-size: 12px !important;
+                font-weight: 750 !important;
+                box-shadow: 0 2px 7px rgba(43,69,100,.07) !important;
                 cursor: pointer !important;
+                transition: all .2s ease !important;
             }
 
             .delivery-orders-royal-btn:hover {
-                background: #243a55 !important;
-                border-color: #e5c17e !important;
+                background: linear-gradient(135deg, #e1edf9, #cfdef0) !important;
+                border-color: #c6a15b !important;
+                color: #263f5d !important;
+                transform: translateY(-1px);
             }
 
-            .delivery-follow-btn {
-                display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                width: 32px !important;
-                min-width: 32px !important;
-                height: 32px !important;
-                min-height: 32px !important;
-                padding: 0 !important;
-                margin: 0 auto !important;
-                box-sizing: border-box !important;
-                flex: 0 0 32px !important;
-                border: 1px solid #c6a15b !important;
-                border-radius: 7px !important;
-                background: #304b6b !important;
-                color: #e5c17e !important;
-                cursor: pointer !important;
-            }
-
-            .delivery-follow-btn:hover {
-                background: #243a55 !important;
-            }
-
-            .delivery-svg-icon {
-                display: block !important;
-                width: 22px !important;
-                height: 22px !important;
-                min-width: 22px !important;
-                min-height: 22px !important;
-                fill: none !important;
-                stroke: #e5c17e !important;
-                stroke-width: 1.8 !important;
-                stroke-linecap: round !important;
-                stroke-linejoin: round !important;
+            .delivery-orders-royal-btn .q9-online-emoji {
+                display: inline-block !important;
+                font-size: 18px !important;
+                line-height: 1 !important;
                 opacity: 1 !important;
                 visibility: visible !important;
                 flex-shrink: 0 !important;
             }
 
-            .delivery-follow-btn .delivery-svg-icon {
-                width: 19px !important;
-                height: 19px !important;
-                min-width: 19px !important;
-                min-height: 19px !important;
+            .delivery-online-text {
+                display: inline-block !important;
+                font-size: 12px !important;
+                font-weight: 750 !important;
+                white-space: nowrap !important;
+                line-height: 1 !important;
             }
 
-            .delivery-orders-royal-btn:hover .delivery-svg-icon,
-            .delivery-follow-btn:hover .delivery-svg-icon {
-                stroke: #ffffff !important;
+            .delivery-orders-royal-btn .delivery-online-icon {
+                display: none !important;
+            }
+
+            /* =================================================
+               04 - NEW ORDER PLUS BUTTON
+               FIXED SIZE: 44 x 40
+               ================================================= */
+
+            .pos button.list-plus-btn {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+
+                width: 44px !important;
+                min-width: 44px !important;
+                max-width: 44px !important;
+
+                height: 40px !important;
+                min-height: 40px !important;
+                max-height: 40px !important;
+
+                padding: 0 !important;
+                margin: 0 3px !important;
+
+                box-sizing: border-box !important;
+
+                border: 1px solid #c5e2cd !important;
+                border-radius: 10px !important;
+
+                background: linear-gradient(
+                    135deg,
+                    #eff8f1,
+                    #dcefe2
+                ) !important;
+
+                color: #29945e !important;
+
+                box-shadow: 0 2px 7px rgba(40,130,80,.09) !important;
+
+                transition: all .2s ease !important;
+            }
+
+            .pos button.list-plus-btn i.oi[data-icon="add_circle"] {
+                display: inline-block !important;
+                font-size: 21px !important;
+                line-height: 1 !important;
+                color: #29945e !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+
+            .pos button.list-plus-btn:hover {
+                background: linear-gradient(
+                    135deg,
+                    #dff2e4,
+                    #cce9d5
+                ) !important;
+
+                border-color: #85c59a !important;
+                color: #237b4c !important;
+                box-shadow: 0 3px 9px rgba(40,130,80,.14) !important;
+                transform: translateY(-1px);
+            }
+
+            .pos button.list-plus-btn:active {
+                transform: scale(.96) !important;
+            }
+
+            /* =================================================
+               05 - ORDER LINE CONTROLS
+               ================================================= */
+
+            /* QUANTITY PLUS / MINUS */
+
+            .pos .orderline button,
+            .pos .orderline .control-button,
+            .pos .orderline .btn {
+                width: 25px !important;
+                min-width: 25px !important;
+                height: 25px !important;
+                min-height: 25px !important;
+
+                padding: 0 !important;
+                margin: 2px !important;
+
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+
+                background: rgba(224,233,241,.85) !important;
+                color: #36536d !important;
+
+                border: 1px solid #d4e0e9 !important;
+                border-radius: 7px !important;
+
+                font-size: 11px !important;
+                line-height: 1 !important;
+                box-shadow: none !important;
+            }
+
+            .pos .orderline button:hover,
+            .pos .orderline .control-button:hover {
+                background: #d7e5ef !important;
+                color: #183b59 !important;
+            }
+
+            /* ORDER LINE CARD */
+
+            .pos .orderline {
+                padding: 8px 9px !important;
+                margin: 4px 6px !important;
+                background: rgba(239,244,248,.72) !important;
+                border: 1px solid rgba(204,218,230,.8) !important;
+                border-radius: 9px !important;
+                box-shadow: none !important;
+            }
+
+            /* PRODUCT NAME */
+
+            .pos .orderline .product-name,
+            .pos .orderline .product-name span {
+                font-size: 11px !important;
+                line-height: 1.4 !important;
+                font-weight: 600 !important;
+                color: #29445d !important;
+            }
+
+            /* PRODUCT DETAILS */
+
+            .pos .orderline .info-list {
+                font-size: 9px !important;
+                line-height: 1.4 !important;
+                margin: 3px 0 !important;
+                color: #718397 !important;
+            }
+
+            /* =================================================
+               06 - CURRENT ORDER BUTTON
+               DYNAMIC ORDER NUMBER
+               FIXED HEIGHT: 40
+               ================================================= */
+
+            .pos .floating-order-container {
+                display: inline-flex !important;
+                align-items: center !important;
+            }
+
+            .pos .floating-order-container > button {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+
+                gap: 7px !important;
+
+                height: 40px !important;
+                min-height: 40px !important;
+                max-height: 40px !important;
+
+                min-width: 90px !important;
+                width: auto !important;
+
+                padding: 0 12px !important;
+                margin: 0 3px !important;
+
+                box-sizing: border-box !important;
+
+                border: 1px solid #a9d9ce !important;
+                border-radius: 10px !important;
+
+                background: linear-gradient(
+                    135deg,
+                    #e8f6f1,
+                    #d5ece4
+                ) !important;
+
+                color: #246d65 !important;
+
+                font-size: 14px !important;
+                font-weight: 800 !important;
+
+                box-shadow: 0 2px 7px rgba(35,100,75,.08) !important;
+
+                transition: all .2s ease !important;
+
+                white-space: nowrap !important;
+                overflow: visible !important;
+                text-overflow: clip !important;
+            }
+
+            /* SHOPPING BAG ICON */
+
+            .pos .floating-order-container > button::before {
+                content: "🛒" !important;
+                display: inline-block !important;
+                font-size: 17px !important;
+                line-height: 1 !important;
+                flex-shrink: 0 !important;
+            }
+
+            /* CURRENT ORDER HOVER */
+
+            .pos .floating-order-container > button:hover {
+                background: linear-gradient(
+                    135deg,
+                    #d9f0e7,
+                    #cce9df
+                ) !important;
+
+                border-color: #86c7b4 !important;
+                color: #1d6358 !important;
+                box-shadow: 0 3px 9px rgba(35,100,75,.12) !important;
+                transform: translateY(-1px);
+            }
+
+            .pos .floating-order-container > button:active {
+                transform: scale(.97) !important;
+            }
+
+            /* =================================================
+               07 - COMMON BUTTON HOVER
+               ================================================= */
+
+            .pos .pos-leftheader button,
+            .pos .pos-rightheader button {
+                transition:
+                    background .2s ease,
+                    border-color .2s ease,
+                    box-shadow .2s ease !important;
+            }
+
+            /* =================================================
+               08 - DELIVERY FOLLOW BUTTON
+               ================================================= */
+
+            .delivery-follow-btn {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+
+                width: 34px !important;
+                min-width: 34px !important;
+
+                height: 34px !important;
+                min-height: 34px !important;
+
+                padding: 0 !important;
+                margin: 0 auto !important;
+
+                border: 1px solid #d1dce9 !important;
+                border-radius: 9px !important;
+
+                background: #edf3fa !important;
+                color: #31577f !important;
+
+                cursor: pointer !important;
+            }
+
+            .delivery-follow-btn:hover {
+                background: #304b6b !important;
+                color: #f1d49a !important;
+            }
+
+            .delivery-svg-icon {
+                display: block !important;
+                width: 19px !important;
+                height: 19px !important;
+                fill: none !important;
+                stroke: currentColor !important;
+                stroke-width: 1.8 !important;
+                stroke-linecap: round !important;
+                stroke-linejoin: round !important;
+                flex-shrink: 0 !important;
+            }
+
+            /* =================================================
+               09 - RESPONSIVE
+               ================================================= */
+
+            @media (max-width: 800px) {
+                .pos .leftpane .actionpad button,
+                .pos .leftpane .actionpad .button {
+                    min-height: 43px !important;
+                    font-size: 11px !important;
+                    padding: 5px !important;
+                }
+
+                .pos .leftpane .actionpad button::before {
+                    font-size: 16px !important;
+                    margin-right: 4px !important;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .delivery-orders-royal-btn {
+                    min-width: 42px !important;
+                    padding: 0 8px !important;
+                    gap: 4px !important;
+                }
+
+                .delivery-online-text {
+                    font-size: 11px !important;
+                }
+
+                .delivery-orders-royal-btn .q9-online-emoji {
+                    font-size: 16px !important;
+                }
+
+                .pos .q9-register-btn,
+                .pos .pos-leftheader button.orders-button {
+                    padding: 0 8px !important;
+                    font-size: 11px !important;
+                }
+
+                /* PLUS BUTTON MOBILE */
+
+                .pos button.list-plus-btn {
+                    width: 44px !important;
+                    min-width: 44px !important;
+                    max-width: 44px !important;
+                    height: 40px !important;
+                    min-height: 40px !important;
+                    max-height: 40px !important;
+                    margin: 0 3px !important;
+                }
+
+                .pos button.list-plus-btn i.oi[data-icon="add_circle"] {
+                    font-size: 21px !important;
+                }
+
+                /* CURRENT ORDER MOBILE */
+
+                .pos .floating-order-container > button {
+                    height: 40px !important;
+                    min-height: 40px !important;
+                    max-height: 40px !important;
+                    min-width: 90px !important;
+                    padding: 0 10px !important;
+                    font-size: 14px !important;
+                }
+
+                .pos .floating-order-container > button::before {
+                    font-size: 17px !important;
+                }
             }
 
         </style>
     </t>
 
-
-    <!-- ================================================= -->
-    <!-- NAVBAR                                             -->
-    <!-- ================================================= -->
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
 
     <t t-inherit="point_of_sale.Navbar"
        t-inherit-mode="extension">
 
+        <!-- LOAD STYLES -->
+
         <xpath expr="." position="inside">
             <t t-call="pos_delivery_driver.DeliveryButtonStyles"/>
         </xpath>
+
+        <!-- REGISTER BUTTON -->
+
+        <xpath expr="//button[hasclass('orders-button')]/preceding-sibling::button[1]"
+               position="attributes">
+
+            <attribute name="class"
+                       add="q9-register-btn"
+                       separator=" "/>
+
+        </xpath>
+
+        <!-- ONLINE ORDERS -->
 
         <xpath expr="//button[hasclass('orders-button')]"
                position="after">
@@ -105,20 +520,15 @@
                 type="button"
                 class="btn delivery-orders-royal-btn"
                 t-on-click="() => this.onDeliveryOrdersClick()"
-                title="Delivery Orders"
-                aria-label="Delivery Orders">
+                title="Online Orders"
+                aria-label="Online Orders">
 
-                <svg class="delivery-svg-icon"
-                     viewBox="0 0 24 24"
-                     xmlns="http://www.w3.org/2000/svg"
-                     aria-hidden="true">
+                <span class="q9-online-emoji">🌐</span>
+                <span class="q9-online-emoji">🛍️</span>
 
-                    <path d="M3 7h11v11H3z"/>
-                    <path d="M14 11h4l3 3v4h-7z"/>
-                    <circle cx="7.5" cy="19" r="2"/>
-                    <circle cx="17.5" cy="19" r="2"/>
-                    <path d="M5 7l1-3h7l1 3"/>
-                </svg>
+                <span class="delivery-online-text">
+                    Online Orders
+                </span>
 
             </button>
 
@@ -126,10 +536,9 @@
 
     </t>
 
-
-    <!-- ================================================= -->
-    <!-- TICKET SCREEN                                      -->
-    <!-- ================================================= -->
+    <!-- =====================================================
+         TICKET SCREEN
+         ===================================================== -->
 
     <t t-inherit="point_of_sale.TicketScreen"
        t-inherit-mode="extension">
@@ -154,15 +563,17 @@
 
                     <path d="M3 7h11v11H3z"/>
                     <path d="M14 11h4l3 3v4h-7z"/>
+
                     <circle cx="7.5" cy="19" r="2"/>
                     <circle cx="17.5" cy="19" r="2"/>
+
                     <path d="M5 7l1-3h7l1 3"/>
+
                 </svg>
 
             </button>
 
         </xpath>
-
 
         <!-- MOBILE -->
 
@@ -184,9 +595,12 @@
 
                     <path d="M3 7h11v11H3z"/>
                     <path d="M14 11h4l3 3v4h-7z"/>
+
                     <circle cx="7.5" cy="19" r="2"/>
                     <circle cx="17.5" cy="19" r="2"/>
+
                     <path d="M5 7l1-3h7l1 3"/>
+
                 </svg>
 
             </button>
