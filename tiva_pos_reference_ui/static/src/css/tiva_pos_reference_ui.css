@@ -513,151 +513,201 @@
     }
 }
 
+
 /* =========================================================
-   17. ROYAL PAYMENT / CASH / CARD BUTTONS
-   Q9SPORT POS 20
+   Q9SPORT - MINIMAL ROYAL ACTION BUTTONS
+   Customer / Note / Payment / Card / Cash
    ========================================================= */
 
-/* Common payment button style */
-
-.pos .leftpane .payment-buttons button,
-.pos .leftpane .payment-methods button,
-.pos .leftpane .paymentmethods button,
-.pos .leftpane button.pay,
-.pos .leftpane button.pay-order-button,
-.pos .leftpane .pay-order-button {
-    min-height: 68px !important;
-    border-radius: 13px !important;
-
-    border: 1px solid rgba(255,255,255,.65) !important;
-
-    font-size: 15px !important;
-    font-weight: 750 !important;
-    line-height: 1.35 !important;
-
-    padding: 10px 12px !important;
-
-    box-shadow:
-        0 4px 10px rgba(38, 54, 75, .09),
-        inset 0 1px 0 rgba(255,255,255,.35) !important;
-
-    transition:
-        background .2s ease,
-        border-color .2s ease,
-        box-shadow .2s ease,
-        transform .2s ease !important;
+/* Small spacing below the action buttons */
+.pos .leftpane .actionpad {
+    padding-bottom: 7px !important;
+    margin-bottom: 5px !important;
+    gap: 7px !important;
 }
 
-/* PAYMENT - Royal Navy & Champagne */
+/* Top buttons: Customer / Note */
+.pos .leftpane .control-buttons button,
+.pos .leftpane .control-buttons .button {
+    min-height: 43px !important;
+    padding: 7px 12px !important;
 
-.pos .leftpane button.pay,
-.pos .leftpane button.pay-order-button,
-.pos .leftpane .pay-order-button {
+    border-radius: 10px 10px 7px 10px !important;
+    border: 1px solid #dce1e6 !important;
+
     background: linear-gradient(
         135deg,
-        #344b66 0%,
-        #26364b 100%
+        #f8fafb,
+        #edf1f4
     ) !important;
 
-    color: #fffaf0 !important;
-    border: 1px solid #b39768 !important;
+    color: #46566a !important;
+    font-size: 13px !important;
+    font-weight: 650 !important;
 
-    box-shadow:
-        0 4px 12px rgba(38, 54, 75, .20),
-        inset 0 1px 0 rgba(255,255,255,.16) !important;
+    box-shadow: 0 2px 5px rgba(45, 60, 80, .045) !important;
+    transition: all .18s ease !important;
 }
 
-/* CARD - Soft Blue */
-
-.pos .leftpane .payment-buttons button:nth-child(2),
-.pos .leftpane .payment-methods button:nth-child(2),
-.pos .leftpane .paymentmethods button:nth-child(2) {
-    background: linear-gradient(
-        135deg,
-        #edf2f7 0%,
-        #dce6f0 100%
-    ) !important;
-
-    color: #344b66 !important;
-    border: 1px solid #c4d1df !important;
-
-    box-shadow:
-        0 3px 9px rgba(52, 75, 102, .09),
-        inset 0 1px 0 rgba(255,255,255,.85) !important;
+/* Top buttons hover */
+.pos .leftpane .control-buttons button:hover,
+.pos .leftpane .control-buttons .button:hover {
+    background: #e8eef3 !important;
+    border-color: #bdcbd8 !important;
+    transform: translateY(-1px) !important;
 }
 
-/* CASH - Elegant Sage Green */
+/* Utility icon buttons: upload / menu */
+.pos .leftpane .control-buttons button:has(i),
+.pos .leftpane .control-buttons button:has(svg) {
+    min-width: 42px !important;
+    min-height: 42px !important;
+    padding: 7px !important;
+    border-radius: 10px !important;
+    color: #52677d !important;
+}
 
-.pos .leftpane .payment-buttons button:nth-child(3),
-.pos .leftpane .payment-methods button:nth-child(3),
-.pos .leftpane .paymentmethods button:nth-child(3) {
+/* Bottom action buttons */
+.pos .leftpane .actionpad button,
+.pos .leftpane .actionpad .button {
+    position: relative !important;
+    min-height: 54px !important;
+    min-width: 0 !important;
+
+    padding: 8px 9px !important;
+    margin-bottom: 5px !important;
+
+    border-radius: 12px 12px 8px 12px !important;
+    border: 1px solid transparent !important;
+
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+
+    box-shadow: 0 2px 6px rgba(45, 60, 80, .055) !important;
+    transition: all .18s ease !important;
+
+    overflow: hidden !important;
+}
+
+/* Payment - soft royal blue */
+.pos .leftpane .actionpad .pay,
+.pos .leftpane .actionpad button.pay {
     background: linear-gradient(
-        135deg,
-        #e8f0e9 0%,
-        #d7e6da 100%
+        130deg,
+        #647f9c,
+        #506b88
     ) !important;
 
-    color: #365b46 !important;
-    border: 1px solid #b9d0bd !important;
+    color: #ffffff !important;
+    border-color: #7890a8 !important;
+}
 
-    box-shadow:
-        0 3px 9px rgba(54, 91, 70, .09),
-        inset 0 1px 0 rgba(255,255,255,.85) !important;
+/* Payment icon */
+.pos .leftpane .actionpad .pay::before,
+.pos .leftpane .actionpad button.pay::before {
+    content: "▣";
+    display: inline-block;
+    margin-right: 7px;
+    font-size: 15px;
+    vertical-align: middle;
+    color: #f3dfb8;
+}
+
+/* Card - light blue */
+.pos .leftpane .actionpad button:nth-child(2) {
+    background: linear-gradient(
+        135deg,
+        #edf3f8,
+        #e2ebf3
+    ) !important;
+
+    color: #49647e !important;
+    border-color: #d1dfe9 !important;
+}
+
+/* Card icon */
+.pos .leftpane .actionpad button:nth-child(2)::before {
+    content: "▤";
+    display: inline-block;
+    margin-right: 6px;
+    font-size: 15px;
+    vertical-align: middle;
+    color: #6686a4;
+}
+
+/* Cash - soft sage */
+.pos .leftpane .actionpad button:nth-child(3) {
+    background: linear-gradient(
+        135deg,
+        #edf4ee,
+        #e2eee5
+    ) !important;
+
+    color: #4c7059 !important;
+    border-color: #d0e2d3 !important;
+}
+
+/* Cash icon */
+.pos .leftpane .actionpad button:nth-child(3)::before {
+    content: "◉";
+    display: inline-block;
+    margin-right: 6px;
+    font-size: 15px;
+    vertical-align: middle;
+    color: #71977a;
+}
+
+/* Subtle curved / diagonal accent */
+.pos .leftpane .actionpad button::after {
+    content: "";
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    right: -15px;
+    bottom: -19px;
+
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: .10;
+
+    pointer-events: none;
 }
 
 /* Hover */
-
-.pos .leftpane .payment-buttons button:hover,
-.pos .leftpane .payment-methods button:hover,
-.pos .leftpane .paymentmethods button:hover,
-.pos .leftpane button.pay:hover,
-.pos .leftpane button.pay-order-button:hover {
+.pos .leftpane .actionpad button:hover {
     transform: translateY(-2px) !important;
-
-    box-shadow:
-        0 7px 15px rgba(38, 54, 75, .14) !important;
-
-    filter: brightness(1.025) !important;
+    box-shadow: 0 5px 11px rgba(45, 60, 80, .10) !important;
 }
 
-/* Active / Pressed */
-
-.pos .leftpane .payment-buttons button:active,
-.pos .leftpane .payment-methods button:active,
-.pos .leftpane .paymentmethods button:active,
-.pos .leftpane button.pay:active,
-.pos .leftpane button.pay-order-button:active {
-    transform: translateY(0) scale(.985) !important;
+/* Press */
+.pos .leftpane .actionpad button:active {
+    transform: scale(.98) !important;
 }
 
-/* Button text */
-
-.pos .leftpane .payment-buttons button span,
-.pos .leftpane .payment-methods button span,
-.pos .leftpane .paymentmethods button span {
-    font-weight: 750 !important;
-    letter-spacing: .1px !important;
+/* Keep text and icons centered */
+.pos .leftpane .actionpad button span {
+    vertical-align: middle !important;
 }
 
 /* Responsive */
-
 @media (max-width: 800px) {
-    .pos .leftpane .payment-buttons button,
-    .pos .leftpane .payment-methods button,
-    .pos .leftpane .paymentmethods button,
-    .pos .leftpane button.pay,
-    .pos .leftpane button.pay-order-button {
-        min-height: 56px !important;
-        font-size: 13px !important;
-        padding: 8px !important;
-        border-radius: 11px !important;
+    .pos .leftpane .actionpad button,
+    .pos .leftpane .actionpad .button {
+        min-height: 47px !important;
+        font-size: 12px !important;
+        padding: 6px !important;
+    }
+
+    .pos .leftpane .control-buttons button {
+        min-height: 39px !important;
+        font-size: 12px !important;
     }
 }
 
 /* =========================================================
-   END ROYAL PAYMENT BUTTONS
+   END MINIMAL ROYAL ACTION BUTTONS
    ========================================================= */
-
 
 /* =========================================================
    END Q9SPORT ROYAL CHAMPAGNE DESIGN
