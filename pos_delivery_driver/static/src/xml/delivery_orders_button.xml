@@ -2,85 +2,164 @@
 <templates xml:space="preserve">
 
     <!-- ================================================= -->
-    <!-- DELIVERY BUTTON STYLES                             -->
+    <!-- ROYAL ONLINE ORDERS BUTTON STYLES                  -->
     <!-- ================================================= -->
 
     <t t-name="pos_delivery_driver.DeliveryButtonStyles">
         <style>
 
+            /* ONLINE ORDERS NAVBAR BUTTON */
+
             .delivery-orders-royal-btn {
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                width: 38px !important;
-                min-width: 38px !important;
+                gap: 7px !important;
+
                 height: 38px !important;
                 min-height: 38px !important;
-                padding: 0 !important;
+                width: auto !important;
+                min-width: 125px !important;
+
+                padding: 0 12px !important;
                 margin: 0 4px !important;
+
                 box-sizing: border-box !important;
-                flex: 0 0 38px !important;
-                border: 1px solid #c6a15b !important;
+                flex: 0 0 auto !important;
+
+                background: linear-gradient(
+                    135deg,
+                    #304b6b 0%,
+                    #243b57 100%
+                ) !important;
+
+                color: #f5e5c1 !important;
+                border: 1px solid #b99a61 !important;
                 border-radius: 8px !important;
-                background: #304b6b !important;
-                color: #e5c17e !important;
+
+                font-size: 13px !important;
+                font-weight: 600 !important;
+                line-height: 1 !important;
+                letter-spacing: 0.2px !important;
+
+                white-space: nowrap !important;
                 cursor: pointer !important;
+
+                box-shadow: 0 2px 5px rgba(20, 35, 55, 0.12) !important;
+
+                transition:
+                    background 0.2s ease,
+                    border-color 0.2s ease,
+                    box-shadow 0.2s ease,
+                    transform 0.2s ease !important;
             }
 
             .delivery-orders-royal-btn:hover {
-                background: #243a55 !important;
+                background: linear-gradient(
+                    135deg,
+                    #3e6085 0%,
+                    #304b6b 100%
+                ) !important;
+
                 border-color: #e5c17e !important;
+                color: #ffffff !important;
+
+                box-shadow: 0 3px 9px rgba(20, 35, 55, 0.2) !important;
             }
+
+            .delivery-orders-royal-btn:active {
+                transform: scale(0.97) !important;
+            }
+
+            /* ONLINE ORDERS ICON */
+
+            .delivery-online-icon {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+
+                width: 19px !important;
+                height: 19px !important;
+                min-width: 19px !important;
+
+                font-size: 17px !important;
+                line-height: 1 !important;
+
+                flex-shrink: 0 !important;
+            }
+
+            .delivery-online-text {
+                display: inline-block !important;
+                font-size: 13px !important;
+                font-weight: 600 !important;
+                line-height: 1 !important;
+            }
+
+            /* FOLLOW DELIVERY BUTTON */
 
             .delivery-follow-btn {
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
+
                 width: 32px !important;
                 min-width: 32px !important;
                 height: 32px !important;
                 min-height: 32px !important;
+
                 padding: 0 !important;
                 margin: 0 auto !important;
+
                 box-sizing: border-box !important;
                 flex: 0 0 32px !important;
+
                 border: 1px solid #c6a15b !important;
                 border-radius: 7px !important;
+
                 background: #304b6b !important;
                 color: #e5c17e !important;
+
                 cursor: pointer !important;
             }
 
             .delivery-follow-btn:hover {
                 background: #243a55 !important;
+                border-color: #e5c17e !important;
             }
 
             .delivery-svg-icon {
                 display: block !important;
-                width: 22px !important;
-                height: 22px !important;
-                min-width: 22px !important;
-                min-height: 22px !important;
+                width: 19px !important;
+                height: 19px !important;
+
                 fill: none !important;
                 stroke: #e5c17e !important;
                 stroke-width: 1.8 !important;
                 stroke-linecap: round !important;
                 stroke-linejoin: round !important;
+
                 opacity: 1 !important;
                 visibility: visible !important;
                 flex-shrink: 0 !important;
             }
 
-            .delivery-follow-btn .delivery-svg-icon {
-                width: 19px !important;
-                height: 19px !important;
-                min-width: 19px !important;
-                min-height: 19px !important;
-            }
-
-            .delivery-orders-royal-btn:hover .delivery-svg-icon,
             .delivery-follow-btn:hover .delivery-svg-icon {
                 stroke: #ffffff !important;
+            }
+
+            /* SMALL SCREENS */
+
+            @media (max-width: 767px) {
+                .delivery-orders-royal-btn {
+                    min-width: 38px !important;
+                    width: 38px !important;
+                    padding: 0 !important;
+                    gap: 0 !important;
+                }
+
+                .delivery-online-text {
+                    display: none !important;
+                }
             }
 
         </style>
@@ -105,20 +184,15 @@
                 type="button"
                 class="btn delivery-orders-royal-btn"
                 t-on-click="() => this.onDeliveryOrdersClick()"
-                title="Delivery Orders"
-                aria-label="Delivery Orders">
+                title="Online Orders"
+                aria-label="Online Orders">
 
-                <svg class="delivery-svg-icon"
-                     viewBox="0 0 24 24"
-                     xmlns="http://www.w3.org/2000/svg"
-                     aria-hidden="true">
+                <span class="delivery-online-icon"
+                      aria-hidden="true">💳</span>
 
-                    <path d="M3 7h11v11H3z"/>
-                    <path d="M14 11h4l3 3v4h-7z"/>
-                    <circle cx="7.5" cy="19" r="2"/>
-                    <circle cx="17.5" cy="19" r="2"/>
-                    <path d="M5 7l1-3h7l1 3"/>
-                </svg>
+                <span class="delivery-online-text">
+                    Online Orders
+                </span>
 
             </button>
 
@@ -157,6 +231,7 @@
                     <circle cx="7.5" cy="19" r="2"/>
                     <circle cx="17.5" cy="19" r="2"/>
                     <path d="M5 7l1-3h7l1 3"/>
+
                 </svg>
 
             </button>
@@ -187,6 +262,7 @@
                     <circle cx="7.5" cy="19" r="2"/>
                     <circle cx="17.5" cy="19" r="2"/>
                     <path d="M5 7l1-3h7l1 3"/>
+
                 </svg>
 
             </button>
